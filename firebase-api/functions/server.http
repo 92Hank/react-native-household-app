@@ -1,0 +1,15 @@
+
+
+POST http://localhost:5000/react-native-household-app/us-central1/app/users
+Content-Type: application/json
+
+{
+    "firstName": "Spider-Man",
+    "lastName": "foo",
+    "email": "foo.com",
+}
+
+###
+GET http://localhost:5000/react-native-household-app/us-central1/app/users/ZE1gPzx25J2SiWaBMKF7
+
+###
