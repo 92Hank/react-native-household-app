@@ -3,7 +3,6 @@ import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import * as express from "express";
 import cors = require("cors");
-// import * as bodyParser from "body-parser";
 
 // initialize firebase inorder to access its services
 admin.initializeApp(functions.config().firebase);
@@ -14,13 +13,6 @@ const app = express();
 app.use(cors({origin: true}));
 app.use(express.json());
 // const main = express();
-
-
-// add the path to receive request and set json as bodyParser to process thebody
-// main.use("/api/users", app);
-// main.use(express.json());
-
-// main.use(bodyParser.urlencoded({ extended: false }));
 
 // initialize the database and the collection
 const db = admin.firestore();
