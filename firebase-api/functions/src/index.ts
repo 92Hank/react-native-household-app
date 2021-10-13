@@ -16,6 +16,7 @@ app.use(express.json());
 
 // initialize the database and the collection
 const db = admin.firestore();
+
 const userCollection = "users";
 
 // define google cloud function name
@@ -26,18 +27,19 @@ interface User {
   lastName: string;
   email: string;
   id: string;
-
 }
 
 // Create new user
 app.post("/users", async (req, res) => {
   try {
+    const entry = db.collection(userCollection).doc();
     const user: User = {
+      id: entry.id,
       firstName: req.body["firstName"],
       lastName: req.body["lastName"],
       email: req.body["email"],
-      id: req.body["id"],
     };
+
 
     const newDoc = await db.collection(userCollection).add(user);
     res.status(201).send(`Created a new user: ${newDoc.id}`);
