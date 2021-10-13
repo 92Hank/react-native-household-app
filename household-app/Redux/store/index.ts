@@ -1,12 +1,6 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { combineReducers, createStore } from "redux";
-import taskReducer from "../task/taskReducer";
-
-const rootReducer = combineReducers({
-  task: taskReducer,
-  // profile: profileReducer,
-  // etc..
-});
+import { createStore } from "redux";
+import { rootReducer } from "./rootReducer";
 
 const store = createStore(rootReducer);
 

@@ -1,11 +1,11 @@
-import { KnownAction } from "./taskAction";
-import { TaskState, initialState } from "./taskState";
+import { TaskAction } from "./taskAction";
+import { TaskState, initialTasksState } from "./taskState";
 
-function bankReducer(state: TaskState = initialState, action: KnownAction): TaskState {
+function taskReducer(state: TaskState = initialTasksState, action: TaskAction): TaskState {
     switch (action.type) {
         
         default: return state;
     }
 }
 
-export default bankReducer;
+export default taskReducer;
