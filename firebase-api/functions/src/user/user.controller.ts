@@ -1,9 +1,5 @@
-
-// import * as admin from "firebase-admin";
 import {Request, Response} from "express";
-// import {db} from "../index";
 import {fb} from "../fb";
-// admin.initializeApp();
 const db = fb.firestore();
 
 const userCollection = "users";
