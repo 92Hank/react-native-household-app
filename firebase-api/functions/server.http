@@ -9,9 +9,18 @@ Content-Type: application/json
     "email": "foo.com",
     "isOwner": false
 }
+###
+
+POST http://localhost:5000/react-native-household-app/us-central1/webApi/household
+Content-Type: application/json
+
+{
+    "name": "batman-Man",
+    "ownerId": "foo"
+}
 
 ###
-GET http://localhost:5000/react-native-household-app/us-central1/webApi/users/ymuPReV4DNe8tDkszrta
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/5grsIXGSQWq5FmCloUtO
 
 ###
 
