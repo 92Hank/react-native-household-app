@@ -1,15 +1,28 @@
 import React, { FC } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Pressable } from "react-native";
+import { View, Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
+import Task from "../../../Common/Entity/Task";
+
+import TaskItem from '../../component/taskFolder/taskItem';
 import { FeedStackScreenProps, MainRoutes } from '../../routes/routes';
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+  const clickOnTask = () => {
+    console.log("click on task");
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Tasks</Text>
-    </View>
-  );
+    <SafeAreaView>
+      <FlatList
+        data={tasks}
+        keyExtractor={(item: any) => item.id}
+        renderItem={({ item }) => (
+          <TaskItem key={item.id} task={item} onPress={clickOnTask} />
+        )}
+      />
+    </SafeAreaView>
+  )
 };
 
 export default TasksScreen;
@@ -24,3 +37,8 @@ const styles = StyleSheet.create({
     color: "grey",
   },
 });
+
+let tasks: Task[] = [
+  { description: "foo", value: 1, id: "abc" },
+  { description: "foo2", value: 3, id: "abc2" },
+];

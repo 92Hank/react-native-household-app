@@ -53,17 +53,19 @@ export const getTask = (req: Request, res: Response) => {
 export const getAllTask = (req: Request, res: Response) => {
   const ref = db.collection(taskCollection);
 
-  let taskDocData: any;
+  const data: any = [];
 
   ref.get().then((querySnapshot) => {
     querySnapshot.forEach((userDoc) => {
       // userDoc contains all metadata of Firestore object
       console.log(userDoc.id);
-      taskDocData = userDoc.data();
+      // eslint-disable-next-line prefer-const
+      let taskDocData = userDoc.data();
       taskDocData.id = userDoc.id;
+      data.push(taskDocData);
     });
   })
       .then(() => {
-        res.status(200).json(taskDocData);
+        res.status(200).json(data);
       });
 };
