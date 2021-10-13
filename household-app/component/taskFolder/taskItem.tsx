@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, Pressable } from "react-native";
-import { Task } from "../../../Common/Entity/Task";
+import Task from "../../../Common/Entity/Task";
 
 interface Props {
   task: Task;
