@@ -7,7 +7,7 @@ type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
   return (
     <View style={styles.container}>
-      <Text>Login</Text>
+      <Text style={styles.text}>Login</Text>
     </View>
   );
 };
@@ -18,7 +18,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#666666",
     justifyContent: "center",
+  },
+  text: {
+    color: "grey",
   },
 });

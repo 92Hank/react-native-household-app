@@ -15,35 +15,14 @@ import CurrentWeekScreen from "../screens/Tasks/CurrentWeekScreen";
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
-const LoginStack = () => (
+const TaskScreenStack = () => (
   <MainStack.Navigator>
     <MainStack.Screen
-      name={MainRoutes.LoginScreen}
-      component={LoginScreen}
+      name={MainRoutes.TasksScreen}
+      component={TasksScreen}
       options={{
-        // headerShown: false,
-        title: "Login",
-        headerTitleAlign: "center",
-        headerTintColor: "grey",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-        // headerRight: () => (
-        //   <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
-        // ),
-      }}
-    />
-  </MainStack.Navigator>
-);
-
-const CreateStack = () => (
-  <MainStack.Navigator>
-    <MainStack.Screen
-      name={MainRoutes.CreateAccountScreen}
-      component={CreateAccountScreen}
-      options={{
-        // headerShown: false,
-        title: "Create your account",
+        headerShown: false,
+        title: "Today",
         headerTitleAlign: "center",
         headerTintColor: "grey",
         headerTitleStyle: {
@@ -54,14 +33,33 @@ const CreateStack = () => (
   </MainStack.Navigator>
 );
 
-const ProfileStack = () => (
+const LastWeekStack = () => (
   <MainStack.Navigator>
     <MainStack.Screen
-      name={MainRoutes.ProfileScreen}
-      component={ProfileScreen}
+      name={MainRoutes.LastWeekScreen}
+      component={LastWeekScreen}
       options={{
-        // headerShown: false,
-        title: "Your profile",
+        headerShown: false,
+        title: "Last Week",
+        headerTitleAlign: "center",
+        headerTintColor: "grey",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+      }}
+    />
+  </MainStack.Navigator>
+);
+
+const LastMonthStack = () => (
+  <MainStack.Navigator>
+    <MainStack.Screen
+      name={MainRoutes.CurrentWeekScreen}
+      component={CurrentWeekScreen}
+      options={{
+        headerShown: false,
+        headerBackVisible: false,
+        title: "Current Week",
         headerTitleAlign: "center",
         headerTintColor: "grey",
         headerTitleStyle: {
@@ -73,13 +71,13 @@ const ProfileStack = () => (
 );
 
 const TasksStack = () => (
-  <MainStack.Navigator>
+  <MainStack.Navigator initialRouteName={MainRoutes.TasksScreen}>
     <MainStack.Screen
       name={MainRoutes.TasksScreen}
       component={TasksScreen}
       options={{
-        // headerShown: false,
-        title: "Your Tasks",
+        headerShown: false,
+        title: "Today",
         headerTitleAlign: "center",
         headerTintColor: "grey",
         headerTitleStyle: {
@@ -91,7 +89,7 @@ const TasksStack = () => (
       name={MainRoutes.LastWeekScreen}
       component={LastWeekScreen}
       options={{
-        // headerShown: false,
+        headerShown: false,
         headerBackVisible: false,
         title: "Last Week",
         headerTitleAlign: "center",
@@ -105,7 +103,7 @@ const TasksStack = () => (
       name={MainRoutes.CurrentWeekScreen}
       component={CurrentWeekScreen}
       options={{
-        // headerShown: false,
+        headerShown: false,
         headerBackVisible: false,
         title: "Current Week",
         headerTitleAlign: "center",
@@ -118,21 +116,22 @@ const TasksStack = () => (
   </MainStack.Navigator>
 );
 
-const AppStack = () => {
-  const insets = useSafeAreaInsets();
+const TaskStack = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Today"
       screenOptions={{
         tabBarIndicatorStyle: { backgroundColor: "white" },
-        tabBarLabelStyle: { fontWeight: "bold" }
+        tabBarLabelStyle: { fontWeight: "bold" },
       }}
       // screenOptions={{lazy: true, tabBarStyle: {marginTop: insets.top}}}
     >
-      <Tab.Screen name="Sign in" component={LoginStack} />
-      <Tab.Screen name="Sign up" component={CreateStack} />
-      <Tab.Screen name="Profile" component={ProfileStack} />
+      {/* <Tab.Screen name="Sign in" component={LoginStack} />
+      <Tab.Screen name="Sign up" component={CreateStack} /> */}
+      <Tab.Screen name="Last Week" component={LastWeekStack} />
+      <Tab.Screen name="Today" component={TaskScreenStack} />
+      <Tab.Screen name="Current Week" component={LastMonthStack} />
     </Tab.Navigator>
   );
 };
-
-export default AppStack;
+export default TaskStack;
