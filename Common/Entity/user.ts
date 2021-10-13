@@ -1,5 +1,5 @@
 export default interface user {
-  id: number;
+  id: string;
   Name: string;
   value: number;
 }
