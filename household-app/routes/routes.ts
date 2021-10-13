@@ -6,6 +6,8 @@ export enum MainRoutes {
     CreateAccountScreen = 'CreateAccountScreen',
     ProfileScreen = 'ProfileScreen',
     TasksScreen = 'TasksScreen',
+    LastWeekScreen = 'LastWeekScreen',
+    CurrentWeekScreen = 'CurrentWeekScreen',
 }
 
 export type MainStackParamList = {
@@ -13,6 +15,8 @@ export type MainStackParamList = {
     [MainRoutes.CreateAccountScreen]: undefined
     [MainRoutes.ProfileScreen]: undefined
     [MainRoutes.TasksScreen]: undefined
+    [MainRoutes.LastWeekScreen]: undefined
+    [MainRoutes.CurrentWeekScreen]: undefined
 }
 
 type ScreenName = keyof MainStackParamList;

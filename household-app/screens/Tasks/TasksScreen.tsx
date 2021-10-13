@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { StyleSheet, FlatList, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import Task from "../../../Common/Entity/Task";
 
 import TaskItem from '../../component/taskFolder/taskItem';
@@ -31,8 +31,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#666666",
     justifyContent: "center",
+  },
+  text: {
+    color: "grey",
   },
 });
 
