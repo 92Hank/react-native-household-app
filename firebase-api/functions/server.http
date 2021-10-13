@@ -14,3 +14,21 @@ Content-Type: application/json
 GET http://localhost:5000/react-native-household-app/us-central1/webApi/users/ymuPReV4DNe8tDkszrta
 
 ###
+
+POST http://localhost:5000/react-native-household-app/us-central1/webApi/tasks
+Content-Type: application/json
+
+{
+    "name": "batman-Man",
+    "value": 2
+}
+
+###
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/tasks/KsagruZdZUhJDJZnAYNS
+
+###
+
+###
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/tasks
+
+###
