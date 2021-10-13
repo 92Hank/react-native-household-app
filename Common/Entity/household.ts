@@ -4,7 +4,7 @@ import user from "./user";
 export default interface household {
   id: string;
   name: string;
-  code: number;
+  JoinCode: number;
   tasks: task[];
   member: user[];
   admin: user[];
