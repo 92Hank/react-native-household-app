@@ -7,12 +7,6 @@ const db = fb.firestore();
 
 const householdCollection = "household";
 
-interface Household {
-  name: string;
-  ownerId?: string;
-  users?: string[];
-  inviteCode: string;
-}
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const post = async (req: Request, res: Response) => {
