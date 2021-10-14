@@ -15,20 +15,30 @@ POST http://localhost:5000/react-native-household-app/us-central1/webApi/househo
 Content-Type: application/json
 
 {
-    "name": "batman-Man",
-    "ownerId": "foo"
+    "name": "Hemmet",
+    "ownerId": "Pelle",
+    "members": "Pelle"
 }
 
 ###
-GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/5grsIXGSQWq5FmCloUtO
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/
 
+###
+
+###
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/D2NUQNzArwx117IXdAGx
+
+###
+
+### 
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/4933
 ###
 
 POST http://localhost:5000/react-native-household-app/us-central1/webApi/tasks
 Content-Type: application/json
 
 {
-    "name": "batman-Man",
+    "name": "batman-teee",
     "value": 2
 }
 

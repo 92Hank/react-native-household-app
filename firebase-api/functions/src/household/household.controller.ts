@@ -1,76 +1,100 @@
-// import * as admin from "firebase-admin";
 import {Request, Response} from "express";
-// import {db} from "../index";
 import {fb} from "../fb";
-// admin.initializeApp();
-const db = fb.firestore();
 
+const db = fb.firestore();
 const householdCollection = "household";
 
 interface Household {
   name: string;
   ownerId?: string;
-  users?: string[];
+  members?: string[]; // FK
   inviteCode: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const post = async (req: Request, res: Response) => {
-  console.log("foo");
   try {
-    const min = Math.ceil(1);
+    // generera random nummer mellan 1000-9999
+    // TODO: kontrollera att numret är unikt
+    const min = Math.ceil(1000);
     const max = Math.floor(9999);
     const household: Household = {
       name: req.body["name"],
 
       // TODO: Fixa ownerId från usern som skapar hushållet
       //   ownerId: req.body["ownerId"],
-      //   users: req.body["users"],
+      members: req.body["members"],
       // TODO: Generera en inviteCode på ett smartare sätt?
       inviteCode: Math.floor(Math.random() * (max - min + 1) + min).toString(),
     };
 
     const newDoc = await db.collection(householdCollection).add(household);
-    res.status(201).send(`Created a new user: ${newDoc.id}`);
+    res.status(201).send(`Created a new household: ${newDoc.id}`);
   } catch (error) {
     res.status(400).send(
-        // eslint-disable-next-line max-len
-        "User should cointain firstName, lastName, email, and id!!!"
+        "Bad request: " + error
     );
   }
 };
 
-// get a single contact
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getHousehold = (req: Request, res: Response) => {
+export const getHousehold = (req: Request, res: Response): void => {
   const householdId = req.params.id;
   db.collection(householdCollection)
       .doc(householdId)
       .get()
       .then((household) => {
-        if (!household.exists) throw new Error("User not found");
+        if (!household.exists) throw new Error("Household not found");
         res.status(200).json({id: household.id, data: household.data()});
       })
       .catch((error) => res.status(500).send(error));
 };
 
-// Delete a user
-// app.delete("/users/:userId", (req, res) => {
-//   db.collection(userCollection)
-//       .doc(req.params.userId)
-//       .delete()
-//       .then(() => res.status(204).send("Document successfully deleted!"))
-//       .catch(function(error) {
-//         res.status(500).send(error);
-//       });
-// });
+// Hämtar alla hushåll som en användare är med i
+export const getUserHouseholds = (req: Request, res: Response): void => {
+  // ta in den inloggade användaren och använd här istället:
+  const user = "Pelle";
+  const households: FirebaseFirestore.DocumentData = [];
 
-// // Update user
-// app.put("/users/:userId", async (req, res) => {
-//   await db
-//       .collection(userCollection)
-//       .doc(req.params.userId)
-//       .set(req.body, {merge: true})
-//       .then(() => res.json({id: req.params.userId}))
-//       .catch((error) => res.status(500).send(error));
-// });
+  db.collection(householdCollection)
+      .where("members", "==", user)
+      .get()
+      .then(function(querySnapshot) {
+        if (!querySnapshot) throw new Error("Household not found");
+        querySnapshot.forEach((householdDoc) => {
+          const data = householdDoc.data();
+          data.id = householdDoc.id;
+          households.push(data);
+        });
+      })
+      .then(() => {
+        res.status(200).json(households);
+      })
+      .catch((error) => res.status(500).send(error));
+};
+
+export const joinHousehold = (req: Request, res: Response): void => {
+  const inviteCode = req.params.inviteCode;
+  // const householdName = req.params.householdName;
+  const householdName = "Hemmet";
+  // const user = req.params.userId;
+  const query = db.collection(householdCollection);
+  const query2 = query.where("name", "==", householdName);
+  const query3 = query2.where("inviteCode", "==", inviteCode);
+  query3
+      .get()
+      .then(function(querySnapshot) {
+        console.log(querySnapshot);
+        if (querySnapshot.empty) {
+          throw new Error("Household not found or code is invalid");
+        }
+        querySnapshot.forEach((householdDoc) => {
+          // Lägg till user som member i hushållet
+          console.log("TJENA" + householdDoc);
+        });
+      })
+      .then(() => {
+        res.status(200).json("200 ok");
+      })
+      .catch((error) => res.status(500)
+          .send(error.message));
+};
