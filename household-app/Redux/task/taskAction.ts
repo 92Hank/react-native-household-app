@@ -1,8 +1,8 @@
-import Task  from "../../../Common/Entity/task";
+import task from "../../../Common/src/Entity/task";
 
 interface AddTaskAction {
   type: "ADD_TASK_ACTION";
-  payload: Task;
+  payload: task;
 }
 
 export type TaskAction = AddTaskAction;
