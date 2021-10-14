@@ -11,6 +11,7 @@ import { Button, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LastWeekScreen from "../screens/Tasks/LastWeekScreen";
 import CurrentWeekScreen from "../screens/Tasks/CurrentWeekScreen";
+import HouseholdScreen from "../screens/Household/HouseholdScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -23,6 +24,27 @@ const LoginStack = () => (
       options={{
         // headerShown: false,
         title: "Login",
+        headerTitleAlign: "center",
+        headerTintColor: "grey",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+        // headerRight: () => (
+        //   <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
+        // ),
+      }}
+    />
+  </MainStack.Navigator>
+);
+
+const HouseholdStack = () => (
+  <MainStack.Navigator>
+    <MainStack.Screen
+      name={MainRoutes.HouseholdScreen}
+      component={HouseholdScreen}
+      options={{
+        // headerShown: false,
+        title: "Households",
         headerTitleAlign: "center",
         headerTintColor: "grey",
         headerTitleStyle: {
@@ -124,13 +146,14 @@ const AppStack = () => {
     <Tab.Navigator
       screenOptions={{
         tabBarIndicatorStyle: { backgroundColor: "white" },
-        tabBarLabelStyle: { fontWeight: "bold" }
+        tabBarLabelStyle: { fontWeight: "bold" },
       }}
       // screenOptions={{lazy: true, tabBarStyle: {marginTop: insets.top}}}
     >
       <Tab.Screen name="Sign in" component={LoginStack} />
       <Tab.Screen name="Sign up" component={CreateStack} />
       <Tab.Screen name="Profile" component={ProfileStack} />
+      <Tab.Screen name="Households" component={HouseholdStack} />
     </Tab.Navigator>
   );
 };

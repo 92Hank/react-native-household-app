@@ -7,6 +7,9 @@ Content-Type: application/json
 }
 
 ###
+// Join household/inviteCode, kanske ska vara en post? 
 GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/DHMGpAW5xR4k9GyaZdeI
 
-
+###
+// GET 
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/DHMGpAW5xR4k9GyaZdeI
