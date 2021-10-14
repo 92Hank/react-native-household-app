@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
-    "module": "None",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "composite": true,
-    "outFile": "Common.js"
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5",
   },
-  "include": ["src/**/*"]
+  "references": [
+        { "path": "../src" }
+    ]
 }
