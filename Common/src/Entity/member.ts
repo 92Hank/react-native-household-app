@@ -5,7 +5,7 @@ export default interface member {
   id: string;
   household: household;
   user: user;
-  emoji: any;
+  emoji: "🦊"|"🐷"|"🐸"|"🐥"|"🐙"|"🐬"|"🦉"|"🦄";
   role: "Admin" | "User";
   paused: boolean;
 }
