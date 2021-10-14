@@ -38,7 +38,7 @@ POST http://localhost:5000/react-native-household-app/us-central1/webApi/tasks
 Content-Type: application/json
 
 {
-    "name": "batman-teee",
+    "description": "batman-Man",
     "value": 2
 }
 
