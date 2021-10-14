@@ -4,12 +4,12 @@ const db = fb.firestore();
 
 const userCollection = "users";
 
-interface User {
-  firstName: string;
-  lastName: string;
-  email: string;
-  isOwner: boolean;
-}
+// interface User {
+//   firstName: string;
+//   lastName: string;
+//   email: string;
+//   isOwner: boolean;
+// }
 
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -48,6 +48,28 @@ export const getUser = ((req: Request, res: Response) => {
       })
       .catch((error) => res.status(500).send(error));
 });
+
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const getAllUsers = (req: Request, res: Response) => {
+  const ref = db.collection(userCollection);
+
+  const data: FirebaseFirestore.DocumentData = [];
+
+  ref.get().then((querySnapshot) => {
+    querySnapshot.forEach((userDoc) => {
+      // userDoc contains all metadata of Firestore object
+      console.log(userDoc.id);
+      // eslint-disable-next-line prefer-const
+      let taskDocData = userDoc.data();
+      taskDocData.id = userDoc.id;
+      data.push(taskDocData);
+    });
+  })
+      .then(() => {
+        res.status(200).json(data);
+      });
+};
 
 // Delete a user
 // app.delete("/users/:userId", (req, res) => {

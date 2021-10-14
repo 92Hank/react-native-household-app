@@ -1,27 +1,19 @@
 import {Request, Response} from "express";
 import {fb} from "../fb";
+// import Task from "../../../../Common/Entity/Task";
 
 const db = fb.firestore();
 
 const taskCollection = "tasks";
 
-interface Task {
-  name: string;
-  value: 1 | 2 | 4 | 6 | 8;
-}
-
-// interface DoneTask {
-//   timeDone: Date;
-//   TaskId: string;
-//   userId: string;
-// }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const postTask = async (req: Request, res: Response) => {
   console.log("foobar");
+  console.log("bajs");
   try {
     const task: Task = {
-      name: req.body["name"],
+      description: req.body["description"],
       value: req.body["value"],
     };
 
@@ -53,17 +45,19 @@ export const getTask = (req: Request, res: Response) => {
 export const getAllTask = (req: Request, res: Response) => {
   const ref = db.collection(taskCollection);
 
-  let taskDocData: any;
+  const data: FirebaseFirestore.DocumentData = [];
 
   ref.get().then((querySnapshot) => {
     querySnapshot.forEach((userDoc) => {
       // userDoc contains all metadata of Firestore object
       console.log(userDoc.id);
-      taskDocData = userDoc.data();
+      // eslint-disable-next-line prefer-const
+      let taskDocData = userDoc.data();
       taskDocData.id = userDoc.id;
+      data.push(taskDocData);
     });
   })
       .then(() => {
-        res.status(200).json(taskDocData);
+        res.status(200).json(data);
       });
 };
