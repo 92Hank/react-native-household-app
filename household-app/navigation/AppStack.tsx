@@ -150,10 +150,8 @@ const AppStack = () => {
       }}
       // screenOptions={{lazy: true, tabBarStyle: {marginTop: insets.top}}}
     >
-      <Tab.Screen name="Sign in" component={LoginStack} />
-      <Tab.Screen name="Sign up" component={CreateStack} />
-      <Tab.Screen name="Profile" component={ProfileStack} />
       <Tab.Screen name="Households" component={HouseholdStack} />
+      <Tab.Screen name="Profile" component={ProfileStack} />
     </Tab.Navigator>
   );
 };
