@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { View, Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
-import Task from "../../../Common/Entity/Task";
+import Task from "../../../Common/src/Entity/Task";
 
 import TaskItem from '../../component/taskFolder/taskItem';
 import { FeedStackScreenProps, MainRoutes } from '../../routes/routes';
@@ -40,5 +40,5 @@ const styles = StyleSheet.create({
 
 let tasks: Task[] = [
   { description: "foo", value: 1, id: "abc" },
-  { description: "foo2", value: 3, id: "abc2" },
+  { description: "foo2", value: 2, id: "abc2" },
 ];
