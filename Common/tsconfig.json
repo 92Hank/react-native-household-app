@@ -8,5 +8,5 @@
     "forceConsistentCasingInFileNames": true,
     "composite": true
   },
-  "include": ["/**/*"]
+  "include": ["src/**/*"]
 }
