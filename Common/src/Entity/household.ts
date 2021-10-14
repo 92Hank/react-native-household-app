@@ -1,4 +1,4 @@
-import task from "./task";
+import task from "./Task";
 import user from "./user";
 
 export default interface household {
