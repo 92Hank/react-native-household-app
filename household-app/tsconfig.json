@@ -2,5 +2,12 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true
-  }
+  },
+  "references": [
+    {
+      "path": "../Common",
+      // add 'prepend' if you want to include the referenced project in your output file
+      "prepend": true
+    }
+  ]
 }
