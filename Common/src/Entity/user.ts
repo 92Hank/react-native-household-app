@@ -1,5 +1,6 @@
 export default interface user {
   id: string;
   name: string;
-  value: number;
+  password: string;
+  salt: string;
 }

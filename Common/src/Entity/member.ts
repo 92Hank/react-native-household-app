@@ -3,9 +3,9 @@ import user from "./user";
 
 export default interface member {
   id: string;
-  household: household;
-  user: user;
-  emoji: any;
+  householdId: string;
+  userId: string;
+  emoji: "🦊" | "🐷" | "🐸" | "🐥" | "🐙" | "🐬" | "🦉" | "🦄";
   role: "Admin" | "User";
   paused: boolean;
 }
