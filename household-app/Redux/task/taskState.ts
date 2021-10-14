@@ -1,6 +1,6 @@
-import Task from "../../../Common/Entity/task";
+import task from "../../../Common/src/Entity/task";
 
-export interface TaskState {
-  Tasks: Task[];
+export interface taskState {
+  Tasks: task[];
 }
-export const initialTasksState: TaskState = { Tasks: [] };
+export const initialTasksState: taskState = { Tasks: [] };

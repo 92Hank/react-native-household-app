@@ -1,4 +1,4 @@
-import user from "../../../Common/Entity/user";
+import user from "../../../Common/src/Entity/user";
 
 export interface UserState {
   users: user[];

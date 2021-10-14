@@ -1,4 +1,4 @@
-import household from "../../../Common/Entity/household";
+import household from "../../../Common/src/Entity/household";
 
 interface AddHouseholdAction {
   type: "ADD_USER_ACTION";
