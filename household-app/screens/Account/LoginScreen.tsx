@@ -33,25 +33,20 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
 
   return (
     <View>
-      <View style={{ flex: 1 }}>
+      <View >
         <KeyboardAvoidingView
-          style={{ flexGrow: 1, height: "100%" }}
+          // style={{ flexGrow: 1, height: "100%" }}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
           enabled
         >
           <ScrollView
-            contentContainerStyle={{ flex: 1 }}
+            // contentContainerStyle={{ flex: 1 }}
             {...(Platform.OS === "ios"
               ? "keyboardDismissMode='interactive'"
               : null)}
             keyboardShouldPersistTaps={"handled"}
           >
             <View style={styles.container}>
-              <View style={styles.itemGroup}>
-                <Text style={{ fontSize: 20, color: "white" }}>
-                  React Chat App
-                </Text>
-              </View>
               <Text style={styles.title}>Email:</Text>
               <TextInput
                 keyboardType="email-address"
@@ -76,10 +71,10 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
           </ScrollView>
         </KeyboardAvoidingView>
       </View>
-      <View style={styles.container}>
+      <View>
         <Text style={styles.headerText}>Login</Text>
         <TouchableOpacity onPress={onPressLoginFake} style={styles.loginButton}>
-          <Text style={styles.buttonText}>Sign in</Text>
+          <Text style={styles.buttonText}>Sign in fake</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -106,10 +101,6 @@ const styles = StyleSheet.create({
   itemGroup: {
     alignItems: "center",
     marginBottom: 40,
-  },
-  tinyLogo: {
-    width: 50,
-    height: 50,
   },
   title: {
     fontSize: 16,
