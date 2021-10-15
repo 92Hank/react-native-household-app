@@ -1,3 +1,5 @@
+/* eslint-disable no-empty */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {Request, Response} from "express";
 import {fb} from "../fb";
 const db = fb.firestore();
@@ -12,24 +14,20 @@ const userCollection = "users";
 // }
 
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const post = ( async (req: Request, res: Response) => {
+export const createUser = ( async (req: Request, res: Response) => {
   console.log("foo");
-  try {
-    const user: User = {
-      firstName: req.body["firstName"],
-      lastName: req.body["lastName"],
-      email: req.body["email"],
-      isOwner: req.body["isOwner"],
-    };
 
-    const newDoc = await db.collection(userCollection).add(user);
+  const createU: CreateUser = {
+    userName: req.body["userName"],
+    password: req.body["password"],
+    email: req.body["email"],
+  };
+  try {
+    const newDoc = await db.collection(userCollection).add(createU);
     res.status(201).send(`Created a new user: ${newDoc.id}`);
-  } catch (error) {
-    res.status(400).send(
-        // eslint-disable-next-line max-len
-        "User should cointain firstName, lastName, email, and id!!!"
-    );
+  } catch (err) {
+    console.log(err);
+    res.status(400).send("user should have userName, password and email");
   }
 });
 
@@ -90,5 +88,4 @@ export const getAllUsers = (req: Request, res: Response) => {
 //       .set(req.body, {merge: true})
 //       .then(() => res.json({id: req.params.userId}))
 //       .catch((error) => res.status(500).send(error));
-// });
-
+// })

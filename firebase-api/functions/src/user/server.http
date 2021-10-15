@@ -4,16 +4,15 @@ POST http://localhost:5000/react-native-household-app/us-central1/webApi/users
 Content-Type: application/json
 
 {
-    "firstName": "batman-Man",
-    "lastName": "foo",
+    "userName": "batman-Man",
     "email": "foo.com",
-    "isOwner": false
+    "password": "hej"
 }
 
 
 
 ###
-GET http://localhost:5000/react-native-household-app/us-central1/webApi/users/13P6u5lUGg6wCzH8dFFG
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/users/91aE3WLQugShqq2Xg8hq
 
 ###
 
