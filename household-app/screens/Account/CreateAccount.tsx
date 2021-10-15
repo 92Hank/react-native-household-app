@@ -38,6 +38,7 @@ const CreateAccountScreen: FC<Props> = ({
 
     const handleSubmitForm = async (createAccountUser: User) => {
          console.log(createAccountUser);
+         
          // to api
     };
   
