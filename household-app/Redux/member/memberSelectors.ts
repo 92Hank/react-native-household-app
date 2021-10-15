@@ -1,3 +1,3 @@
 import { RootState } from "../store";
 
-export const selectmember = (state: RootState) => state.household;
+export const selectMember = (state: RootState) => state.memberState.members;
