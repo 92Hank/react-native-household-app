@@ -9,12 +9,5 @@
     "target": "es2017"
   },
   "compileOnSave": true,
-  "include": ["src"],
-  "references": [
-    {
-      // "path": "../../Common",
-      // add 'prepend' if you want to include the referenced project in your output file
-      "prepend": true
-    }
-  ]
+  "include": ["src"]
 }
