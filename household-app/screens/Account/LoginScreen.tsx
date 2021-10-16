@@ -17,13 +17,10 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const onPressLoginFake = () => {
-    navigation.navigate(MainRoutes.HouseholdScreen);
-  };
 
    const onPressLogin = () => {
      // thunk här!
-     console.log("foo");
+     navigation.navigate(MainRoutes.HouseholdScreen);
    };
 
    const onChangeTextEmail = (email: string) => {
@@ -32,15 +29,14 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
   const onChangeTextPassword = (password: string) => setPassword(password);
 
   return (
-    <View>
       <View >
         <KeyboardAvoidingView
-          // style={{ flexGrow: 1, height: "100%" }}
+          style={{ flexGrow: 1, height: "80%" }}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
           enabled
         >
           <ScrollView
-            // contentContainerStyle={{ flex: 1 }}
+            contentContainerStyle={{ flex: 1 }}
             {...(Platform.OS === "ios"
               ? "keyboardDismissMode='interactive'"
               : null)}
@@ -71,13 +67,6 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
           </ScrollView>
         </KeyboardAvoidingView>
       </View>
-      <View>
-        <Text style={styles.headerText}>Login</Text>
-        <TouchableOpacity onPress={onPressLoginFake} style={styles.loginButton}>
-          <Text style={styles.buttonText}>Sign in fake</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
   );
 };
 
@@ -88,7 +77,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    // backgroundColor: "#666666",
     minHeight: "100%",
   },
   background: {
@@ -105,7 +93,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     marginTop: 16,
-    color: "white",
+    color: "gray",
   },
   input: {
     width: 300,
