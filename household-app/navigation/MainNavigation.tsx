@@ -12,6 +12,7 @@ import { Appbar, Switch, TouchableRipple, useTheme } from "react-native-paper";
 import { DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { View } from "react-native";
 import TaskStack from "./TaskStack";
+import AuthStack from "./AuthStack";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +25,12 @@ const MainNavigation = (): React.ReactElement => {
     <NavigationContainer theme={navigationTheme}>
       <Stack.Navigator>
         <Stack.Screen
-          name={MainRoutes.ProfileScreen}
+          name={MainRoutes.LoginScreen}
+          component={AuthStack}
+          options={{ title: "", headerBackVisible: false }}
+        />
+        <Stack.Screen
+          name={MainRoutes.HouseholdScreen}
           component={AppStack}
           options={{ title: "", headerBackVisible: false }}
         />

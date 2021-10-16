@@ -1,7 +1,7 @@
 import { TaskAction } from "./taskAction";
-import { TaskState, initialTasksState } from "./taskState";
+import { taskState, initialTasksState } from "./taskState";
 
-function taskReducer(state: TaskState = initialTasksState, action: TaskAction): TaskState {
+function taskReducer(state: taskState = initialTasksState, action: TaskAction): taskState {
     switch (action.type) {
         
         default: return state;

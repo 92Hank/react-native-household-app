@@ -1,4 +1,4 @@
-import household from "../../../Common/Entity/user";
+import household from "../../../Common/src/Entity/household";
 
 export interface householdState {
   households: household[];

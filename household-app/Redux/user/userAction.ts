@@ -1,4 +1,4 @@
-import user from "../../../Common/Entity/user";
+import user from "../../../Common/src/Entity/user";
 
 interface AddUserAction {
   type: "ADD_USER_ACTION";

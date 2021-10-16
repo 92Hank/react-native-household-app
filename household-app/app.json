@@ -4,7 +4,7 @@
     "slug": "household-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/AppIcon2.png",
     "splash": {
       "image": "./assets/splashScreen.png",
       "resizeMode": "contain",

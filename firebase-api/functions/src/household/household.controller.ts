@@ -4,12 +4,12 @@ import {fb} from "../fb";
 const db = fb.firestore();
 const householdCollection = "household";
 
-interface Household {
-  name: string;
-  ownerId?: string;
-  members?: string[]; // FK
-  inviteCode: string;
-}
+// interface Household {
+//   name: string;
+//   ownerId?: string;
+//   members?: string[]; // FK
+//   inviteCode: string;
+// }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const post = async (req: Request, res: Response) => {
@@ -22,8 +22,9 @@ export const post = async (req: Request, res: Response) => {
       name: req.body["name"],
 
       // TODO: Fixa ownerId från usern som skapar hushållet
+      // och tilldela till owner och member
       //   ownerId: req.body["ownerId"],
-      members: req.body["members"],
+      member: req.body["members"],
       // TODO: Generera en inviteCode på ett smartare sätt?
       inviteCode: Math.floor(Math.random() * (max - min + 1) + min).toString(),
     };

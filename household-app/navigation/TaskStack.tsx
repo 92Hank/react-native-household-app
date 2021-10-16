@@ -11,6 +11,7 @@ import { Button, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LastWeekScreen from "../screens/Tasks/LastWeekScreen";
 import CurrentWeekScreen from "../screens/Tasks/CurrentWeekScreen";
+import HouseholdScreen from "../screens/Household/HouseholdScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
