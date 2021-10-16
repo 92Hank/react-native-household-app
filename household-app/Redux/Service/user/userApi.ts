@@ -9,7 +9,7 @@ export const userApi = createApi({
   }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
-    createUser: builder.mutation<user, Partial<user>>({
+    createUser: builder.mutation<user, user>({
       query: (body) => ({
         url: `/`,
         method: "POST",

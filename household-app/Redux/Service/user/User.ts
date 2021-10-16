@@ -1,5 +1,5 @@
 export default interface user {
-  id: string;
+  id?: string;
   email: string;
   isOwner: boolean;
   firstName: string;
