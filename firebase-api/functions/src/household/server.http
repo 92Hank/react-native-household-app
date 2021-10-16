@@ -3,13 +3,19 @@ Content-Type: application/json
 
 {
     "name": "batman-Man",
-    "ownerId": "foo"
+    "ownerId": "userID som skapar",
+    "member": {
+        "id": "member id",
+        "userId": "userID som skapar",
+        "emoji": "foo"
+    }
+
 }
 
 ###
 // Join household/inviteCode, kanske ska vara en post? 
-GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/DHMGpAW5xR4k9GyaZdeI
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/40Jpw3OVxGURAfJfru9t
 
 ###
 // GET 
-GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/DHMGpAW5xR4k9GyaZdeI
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/40Jpw3OVxGURAfJfru9t

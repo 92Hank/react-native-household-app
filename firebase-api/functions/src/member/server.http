@@ -4,9 +4,8 @@ POST http://localhost:5000/react-native-household-app/us-central1/webApi/member
 Content-Type: application/json
 
 {
-    "houseHoldId": "abcs23",
     "userId": "abc",
-    "emoji": "emoji",
+    "emoji": "bajs",
     "email": "foo.com",
     "isOwner": false
 }
