@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
-import {fb} from "../fb";
+import {fb, FieldValue} from "../fb";
+
 
 const db = fb.firestore();
 db.settings({ignoreUndefinedProperties: true});
@@ -27,9 +28,10 @@ export const post = async (req: Request, res: Response) => {
           id: req.body.member["id"],
           userId: req.body.member["userId"],
           isOwner: true,
-          emoji: req.body["emoji"],
+          emoji: req.body.member["emoji"],
           value: 0,
           isPaused: false,
+          isAccepted: true,
         },
       ],
       // TODO: Generera en inviteCode på ett smartare sätt?
@@ -81,28 +83,38 @@ export const getUserHouseholds = (req: Request, res: Response): void => {
 };
 
 export const joinHousehold = (req: Request, res: Response): void => {
-  const inviteCode = req.params.inviteCode;
-  // const householdName = req.params.householdName;
-  const householdName = "Hemmet";
+  const inviteCode = req.body["inviteCode"];
+  const houseHoldId = req.body["houseHoldId"];
+
+  const member: Member = {
+    id: req.body.member["id"],
+    userId: req.body.member["userId"],
+    isOwner: false,
+    emoji: req.body.member["emoji"],
+    value: 0,
+    isPaused: false,
+    isAccepted: false,
+  };
+
+  // const householdName = "Hemmet";
   // const user = req.params.userId;
   const query = db.collection(householdCollection);
-  const query2 = query.where("name", "==", householdName);
-  const query3 = query2.where("inviteCode", "==", inviteCode);
-  query3
+  // const query3 = query.where("inviteCode", "==", inviteCode);
+  const query2 = query.doc(houseHoldId);
+  // const query3 = query2.where("inviteCode", "==", inviteCode);
+  query2
       .get()
-      .then(function(querySnapshot) {
-        console.log(querySnapshot);
-        if (querySnapshot.empty) {
-          throw new Error("Household not found or code is invalid");
+      .then((query) => {
+        const data = query.data();
+        console.log(data?.inviteCode);
+        if (data?.inviteCode === inviteCode) {
+          query.ref.update({
+            member: FieldValue.arrayUnion(member),
+          });
+          res.status(200).json("member added");
+        } else {
+          res.status(400).json("invite code dose not match");
         }
-        querySnapshot.forEach((householdDoc) => {
-          // Lägg till user som member i hushållet
-          console.log("TJENA" + householdDoc);
-        });
       })
-      .then(() => {
-        res.status(200).json("200 ok");
-      })
-      .catch((error) => res.status(500)
-          .send(error.message));
+      .catch((error) => res.status(500).send(error.message));
 };

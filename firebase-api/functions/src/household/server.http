@@ -2,19 +2,30 @@ POST http://localhost:5000/react-native-household-app/us-central1/webApi/househo
 Content-Type: application/json
 
 {
-    "name": "batman-Man",
+    "name": "batman-Man 2",
     "ownerId": "userID som skapar",
     "member": {
         "id": "member id",
         "userId": "userID som skapar",
-        "emoji": "foo"
+        "emoji": 2
     }
 
 }
 
 ###
 // Join household/inviteCode, kanske ska vara en post? 
-GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/40Jpw3OVxGURAfJfru9t
+post http://localhost:5000/react-native-household-app/us-central1/webApi/household/join
+Content-Type: application/json
+
+{
+    "houseHoldId": "Dt1nCSiTG5QWYtPuMFQR",
+    "inviteCode": "8855",
+    "member": {
+        "id": "member id f",
+        "userId": "userID som vill jiona",
+        "emoji": 1
+    }
+}
 
 ###
 // GET 
