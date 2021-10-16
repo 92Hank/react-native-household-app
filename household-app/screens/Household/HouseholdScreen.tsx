@@ -6,7 +6,7 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
-import Household from "../../../Common/src/Entity/household";
+import Household from "../../../Common/household";
 import HouseholdComponent from "../../component/household.component/household.component";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 

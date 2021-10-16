@@ -5,7 +5,9 @@ Content-Type: application/json
 
 {
     "userId": "abc",
-    "emoji": "bajs",
+    "emoji": 1,
     "email": "foo.com",
     "isOwner": false
 }
+
+// skulle kunna ta bort isOwner här, sen när man gör hushåll sätts den till true i själva hushåll istället

@@ -18,6 +18,7 @@ export const postMember = async (req: Request, res: Response) => {
       isPaused: false,
       isOwner: req.body["isOwner"],
       value: 0,
+      isAccepted: false,
     };
 
     console.log(member);

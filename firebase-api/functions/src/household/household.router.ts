@@ -12,4 +12,4 @@ export const householdRouter = express.Router();
 householdRouter.post("/household", post);
 // householdRouter.get("/household/:id", getHousehold);
 householdRouter.get("/household/", getUserHouseholds);
-householdRouter.get("/household/:inviteCode", joinHousehold);
+householdRouter.post("/household/join", joinHousehold);

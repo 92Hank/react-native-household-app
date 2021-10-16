@@ -20,10 +20,11 @@ interface CreateUser {
 interface Member {
   id?: string;
   userId: string;
-  emoji: string;
+  emoji: number;
   isPaused: boolean;
   isOwner: boolean;
   value: number;
+  isAccepted: boolean
 }
 
 interface Household {
