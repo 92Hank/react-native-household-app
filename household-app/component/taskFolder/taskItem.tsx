@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Pressable } from "react-native";
 import { Card, Avatar } from "react-native-paper";
-import Task from "../../../Common/src/Entity/Task";
-import DoneTask from "../../../Common/src/Entity/doneTask" 
+import Task from "../../../Common/Task";
+import DoneTask from "../../../Common/doneTask" 
 
 interface Props {
   task: Task;

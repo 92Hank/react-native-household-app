@@ -3,6 +3,7 @@
         "firestore",
         "formik",
         "Hemmet",
+        "Pressable",
         "signin"
     ]
 }
