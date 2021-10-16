@@ -1,4 +1,4 @@
-import user from "../user/User";
+import user from "../../Service/user/User";
 
 // A mock function to mimic making an async request for data
 export function LogIn(userName: string, password: string) {

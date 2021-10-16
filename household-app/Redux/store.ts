@@ -1,7 +1,7 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import loginUserSliceReducer, {
   loginUserSlice,
-} from "./Service/loginUser/loginUserSlice";
+} from "./features/loginUser/loginUserSlice";
 import { userApi } from "./Service/user/userApi";
 
 export const store = configureStore({

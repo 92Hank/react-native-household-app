@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import user from "../user/User";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import user from "../../Service/user/User";
 import { loginSend } from "./loginSend";
 import { LogIn } from "./loginUserApi";
 
