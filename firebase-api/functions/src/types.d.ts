@@ -10,6 +10,12 @@ interface User {
   isOwner: boolean;
 }
 
+interface CreateUser {
+  userName: string;
+  email: string;
+  password: string;
+}
+
 
 interface Member {
   id?: string;
