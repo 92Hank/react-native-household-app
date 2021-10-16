@@ -1,6 +1,10 @@
 interface Task {
+  id?: string;
+  houseHoldId: string;
   description: string;
   value: 1 | 2 | 4 | 6 | 8;
+  repeated: number;
+  archived: boolean;
 }
 
 interface User {

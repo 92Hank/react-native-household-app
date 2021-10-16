@@ -3,15 +3,19 @@ Content-Type: application/json
 
 {
     "description": "batman-Man",
-    "value": 2
+    "value": 2,
+    "houseHoldId": "houseHoldId1",
+    "repeated": 3,
+    "archived": false
 }
 
 ###
-GET http://localhost:5000/react-native-household-app/us-central1/webApi/tasks/KsagruZdZUhJDJZnAYNS
+// get all tasks of householdID, send in householdID..
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/tasks/houseHoldId1
 
 ###
 
 ###
-GET http://localhost:5000/react-native-household-app/us-central1/webApi/tasks
-
+# GET http://localhost:5000/react-native-household-app/us-central1/webApi/tasks
+// dont think we are going to need this..
 ###
