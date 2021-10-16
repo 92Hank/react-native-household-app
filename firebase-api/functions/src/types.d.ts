@@ -19,7 +19,6 @@ interface CreateUser {
 
 interface Member {
   id?: string;
-  houseHoldId: string;
   userId: string;
   emoji: string;
   isPaused: boolean;

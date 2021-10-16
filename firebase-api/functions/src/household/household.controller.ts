@@ -2,6 +2,7 @@ import {Request, Response} from "express";
 import {fb} from "../fb";
 
 const db = fb.firestore();
+db.settings({ignoreUndefinedProperties: true});
 const householdCollection = "household";
 
 // interface Household {
@@ -20,11 +21,17 @@ export const post = async (req: Request, res: Response) => {
     const max = Math.floor(9999);
     const household: Household = {
       name: req.body["name"],
-
-      // TODO: Fixa ownerId från usern som skapar hushållet
-      // och tilldela till owner och member
-      //   ownerId: req.body["ownerId"],
-      member: req.body["members"],
+      ownerId: req.body["ownerId"],
+      member: [
+        {
+          id: req.body.member["id"],
+          userId: req.body.member["userId"],
+          isOwner: true,
+          emoji: req.body["emoji"],
+          value: 0,
+          isPaused: false,
+        },
+      ],
       // TODO: Generera en inviteCode på ett smartare sätt?
       inviteCode: Math.floor(Math.random() * (max - min + 1) + min).toString(),
     };
