@@ -118,3 +118,5 @@ export const joinHousehold = (req: Request, res: Response): void => {
       })
       .catch((error) => res.status(500).send(error.message));
 };
+
+

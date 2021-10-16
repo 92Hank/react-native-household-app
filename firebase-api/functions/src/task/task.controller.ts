@@ -9,10 +9,11 @@ const taskCollection = "tasks";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const postTask = async (req: Request, res: Response) => {
-  console.log("foobar");
-  console.log("bajs");
   try {
     const task: Task = {
+      houseHoldId: req.body["houseHoldId"],
+      repeated: req.body["repeated"],
+      archived: req.body["archived"],
       description: req.body["description"],
       value: req.body["value"],
     };
@@ -22,41 +23,43 @@ export const postTask = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).send(
         // eslint-disable-next-line max-len
-        "Task should cointain ...!!!"
+        "Task should contain houseHoldId, repeated, archived, description and value!!!"
     );
   }
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getTask = (req: Request, res: Response) => {
-  const userId = req.params.id;
-  console.log(userId);
-  db.collection(taskCollection)
-      .doc(userId)
-      .get()
-      .then((user) => {
-        if (!user.exists) throw new Error("Task not found");
-        res.status(200).json({id: user.id, data: user.data()});
-      })
-      .catch((error) => res.status(500).send(error));
-};
+// export const getTask = (req: Request, res: Response) => {
+//   const userId = req.params.id;
+//   console.log(userId);
+//   db.collection(taskCollection)
+//       .doc(userId)
+//       .get()
+//       .then((user) => {
+//         if (!user.exists) throw new Error("Task not found");
+//         res.status(200).json({id: user.id, data: user.data()});
+//       })
+//       .catch((error) => res.status(500).send(error));
+// };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getAllTask = (req: Request, res: Response) => {
+export const getAllTaskOfHouseHold = (req: Request, res: Response) => {
+  const houseHoldId = req.params.houseHoldId;
   const ref = db.collection(taskCollection);
 
   const data: FirebaseFirestore.DocumentData = [];
 
-  ref.get().then((querySnapshot) => {
-    querySnapshot.forEach((userDoc) => {
-      // userDoc contains all metadata of Firestore object
-      console.log(userDoc.id);
-      // eslint-disable-next-line prefer-const
-      let taskDocData = userDoc.data();
-      taskDocData.id = userDoc.id;
-      data.push(taskDocData);
-    });
-  })
+  ref
+      .where("houseHoldId", "==", houseHoldId)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((userDoc) => {
+          // eslint-disable-next-line prefer-const
+          let taskDocData = userDoc.data();
+          taskDocData.id = userDoc.id;
+          data.push(taskDocData);
+        });
+      })
       .then(() => {
         res.status(200).json(data);
       });
