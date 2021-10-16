@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
 import { Card, Title } from 'react-native-paper';
-import doneTask from '../../../Common/src/Entity/doneTask';
-import Task from "../../../Common/src/Entity/Task";
+import doneTask from '../../../Common/doneTask';
+import Task from "../../../Common/Task";
 
 import TaskItem from '../../component/taskFolder/taskItem';
 import { FeedStackScreenProps, MainRoutes } from '../../routes/routes';
