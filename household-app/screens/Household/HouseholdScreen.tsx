@@ -9,6 +9,7 @@ import {
 import Household from "../../../Common/household";
 import HouseholdComponent from "../../component/household.component/household.component";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import styles from './styles';
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
@@ -21,6 +22,14 @@ const HouseholdScreen: FC<Props> = ({
 
     const onPressLogout = () => {
       navigation.navigate(MainRoutes.LoginScreen);
+    };
+
+    const onPressCreateHousehold = () => {
+      alert("Add Household");
+    };
+
+    const onPressJoinHousehold = () => {
+      alert("Join Household");
     };
 
   return (
@@ -46,35 +55,26 @@ const HouseholdScreen: FC<Props> = ({
             />
           </View>
         </View>
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity
+            onPress={onPressCreateHousehold}
+            style={styles.householdButton}
+          >
+            <Text style={styles.householdButtonText}>Create</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onPressJoinHousehold}
+            style={styles.householdButton}
+          >
+            <Text style={styles.householdButtonText}>Edit</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </>
   );
 };
 
 export default HouseholdScreen;
-
-const styles = StyleSheet.create({
-  containerButton: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  headerText: {
-    color: "grey",
-  },
-  logoutButton: {
-    margin: 15,
-    backgroundColor: "#D8D8D8",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 100,
-    width: 100,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "grey",
-    fontSize: 16,
-  },
-});
 
 let households: Household[] = [
   { name: "Hemma", JoinCode: 1234, id: "1" },

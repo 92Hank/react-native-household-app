@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, Pressable, StyleSheet } from "react-native";
-import Household from "../../../Common/src/Entity/Household";
+import Household from "../../../Common/Household";
 import {
   Avatar,
   Button,
