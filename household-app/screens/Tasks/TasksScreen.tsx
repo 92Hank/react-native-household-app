@@ -1,22 +1,17 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   FlatList,
-  SafeAreaView,
   TouchableOpacity,
-  Button,
 } from "react-native";
-import { Card, Title } from "react-native-paper";
-import doneTask from "../../../Common/doneTask";
-import Task from "../../../Common/Task";
-
-import TaskItem from "../../component/taskFolder/taskItem";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import ModalComponent from "../../component/modal/ModalComponent";
+import TaskCard from "../../component/taskFolder/TaksCard";
+
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
@@ -24,7 +19,7 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
   const [addModalOpen, setAddModalOpen] = useState(false);
 
   const clickOnTask = () => {
-    console.log("click on task f");
+    console.log("click on task, now we will mark it as done?");
   };
 
   const handleAddClick = () => {
@@ -44,20 +39,20 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
   const onPressEditTasks = () => {
     alert("Edit");
   };
-  // borde bara skicka in dagens task här
+ 
   return (
     <>
       <View style={styles.container}>
         <View>
           <FlatList
-            data={tasks}
+            data={tasksNow}
             keyExtractor={(item: any) => item.id}
             renderItem={({ item }) => (
-              <Card style={styles.card}>
-                <Card.Content>
-                  <TaskItem key={item.id} task={item} onPress={clickOnTask} />
-                </Card.Content>
-              </Card>
+              <TaskCard
+                key={item.id}
+                task={item}
+                onPress={clickOnTask}
+              />
             )}
           />
           <ModalComponent
@@ -141,7 +136,43 @@ const styles = StyleSheet.create({
   },
 });
 
-let tasks: Task[] = [
-  { description: "foo", value: 1, id: "abc" },
-  { description: "foo2", value: 2, id: "abc2" },
+// let tasks: Task[] = [
+//   { description: "foo", value: 1, id: "abc" },
+//   { description: "foo2", value: 2, id: "abc2" },
+// ];
+
+let emojiList: string[] = ["🦊", "🐷", "🐸"];
+
+// create this list from our data with useEffect or something
+let tasksNow: TaskNow[] = [
+  {
+    householdId: "abs3",
+    description: "foo",
+    value: 1,
+    id: "abc2",
+    repeated: 2,
+    archived: false,
+    emojiList: emojiList,
+  },
+  {
+    householdId: "abs4",
+    description: "foo 2",
+    value: 1,
+    id: "abc",
+    repeated: 2,
+    archived: false,
+    emojiList: emojiList,
+  },
 ];
+
+
+
+interface TaskNow {
+  id?: string;
+  householdId?: string;
+  description?: string;
+  repeated?: number;
+  archived?: boolean;
+  value?: 1 | 2 | 4 | 6 | 8;
+  emojiList: string[];
+}
