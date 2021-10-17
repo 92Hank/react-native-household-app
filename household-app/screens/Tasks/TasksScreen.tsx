@@ -6,6 +6,7 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import { Card, Title } from "react-native-paper";
 import doneTask from "../../../Common/doneTask";
@@ -15,12 +16,25 @@ import TaskItem from "../../component/taskFolder/taskItem";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import ModalComponent from "../../component/modal/ModalComponent";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+  const [addModalOpen, setAddModalOpen] = useState(false);
+
   const clickOnTask = () => {
     console.log("click on task f");
+  };
+
+  const handleAddClick = () => {
+    setAddModalOpen(true);
+    console.log("open");
+
+  };
+  const handleAddClose = () => {
+    console.log("close")
+    setAddModalOpen(false);
   };
 
   const onPressCreateTasks = () => {
@@ -46,10 +60,14 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
               </Card>
             )}
           />
+          <ModalComponent
+            isOpen={addModalOpen}
+            handleAddClose={handleAddClose}
+          />
         </View>
         <View style={styles.buttonsContainer}>
           <TouchableOpacity
-            onPress={onPressCreateTasks}
+            onPress={handleAddClick}
             style={styles.householdButton}
           >
             <MaterialIcons name="add-circle-outline" size={30} color="black" />
