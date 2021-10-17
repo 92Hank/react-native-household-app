@@ -4,7 +4,7 @@ import { FeedStackScreenProps, MainRoutes } from '../../routes/routes';
 import {Formik} from "formik"
 import TextInput from './textInput';
 import * as Yup from "yup";
-import user from '../../../Common/src/Entity/user';
+// import user from '../../../Common/src/Entity/user';
 
 interface User {
   // id?: string;
@@ -38,6 +38,7 @@ const CreateAccountScreen: FC<Props> = ({
 
     const handleSubmitForm = async (createAccountUser: User) => {
          console.log(createAccountUser);
+         
          // to api
     };
   

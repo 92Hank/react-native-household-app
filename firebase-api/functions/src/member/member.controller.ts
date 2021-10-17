@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import {Request, Response} from "express";
 import {fb} from "../fb";
 // import Task from "../../../../Common/Entity/Task";
@@ -12,18 +13,21 @@ const memberCollection = "member";
 export const postMember = async (req: Request, res: Response) => {
   try {
     const member: Member = {
-      houseHoldId: req.body["houseHoldId"],
       userId: req.body["userId"],
       emoji: req.body["emoji"],
       isPaused: false,
       isOwner: req.body["isOwner"],
       value: 0,
+      isAccepted: false,
     };
 
     console.log(member);
 
-    const newDoc = await db.collection(memberCollection).add(member);
-    res.status(201).send(`Created a new task: ${newDoc.id}`);
+    const doc = await db.collection(memberCollection).add(member);
+    let memberFromDb = await db.collection(memberCollection).doc(doc.id).get();
+    member.id = memberFromDb.id;
+    // eslint-disable-next-line new-cap
+    res.status(201).send(member);
   } catch (error) {
     res.status(400).send(
         // eslint-disable-next-line max-len

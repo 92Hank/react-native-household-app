@@ -1,6 +1,10 @@
 interface Task {
+  id?: string;
+  houseHoldId: string;
   description: string;
   value: 1 | 2 | 4 | 6 | 8;
+  repeated: number;
+  archived: boolean;
 }
 
 interface User {
@@ -10,15 +14,21 @@ interface User {
   isOwner: boolean;
 }
 
+interface CreateUser {
+  userName: string;
+  email: string;
+  password: string;
+}
+
 
 interface Member {
   id?: string;
-  houseHoldId: string;
   userId: string;
-  emoji: string;
+  emoji: number;
   isPaused: boolean;
   isOwner: boolean;
   value: number;
+  isAccepted: boolean
 }
 
 interface Household {

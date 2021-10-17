@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   title: {
     marginTop: offset,
     fontSize: offset,
-    color: "white",
+    color: "gray",
   },
   input: {
     width: 300,
