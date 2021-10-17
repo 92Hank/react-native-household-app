@@ -1,6 +1,9 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+  },
   containerButton: {
     alignItems: "center",
     justifyContent: "center",
@@ -20,11 +23,13 @@ const styles = StyleSheet.create({
   householdButton: {
     margin: 15,
     backgroundColor: "white",
-    paddingVertical: 15,
+    paddingVertical: 20,
     paddingHorizontal: 20,
     borderRadius: 100,
-    width: 120,
+    width: 140,
     alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
     shadowColor: 'rgba(0, 0, 0, 0.1)',
     shadowOpacity: 0.8,
     elevation: 6,
@@ -37,12 +42,9 @@ const styles = StyleSheet.create({
   },
   householdButtonText: {
     color: "black",
-    fontSize: 16,
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginLeft: 15,
   },
   text: {
     color: "grey",
@@ -67,6 +69,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    bottom:0,
+    left:0,
+    right: 0,
+    marginBottom: 20,
+    marginRight: 10,
+    marginLeft: 10,
   },
 });
 

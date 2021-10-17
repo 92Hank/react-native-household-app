@@ -10,6 +10,8 @@ import Household from "../../../Common/household";
 import HouseholdComponent from "../../component/household.component/household.component";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import styles from './styles';
+import { MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons"; 
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
@@ -34,7 +36,7 @@ const HouseholdScreen: FC<Props> = ({
 
   return (
     <>
-      <View>
+      <View style={styles.container}>
         <View style={styles.containerButton}>
           <TouchableOpacity onPress={onPressLogout} style={styles.logoutButton}>
             <Text style={styles.buttonText}>Sign out</Text>
@@ -60,12 +62,14 @@ const HouseholdScreen: FC<Props> = ({
             onPress={onPressCreateHousehold}
             style={styles.householdButton}
           >
+            <MaterialIcons name="add-circle-outline" size={30} color="black" />
             <Text style={styles.householdButtonText}>Create</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={onPressJoinHousehold}
             style={styles.householdButton}
           >
+            <Feather name="edit-2" size={30} color="black" />
             <Text style={styles.householdButtonText}>Edit</Text>
           </TouchableOpacity>
         </View>
