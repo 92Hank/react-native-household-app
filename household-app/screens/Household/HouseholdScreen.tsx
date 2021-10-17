@@ -9,6 +9,9 @@ import {
 import Household from "../../../Common/household";
 import HouseholdComponent from "../../component/household.component/household.component";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import styles from './styles';
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons"; 
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
@@ -23,9 +26,17 @@ const HouseholdScreen: FC<Props> = ({
       navigation.navigate(MainRoutes.LoginScreen);
     };
 
+    const onPressCreateHousehold = () => {
+      alert("Add Household");
+    };
+
+    const onPressJoinHousehold = () => {
+      alert("Join Household");
+    };
+
   return (
     <>
-      <View>
+      <View style={styles.container}>
         <View style={styles.containerButton}>
           <TouchableOpacity onPress={onPressLogout} style={styles.logoutButton}>
             <Text style={styles.buttonText}>Sign out</Text>
@@ -46,35 +57,32 @@ const HouseholdScreen: FC<Props> = ({
             />
           </View>
         </View>
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity
+            onPress={onPressCreateHousehold}
+            style={styles.householdButton}
+          >
+            <MaterialIcons name="add-circle-outline" size={30} color="black" />
+            <Text style={styles.householdButtonText}>Create</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onPressJoinHousehold}
+            style={styles.householdButton}
+          >
+            <MaterialCommunityIcons
+              name="home-circle-outline"
+              size={30}
+              color="black"
+            />
+            <Text style={styles.householdButtonText}>Join</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </>
   );
 };
 
 export default HouseholdScreen;
-
-const styles = StyleSheet.create({
-  containerButton: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  headerText: {
-    color: "grey",
-  },
-  logoutButton: {
-    margin: 15,
-    backgroundColor: "#D8D8D8",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 100,
-    width: 100,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "grey",
-    fontSize: 16,
-  },
-});
 
 let households: Household[] = [
   { name: "Hemma", JoinCode: 1234, id: "1" },
