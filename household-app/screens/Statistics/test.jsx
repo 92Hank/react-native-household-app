@@ -26,11 +26,26 @@ class StatisticsScreen extends React.PureComponent {
                 // console.log("slice:" + typeof(slice))
 
                 var keys = Object.keys(slice);
+                console.log("XXXXXXXXX parent : " + slice.Parent)
 
                 for (var i = 0; i < keys.length; i++) {
                     var val = slice[keys[i]];
                     console.log(keys[i] + ": " + val)
                     console.log("value type: " + typeof(val))
+
+
+                    // if(keys[i] == 'pieCentroid' || keys[i] == 'labelCentroid') {
+                    //     var keys2 = Object.keys(keys[i]);
+                    //     console.log(keys2[i] + "PROPERTIES:::")
+
+                    //     for (var j = 0; j < keys2.length; j++) {
+                    //         var val2 = keys[i][keys2[j]];
+                    //         console.log("   " + keys[j] + ": " + val2)
+                    //         console.log("   " + "value type: " + typeof(val2))
+                    //     }
+
+                    // }
+
                 }
 
                 console.log("----------------------------\n\n")
