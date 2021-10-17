@@ -5,8 +5,10 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
+  TouchableOpacity,
   View,
 } from "react-native";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface Props {
     isOpen: boolean;
@@ -50,6 +52,31 @@ export default function ModalComponent( props: Props) {
             >
               <Text style={styles.textStyle}>Hide Modal</Text>
             </TouchableHighlight>
+
+            <View style={styles.buttonsContainer}>
+              <TouchableOpacity
+                onPress={() => alert("saved successful")}
+                style={styles.saveButton}
+              >
+                <MaterialIcons
+                  name="add-circle-outline"
+                  size={30}
+                  color="black"
+                />
+                <Text style={styles.householdButtonText}>Save</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={props.handleAddClose}
+                style={styles.closeButton}
+              >
+                <MaterialCommunityIcons
+                  name="close-circle-outline"
+                  size={30}
+                  color="black"
+                />
+                <Text style={styles.householdButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -152,5 +179,55 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 20,
     marginLeft: 10,
+  },
+  buttonsContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignSelf: "flex-end",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    marginRight: 10,
+    marginLeft: 10,
+  },
+  closeButton: {
+    backgroundColor: "white",
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    width: 195,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    shadowColor: "rgba(0, 0, 0, 0.1)",
+    shadowOpacity: 0.8,
+    elevation: 6,
+    shadowRadius: 15,
+    shadowOffset: { width: 1, height: 13 },
+    borderBottomRightRadius: 20,
+    borderStartWidth: 1,
+    borderStartColor: 'gainsboro'
+  },
+  saveButton: {
+    backgroundColor: "white",
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    width: 195,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    shadowColor: "rgba(0, 0, 0, 0.1)",
+    shadowOpacity: 0.8,
+    elevation: 6,
+    shadowRadius: 15,
+    shadowOffset: { width: 1, height: 13 },
+    borderBottomLeftRadius: 20,
+  },
+  householdButtonText: {
+    color: "black",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginLeft: 15,
   },
 });
