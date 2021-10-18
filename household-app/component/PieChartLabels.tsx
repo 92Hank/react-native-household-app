@@ -1,6 +1,5 @@
 import React from 'react';
-import { Circle, G, Image, NumberArray } from 'react-native-svg';
-import Assets from '../assets';
+import { NumberArray, Text } from 'react-native-svg';
 
 type slice = {
     data: object,
@@ -24,31 +23,29 @@ const PieChartLabels = ({ slices }: LabelProps) => {
     // https://stackoverflow.com/q/61733861 //typa upp med slice
     // https://github.com/JesperLekland/react-native-svg-charts#arguments-to-children-5
 
+    //  1. Vad måste göras. Ta in alla SMILEYS i PieChart, skicka ner hit, hantera som del av array i map, variabel.
+    //  2. PR sen på vad som finns?
+
+
     return (
         <>
             {
                 slices!.map((slice, index) => {
                     const { labelCentroid, pieCentroid, data } = slice;
                     return (
-                        <G
+                        <Text
                             key={index}
-                            x={labelCentroid[0]}
-                            y={labelCentroid[1]}
+                            x={pieCentroid[0]}
+                            y={pieCentroid[1]}
+                            fill={'white'}
+                            textAnchor={'middle'}
+                            alignmentBaseline={'middle'}
+                            fontSize={24}
+                            stroke={'black'}
+                            strokeWidth={0.2}
                         >
-                            <Circle
-                                r={18}
-                                fill={'#fff'}
-                            />
-                            <Image
-                                x={-10}
-                                y={-10}
-                                width={20}
-                                height={20}
-                                preserveAspectRatio="xMidYMid slice"
-                                opacity="1"
-                                href={Assets.images[2]}
-                            />
-                        </G>
+                            🦊
+                        </Text>
                     )
                 })
             }

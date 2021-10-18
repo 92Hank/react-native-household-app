@@ -25,7 +25,7 @@ const PieChart: FC<Props> = ({data}): React.ReactElement => {
         <ImportedPieChart
             style={{ height: 240 }}
             data={pieData}
-            // outerRadius={'95%'}
+            outerRadius={'92%'}
             innerRadius={'0%'}
             padAngle={0.01}
         // valueAccessor={({ item }) => item.amount} //VAR KOMMER ALLA SLICES IFRÅN?? inbyggda props???
@@ -33,7 +33,6 @@ const PieChart: FC<Props> = ({data}): React.ReactElement => {
             <PieChartLabels />
         </ImportedPieChart>
     )
-
 };
 
 export default PieChart;
