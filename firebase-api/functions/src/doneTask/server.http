@@ -1,0 +1,14 @@
+POST http://localhost:5000/react-native-household-app/us-central1/webApi/donetask
+Content-Type: application/json
+
+{
+    "taskId": "batman-Man 2",
+    "memberId": "på den som gjort"
+}
+
+//dates sätts inne
+
+
+###
+// GET 
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/donetask/40Jpw3OVxGURAfJfru9t

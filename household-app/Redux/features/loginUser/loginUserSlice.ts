@@ -15,10 +15,17 @@ const initialState: loginUserState = {
 
 export const LoginAsync = createAsyncThunk(
   "counter/fetchCount",
-  async ({ userName, password }: loginSend) => {
-    const response = await LogIn(userName, password);
-    // The value we return becomes the `fulfilled` action payload
-    return response.data;
+  async ({ email, password }: loginSend) => {
+    const [user, statusCode, status] = await LogIn(email, password);
+
+    if (statusCode === 200 && user) {
+      console.log("fulfill", statusCode, user);
+
+      return user;
+    } else {
+      console.log("rejectWithValue", status);
+      throw new Error(String(statusCode) + " " + status);
+    }
   }
 );
 

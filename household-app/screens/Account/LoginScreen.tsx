@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,64 +9,78 @@ import {
   ScrollView,
   TextInput
 } from "react-native";
+import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
+import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
+import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 
 const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>("foo@foo.com");
+  const [password, setPassword] = useState<string>("fobar");
+
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentLoginUser);
 
 
-   const onPressLogin = () => {
-     // thunk här!
-     navigation.navigate(MainRoutes.HouseholdScreen);
-   };
+  useEffect(() => {
+    if (user) {
+      console.log("user", user);
 
-   const onChangeTextEmail = (email: string) => {
-     setEmail(email.replace(/ /g, ""));
-   };
+      navigation.navigate(MainRoutes.HouseholdScreen);
+    }
+  }, [user])
+
+  const onPressLogin = () => {
+    dispatch(LoginAsync({ email, password }))
+
+  };
+
+  const onChangeTextEmail = (email: string) => {
+    setEmail(email.replace(/ /g, ""));
+  };
   const onChangeTextPassword = (password: string) => setPassword(password);
 
   return (
-      <View >
-        <KeyboardAvoidingView
-          style={{ flexGrow: 1, height: "80%" }}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          enabled
+    <View >
+      <KeyboardAvoidingView
+        style={{ flexGrow: 1, height: "80%" }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        enabled
+      >
+        <ScrollView
+          contentContainerStyle={{ flex: 1 }}
+          {...(Platform.OS === "ios"
+            ? "keyboardDismissMode='interactive'"
+            : null)}
+          keyboardShouldPersistTaps={"handled"}
         >
-          <ScrollView
-            contentContainerStyle={{ flex: 1 }}
-            {...(Platform.OS === "ios"
-              ? "keyboardDismissMode='interactive'"
-              : null)}
-            keyboardShouldPersistTaps={"handled"}
-          >
-            <View style={styles.container}>
-              <Text style={styles.title}>Email:</Text>
-              <TextInput
-                keyboardType="email-address"
-                style={styles.input}
-                onChangeText={onChangeTextEmail}
-                value={email}
-              />
-              <Text style={styles.title}>Password:</Text>
-              <TextInput
-                secureTextEntry={true}
-                style={styles.input}
-                onChangeText={onChangeTextPassword}
-                value={password}
-              />
-              <TouchableOpacity
-                onPress={onPressLogin}
-                style={styles.loginButton}
-              >
-                <Text style={styles.buttonText}>Sign in</Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </View>
+          <View style={styles.container}>
+            <Text style={styles.title}>Email:</Text>
+            <TextInput
+              keyboardType="email-address"
+              style={styles.input}
+              onChangeText={onChangeTextEmail}
+              value={email}
+            />
+            <Text style={styles.title}>Password:</Text>
+            <TextInput
+              secureTextEntry={true}
+              style={styles.input}
+              onChangeText={onChangeTextPassword}
+              value={password}
+            />
+            <TouchableOpacity
+              onPress={onPressLogin}
+              style={styles.loginButton}
+            >
+              <Text style={styles.buttonText}>Sign in</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 

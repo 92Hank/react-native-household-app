@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {Request, Response} from "express";
 import {fb, FieldValue} from "../fb";
 
@@ -96,12 +99,8 @@ export const joinHousehold = (req: Request, res: Response): void => {
     isAccepted: false,
   };
 
-  // const householdName = "Hemmet";
-  // const user = req.params.userId;
   const query = db.collection(householdCollection);
-  // const query3 = query.where("inviteCode", "==", inviteCode);
   const query2 = query.doc(houseHoldId);
-  // const query3 = query2.where("inviteCode", "==", inviteCode);
   query2
       .get()
       .then((query) => {
@@ -115,6 +114,81 @@ export const joinHousehold = (req: Request, res: Response): void => {
         } else {
           res.status(400).json("invite code dose not match");
         }
+      })
+      .catch((error) => res.status(500).send(error.message));
+};
+
+export const acceptMember = (req: Request, res: Response): void => {
+  const houseHoldId= req.body["houseHoldId"];
+  const userId = req.body["userId"];
+  console.log(houseHoldId);
+  console.log(userId);
+
+  const ref = db.collection(householdCollection).doc(houseHoldId);
+  ref.get()
+      .then((query) => {
+        let data = query.data();
+      data?.member.forEach((m: any) => {
+        if (m.userId === userId) {
+          console.log(m);
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          query.ref
+              .update({
+                member: FieldValue.arrayRemove(m),
+              })
+              .then(() => {
+                m.isAccepted = true;
+                query.ref
+                    .update({
+                      member: FieldValue.arrayUnion(m),
+                    })
+                    .then(() => {
+                      res.status(200).json("member accepted");
+                    })
+                    .catch(() => {
+                      res.status(400).json("could not update");
+                    });
+              });
+        }
+      });
+      })
+      .catch((error) => res.status(500).send(error.message));
+};
+
+export const makeMemberAdmin = (req: Request, res: Response): void => {
+  const houseHoldId = req.body["houseHoldId"];
+  const userId = req.body["userId"];
+  // console.log(houseHoldId);
+  // console.log(userId);
+
+  const ref = db.collection(householdCollection).doc(houseHoldId);
+  ref
+      .get()
+      .then((query) => {
+        let data = query.data();
+      data?.member.forEach((m: any) => {
+        if (m.userId === userId) {
+          // console.log(m);
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          query.ref
+              .update({
+                member: FieldValue.arrayRemove(m),
+              })
+              .then(() => {
+                m.isOwner = true;
+                query.ref
+                    .update({
+                      member: FieldValue.arrayUnion(m),
+                    })
+                    .then(() => {
+                      res.status(200).json("member is owner now");
+                    })
+                    .catch(() => {
+                      res.status(400).json("could not update");
+                    });
+              });
+        }
+      });
       })
       .catch((error) => res.status(500).send(error.message));
 };

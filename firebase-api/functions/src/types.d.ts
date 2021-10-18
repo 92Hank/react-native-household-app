@@ -1,6 +1,7 @@
 interface Task {
   id?: string;
   houseHoldId: string;
+  name: string;
   description: string;
   value: 1 | 2 | 4 | 6 | 8;
   repeated: number;
@@ -36,4 +37,11 @@ interface Household {
   ownerId?: string;
   member?: Member[];
   inviteCode: string;
+}
+
+interface DoneTask {
+  id?: string;
+  taskId: string;
+  memberId: number[];
+  dateDone: Date;
 }
