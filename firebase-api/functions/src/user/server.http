@@ -4,9 +4,9 @@ POST http://localhost:5000/react-native-household-app/us-central1/webApi/users
 Content-Type: application/json
 
 {
-    "userName": "batman-Man",
-    "email": "f2o9.com",
-    "password": "hej"
+    "userName": "batman",
+    "email": "foo@f5o.com",
+    "password": "foobar"
 }
 
 
@@ -16,8 +16,8 @@ post http://172.19.200.32:5001/react-native-household-app/us-central1/webApi/use
 Content-Type: application/json
 
 {
-    "email": "foo@foo.com",
-    "password": "fobarr"
+    "email": "foo@f5o.com",
+    "password": "foobar"
 }
 
 

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   FlatList,
   TouchableOpacity,
@@ -9,30 +9,38 @@ import {
 import Household from "../../../Common/household";
 import HouseholdComponent from "../../component/household.component/household.component";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import styles from './styles';
+import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons"; 
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { baseProps } from "react-native-gesture-handler/lib/typescript/handlers/gestureHandlers";
+import AddHouseholdModal from "../../component/addHousehold/addHouseholdModal";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
 const HouseholdScreen: FC<Props> = ({
   navigation,
 }: Props): React.ReactElement => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   const clickOnHousehold = () => {
     navigation.navigate(MainRoutes.TasksScreen);
   };
 
-    const onPressLogout = () => {
-      navigation.navigate(MainRoutes.LoginScreen);
+  const onPressLogout = () => {
+    navigation.navigate(MainRoutes.LoginScreen);
+  };
+
+  const onPressCreateHousehold = () => {
+    setModalIsOpen(true)
+  };
+    const handleModalClose = () => {
+      console.log("close");
+      setModalIsOpen(false);
     };
 
-    const onPressCreateHousehold = () => {
-      alert("Add Household");
-    };
-
-    const onPressJoinHousehold = () => {
-      alert("Join Household");
-    };
+  const onPressJoinHousehold = () => {
+    alert("Join Household");
+  };
 
   return (
     <>
@@ -57,13 +65,17 @@ const HouseholdScreen: FC<Props> = ({
             />
           </View>
         </View>
+        <AddHouseholdModal
+          isOpen={modalIsOpen}
+          handleModalClose={handleModalClose}
+        />
         <View style={styles.buttonsContainer}>
           <TouchableOpacity
             onPress={onPressCreateHousehold}
             style={styles.householdButton}
           >
             <MaterialIcons name="add-circle-outline" size={30} color="black" />
-            <Text style={styles.householdButtonText}>Create</Text>
+            <Text style={styles.householdButtonText}>Nytt hushåll</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={onPressJoinHousehold}
@@ -74,7 +86,7 @@ const HouseholdScreen: FC<Props> = ({
               size={30}
               color="black"
             />
-            <Text style={styles.householdButtonText}>Join</Text>
+            <Text style={styles.householdButtonText}>Gå med</Text>
           </TouchableOpacity>
         </View>
       </View>
