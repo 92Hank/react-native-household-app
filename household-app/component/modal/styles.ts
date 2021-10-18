@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalTextView: {
-      alignItems: 'flex-start',
+    alignItems: 'flex-start',
     position: 'absolute',
     top: 0,
     left: 0,
@@ -69,18 +69,19 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 15,
   },
-  textinputContainerRight: {
+    textinputTitleRight2: {
     flex: 1,
+    justifyContent: "center",
     alignContent: "flex-start",
     top: 55,
     marginLeft: 15,
     marginTop: 0,
     marginRight: 15,
-    marginBottom: 0,
-    backgroundColor: "#ffffff",
+    marginBottom: 5,
     maxHeight: 160,
     minWidth: 360,
     borderRadius: 8,
+    backgroundColor: "#ffffff",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -90,11 +91,9 @@ const styles = StyleSheet.create({
     shadowRadius: 12.35,
     elevation: 10,
   },
-  taskItemContent: {
-    color: "black",
-    fontSize: 20,
-    marginLeft: 10,
-    marginTop: 10,
+  titleContent2: {
+    backgroundColor: "white",
+    height:166,
   },
   textinputTitleRight: {
     flex: 1,
@@ -105,10 +104,8 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginRight: 15,
     marginBottom: 0,
-    backgroundColor: "#ffffff",
     maxHeight: 60,
     minWidth: 360,
-    borderRadius: 8,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -119,9 +116,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   titleContent: {
-    color: "black",
-    fontSize: 20,
-    marginLeft: 10,
+    backgroundColor: "white",
   },
   buttonsContainer: {
     alignItems: "center",
@@ -132,6 +127,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    marginTop: 60,
     marginRight: 10,
     marginLeft: 10,
   },
@@ -177,12 +173,28 @@ const styles = StyleSheet.create({
     width: 360,
     marginTop: 15,
     top: 55,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 12.35,
+    elevation: 10,
   },
   inputsCard2: {
     width: 360,
     marginTop: 15,
-    marginBottom: 10,
+    marginBottom: 50,
     top: 55,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 12.35,
+    elevation: 10,
   },
 });
 
