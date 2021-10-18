@@ -1,15 +1,12 @@
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
   Modal,
   StyleSheet,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
+  Text, TouchableOpacity,
+  View
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { TextInput } from "react-native-paper";
 
 interface Props {
   isOpen: boolean;
@@ -22,9 +19,8 @@ export default function AddHouseholdModal(props: Props) {
   const onSave = () => {
     if (name) {
       alert(name);
-    }
-    else {
-        alert("APAPAP! Du måste ange ett namn")
+    } else {
+      alert("APAPAP! Du måste ange ett namn");
     }
   };
 
@@ -45,7 +41,15 @@ export default function AddHouseholdModal(props: Props) {
         >
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Namnge hushåll: </Text>
-            <TextInput style={styles.input} onChangeText={onChangeInput} />
+            <TextInput
+              theme={{ roundness: 10 }}
+              outlineColor="white"
+              mode="outlined"
+              style={styles.input}
+              value={name}
+              label="Namn på hushållet"
+              onChangeText={onChangeInput}
+            />
             <View style={styles.buttonsContainer}>
               <TouchableOpacity
                 onPress={() => onSave()}
@@ -79,15 +83,8 @@ export default function AddHouseholdModal(props: Props) {
 
 const styles = StyleSheet.create({
   input: {
+    backgroundColor: "#ffff",
     width: "100%",
-    height: 40,
-    backgroundColor: "#fff",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 15,
-    fontSize: 16,
   },
   centeredView: {
     flex: 1,
@@ -108,7 +105,7 @@ const styles = StyleSheet.create({
     height: 300,
     backgroundColor: "#f2f2f2",
     borderRadius: 20,
-    padding: 35,
+    padding: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -118,12 +115,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  openButton: {
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
   },
   textStyle: {
     color: "white",

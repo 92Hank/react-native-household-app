@@ -7,20 +7,22 @@ import {
   StyleSheet,
 } from "react-native";
 import Household from "../../../Common/household";
-import HouseholdComponent from "../../component/household.component/household.component";
+import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import styles from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { baseProps } from "react-native-gesture-handler/lib/typescript/handlers/gestureHandlers";
-import AddHouseholdModal from "../../component/addHousehold/addHouseholdModal";
+import AddHouseholdModal from "../../component/householdComponents/addHouseholdModal/addHouseholdModal.component";
+import JoinHouseholdModal from "../../component/householdComponents/joinHouseholdModal/joinHouseholdModal.component";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
 const HouseholdScreen: FC<Props> = ({
   navigation,
 }: Props): React.ReactElement => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
+  const [joinModalIsOpen, setJoinModalIsOpen] = useState(false);
 
   const clickOnHousehold = () => {
     navigation.navigate(MainRoutes.TasksScreen);
@@ -31,15 +33,17 @@ const HouseholdScreen: FC<Props> = ({
   };
 
   const onPressCreateHousehold = () => {
-    setModalIsOpen(true)
+    setCreateModalIsOpen(true);
   };
-    const handleModalClose = () => {
-      console.log("close");
-      setModalIsOpen(false);
-    };
 
   const onPressJoinHousehold = () => {
-    alert("Join Household");
+    setJoinModalIsOpen(true);
+  };
+  const handleCreateModalClose = () => {
+    setCreateModalIsOpen(false);
+  };
+  const handleJoinModalClose = () => {
+    setJoinModalIsOpen(false);
   };
 
   return (
@@ -66,8 +70,12 @@ const HouseholdScreen: FC<Props> = ({
           </View>
         </View>
         <AddHouseholdModal
-          isOpen={modalIsOpen}
-          handleModalClose={handleModalClose}
+          isOpen={createModalIsOpen}
+          handleModalClose={handleCreateModalClose}
+        />
+        <JoinHouseholdModal
+          isOpen={joinModalIsOpen}
+          handleModalClose={handleJoinModalClose}
         />
         <View style={styles.buttonsContainer}>
           <TouchableOpacity
