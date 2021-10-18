@@ -1,11 +1,11 @@
 
 
-POST http://localhost:5000/react-native-household-app/us-central1/webApi/users
+POST http://172.19.200.32:5001/react-native-household-app/us-central1/webApi/users
 Content-Type: application/json
 
 {
     "userName": "batman",
-    "email": "foo@f5o.com",
+    "email": "fotoky@f5o.com",
     "password": "foobar"
 }
 
