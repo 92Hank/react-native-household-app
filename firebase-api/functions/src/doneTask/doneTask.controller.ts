@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {Request, Response} from "express";
 import {fb} from "../fb";
 
@@ -11,7 +12,7 @@ export const postDoneTask = async (req: Request, res: Response) => {
     const doneTask: DoneTask = {
       taskId: req.body["taskId"],
       memberId: req.body["memberId"],
-      dateDone: req.body["dateDone"],
+      dateDone: new Date,
     };
 
     const newDoc = await db.collection(taskCollection).add(doneTask);
@@ -22,4 +23,27 @@ export const postDoneTask = async (req: Request, res: Response) => {
         "DoneTask should contain taskId, memberId and dateDone!!!"
     );
   }
+};
+
+
+export const getAllDoneTaskOfHouseHold = (req: Request, res: Response) => {
+  const houseHoldId = req.params.houseHoldId;
+  const ref = db.collection(taskCollection);
+
+  const data: FirebaseFirestore.DocumentData = [];
+
+  ref
+      .where("houseHoldId", "==", houseHoldId)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((userDoc) => {
+        // eslint-disable-next-line prefer-const
+          let taskDocData = userDoc.data();
+          taskDocData.id = userDoc.id;
+          data.push(taskDocData);
+        });
+      })
+      .then(() => {
+        res.status(200).json(data);
+      });
 };

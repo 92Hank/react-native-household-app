@@ -30,3 +30,31 @@ Content-Type: application/json
 ###
 // GET 
 GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/40Jpw3OVxGURAfJfru9t
+
+###
+
+//accept user
+PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/household/accept
+Content-Type: application/json
+
+{
+    "houseHoldId": "Dt1nCSiTG5QWYtPuMFQR",
+    "userId": "userID soddddm vill jiona"
+    
+}
+
+###
+
+###
+
+//make user owner
+PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/household/owner
+Content-Type: application/json
+
+{
+    "houseHoldId": "Dt1nCSiTG5QWYtPuMFQR",
+    "userId": "userID soddddm vill jiona"
+    
+}
+
+###
