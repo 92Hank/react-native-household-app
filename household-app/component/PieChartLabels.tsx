@@ -1,6 +1,6 @@
 import React from 'react';
 import { NumberArray, Text } from 'react-native-svg';
-import { MemberStatistics } from '../screens/Statistics/StatisticsScreen';
+import { MemberStatistics } from "../screens/Tasks/CurrentWeekScreen";
 
 type slice = {
     data: MemberStatistics,
