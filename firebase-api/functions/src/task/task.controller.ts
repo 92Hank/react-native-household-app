@@ -16,6 +16,7 @@ export const postTask = async (req: Request, res: Response) => {
       archived: req.body["archived"],
       description: req.body["description"],
       value: req.body["value"],
+      name: req.body["name"],
     };
 
     const newDoc = await db.collection(taskCollection).add(task);

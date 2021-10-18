@@ -6,7 +6,8 @@ Content-Type: application/json
     "value": 2,
     "houseHoldId": "houseHoldId1",
     "repeated": 3,
-    "archived": false
+    "archived": false,
+    "name": "städa"
 }
 
 ###
