@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -24,13 +24,17 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
   const user = useAppSelector(selectCurrentLoginUser);
 
 
-
-  const onPressLogin = () => {
-
-    dispatch(LoginAsync({ email, password }))
+  useEffect(() => {
     if (user) {
+      console.log("user", user);
+
       navigation.navigate(MainRoutes.HouseholdScreen);
     }
+  }, [user])
+
+  const onPressLogin = () => {
+    dispatch(LoginAsync({ email, password }))
+
   };
 
   const onChangeTextEmail = (email: string) => {

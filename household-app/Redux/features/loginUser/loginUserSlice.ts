@@ -16,9 +16,16 @@ const initialState: loginUserState = {
 export const LoginAsync = createAsyncThunk(
   "counter/fetchCount",
   async ({ email, password }: loginSend) => {
-    const response = await LogIn(email, password);
-    // The value we return becomes the `fulfilled` action payload
-    return response.data;
+    const [user, statusCode, status] = await LogIn(email, password);
+
+    if (statusCode === 200 && user) {
+      console.log("fulfill", statusCode, user);
+
+      return user;
+    } else {
+      console.log("rejectWithValue", status);
+      throw new Error(String(statusCode) + " " + status);
+    }
   }
 );
 
@@ -42,13 +49,9 @@ export const loginUserSlice = createSlice({
       })
       .addCase(LoginAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        console.log("fulfilled", action.payload);
-
         state.user = action.payload;
       })
       .addCase(LoginAsync.rejected, (state, action) => {
-        console.log("failed", action.error.message);
-
         state.status = "failed";
         state.message = action.error.message;
       });
