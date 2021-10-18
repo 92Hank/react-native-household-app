@@ -16,7 +16,6 @@ import styles from "./styles";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
-import { MainRoutes } from "../../routes/routes";
 
 interface Props {
     isOpen: boolean;
@@ -51,11 +50,18 @@ const PostSchema = Yup.object().shape<PostSchemaType>({
 const recurring = 7;
 
 export default function ModalComponent( props: Props) {
-  const defaultTask: Task = { id: "", description: "" };
-  const navigation = useNavigation();
-  const handleSubmitForm = async (task: Task) => {
-    console.log(task);
+  const [id, setId] = useState<string>();
+  const [description, setDescription] = useState<string>();
 
+  const onChangeInputId = (id: string) => setId(id);
+  const onChangeInputDescription = (description: string) =>
+    setDescription(description);
+
+  const defaultTask: Task = { id: "", description: "" };
+
+  const handleSubmitForm = async () => {
+    console.log('id: ' + id);
+    console.log('description: ' + description);
     // to api
   };
 
@@ -102,38 +108,35 @@ export default function ModalComponent( props: Props) {
                         marginTop: 25,
                       }}
                     >
-                      <View style={styles.textinputTitleRight}>
-                        <TextInput
-                          theme={{ roundness: 10 }}
-                          mode="outlined"
-                          style={styles.titleContent}
-                          label="Titel"
-                          outlineColor="white"
-                          onChangeText={handleChange<keyof Task>("id")}
-                          value={values.id}
-                        />
-                      </View>
+                      <TextInput
+                        theme={{ roundness: 10 }}
+                        outlineColor="white"
+                        mode="outlined"
+                        style={styles.input}
+                        value={id}
+                        label="Titel"
+                        onChangeText={onChangeInputId}
+                      />
 
-                      <View style={styles.container}>
-                        <View style={styles.textinputTitleRight2}>
-                          <TextInput
-                            theme={{ roundness: 10 }}
-                            mode="outlined"
-                            style={styles.titleContent2}
-                            label="Beskrivning"
-                            outlineColor="white"
-                            onChangeText={handleChange<keyof Task>(
-                              "description"
-                            )}
-                            value={values.description}
-                          />
-                        </View>
-                      </View>
+                      <TextInput
+                        theme={{ roundness: 10 }}
+                        outlineColor="white"
+                        mode="outlined"
+                        style={styles.input2}
+                        value={description}
+                        label="Beskrivning"
+                        onChangeText={onChangeInputDescription}
+                      />
 
                       <Card style={styles.inputsCard}>
                         <Card.Content>
                           <Text>
-                            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                fontWeight: "bold",
+                              }}
+                            >
                               Återkommer:
                             </Text>
                             <Text style={{ fontSize: 16 }}>
@@ -147,9 +150,14 @@ export default function ModalComponent( props: Props) {
                         <Card.Title
                           title="Värde: "
                           subtitle="Hur energikrävande är sysslan?"
+                          titleStyle={{ color: "black" }}
+                          subtitleStyle={{color: "gray"}}
                         />
                         <Card.Content>
-                          <Text style={{ fontSize: 16 }}> 1</Text>
+                          <Text style={{ fontSize: 16, color: "black" }}>
+                            {" "}
+                            1
+                          </Text>
                         </Card.Content>
                       </Card>
                     </View>

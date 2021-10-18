@@ -9,9 +9,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 0,
+    marginTop: 22,
   },
-    centeredViewBlurred: {
+  centeredViewBlurred: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -127,15 +127,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    marginTop: 60,
-    marginRight: 10,
-    marginLeft: 10,
   },
   closeButton: {
     backgroundColor: "white",
     paddingVertical: 20,
     paddingHorizontal: 20,
-    width: 195,
+    width: "50%",
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
@@ -146,13 +143,13 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 13 },
     borderBottomRightRadius: 20,
     borderStartWidth: 1,
-    borderStartColor: 'gainsboro'
+    borderStartColor: "gainsboro",
   },
   saveButton: {
     backgroundColor: "white",
     paddingVertical: 20,
     paddingHorizontal: 20,
-    width: 195,
+    width: "50%",
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
@@ -170,9 +167,9 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   inputsCard: {
-    width: 360,
+    backgroundColor: "white",
+    width: windowWidth - 50,
     marginTop: 15,
-    top: 55,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -183,10 +180,10 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   inputsCard2: {
-    width: 360,
+    backgroundColor: "white",
+    width: windowWidth - 50,
     marginTop: 15,
     marginBottom: 50,
-    top: 55,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -195,6 +192,42 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 12.35,
     elevation: 10,
+  },
+  input: {
+    backgroundColor: "#ffff",
+    width: windowWidth - 50,
+    marginTop: 50,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 12.35,
+    elevation: 10,
+  },
+  input2: {
+    backgroundColor: "#ffff",
+    width: windowWidth - 50,
+    height: windowHeight / 7.2,
+    marginTop: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 12.35,
+    elevation: 10,
+  },
+  input2TextColor: {
+    color: "gray",
+  },
+  buttonText: {
+    color: "black",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginLeft: 15,
   },
 });
 
