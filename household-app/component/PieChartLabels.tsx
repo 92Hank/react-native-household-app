@@ -1,8 +1,9 @@
 import React from 'react';
 import { NumberArray, Text } from 'react-native-svg';
+import { MemberStatistics } from '../screens/Statistics/StatisticsScreen';
 
 type slice = {
-    data: object,
+    data: MemberStatistics,
     index: number,
     value: number,
     startAngle: number,
@@ -16,7 +17,6 @@ type LabelProps = {
     slices?: slice[],
     height?: number,
     width?: number,
-    labelImage?: string, //Kolla över hur detta kan kopplas.
 };
 
 const PieChartLabels = ({ slices }: LabelProps) => {
@@ -26,6 +26,17 @@ const PieChartLabels = ({ slices }: LabelProps) => {
             {
                 slices!.map((slice, index) => {
                     const { labelCentroid, pieCentroid, data } = slice;
+                    // console.log("OBS EN DATA = " + data) //LOOPA IVEN
+
+                    // var keys = Object.keys(data);
+                    // for (var i = 0; i < keys.length; i++) {
+
+                    //     var val = data[keys[i] as keyof MemberStatistics];
+                    //     console.log(keys[i] + ": " + val)
+                    //     console.log("value type: " + typeof (val))
+                    // }
+
+
                     return (
                         <Text
                             key={index}
@@ -38,7 +49,7 @@ const PieChartLabels = ({ slices }: LabelProps) => {
                             stroke={'black'}
                             strokeWidth={0.2}
                         >
-                            🦊
+                            {data.emoji}
                         </Text>
                     )
                 })
