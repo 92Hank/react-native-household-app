@@ -1,9 +1,11 @@
+/* eslint-disable max-len */
 import * as express from "express";
 import {
   post,
   //   getHousehold,
+  getHouseholdsOnInviteCode,
   acceptMember,
-  getUserHouseholds,
+  getUsersHouseholdsOnUserId,
   joinHousehold,
   makeMemberAdmin,
 } from "./household.controller";
@@ -13,7 +15,12 @@ export const householdRouter = express.Router();
 
 householdRouter.post("/household", post);
 // householdRouter.get("/household/:id", getHousehold);
-householdRouter.get("/household/", getUserHouseholds);
+householdRouter.get("/household/:userId", getUsersHouseholdsOnUserId);
+householdRouter.get(
+    "/household/invitecode/:inviteCode",
+    getHouseholdsOnInviteCode
+);
+
 householdRouter.post("/household/join", joinHousehold);
 householdRouter.patch("/household/accept", acceptMember);
 householdRouter.patch("/household/owner", makeMemberAdmin);

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -9,18 +10,9 @@ const db = fb.firestore();
 db.settings({ignoreUndefinedProperties: true});
 const householdCollection = "household";
 
-// interface Household {
-//   name: string;
-//   ownerId?: string;
-//   members?: string[]; // FK
-//   inviteCode: string;
-// }
-
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const post = async (req: Request, res: Response) => {
   try {
-    // generera random nummer mellan 1000-9999
-    // TODO: kontrollera att numret är unikt
     const min = Math.ceil(1000);
     const max = Math.floor(9999);
     const household: Household = {
@@ -28,8 +20,8 @@ export const post = async (req: Request, res: Response) => {
       ownerId: req.body["ownerId"],
       member: [
         {
-          id: req.body.member["id"],
           userId: req.body.member["userId"],
+          name: req.body.member["name"],
           isOwner: true,
           emoji: req.body.member["emoji"],
           value: 0,
@@ -37,7 +29,7 @@ export const post = async (req: Request, res: Response) => {
           isAccepted: true,
         },
       ],
-      // TODO: Generera en inviteCode på ett smartare sätt?
+      userIds: [req.body.member["userId"]],
       inviteCode: Math.floor(Math.random() * (max - min + 1) + min).toString(),
     };
 
@@ -62,27 +54,28 @@ export const getHousehold = (req: Request, res: Response): void => {
       .catch((error) => res.status(500).send(error));
 };
 
-// Hämtar alla hushåll som en användare är med i
-export const getUserHouseholds = (req: Request, res: Response): void => {
-  // ta in den inloggade användaren och använd här istället:
-  const user = "Pelle";
+export const getUsersHouseholdsOnUserId = async (req: Request, res: Response): Promise<void> => {
+  console.log("foo");
+  const userId = req.params.userId;
   const households: FirebaseFirestore.DocumentData = [];
+  console.log(userId);
 
   db.collection(householdCollection)
-      .where("members", "==", user)
+      .where("userIds", "array-contains-any", [userId])
       .get()
-      .then(function(querySnapshot) {
-        if (!querySnapshot) throw new Error("Household not found");
-        querySnapshot.forEach((householdDoc) => {
-          const data = householdDoc.data();
-          data.id = householdDoc.id;
+      .then((snapshot) => {
+        const snapDoc = snapshot.docs;
+        snapDoc.forEach((s) => {
+          const data = s.data();
           households.push(data);
         });
-      })
-      .then(() => {
-        res.status(200).json(households);
-      })
-      .catch((error) => res.status(500).send(error));
+      }).then(() => {
+        if (!households) {
+          res.status(400).json("no households for this user");
+        } else {
+          res.status(200).json(households);
+        }
+      }).catch((error) => res.status(500).send(error));
 };
 
 export const joinHousehold = (req: Request, res: Response): void => {
@@ -90,7 +83,7 @@ export const joinHousehold = (req: Request, res: Response): void => {
   const houseHoldId = req.body["houseHoldId"];
 
   const member: Member = {
-    id: req.body.member["id"],
+    name: req.body.member["name"],
     userId: req.body.member["userId"],
     isOwner: false,
     emoji: req.body.member["emoji"],
@@ -109,6 +102,7 @@ export const joinHousehold = (req: Request, res: Response): void => {
         if (data?.inviteCode === inviteCode) {
           query.ref.update({
             member: FieldValue.arrayUnion(member),
+            userIds: FieldValue.arrayUnion(req.body.member["userId"]),
           });
           res.status(200).json("member added");
         } else {
@@ -158,8 +152,6 @@ export const acceptMember = (req: Request, res: Response): void => {
 export const makeMemberAdmin = (req: Request, res: Response): void => {
   const houseHoldId = req.body["houseHoldId"];
   const userId = req.body["userId"];
-  // console.log(houseHoldId);
-  // console.log(userId);
 
   const ref = db.collection(householdCollection).doc(houseHoldId);
   ref
@@ -168,7 +160,6 @@ export const makeMemberAdmin = (req: Request, res: Response): void => {
         let data = query.data();
       data?.member.forEach((m: any) => {
         if (m.userId === userId) {
-          // console.log(m);
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           query.ref
               .update({
@@ -191,6 +182,30 @@ export const makeMemberAdmin = (req: Request, res: Response): void => {
       });
       })
       .catch((error) => res.status(500).send(error.message));
+};
+
+export const getHouseholdsOnInviteCode = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
+  console.log("foo");
+  const inviteCode = req.params.inviteCode;
+  console.log(inviteCode);
+
+  db.collection(householdCollection)
+      .where("inviteCode", "==", inviteCode)
+      .get()
+      .then((snapshot) => {
+        const snapDoc = snapshot.docs;
+        if (snapshot.empty) {
+          res.status(400).json("no houseHold with this invite code");
+        }
+        snapDoc.forEach((s) => {
+          const data = s.data();
+          res.status(200).json(data);
+        });
+      })
+      .catch((error) => res.status(500).send(error));
 };
 
 

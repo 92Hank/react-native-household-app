@@ -2,34 +2,43 @@ POST http://localhost:5000/react-native-household-app/us-central1/webApi/househo
 Content-Type: application/json
 
 {
-    "name": "batman-Man 2",
-    "ownerId": "userID som skapar",
+    "name": "Foos hushåll",
+    "ownerId": "WrHSQTb8vsVQMVRVO14z",
     "member": {
-        "id": "member id",
-        "userId": "userID som skapar",
+        "name": "username",
+        "userId": "WrHSQTb8vsVQMVRVO14z",
         "emoji": 2
     }
 
 }
 
 ###
-// Join household/inviteCode, kanske ska vara en post? 
+// Join household/inviteCode
 post http://localhost:5000/react-native-household-app/us-central1/webApi/household/join
 Content-Type: application/json
 
 {
-    "houseHoldId": "Dt1nCSiTG5QWYtPuMFQR",
-    "inviteCode": "8855",
+    "houseHoldId": "D66g4HdjydwhJSmDUsWm",
+    "inviteCode": "4527",
     "member": {
-        "id": "member id f",
+        "name": "username",
         "userId": "userID som vill jiona",
         "emoji": 1
     }
 }
 
+
 ###
 // GET 
-GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/40Jpw3OVxGURAfJfru9t
+// get all houseHolds for 1 user on userId param
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/WrHSQTb8vsVQMVRVO14z
+
+###
+
+###
+// GET 
+// get a houseHolds on inviteCode param
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/invitecode/1111
 
 ###
 
