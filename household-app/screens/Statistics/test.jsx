@@ -18,6 +18,9 @@ class StatisticsScreen extends React.PureComponent {
                 key: `pie-${index}`,
             }))
 
+            console.log("data type is: " + typeof(data))
+            console.log("piedata type is: " + typeof(pieData))
+
         const Labels = ({ slices }) => {
             return slices.map((slice, index) => {
                 const { labelCentroid, pieCentroid, data } = slice;

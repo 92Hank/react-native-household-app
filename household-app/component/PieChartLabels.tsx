@@ -16,16 +16,10 @@ type LabelProps = {
     slices?: slice[],
     height?: number,
     width?: number,
+    labelImage?: string, //Kolla över hur detta kan kopplas.
 };
 
 const PieChartLabels = ({ slices }: LabelProps) => {
-
-    // https://stackoverflow.com/q/61733861 //typa upp med slice
-    // https://github.com/JesperLekland/react-native-svg-charts#arguments-to-children-5
-
-    //  1. Vad måste göras. Ta in alla SMILEYS i PieChart, skicka ner hit, hantera som del av array i map, variabel.
-    //  2. PR sen på vad som finns?
-
 
     return (
         <>
