@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   FlatList,
   TouchableOpacity,
@@ -15,6 +15,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { baseProps } from "react-native-gesture-handler/lib/typescript/handlers/gestureHandlers";
 import AddHouseholdModal from "../../component/householdComponents/addHouseholdModal/addHouseholdModal.component";
 import JoinHouseholdModal from "../../component/householdComponents/joinHouseholdModal/joinHouseholdModal.component";
+import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
+import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
+import { logout } from "../../Redux/features/loginUser/loginUserSlice";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
@@ -24,11 +27,20 @@ const HouseholdScreen: FC<Props> = ({
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [joinModalIsOpen, setJoinModalIsOpen] = useState(false);
 
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentLoginUser);
+
+  useEffect(() => {
+    if (!user) navigation.navigate(MainRoutes.LoginScreen);
+  }, [user])
+
+
   const clickOnHousehold = () => {
     navigation.navigate(MainRoutes.TasksScreen);
   };
 
   const onPressLogout = () => {
+    dispatch(logout());
     navigation.navigate(MainRoutes.LoginScreen);
   };
 
