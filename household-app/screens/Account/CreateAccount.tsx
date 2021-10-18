@@ -6,6 +6,7 @@ import TextInput from './textInput';
 import * as Yup from "yup";
 import { useCreateUserMutation } from '../../Redux/Service/user/userApi';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+
 // import user from '../../../Common/src/Entity/user';
 
 interface User {
@@ -39,6 +40,7 @@ const CreateAccountScreen: FC<Props> = ({
   const defaultUser: User = { userName: "", email: "", password: "" };
   const [
     CreateUser, // This is the mutation trigger
+
     { status, isSuccess, error, isLoading }, // This is the destructured mutation result
   ] = useCreateUserMutation();
 
