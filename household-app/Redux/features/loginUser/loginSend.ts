@@ -1,4 +1,4 @@
 export interface loginSend {
-  userName: string;
+  email: string;
   password: string;
 }

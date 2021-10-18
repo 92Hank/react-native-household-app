@@ -1,15 +1,16 @@
 import React, { FC } from 'react'
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from "react-native";
 import { FeedStackScreenProps, MainRoutes } from '../../routes/routes';
-import {Formik} from "formik"
+import { Formik } from "formik"
 import TextInput from './textInput';
 import * as Yup from "yup";
+import { useCreateUserMutation } from '../../Redux/Service/user/userApi';
 // import user from '../../../Common/src/Entity/user';
 
 interface User {
   // id?: string;
   email: string;
-  name: string;
+  userName: string;
   password: string;
   // salt?: string;
 }
@@ -24,7 +25,7 @@ const PostSchema = Yup.object().shape<PostSchemaType>({
     .email("Email is invalid")
     .trim(),
   password: Yup.string().required().min(6, "Minimum 6 characters").trim(),
-  name: Yup.string().required().trim(),
+  userName: Yup.string().required().trim(),
 });
 
 type Props = FeedStackScreenProps<MainRoutes.CreateAccountScreen>;
@@ -34,74 +35,78 @@ const CreateAccountScreen: FC<Props> = ({
   navigation,
 }: Props): React.ReactElement => {
 
-  const defaultUser: User = { name: "", email: "", password: "" };
+  const defaultUser: User = { userName: "", email: "", password: "" };
+  const [
+    CreateUser, // This is the mutation trigger
+    { isLoading: isUpdating }, // This is the destructured mutation result
+  ] = useCreateUserMutation();
 
-    const handleSubmitForm = async (createAccountUser: User) => {
-         console.log(createAccountUser);
-         
-         // to api
-    };
-  
-   return (
-     <KeyboardAvoidingView
-       style={{ flex: 1 }}
-       behavior={Platform.OS === "ios" ? "padding" : undefined}
-       enabled
-     >
-       <ScrollView
+  const handleSubmitForm = async (createAccountUser: User) => {
+    console.log(createAccountUser);
+    CreateUser(createAccountUser);
+    // to api
+  };
+
+  return (
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      enabled
+    >
+      <ScrollView
         //  contentContainerStyle={{ flexGrow: 1 }}
-         {...(Platform.OS === "ios"
-           ? "keyboardDismissMode='interactive'"
-           : null)}
-         keyboardShouldPersistTaps={"handled"}
-       >
-         <View style={styles.container}>
-           <Formik
-             initialValues={defaultUser}
-             onSubmit={handleSubmitForm}
-             validationSchema={PostSchema}
-             validateOnChange={false}
-           >
-             {({ errors, values, handleChange, handleSubmit }) => (
-               <>
-                 <TextInput
-                   keyboardType="email-address"
-                   label="Email"
-                   style={styles.input}
-                   value={values.email}
-                   onChangeText={handleChange<keyof User>("email")}
-                   helperText={errors.email}
-                 />
-                 <TextInput
-                   label="Password"
-                   style={styles.input}
-                   value={values.password}
-                   onChangeText={handleChange<keyof User>(
-                     "password"
-                   )}
-                   helperText={errors.password}
-                 />
-                 <TextInput
-                   label="Username"
-                   value={values.name}
-                   style={styles.input}
-                   onChangeText={handleChange<keyof User>("name")}
-                   helperText={errors.name}
-                 />
-                 <TouchableOpacity
-                   onPress={handleSubmit as any}
-                   style={styles.submitButton}
-                 >
-                   <Text style={styles.buttonText}>Create account</Text>
-                 </TouchableOpacity>
-               </>
-             )}
-           </Formik>
-         </View>
-       </ScrollView>
-     </KeyboardAvoidingView>
-   );
-  
+        {...(Platform.OS === "ios"
+          ? "keyboardDismissMode='interactive'"
+          : null)}
+        keyboardShouldPersistTaps={"handled"}
+      >
+        <View style={styles.container}>
+          <Formik
+            initialValues={defaultUser}
+            onSubmit={handleSubmitForm}
+            validationSchema={PostSchema}
+            validateOnChange={false}
+          >
+            {({ errors, values, handleChange, handleSubmit }) => (
+              <>
+                <TextInput
+                  keyboardType="email-address"
+                  label="Email"
+                  style={styles.input}
+                  value={values.email}
+                  onChangeText={handleChange<keyof User>("email")}
+                  helperText={errors.email}
+                />
+                <TextInput
+                  label="Password"
+                  style={styles.input}
+                  value={values.password}
+                  onChangeText={handleChange<keyof User>(
+                    "password"
+                  )}
+                  helperText={errors.password}
+                />
+                <TextInput
+                  label="Username"
+                  value={values.userName}
+                  style={styles.input}
+                  onChangeText={handleChange<keyof User>("userName")}
+                  helperText={errors.userName}
+                />
+                <TouchableOpacity
+                  onPress={handleSubmit as any}
+                  style={styles.submitButton}
+                >
+                  <Text style={styles.buttonText}>Create account</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </Formik>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+
 };
 
 export default CreateAccountScreen;
