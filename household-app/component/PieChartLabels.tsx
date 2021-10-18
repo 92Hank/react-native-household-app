@@ -26,16 +26,6 @@ const PieChartLabels = ({ slices }: LabelProps) => {
             {
                 slices!.map((slice, index) => {
                     const { labelCentroid, pieCentroid, data } = slice;
-                    // console.log("OBS EN DATA = " + data) //LOOPA IVEN
-
-                    // var keys = Object.keys(data);
-                    // for (var i = 0; i < keys.length; i++) {
-
-                    //     var val = data[keys[i] as keyof MemberStatistics];
-                    //     console.log(keys[i] + ": " + val)
-                    //     console.log("value type: " + typeof (val))
-                    // }
-
 
                     return (
                         <Text
