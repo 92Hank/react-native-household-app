@@ -1,10 +1,11 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from "react-native";
 import { FeedStackScreenProps, MainRoutes } from '../../routes/routes';
 import { Formik } from "formik"
 import TextInput from './textInput';
 import * as Yup from "yup";
 import { useCreateUserMutation } from '../../Redux/Service/user/userApi';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 // import user from '../../../Common/src/Entity/user';
 
 interface User {
@@ -38,13 +39,39 @@ const CreateAccountScreen: FC<Props> = ({
   const defaultUser: User = { userName: "", email: "", password: "" };
   const [
     CreateUser, // This is the mutation trigger
-    { isLoading: isUpdating }, // This is the destructured mutation result
+    { status, isSuccess, error, isLoading }, // This is the destructured mutation result
   ] = useCreateUserMutation();
+
+  useEffect(() => {
+    console.log("isSuccess", isSuccess);
+  }, [isSuccess])
+
+  useEffect(() => {
+    console.log("isCreating", isLoading);
+  }, [isLoading])
+
+  useEffect(() => {
+    console.log("status", status);
+  }, [status])
+
+  useEffect(() => {
+    if (error) {
+      console.log("error", error);
+    }
+
+  }, [error])
+
+  interface FetchArgs extends RequestInit {
+    url: string;
+    params?: Record<string, any>;
+    body?: any;
+    responseHandler?: 'json' | 'text' | ((response: Response) => Promise<any>);
+    validateStatus?: (response: Response, body: any) => boolean;
+  }
 
   const handleSubmitForm = async (createAccountUser: User) => {
     console.log(createAccountUser);
     CreateUser(createAccountUser);
-    // to api
   };
 
   return (
