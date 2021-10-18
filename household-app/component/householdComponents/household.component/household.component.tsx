@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, Pressable, StyleSheet } from "react-native";
-import Household from "../../../Common/Household";
+import Household from "../../../../Common/Household";
 import {
   Avatar,
   Button,
@@ -9,7 +9,7 @@ import {
   Paragraph,
   List,
 } from "react-native-paper";
-import ItemSeparator from "../itemSeparator/itemSeparator.component";
+import ItemSeparator from "../../itemSeparator/itemSeparator.component";
 
 interface Props {
   household: Household;
