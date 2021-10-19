@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import user from "../../Service/user/User";
-import { loginSend } from "./loginSend";
+import user from "../../entity/User";
+import { loginSend } from "../../entity/loginSend";
 import { LogIn } from "./loginUserApi";
 
 export interface loginUserState {

@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, View, StyleSheet, Dimensions ,Text} from "react-native";
-import task from "../../../Common/Task";
+import task from "../../../Common(obsolete)/Task";
 
 interface TaskNow {
   id?: string;
