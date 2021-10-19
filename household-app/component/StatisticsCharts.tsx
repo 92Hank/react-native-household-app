@@ -9,30 +9,29 @@ interface Props {
 }
 
 const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
-    // const [currentlyDoneTasks, setCurrentlyDoneTasks] = useState(); //beror på utskickad info från API:t om ny doneTask finns. Ta bort?
 
-    //data = MemberStatistics[].doneTasks[].taskId
+    let allDoneTaskIdsArray: string[] = [];
 
-    let allDoneTaskIdsArray: string[] = []; //pusha unika idn till array, OM de inte redan finns.
-    data.forEach((member) => {
-        member.doneTasks.forEach((doneTask) => {
-            allDoneTaskIdsArray.push(doneTask.id);
-            console.log("pushed" + doneTask.id)//TEEEEEEEEEEST
+    const getUniqueDoneTaskIds = () => {
+        let uniqueIds: string[] = [];
+
+        data.forEach((member) => {
+            member.doneTasks.forEach((doneTask) => {
+                uniqueIds.push(doneTask.id);
+            })
         })
-    })
 
+        allDoneTaskIdsArray = uniqueIds.filter((taskId, index, self) => {
+            if (self.indexOf(taskId) === index) return self[index];
+        })
+    }
 
-    console.log("------------------------------")//TEEEEEEEEEEST
-
-
-    allDoneTaskIdsArray.filter((taskId, index, self) => {
-        self.indexOf(taskId) === index;
-        if (self.indexOf(taskId) === index) console.log(taskId)//TEEEEEEEEEEST
-    })
+    getUniqueDoneTaskIds();
 
     /**
      * Function to loop through the MemberStatistics data array and remove from
      * it all household members not having the taskId in their doneTasks[] parameter.
+     * The filtered data can be used to determine the amount of slices of a piechart.
      *
      * @param data 
      * @param taskId 
@@ -51,19 +50,19 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
         return filteredMembers;
     }
 
-    // 1. ta alla unika taskidn för done tasks från members
-    // - loopa igenom en members taskDone, plocka ut idn, skicka in
-    // - rensa upp icke-unika idn.
-    // 2. skapa piecharts.
-
+    /**
+     * Function to loop through the array of all unique doneTask.taskId values and
+     * based on them create an array of piechart components. Make sure the taskId
+     * values corresponds precisely to each intended task/doneTask object.
+     *
+     * @returns {JSX.Element[]}
+     */
     const generateSmallPieCharts = () => {
         return allDoneTaskIdsArray.map((taskId, index) => {
-            console.log("taskId to child react:" + taskId) //TEST
-
             return (
                 <SmallPieChart
-                    data={filterOutNonparticipantMembers(data, taskId)} //för en Task-Piechart där viss member har 0 value, ta bort från array!!!!!!!!!!!!
-                    specificTaskId={taskId} //detta måste stämma
+                    data={filterOutNonparticipantMembers(data, taskId)}
+                    specificTaskId={taskId}
                     key={index}
                 />
             );
