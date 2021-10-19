@@ -13,6 +13,7 @@ import { DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { View } from "react-native";
 import TaskStack from "./TaskStack";
 import AuthStack from "./AuthStack";
+import UsersStack from "./UsersStack";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,14 @@ const MainNavigation = (): React.ReactElement => {
           component={TaskStack}
           options={{
             title: "Tasks",
+            headerTitleStyle: { fontSize: 24 },
+          }}
+        />
+        <Stack.Screen
+          name={MainRoutes.UsersInHouseholdScreen}
+          component={UsersStack}
+          options={{
+            title: "Users",
             headerTitleStyle: { fontSize: 24 },
           }}
         />

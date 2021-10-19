@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  FlatList,
   KeyboardAvoidingView,
   Modal,
   Platform,
@@ -16,10 +17,13 @@ import styles from "./styles";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
+import CircleButtonGroup from "../circleButtonGroup/circleButtonGroup";
+import ListItem from "../taskDayListItem/taskDayListItem";
 
 interface Props {
-    isOpen: boolean;
-    handleAddClose: () => void;
+  isOpen: boolean;
+  handleAddClose: () => void;
+  event: any;
 }
 
 interface Task {
@@ -49,9 +53,15 @@ const PostSchema = Yup.object().shape<PostSchemaType>({
 
 const recurring = 7;
 
-export default function ModalComponent( props: Props) {
+const ModalComponent: React.FC<Props> = ({
+  isOpen,
+  handleAddClose,
+  event
+}) => {
   const [id, setId] = useState<string>();
   const [description, setDescription] = useState<string>();
+  const [isClicked, setIsClicked] = useState(true);
+  const [isClickedDays, setIsClickedDays] = useState(true);
 
   const onChangeInputId = (id: string) => setId(id);
   const onChangeInputDescription = (description: string) =>
@@ -65,8 +75,19 @@ export default function ModalComponent( props: Props) {
     // to api
   };
 
+  const onPress = (event: any) => {
+    console.log('onPress works fine');
+    setIsClicked(true);
+    //do some stuff here
+  };
 
-  return (
+  const onPressDays = (event: any) => {
+    console.log("onPress works fine");
+    setIsClickedDays(true);
+    //do some stuff here
+  };
+
+  return !isClicked || !isClickedDays ? (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -85,16 +106,14 @@ export default function ModalComponent( props: Props) {
               <Modal
                 animationType="slide"
                 transparent={true}
-                visible={props.isOpen}
+                visible={isOpen}
                 onRequestClose={() => {
-                  props.isOpen;
+                  isOpen;
                 }}
               >
                 <View
                   style={[
-                    props.isOpen
-                      ? styles.centeredViewBlurred
-                      : styles.centeredView,
+                    isOpen ? styles.centeredViewBlurred : styles.centeredView,
                   ]}
                 >
                   <View style={styles.modalView}>
@@ -130,34 +149,50 @@ export default function ModalComponent( props: Props) {
 
                       <Card style={styles.inputsCard}>
                         <Card.Content>
-                          <Text>
-                            <Text
-                              style={{
-                                fontSize: 16,
-                                fontWeight: "bold",
-                              }}
-                            >
-                              Återkommer:
-                            </Text>
-                            <Text style={{ fontSize: 16 }}>
-                              {" "}
-                              var {recurring} dag
-                            </Text>
-                          </Text>
+                          <View style={styles.clickedDay}>
+                            {/* <View style={styles.clickedDayTitle}>
+                              <Text style={styles.buttonText}>
+                                Återkommer:{" "}
+                              </Text>
+                            </View>
+                            <View style={styles.clickedDayReturn}>
+                              <Text style={{ marginRight: 3 }}>Var</Text>
+                              <TouchableOpacity
+                                style={styles.circleButton}
+                                onPress={() => alert("your added value")}
+                              >
+                                <Text style={styles.circleBtnText}>
+                                  {recurring}
+                                </Text>
+                              </TouchableOpacity>
+                              <Text style={{ marginLeft: 3 }}>dag</Text>
+                            </View> */}
+
+                            <ListItem
+                              days={[
+                                "1",
+                                "2",
+                                "3",
+                                "4",
+                                "5",
+                                "6",
+                                "7",
+                                "8",
+                                "9",
+                              ]}
+                              onPressDays={onPressDays}
+                              event={event}
+                            />
+                          </View>
                         </Card.Content>
                       </Card>
                       <Card style={styles.inputsCard2}>
-                        <Card.Title
-                          title="Värde: "
-                          subtitle="Hur energikrävande är sysslan?"
-                          titleStyle={{ color: "black" }}
-                          subtitleStyle={{color: "gray"}}
-                        />
                         <Card.Content>
-                          <Text style={{ fontSize: 16, color: "black" }}>
-                            {" "}
-                            1
-                          </Text>
+                          <CircleButtonGroup
+                            buttons={["1", "2", "3", "4", "5", "6"]}
+                            onPress={onPress}
+                            event={event}
+                          />
                         </Card.Content>
                       </Card>
                     </View>
@@ -175,7 +210,155 @@ export default function ModalComponent( props: Props) {
                         <Text style={styles.householdButtonText}>Spara</Text>
                       </TouchableOpacity>
                       <TouchableOpacity
-                        onPress={props.handleAddClose}
+                        onPress={handleAddClose}
+                        style={styles.closeButton}
+                      >
+                        <MaterialCommunityIcons
+                          name="close-circle-outline"
+                          size={30}
+                          color="black"
+                        />
+                        <Text style={styles.householdButtonText}>Stäng</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
+            </View>
+          )}
+        </Formik>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  ) : (
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      enabled
+    >
+      <ScrollView
+        //  contentContainerStyle={{ flexGrow: 1 }}
+        {...(Platform.OS === "ios"
+          ? "keyboardDismissMode='interactive'"
+          : null)}
+        keyboardShouldPersistTaps={"handled"}
+      >
+        <Formik initialValues={defaultTask} onSubmit={handleSubmitForm}>
+          {({ errors, values, handleChange, handleSubmit }) => (
+            <View style={styles.centeredView}>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={isOpen}
+                onRequestClose={() => {
+                  isOpen;
+                }}
+              >
+                <View
+                  style={[
+                    isOpen ? styles.centeredViewBlurred : styles.centeredView,
+                  ]}
+                >
+                  <View style={styles.modalView}>
+                    <View style={styles.modalTextView}>
+                      <Text style={styles.modalText}>Skapa en ny syssla</Text>
+                    </View>
+                    <View
+                      style={{
+                        position: "absolute",
+                        alignItems: "center",
+                        marginTop: 25,
+                      }}
+                    >
+                      <TextInput
+                        theme={{ roundness: 10 }}
+                        outlineColor="white"
+                        mode="outlined"
+                        style={styles.input}
+                        value={id}
+                        label="Titel"
+                        onChangeText={onChangeInputId}
+                      />
+
+                      <TextInput
+                        theme={{ roundness: 10 }}
+                        outlineColor="white"
+                        mode="outlined"
+                        style={styles.input2}
+                        value={description}
+                        label="Beskrivning"
+                        onChangeText={onChangeInputDescription}
+                      />
+
+                      <Card style={styles.inputsCard}>
+                        <Card.Content>
+                          <View style={styles.clickedDay}>
+                            <View style={styles.clickedDayTitle}>
+                              <Text style={styles.buttonText}>
+                                Återkommer:{" "}
+                              </Text>
+                            </View>
+                            <View style={styles.clickedDayReturn}>
+                              <Text style={{ marginRight: 3 }}>Var</Text>
+                              <TouchableOpacity
+                                style={styles.circleButton}
+                                onPress={() => {
+                                  setIsClickedDays(false);
+                                }}
+                              >
+                                <Text style={styles.circleBtnText}>
+                                  {recurring}
+                                </Text>
+                              </TouchableOpacity>
+                              <Text style={{ marginLeft: 3 }}>dag</Text>
+                            </View>
+                            {/* <View style={styles.clickedDayTitle}>
+                            <ListItem
+                              days={["1", "2", "3", "4", "5", "6", "7", "8", "9"]}
+                              onPress={onPress}
+                              event={event}
+                            />
+                            </View> */}
+                          </View>
+                        </Card.Content>
+                      </Card>
+                      <Card style={styles.inputsCard2}>
+                        <Card.Content>
+                          <View style={styles.clickedDay}>
+                            <View style={styles.clickedDayTitle}>
+                              <Text style={styles.buttonText}>Värde: </Text>
+                              <Text style={styles.clickedDayTitleSub}>
+                                Hur energikrävande är sysslan?
+                              </Text>
+                            </View>
+                            <TouchableOpacity
+                              style={styles.circleButtonValue}
+                              onPress={() => {
+                                setIsClicked(false);
+                              }}
+                            >
+                              <Text style={styles.circleBtnTextValue}>
+                                {recurring}
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
+                        </Card.Content>
+                      </Card>
+                    </View>
+
+                    <View style={styles.buttonsContainer}>
+                      <TouchableOpacity
+                        onPress={handleSubmit as any}
+                        style={styles.saveButton}
+                      >
+                        <MaterialIcons
+                          name="add-circle-outline"
+                          size={30}
+                          color="black"
+                        />
+                        <Text style={styles.householdButtonText}>Spara</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={handleAddClose}
                         style={styles.closeButton}
                       >
                         <MaterialCommunityIcons
@@ -196,3 +379,5 @@ export default function ModalComponent( props: Props) {
     </KeyboardAvoidingView>
   );
 }
+
+export default ModalComponent;
