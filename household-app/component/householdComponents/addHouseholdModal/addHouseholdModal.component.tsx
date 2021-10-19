@@ -1,24 +1,68 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import {
-  Modal,
-  StyleSheet,
-  Text, TouchableOpacity,
-  View
-} from "react-native";
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-paper";
+import { LocalIp } from "../../../Redux/Config";
+import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
+import { useAppSelector } from "../../../Redux/hooks";
 
 interface Props {
   isOpen: boolean;
   handleModalClose: () => void;
 }
 
+enum Avatars {
+  "🦊" = "1",
+  "🐷" = "2",
+  "🐸" = "3",
+  "🐥" = "4",
+  "🐙" = "5",
+  "🐬" = "6",
+  "🦉" = "7",
+  "🦄" = "8",
+}
+
 export default function AddHouseholdModal(props: Props) {
   const [name, setName] = useState<string>();
   const onChangeInput = (name: string) => setName(name);
-  const onSave = () => {
+  const user = useAppSelector(selectCurrentLoginUser);
+  const [avatar, setAvatar] = useState<string>();
+
+  const avatars = Object.keys(Avatars).filter((key) => isNaN(Number(key)));
+  const avatarsArr = [];
+  avatarsArr.push(avatars);
+
+  const avatarSelect = (index: number) => {
+    setAvatar(index.toString());
+  };
+
+  const onSave = async () => {
     if (name) {
-      alert(name);
+      const requestData = {
+        name: name,
+        ownerId: user?.id,
+        member: {
+          name: user?.userName,
+          userId: user?.id,
+          emoji: Number(avatar),
+        },
+      };
+
+      const rawResponse = await fetch(
+        LocalIp + "/react-native-household-app/us-central1/webApi/household",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json,text/plain",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ requestData }),
+        }
+      );
+      console.log(rawResponse.status);
+      if (rawResponse.status === 200) {
+        console.log(rawResponse.status);
+      }
     } else {
       alert("APAPAP! Du måste ange ett namn");
     }
@@ -50,6 +94,27 @@ export default function AddHouseholdModal(props: Props) {
               label="Namn på hushållet"
               onChangeText={onChangeInput}
             />
+            <Text style={styles.modalText}> Välj en avatar:</Text>
+            <View style={styles.avatars}>
+              {avatars.map(function (name, index) {
+                return (
+                  <TouchableOpacity
+                    onPress={() => avatarSelect(index)}
+                    key={index}
+                  >
+                    <Text style={styles.avatar}>{name}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            <View>
+              <Text style={{ marginTop: 40, fontSize: 20 }}>
+                Vald avatar:
+                {avatar && (
+                  <Text style={styles.avatar}> {avatars[Number(avatar)]} </Text>
+                )}
+              </Text>
+            </View>
             <View style={styles.buttonsContainer}>
               <TouchableOpacity
                 onPress={() => onSave()}
@@ -82,9 +147,21 @@ export default function AddHouseholdModal(props: Props) {
 }
 
 const styles = StyleSheet.create({
+  avatarPressed: {
+    backgroundColor: "green",
+  },
+  avatar: {
+    fontSize: 26,
+    // marginTop: "50%",
+  },
+  avatars: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   input: {
     backgroundColor: "#ffff",
     width: "100%",
+    marginBottom: 15,
   },
   centeredView: {
     flex: 1,
@@ -102,7 +179,7 @@ const styles = StyleSheet.create({
   modalView: {
     // margin: 20,
     width: 300,
-    height: 300,
+    height: 500,
     backgroundColor: "#f2f2f2",
     borderRadius: 20,
     padding: 20,

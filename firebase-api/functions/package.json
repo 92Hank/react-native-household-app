@@ -16,7 +16,8 @@
         "start": "npm run shell",
         "deploy": "firebase deploy --only functions",
         "logs": "firebase functions:log",
-        "watch": "npm-watch"
+        "watch": "npm-watch",
+        "fire": "firebase serve -o 0.0.0.0"
     },
     "engines": {
         "node": "14"
