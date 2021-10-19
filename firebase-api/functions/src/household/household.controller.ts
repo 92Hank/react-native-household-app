@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {Request, Response} from "express";
 import {fb, FieldValue} from "../fb";
-
 
 const db = fb.firestore();
 db.settings({ignoreUndefinedProperties: true});
@@ -25,7 +25,7 @@ export const post = async (req: Request, res: Response) => {
           isOwner: true,
           emoji: req.body.member["emoji"],
           isPaused: false,
-          isAccepted: true,
+          AcceptedStatus: "accepted",
         },
       ],
       userIds: [req.body.member["userId"]],
@@ -35,9 +35,7 @@ export const post = async (req: Request, res: Response) => {
     const newDoc = await db.collection(householdCollection).add(household);
     res.status(201).send(`Created a new household: ${newDoc.id}`);
   } catch (error) {
-    res.status(400).send(
-        "Bad request: " + error
-    );
+    res.status(400).send("Bad request: " + error);
   }
 };
 
@@ -53,7 +51,10 @@ export const getHousehold = (req: Request, res: Response): void => {
       .catch((error) => res.status(500).send(error));
 };
 
-export const getUsersHouseholdsOnUserId = async (req: Request, res: Response): Promise<void> => {
+export const getUsersHouseholdsOnUserId = async (
+    req: Request,
+    res: Response
+): Promise<void> => {
   console.log("foo");
   const userId = req.params.userId;
   const households: FirebaseFirestore.DocumentData = [];
@@ -69,13 +70,15 @@ export const getUsersHouseholdsOnUserId = async (req: Request, res: Response): P
           data.id = s.id;
           households.push(data);
         });
-      }).then(() => {
+      })
+      .then(() => {
         if (!households) {
           res.status(400).json("no households for this user");
         } else {
           res.status(200).json(households);
         }
-      }).catch((error) => res.status(500).send(error));
+      })
+      .catch((error) => res.status(500).send(error));
 };
 
 export const joinHousehold = (req: Request, res: Response): void => {
@@ -88,7 +91,7 @@ export const joinHousehold = (req: Request, res: Response): void => {
     isOwner: false,
     emoji: req.body.member["emoji"],
     isPaused: false,
-    isAccepted: false,
+    AcceptedStatus: "pending",
   };
 
   const query = db.collection(householdCollection);
@@ -112,13 +115,14 @@ export const joinHousehold = (req: Request, res: Response): void => {
 };
 
 export const acceptMember = (req: Request, res: Response): void => {
-  const houseHoldId= req.body["houseHoldId"];
+  const houseHoldId = req.body["houseHoldId"];
   const userId = req.body["userId"];
   console.log(houseHoldId);
   console.log(userId);
 
   const ref = db.collection(householdCollection).doc(houseHoldId);
-  ref.get()
+  ref
+      .get()
       .then((query) => {
         let data = query.data();
       data?.member.forEach((m: any) => {
@@ -207,4 +211,165 @@ export const getHouseholdsOnInviteCode = async (
       .catch((error) => res.status(500).send(error));
 };
 
+export const changeNameOnHouseHold = (req: Request, res: Response): void => {
+  const houseHoldId = req.body["houseHoldId"];
+  const newName = req.body["name"];
+  db.collection(householdCollection)
+      .doc(houseHoldId)
+      .set(
+          {
+            name: newName,
+          },
+          {merge: true}
+      )
+      .then(() => {
+        res.status(200).json("Updated name on houseHold");
+      })
+      .catch((error) => res.status(500).send(error));
+};
 
+export const setMemberOnPauseHouseHold = (
+    req: Request,
+    res: Response
+): void => {
+  const houseHoldId = req.body["houseHoldId"];
+  const userId = req.body["userId"];
+
+  const ref = db.collection(householdCollection).doc(houseHoldId);
+  ref
+      .get()
+      .then((query) => {
+        let data = query.data();
+      data?.member.forEach((m: any) => {
+        if (m.userId === userId) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          query.ref
+              .update({
+                member: FieldValue.arrayRemove(m),
+              })
+              .then(() => {
+                m.isPaused = true;
+                query.ref
+                    .update({
+                      member: FieldValue.arrayUnion(m),
+                    })
+                    .then(() => {
+                      res.status(200).json("member is paused");
+                    })
+                    .catch(() => {
+                      res.status(400).json("could not update");
+                    });
+              });
+        }
+      });
+      })
+      .catch((error) => res.status(500).send(error.message));
+};
+
+export const memberLeaveHouseHold = (req: Request, res: Response): void => {
+  const houseHoldId = req.body["houseHoldId"];
+  const userId = req.body["userId"];
+
+  const ref = db.collection(householdCollection).doc(houseHoldId);
+  ref
+      .get()
+      .then((query) => {
+        let data = query.data();
+      data?.member.forEach((m: any) => {
+        if (m.userId === userId) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          query.ref
+              .update({
+                member: FieldValue.arrayRemove(m),
+              })
+              .then(() => {
+                query.ref
+                    .update({
+                      userId: FieldValue.arrayRemove(userId),
+                    })
+                    .then(() => {
+                      res.status(200).json("member left houseHold");
+                    });
+              })
+              .catch(() => {
+                res.status(400).json("could not remove");
+              });
+        } else {
+          res.status(400).json("member not found");
+        }
+      });
+      })
+      .catch((error) => res.status(500).send(error.message));
+};
+
+export const memberChangeName = (req: Request, res: Response): void => {
+  const houseHoldId = req.body["houseHoldId"];
+  const userId = req.body["userId"];
+  const newName = req.body["name"];
+
+  const ref = db.collection(householdCollection).doc(houseHoldId);
+  ref
+      .get()
+      .then((query) => {
+        let data = query.data();
+      data?.member.forEach((m: any) => {
+        if (m.userId === userId) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          query.ref
+              .update({
+                member: FieldValue.arrayRemove(m),
+              })
+              .then(() => {
+                m.name = newName;
+                query.ref
+                    .update({
+                      member: FieldValue.arrayUnion(m),
+                    })
+                    .then(() => {
+                      res.status(200).json("member name updated");
+                    })
+                    .catch(() => {
+                      res.status(400).json("could not update");
+                    });
+              });
+        }
+      });
+      })
+      .catch((error) => res.status(500).send(error.message));
+};
+
+export const memberChangeEmoji = (req: Request, res: Response): void => {
+  const houseHoldId = req.body["houseHoldId"];
+  const userId = req.body["userId"];
+  const newEmoji = req.body["emoji"];
+
+  const ref = db.collection(householdCollection).doc(houseHoldId);
+  ref
+      .get()
+      .then((query) => {
+        let data = query.data();
+      data?.member.forEach((m: any) => {
+        if (m.userId === userId) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          query.ref
+              .update({
+                member: FieldValue.arrayRemove(m),
+              })
+              .then(() => {
+                m.emoji = newEmoji;
+                query.ref
+                    .update({
+                      member: FieldValue.arrayUnion(m),
+                    })
+                    .then(() => {
+                      res.status(200).json("member emoji updated");
+                    })
+                    .catch(() => {
+                      res.status(400).json("could not update");
+                    });
+              });
+        }
+      });
+      })
+      .catch((error) => res.status(500).send(error.message));
+};

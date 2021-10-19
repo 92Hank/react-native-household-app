@@ -26,7 +26,7 @@ All information ska kommuniceras till och från en server. (VG) JA
 
 ### Hushåll (7) 
 Ett hushåll ska ha ett namn och en genererad (enkel) kod så andra kan gå med i hushållet, 
-namnet ska gå att ändra. * 
+namnet ska gå att ändra. * i hushåll > medlemmar gör man rop mot api
 Alla användare i ett hushåll ska kunna se vilka som tillhör ett hushåll. 
 En ägare av ett hushåll ska kunna se förfrågningar om att gå med i hushållet. 
 En ägare ska kunna acceptera eller neka förfrågningar. // byta isAccepted till accepted | pending | rejected .. ändra api
