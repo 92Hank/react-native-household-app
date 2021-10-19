@@ -10,14 +10,14 @@ import doneTask from "../../../Common/doneTask";
  * key: number          - Assigned by the component.
  * userId: string       - Retrieved from member.userId.
  * emoji: emoji         - Retrieved from member.emoji.
- * tasksDone: string[]  - Retrieved from doneTask.id.
+ * tasksDone: doneTask[]  - Retrieved from doneTask.id.
  * svg: {}              - Pre-determined, or else assigned by component.
  */
  export type MemberStatistics = {
     key: number,
     userId: string,
     emoji: emoji,
-    tasksDone: doneTask[],
+    doneTasks: doneTask[],
     svg: {
         fill: string,
         onPress: () => void

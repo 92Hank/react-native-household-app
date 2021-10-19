@@ -14,39 +14,67 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
 
     let allDoneTaskIdsArray: string[] = []; //pusha unika idn till array, OM de inte redan finns.
     data.forEach((member) => {
-        member.tasksDone.forEach((doneTask) => {
+        member.doneTasks.forEach((doneTask) => {
             allDoneTaskIdsArray.push(doneTask.id);
+            console.log("pushed" + doneTask.id)//TEEEEEEEEEEST
         })
     })
 
+
+    console.log("------------------------------")//TEEEEEEEEEEST
+
+
     allDoneTaskIdsArray.filter((taskId, index, self) => {
         self.indexOf(taskId) === index;
+        if (self.indexOf(taskId) === index) console.log(taskId)//TEEEEEEEEEEST
     })
 
+    /**
+     * Function to loop through the MemberStatistics data array and remove from
+     * it all household members not having the taskId in their doneTasks[] parameter.
+     *
+     * @param data 
+     * @param taskId 
+     * @returns {MemberStatistics[]}
+     */
+    const filterOutNonparticipantMembers = (data: MemberStatistics[], taskId: string) => {
+        let filteredMembers: MemberStatistics[] = [];
 
+        data.forEach((member) => {
+            member.doneTasks.filter((doneTask, index) => {
+                if (member.doneTasks[index].taskId == taskId)
+                    filteredMembers.push(member);
+            })
+        })
+
+        return filteredMembers;
+    }
 
     // 1. ta alla unika taskidn för done tasks från members
     // - loopa igenom en members taskDone, plocka ut idn, skicka in
     // - rensa upp icke-unika idn.
     // 2. skapa piecharts.
 
-    const smallPieCharts = allDoneTaskIdsArray
-        .map((taskId, index) => {
+    const generateSmallPieCharts = () => {
+        return allDoneTaskIdsArray.map((taskId, index) => {
+            console.log("taskId to child react:" + taskId) //TEST
+
             return (
                 <SmallPieChart
-                    data={data}
-                    specificTaskId={taskId}
+                    data={filterOutNonparticipantMembers(data, taskId)} //för en Task-Piechart där viss member har 0 value, ta bort från array!!!!!!!!!!!!
+                    specificTaskId={taskId} //detta måste stämma
                     key={index}
                 />
             );
         });
+    }
 
     return ( //lägg ut först stora piechart, sen för varje task som är gjord minst 1 gång under tidsperiod, alla små charts
         // om viss member har 0 på viss task, ta bort ur data somskkickas ner dit
 
         <>
             <PieChart data={data} />
-            {smallPieCharts}
+            {generateSmallPieCharts()}
         </>
 
     )

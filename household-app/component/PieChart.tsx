@@ -19,14 +19,14 @@ const PieChart: FC<Props> = ({ data }): React.ReactElement => {
             padAngle={0.01}
             valueAccessor={({ item }) => { //Piechart slice calculation.
                 let totalValue = 0;
-                for (let i = 0; i < item.tasksDone.length; i++) {
+                for (let i = 0; i < item.doneTasks.length; i++) {
                     // const doneTask = allTasks.find(task => task.id === item.tasksDone[i]);
                     // if (!doneTask || doneTask == undefined) return totalValue = 0;
 
                     // const valueOfTask = doneTask.value!;
                     // totalValue += valueOfTask;
 
-                    totalValue += item.tasksDone[i].value;
+                    totalValue += item.doneTasks[i].value;
 
                 }
 

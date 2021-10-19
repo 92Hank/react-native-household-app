@@ -20,8 +20,8 @@ const SmallPieChart: FC<Props> = ({ data, specificTaskId }): React.ReactElement 
             padAngle={0.01}
             valueAccessor={({ item }) => {
                 let totalValue = 0;
-                for (let i = 0; i < item.tasksDone.length; i++) {
-                    if (item.tasksDone[i].taskId == specificTaskId) totalValue += item.tasksDone[i].value!;
+                for (let i = 0; i < item.doneTasks.length; i++) {
+                    if (item.doneTasks[i].taskId == specificTaskId) totalValue += item.doneTasks[i].value!;
                 }
                 return totalValue;
             }}

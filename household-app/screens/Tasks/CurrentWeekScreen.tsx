@@ -14,25 +14,25 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
     const testTasksDone: doneTask[] = [
         {
             id: "1",
-            taskId: "101",
+            taskId: "1",
             memberId: [1, 2, 3],
             dateDone: dagensDatum,
             value: 2,
         }, {
             id: "2",
-            taskId: "102",
+            taskId: "2",
             memberId: [2, 3],
             dateDone: dagensDatum,
             value: 2,
         }, {
             id: "3",
-            taskId: "103",
+            taskId: "3",
             memberId: [2, 3],
             dateDone: dagensDatum,
             value: 2,
         }, {
             id: "4",
-            taskId: "500",
+            taskId: "4",
             memberId: [4],
             dateDone: dagensDatum,
             value: 10,
@@ -44,17 +44,18 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
             key: 1,
             userId: "1",
             emoji: "🐙",
-            tasksDone: [testTasksDone[0]], //0
+            doneTasks: [testTasksDone[0]], //0
             svg: {
                 fill: '#600080',
-                onPress: () => console.log('USER1'),
+                onPress: () => console.log('USER1')
+
             },
         },
         { //DETTA ÄR EN USER
             key: 2,
             userId: "2",
             emoji: "🦊",
-            tasksDone: [testTasksDone[1], testTasksDone[2]], //2+2=4
+            doneTasks: [testTasksDone[1], testTasksDone[2]], //2+2=4
             svg: {
                 fill: 'green',
                 onPress: () => console.log('USER2'),
@@ -64,7 +65,7 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
             key: 3,
             userId: "3",
             emoji: "🐸",
-            tasksDone: [testTasksDone[1], testTasksDone[2]], //2+2=4
+            doneTasks: [testTasksDone[1], testTasksDone[2]], //2+2=4
             svg: {
                 fill: 'blue',
                 onPress: () => console.log('USER3'),
@@ -74,7 +75,7 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
             key: 4,
             userId: "999", //4
             emoji: "🦄",
-            tasksDone: [testTasksDone[3]],
+            doneTasks: [testTasksDone[3]],
             svg: {
                 fill: 'red',
                 onPress: () => console.log('USER4'),
