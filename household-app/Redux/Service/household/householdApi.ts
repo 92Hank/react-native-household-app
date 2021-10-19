@@ -39,15 +39,15 @@ export const householdApi = createApi({
       providesTags: (result, error, arg) =>
         result
           ? [
-              ...result.map(({ inviteCode }) => ({
+              ...result.map(({ id }) => ({
                 type: "Household" as const,
-                inviteCode,
+                id,
               })),
               "Household",
             ]
           : ["Household"],
     }),
-    
+
     GetHouseholdByInviteCode: builder.query<household, string>({
       query: (body) => ({
         url: `/` + body,
@@ -65,7 +65,7 @@ export const householdApi = createApi({
           ? [
               {
                 type: "Household" as const,
-                id: result.inviteCode,
+                id: result.id,
               },
               "Household",
             ]
@@ -81,7 +81,7 @@ export const householdApi = createApi({
       }),
 
       invalidatesTags: (result, error, arg) => [
-        { type: "Household", id: arg.inviteCode },
+        { type: "Household", id: arg.houseHoldId },
       ],
     }),
 
@@ -93,7 +93,9 @@ export const householdApi = createApi({
         body,
       }),
 
-      invalidatesTags: (result, error, arg) => [{ type: "Household" }],
+      invalidatesTags: (result, error, arg) => [
+        { type: "Household", id: arg.houseHoldId },
+      ],
     }),
 
     MakeUserToOwner: builder.mutation<string, householdAcceptOrMakeOwner>({
@@ -104,7 +106,9 @@ export const householdApi = createApi({
         body,
       }),
 
-      invalidatesTags: (result, error, arg) => [{ type: "Household" }],
+      invalidatesTags: (result, error, arg) => [
+        { type: "Household", id: arg.houseHoldId },
+      ],
     }),
   }),
 });
