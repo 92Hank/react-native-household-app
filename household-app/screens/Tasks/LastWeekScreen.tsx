@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, View } from "react-native";
 import task from "../../../Common/Task";
 import PieChart from "../../component/PieChart";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { MemberStatistics } from "./MemberStatistics";
+import { MemberStatistics } from "./memberStatistics";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 

@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, View } from "react-native";
 import task from "../../../Common/Task";
 import PieChart from "../../component/PieChart";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { MemberStatistics } from "./MemberStatistics";
+import { MemberStatistics } from "./memberStatistics";
 
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
@@ -23,7 +23,7 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
           key: 1,
           userId: "1",
           emoji: "🐙",
-          tasksDone: ["100", "101", "102"],
+          tasksDone: [], //0
           svg: {
               fill: '#600080',
               onPress: () => console.log('USER1'),
@@ -33,7 +33,7 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
           key: 2,
           userId: "2",
           emoji: "🦊",
-          tasksDone: ["100", "101"],
+          tasksDone: ["100", "101"], //2+2=4
           svg: {
               fill: 'green',
               onPress: () => console.log('USER2'),
@@ -43,7 +43,7 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
           key: 3,
           userId: "3",
           emoji: "🐸",
-          tasksDone: ["100", "500"],
+          tasksDone: ["100", "500"], //10
           svg: {
               fill: 'blue',
               onPress: () => console.log('USER3'),
@@ -51,7 +51,7 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
       },
       { //DETTA ÄR EN USER
           key: 4,
-          userId: "999",
+          userId: "999", //4
           emoji: "🦄",
           tasksDone: ["102"],
           svg: {

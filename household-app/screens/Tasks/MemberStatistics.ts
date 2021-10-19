@@ -1,11 +1,14 @@
 import { emoji } from "../../../Common/member";
 
 /**
- * key: number - assigned by the component.
- * userId: string - equals member.userId.
- * emoji: - equals member.emoji.
- * tasksDone: string[] - equals doneTask.id.
- * svg: {} is pre-determined.
+ * Values for the following properties are to be retrieved from the
+ * database or otherwise assigned by the implementing component.
+ * 
+ * key: number          - Assigned by the component.
+ * userId: string       - Retrieved from member.userId.
+ * emoji: emoji         - Retrieved from member.emoji.
+ * tasksDone: string[]  - Retrieved from doneTask.id.
+ * svg: {}              - Pre-determined, or else assigned by component.
  */
  export type MemberStatistics = {
     key: number,
