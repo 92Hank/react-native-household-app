@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { View, TouchableOpacity, FlatList } from "react-native";
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
 import UserListComponent from "../../component/taskFolder/UserListComponent";
 import styles from "../Household/styles";
 import ChangeMemberStatusModal from "../../component/householdComponents/changeMemberStatusModal/changeMemberStatusModal"
+import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import { defineAnimation } from "react-native-reanimated";
 
+type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
 
-export default function UsersInHouseHoldScreen( ) {
+const UsersInHouseHoldScreen: FC<Props> = ({
+  navigation,
+}: Props): React.ReactElement =>{
   const [modalOpen, setModalOpen] = useState(false);
   const [member, setSetMember] = useState<fullMemberInfo>();
 
@@ -48,6 +53,8 @@ export default function UsersInHouseHoldScreen( ) {
       </View>
     );
 }
+
+export default UsersInHouseHoldScreen;
 
 const members: fullMemberInfo[] = [
   {
