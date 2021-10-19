@@ -1,27 +1,10 @@
 import React, { FC } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
-import PieChart from "../../component/PieChart";
 import task from "../../../Common/Task";
+import PieChart from "../../component/PieChart";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { emoji } from '../../../Common/member'
+import { MemberStatistics } from "./MemberStatistics";
 
-/**
- * key: number - assigned by the component.
- * userId: string - equals member.userId.
- * emoji: - equals member.emoji.
- * tasksDone: string[] - equals doneTask.id.
- * svg: {} is pre-determined.
- */
- export type MemberStatistics = {
-    key: number,
-    userId: string,
-    emoji: emoji,
-    tasksDone: string[],
-    svg: {
-        fill: string,
-        onPress: () => void
-    },
-}
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
