@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import task from "../../../Common/Task";
-import PieChart from "../../component/PieChart";
+import StatisticsCharts from "../../component/StatisticsCharts";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { MemberStatistics } from "./memberStatistics";
 
@@ -64,7 +64,7 @@ const LastWeekScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =>
   return (
       <SafeAreaView>
           <View>
-              <PieChart data={data} allTasks={allTasks} />
+              <StatisticsCharts data={data} allTasks={allTasks} />
           </View>
       </SafeAreaView>
   )
