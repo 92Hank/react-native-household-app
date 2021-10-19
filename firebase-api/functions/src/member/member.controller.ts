@@ -18,7 +18,7 @@ export const postMember = async (req: Request, res: Response) => {
       emoji: req.body["emoji"],
       isPaused: false,
       isOwner: req.body["isOwner"],
-      value: 0,
+      // value: 0,
       isAccepted: false,
     };
 
