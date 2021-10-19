@@ -2,7 +2,7 @@ export default interface member {
   id: string;
   householdId: string;
   userId: string;
-  emoji: emoji;
+  emoji: "🦊" | "🐷" | "🐸" | "🐥" | "🐙" | "🐬" | "🦉" | "🦄";
   role: "Admin" | "User";
   paused: boolean;
 }
