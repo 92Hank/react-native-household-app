@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  FlatList,
   KeyboardAvoidingView,
   Modal,
   Platform,
@@ -17,6 +18,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
 import CircleButtonGroup from "../circleButtonGroup/circleButtonGroup";
+import ListItem from "../taskDayListItem/taskDayListItem";
 
 interface Props {
   isOpen: boolean;
@@ -59,6 +61,7 @@ const ModalComponent: React.FC<Props> = ({
   const [id, setId] = useState<string>();
   const [description, setDescription] = useState<string>();
   const [isClicked, setIsClicked] = useState(true);
+  const [isClickedDays, setIsClickedDays] = useState(true);
 
   const onChangeInputId = (id: string) => setId(id);
   const onChangeInputDescription = (description: string) =>
@@ -78,7 +81,13 @@ const ModalComponent: React.FC<Props> = ({
     //do some stuff here
   };
 
-  return !isClicked ? (
+  const onPressDays = (event: any) => {
+    console.log("onPress works fine");
+    setIsClickedDays(true);
+    //do some stuff here
+  };
+
+  return !isClicked || !isClickedDays ? (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -141,7 +150,7 @@ const ModalComponent: React.FC<Props> = ({
                       <Card style={styles.inputsCard}>
                         <Card.Content>
                           <View style={styles.clickedDay}>
-                            <View style={styles.clickedDayTitle}>
+                            {/* <View style={styles.clickedDayTitle}>
                               <Text style={styles.buttonText}>
                                 Återkommer:{" "}
                               </Text>
@@ -157,7 +166,23 @@ const ModalComponent: React.FC<Props> = ({
                                 </Text>
                               </TouchableOpacity>
                               <Text style={{ marginLeft: 3 }}>dag</Text>
-                            </View>
+                            </View> */}
+
+                            <ListItem
+                              days={[
+                                "1",
+                                "2",
+                                "3",
+                                "4",
+                                "5",
+                                "6",
+                                "7",
+                                "8",
+                                "9",
+                              ]}
+                              onPressDays={onPressDays}
+                              event={event}
+                            />
                           </View>
                         </Card.Content>
                       </Card>
@@ -276,7 +301,9 @@ const ModalComponent: React.FC<Props> = ({
                               <Text style={{ marginRight: 3 }}>Var</Text>
                               <TouchableOpacity
                                 style={styles.circleButton}
-                                onPress={() => alert("your added value")}
+                                onPress={() => {
+                                  setIsClickedDays(false);
+                                }}
                               >
                                 <Text style={styles.circleBtnText}>
                                   {recurring}
@@ -284,6 +311,13 @@ const ModalComponent: React.FC<Props> = ({
                               </TouchableOpacity>
                               <Text style={{ marginLeft: 3 }}>dag</Text>
                             </View>
+                            {/* <View style={styles.clickedDayTitle}>
+                            <ListItem
+                              days={["1", "2", "3", "4", "5", "6", "7", "8", "9"]}
+                              onPress={onPress}
+                              event={event}
+                            />
+                            </View> */}
                           </View>
                         </Card.Content>
                       </Card>
