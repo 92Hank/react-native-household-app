@@ -24,7 +24,6 @@ export const post = async (req: Request, res: Response) => {
           name: req.body.member["name"],
           isOwner: true,
           emoji: req.body.member["emoji"],
-          value: 0,
           isPaused: false,
           isAccepted: true,
         },
@@ -87,7 +86,6 @@ export const joinHousehold = (req: Request, res: Response): void => {
     userId: req.body.member["userId"],
     isOwner: false,
     emoji: req.body.member["emoji"],
-    value: 0,
     isPaused: false,
     isAccepted: false,
   };
