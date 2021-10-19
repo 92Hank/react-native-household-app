@@ -5,7 +5,6 @@ import StatisticsCharts from "../../component/StatisticsCharts";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { MemberStatistics } from "./memberStatistics";
 
-
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {

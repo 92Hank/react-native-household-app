@@ -31,7 +31,7 @@ const PieChartLabels = ({ slices }: LabelProps) => {
                         <Text
                             key={index}
                             x={pieCentroid[0]}
-                            y={pieCentroid[1]}
+                            y={slices!.length > 1 ? pieCentroid[1] : Number(pieCentroid[1]) - 50}
                             fill={'white'}
                             textAnchor={'middle'}
                             alignmentBaseline={'middle'}

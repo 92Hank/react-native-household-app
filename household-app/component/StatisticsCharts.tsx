@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { View } from 'react-native';
 import PieChart from "../component/PieChart";
 import { MemberStatistics } from "../screens/Tasks/memberStatistics";
 import SmallPieChart from './SmallPieChart';
@@ -69,14 +70,13 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
         });
     }
 
-    return ( //lägg ut först stora piechart, sen för varje task som är gjord minst 1 gång under tidsperiod, alla små charts
-        // om viss member har 0 på viss task, ta bort ur data somskkickas ner dit
-
+    return (
         <>
             <PieChart data={data} />
-            {generateSmallPieCharts()}
+            <View>
+                {generateSmallPieCharts()}
+            </View>
         </>
-
     )
 };
 
