@@ -1,4 +1,5 @@
 export default interface household {
+  id:string
   name: string;
   ownerId: string;
   member: fullMemberInfo[];
