@@ -1,4 +1,4 @@
-POST http://localhost:5000/react-native-household-app/us-central1/webApi/household
+POST http://192.168.1.240:5001/react-native-household-app/us-central1/webApi/household
 Content-Type: application/json
 
 {
@@ -11,6 +11,7 @@ Content-Type: application/json
     }
 
 }
+
 
 ###
 // Join household/inviteCode
