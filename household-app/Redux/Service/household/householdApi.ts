@@ -47,6 +47,7 @@ export const household = createApi({
             ]
           : ["Household"],
     }),
+    
     GetHouseholdByInviteCode: builder.query<household, string>({
       query: (body) => ({
         url: `/` + body,
@@ -83,6 +84,7 @@ export const household = createApi({
         { type: "Household", id: arg.inviteCode },
       ],
     }),
+
     AcceptUser: builder.mutation<string, householdAcceptOrMakeOwner>({
       query: (body) => ({
         url: `/accept`,
@@ -93,6 +95,7 @@ export const household = createApi({
 
       invalidatesTags: (result, error, arg) => [{ type: "Household" }],
     }),
+
     MakeUserToOwner: builder.mutation<string, householdAcceptOrMakeOwner>({
       query: (body) => ({
         url: `/owner`,
