@@ -9,46 +9,74 @@ import {
   View,
 } from "react-native";
 import { TextInput } from "react-native-paper";
-import household from "../../../../Common/household";
+import { LocalIp, webUrl } from "../../../Redux/Config";
+import household, {
+  householdJoin,
+} from "../../../Redux/entity/householdRequestType";
 
 interface Props {
   isOpen: boolean;
   handleModalClose: () => void;
 }
 
+// GÖR DOM STÖRRE
+enum Avatars {
+  "🦊" = 1,
+  "🐷" = 2,
+  "🐸" = 3,
+  "🐥" = 4,
+  "🐙" = 5,
+  "🐬" = 6,
+  "🦉" = 7,
+  "🦄" = 8,
+}
+
 export default function JoinHouseholdModal(props: Props) {
   const [code, setCode] = useState<string>();
   const onChangeInput = (code: string) => setCode(code);
   const [codeSubmitted, setCodeSubmitted] = useState(false);
+  const [avatar, setAvatar] = useState<string>();
+  const [avatarIndex, setAvatarIndex] = useState<number>();
+  const [household, setHousehold] = useState<household>();
+  const [emojis, setAvatars] = useState<string[]>();
 
-  // Ersätt med data från db
-  const household: household = {
-    name: "Stugan",
+  let avatars = Object.keys(Avatars).filter((key) => !isNaN(Number(key)));
+  let existingAvatars: Avatars[] = [];
+
+  const avatarSelect = (index: number) => {
+    setAvatarIndex(index);
+    let selectedAvatar = Avatars[index];
+    setAvatar(selectedAvatar);
   };
 
-  enum Avatars {
-    "🦊" = 1,
-    "🐷" = 2,
-    "🐸" = 3,
-    "🐥" = 4,
-    "🐙" = 5,
-    "🐬" = 6,
-    "🦉" = 7,
-    "🦄" = 8,
-  }
-
-  interface avatar {
-    avatar: string;
-  }
-
-  const keys = Object.keys(Avatars).filter((key) => isNaN(Number(key)));
-
-  const avatars = [];
-  avatars.push(keys);
-
-  const onSave = () => {
+  const onSubmit = async () => {
     if (code) {
-      setCodeSubmitted(true);
+      const rawResponse = await fetch(
+        `${webUrl}/household/invitecode/${code}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json,text/plain",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (rawResponse.status === 200) {
+        setCodeSubmitted(true);
+
+        const foundHousehold: household = await rawResponse.json();
+        foundHousehold.member.forEach((element) => {
+          existingAvatars.push(element.emoji);
+        });
+        avatars = avatars.filter(
+          (val) => !existingAvatars.includes(Number(val))
+        );
+        setAvatars(avatars);
+
+        setHousehold(foundHousehold);
+      } else {
+        alert("Inget hushåll hittat");
+      }
     } else {
       alert("APAPAP! Du måste ange en kod");
     }
@@ -56,6 +84,7 @@ export default function JoinHouseholdModal(props: Props) {
 
   function onApply(): void {
     alert("Ansöker");
+    console.log(avatarIndex);
   }
 
   return (
@@ -85,9 +114,10 @@ export default function JoinHouseholdModal(props: Props) {
                 label="Hushållskod"
                 onChangeText={onChangeInput}
               />
+
               <View style={styles.buttonsContainer}>
                 <TouchableOpacity
-                  onPress={() => onSave()}
+                  onPress={() => onSubmit()}
                   style={styles.saveButton}
                 >
                   <MaterialIcons
@@ -95,7 +125,7 @@ export default function JoinHouseholdModal(props: Props) {
                     size={30}
                     color="black"
                   />
-                  <Text style={styles.buttonText}>Gå med</Text>
+                  <Text style={styles.buttonText}>Sök</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={props.handleModalClose}
@@ -126,25 +156,28 @@ export default function JoinHouseholdModal(props: Props) {
               props.isOpen ? styles.centeredViewBlurred : styles.centeredView,
             ]}
           >
-            <View style={styles.modalView}>
+            <View style={styles.modalRequestView}>
               <Text style={styles.modalText}>{code}</Text>
-              <Text style={styles.modalText}>{household.name}</Text>
-              {/* <TextInput
-                theme={{ roundness: 10 }}
-                outlineColor="white"
-                mode="outlined"
-                style={styles.input}
-                value={code}
-                label="Hushållskod"
-                onChangeText={onChangeInput}
-              /> */}
-
-              <View>
-                {/* <Text>Välj en avatar: </Text>
-                <Text style = {styles.avatars}>{keys}</Text> */}
-                {avatars.map(function (name, index) {
-                  return <Text key={index}>{name}</Text>;
+              <Text style={styles.modalText}>{household?.name}</Text>
+              <Text style={styles.modalText}>{household?.ownerId}</Text>
+              <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
+              <View style={styles.avatars}>
+                {emojis?.map(function (name, index) {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => avatarSelect(Number(name))}
+                      key={index}
+                    >
+                      <Text style={styles.avatar}>{Avatars[Number(name)]}</Text>
+                    </TouchableOpacity>
+                  );
                 })}
+              </View>
+              <View>
+                <Text style={{ marginTop: 40, fontSize: 20 }}>
+                  Vald avatar:
+                  {avatar && <Text style={styles.avatar}> {avatar} </Text>}
+                </Text>
               </View>
               <View style={styles.buttonsContainer}>
                 <TouchableOpacity
@@ -159,7 +192,11 @@ export default function JoinHouseholdModal(props: Props) {
                   <Text style={styles.buttonText}>Ansök</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={props.handleModalClose}
+                  onPress={() => {
+                    props.handleModalClose();
+                    setCodeSubmitted(false);
+                    setCode("");
+                  }}
                   style={styles.closeButton}
                 >
                   <MaterialCommunityIcons
@@ -179,8 +216,13 @@ export default function JoinHouseholdModal(props: Props) {
 }
 
 const styles = StyleSheet.create({
+  avatars: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   avatar: {
-    justifyContent: "space-around",
+    fontSize: 26,
+    // marginTop: "50%",
   },
   input: {
     backgroundColor: "#ffff",
@@ -199,6 +241,23 @@ const styles = StyleSheet.create({
     marginTop: 22,
     backgroundColor: "rgba(0,0,0,0.5)",
   },
+  modalRequestView: {
+    width: 300,
+    height: 500,
+    backgroundColor: "#f2f2f2",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+
   modalView: {
     // margin: 20,
     width: 300,

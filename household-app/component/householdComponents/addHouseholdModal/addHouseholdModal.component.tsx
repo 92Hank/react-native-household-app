@@ -2,11 +2,9 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-paper";
-import household from "../../../../Common/household";
-import { LocalIp } from "../../../Redux/Config";
+import { LocalIp, webUrl } from "../../../Redux/Config";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
-import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 
 interface Props {
   isOpen: boolean;
@@ -48,7 +46,7 @@ export default function AddHouseholdModal(props: Props) {
       };
 
       const rawResponse = await fetch(
-        LocalIp + "/react-native-household-app/us-central1/webApi/household",
+        `${webUrl}/household/`,
         {
           method: "POST",
           body: JSON.stringify(requestData),
@@ -93,7 +91,7 @@ export default function AddHouseholdModal(props: Props) {
               label="Namn på hushållet"
               onChangeText={onChangeInput}
             />
-            <Text style={styles.modalText}> Välj en avatar:</Text>
+            <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
             <View style={styles.avatars}>
               {avatars.map(function (name, index) {
                 return (
