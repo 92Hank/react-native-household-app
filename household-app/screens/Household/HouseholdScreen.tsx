@@ -30,9 +30,9 @@ const HouseholdScreen: FC<Props> = ({
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentLoginUser);
 
-  useEffect(() => {
-    if (!user) navigation.navigate(MainRoutes.LoginScreen);
-  }, [user])
+  // useEffect(() => {
+  //   if (!user) navigation.navigate(MainRoutes.LoginScreen);
+  // }, [user])
 
 
   const clickOnHousehold = () => {

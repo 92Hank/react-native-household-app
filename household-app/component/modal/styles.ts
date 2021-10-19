@@ -223,11 +223,63 @@ const styles = StyleSheet.create({
   input2TextColor: {
     color: "gray",
   },
+  clickedDay: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  clickedDayReturn: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+  },
+  clickedDayTitle: {
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    flexDirection: "column",
+  },
+  clickedDayTitleSub: {
+    color: "gray",
+    fontSize: 14,
+    justifyContent: "center",
+    textAlign: "center",
+  },
   buttonText: {
     color: "black",
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
-    marginLeft: 15,
+  },
+  circleButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 100,
+    backgroundColor: "#CD5C5C",
+    margin: 2,
+  },
+  circleButtonValue: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 100,
+    backgroundColor: "#f2f2f2",
+    margin: 2,
+  },
+  circleBtnText: {
+    color: "white",
+    fontSize: 20,
+    justifyContent: "center",
+    textAlign: "center",
+  },
+  circleBtnTextValue: {
+    color: "black",
+    fontSize: 20,
+    justifyContent: "center",
+    textAlign: "center",
   },
 });
 
