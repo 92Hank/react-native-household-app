@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import PieChart from "../../component/PieChart";
-import task from "../../../Common/Task";
+import task from "../../../Common(obsolete)/Task";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 /**

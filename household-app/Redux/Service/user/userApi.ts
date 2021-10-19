@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { LocalIp } from "../../Config";
-import user from "./User";
+import user from "../../entity/User";
 
 export const userApi = createApi({
   reducerPath: "userApi",

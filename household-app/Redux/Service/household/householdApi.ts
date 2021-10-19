@@ -1,38 +1,29 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { LocalIp } from "../../Config";
-import { userApi } from "../user/userApi";
-import household from "./household";
+import { webUrl } from "../../Config";
+import household, {
+  householdAcceptOrMakeOwner,
+  householdCreate,
+  householdJoin,
+} from "../../entity/householdRequestType";
 
 export const household = createApi({
   reducerPath: "household",
   baseQuery: fetchBaseQuery({
-    baseUrl:
-      LocalIp + "/react-native-household-app/us-central1/webApi/household",
+    baseUrl: webUrl + "household",
   }),
   tagTypes: ["Household"],
   endpoints: (builder) => ({
-    createHousehold: builder.mutation<household, household>({
+    createHousehold: builder.mutation<string, householdCreate>({
       query: (body) => ({
         url: `/`,
         method: "POST",
-        responseHandler: (response) => {
-          if (response.status !== 201) {
-            return response.text();
-          } else {
-            return response.json();
-          }
-        },
+        responseHandler: "text",
         body,
       }),
-      transformResponse(response: household) {
-        console.log("response", response);
-        return response;
-      },
 
-      invalidatesTags: (result, error, arg) => [
-        { type: "Household", id: arg.id },
-      ],
+      invalidatesTags: (result, error, arg) => [{ type: "Household" }],
     }),
+
     GetHouseholdByUserId: builder.query<household[], string>({
       query: (body) => ({
         url: `/` + body,
@@ -45,20 +36,81 @@ export const household = createApi({
           }
         },
       }),
-      transformResponse(response: household[]) {
-        console.log("response", response);
-        return response;
-      },
       providesTags: (result, error, arg) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Household" as const, id })),
+              ...result.map(({ inviteCode }) => ({
+                type: "Household" as const,
+                inviteCode,
+              })),
               "Household",
             ]
           : ["Household"],
     }),
+    GetHouseholdByInviteCode: builder.query<household, string>({
+      query: (body) => ({
+        url: `/` + body,
+        method: "GET",
+        responseHandler: (response) => {
+          if (response.status !== 200) {
+            return response.text();
+          } else {
+            return response.json();
+          }
+        },
+      }),
+      providesTags: (result, error, arg) =>
+        result
+          ? [
+              {
+                type: "Household" as const,
+                id: result.inviteCode,
+              },
+              "Household",
+            ]
+          : ["Household"],
+    }),
+
+    JoinHousehold: builder.mutation<string, householdJoin>({
+      query: (body) => ({
+        url: `/join`,
+        method: "POST",
+        responseHandler: "text",
+        body,
+      }),
+
+      invalidatesTags: (result, error, arg) => [
+        { type: "Household", id: arg.inviteCode },
+      ],
+    }),
+    AcceptUser: builder.mutation<string, householdAcceptOrMakeOwner>({
+      query: (body) => ({
+        url: `/accept`,
+        method: "PATCH",
+        responseHandler: "text",
+        body,
+      }),
+
+      invalidatesTags: (result, error, arg) => [{ type: "Household" }],
+    }),
+    MakeUserToOwner: builder.mutation<string, householdAcceptOrMakeOwner>({
+      query: (body) => ({
+        url: `/owner`,
+        method: "PATCH",
+        responseHandler: "text",
+        body,
+      }),
+
+      invalidatesTags: (result, error, arg) => [{ type: "Household" }],
+    }),
   }),
 });
 
-export const { useCreateHouseholdMutation, useGetHouseholdByUserIdQuery } =
-  household;
+export const {
+  useCreateHouseholdMutation,
+  useGetHouseholdByUserIdQuery,
+  useJoinHouseholdMutation,
+  useGetHouseholdByInviteCodeQuery,
+  useAcceptUserMutation,
+  useMakeUserToOwnerMutation,
+} = household;

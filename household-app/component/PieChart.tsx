@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { PieChart as ImportedPieChart } from 'react-native-svg-charts';
-import task from '../../Common/Task';
+import task from '../../Common(obsolete)/Task';
 import { MemberStatistics } from "../screens/Tasks/CurrentWeekScreen";
 import PieChartLabels from './PieChartLabels';
 

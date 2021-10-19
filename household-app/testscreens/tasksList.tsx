@@ -1,6 +1,6 @@
 import React  from "react";
 import { FlatList, SafeAreaView } from "react-native";
-import Task from "../../Common/Entity/Task";
+import Task from "../../Common(obsolete)/Entity/Task";
 import TaskItem from "../component/taskFolder/taskItem";
 
 
