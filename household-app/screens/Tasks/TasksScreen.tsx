@@ -38,7 +38,8 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
   };
 
   const onPressEditTasks = () => {
-    alert("Edit");
+    console.log("navigate")
+    // navigation.navigate(MainRoutes.UsersInHouseHoldScreen)
   };
  
   return (
@@ -78,7 +79,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
             style={styles.householdButton}
           >
             <Feather name="edit-2" size={30} color="black" />
-            <Text style={styles.householdButtonText}>Edit</Text>
+            <Text style={styles.householdButtonText}>Medlemmar</Text>
           </TouchableOpacity>
         </View>
       </View>

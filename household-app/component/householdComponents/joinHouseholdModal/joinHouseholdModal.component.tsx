@@ -1,7 +1,15 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { TextInput } from "react-native-paper";
+import household from "../../../../Common/household";
 
 interface Props {
   isOpen: boolean;
@@ -11,72 +19,169 @@ interface Props {
 export default function JoinHouseholdModal(props: Props) {
   const [code, setCode] = useState<string>();
   const onChangeInput = (code: string) => setCode(code);
+  const [codeSubmitted, setCodeSubmitted] = useState(false);
+
+  // Ersätt med data från db
+  const household: household = {
+    name: "Stugan",
+  };
+
+  enum Avatars {
+    "🦊" = 1,
+    "🐷" = 2,
+    "🐸" = 3,
+    "🐥" = 4,
+    "🐙" = 5,
+    "🐬" = 6,
+    "🦉" = 7,
+    "🦄" = 8,
+  }
+
+  interface avatar {
+    avatar: string;
+  }
+
+  const keys = Object.keys(Avatars).filter((key) => isNaN(Number(key)));
+
+  const avatars = [];
+  avatars.push(keys);
+
   const onSave = () => {
     if (code) {
-      alert(code);
+      setCodeSubmitted(true);
     } else {
       alert("APAPAP! Du måste ange en kod");
     }
   };
 
+  function onApply(): void {
+    alert("Ansöker");
+  }
+
   return (
     <View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={props.isOpen}
-        onRequestClose={() => {
-          props.isOpen;
-        }}
-      >
-        <View
-          style={[
-            props.isOpen ? styles.centeredViewBlurred : styles.centeredView,
-          ]}
+      {!codeSubmitted ? (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={props.isOpen}
+          onRequestClose={() => {
+            props.isOpen;
+          }}
         >
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Ange hushållskod: </Text>
-            <TextInput
-              theme={{ roundness: 10 }}
-              outlineColor="white"
-              mode="outlined"
-              style={styles.input}
-              value={code}
-              label="Hushållskod"
-              onChangeText={onChangeInput}
-            />
-            <View style={styles.buttonsContainer}>
-              <TouchableOpacity
-                onPress={() => onSave()}
-                style={styles.saveButton}
-              >
-                <MaterialIcons
-                  name="add-circle-outline"
-                  size={30}
-                  color="black"
-                />
-                <Text style={styles.buttonText}>Gå med</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={props.handleModalClose}
-                style={styles.closeButton}
-              >
-                <MaterialCommunityIcons
-                  name="close-circle-outline"
-                  size={30}
-                  color="black"
-                />
-                <Text style={styles.buttonText}>Stäng</Text>
-              </TouchableOpacity>
+          <View
+            style={[
+              props.isOpen ? styles.centeredViewBlurred : styles.centeredView,
+            ]}
+          >
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Ange hushållskod: </Text>
+              <TextInput
+                theme={{ roundness: 10 }}
+                outlineColor="white"
+                mode="outlined"
+                style={styles.input}
+                value={code}
+                label="Hushållskod"
+                onChangeText={onChangeInput}
+              />
+              <View style={styles.buttonsContainer}>
+                <TouchableOpacity
+                  onPress={() => onSave()}
+                  style={styles.saveButton}
+                >
+                  <MaterialIcons
+                    name="add-circle-outline"
+                    size={30}
+                    color="black"
+                  />
+                  <Text style={styles.buttonText}>Gå med</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={props.handleModalClose}
+                  style={styles.closeButton}
+                >
+                  <MaterialCommunityIcons
+                    name="close-circle-outline"
+                    size={30}
+                    color="black"
+                  />
+                  <Text style={styles.buttonText}>Stäng</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      ) : (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={props.isOpen}
+          onRequestClose={() => {
+            props.isOpen;
+          }}
+        >
+          <View
+            style={[
+              props.isOpen ? styles.centeredViewBlurred : styles.centeredView,
+            ]}
+          >
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>{code}</Text>
+              <Text style={styles.modalText}>{household.name}</Text>
+              {/* <TextInput
+                theme={{ roundness: 10 }}
+                outlineColor="white"
+                mode="outlined"
+                style={styles.input}
+                value={code}
+                label="Hushållskod"
+                onChangeText={onChangeInput}
+              /> */}
+
+              <View>
+                {/* <Text>Välj en avatar: </Text>
+                <Text style = {styles.avatars}>{keys}</Text> */}
+                {avatars.map(function (name, index) {
+                  return <Text key={index}>{name}</Text>;
+                })}
+              </View>
+              <View style={styles.buttonsContainer}>
+                <TouchableOpacity
+                  onPress={() => onApply()}
+                  style={styles.saveButton}
+                >
+                  <MaterialIcons
+                    name="add-circle-outline"
+                    size={30}
+                    color="black"
+                  />
+                  <Text style={styles.buttonText}>Ansök</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={props.handleModalClose}
+                  style={styles.closeButton}
+                >
+                  <MaterialCommunityIcons
+                    name="close-circle-outline"
+                    size={30}
+                    color="black"
+                  />
+                  <Text style={styles.buttonText}>Avbryt</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  avatar: {
+    justifyContent: "space-around",
+  },
   input: {
     backgroundColor: "#ffff",
     width: "100%",
