@@ -6,7 +6,7 @@ import household, {
   householdJoin,
 } from "../../entity/householdRequestType";
 
-export const household = createApi({
+export const householdApi = createApi({
   reducerPath: "household",
   baseQuery: fetchBaseQuery({
     baseUrl: webUrl + "household",
@@ -116,4 +116,4 @@ export const {
   useGetHouseholdByInviteCodeQuery,
   useAcceptUserMutation,
   useMakeUserToOwnerMutation,
-} = household;
+} = householdApi;

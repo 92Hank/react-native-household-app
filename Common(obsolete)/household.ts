@@ -1,5 +1,5 @@
-export default interface household {
-  id?: string;
-  name?: string;
-  JoinCode?: number;
-}
+// export default interface household {
+//   id?: string;
+//   name?: string;
+//   JoinCode?: number;
+// }

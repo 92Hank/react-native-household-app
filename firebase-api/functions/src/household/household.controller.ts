@@ -65,7 +65,8 @@ export const getUsersHouseholdsOnUserId = async (req: Request, res: Response): P
       .then((snapshot) => {
         const snapDoc = snapshot.docs;
         snapDoc.forEach((s) => {
-          const data = s.data();
+          let data = s.data();
+          data.id = s.id;
           households.push(data);
         });
       }).then(() => {

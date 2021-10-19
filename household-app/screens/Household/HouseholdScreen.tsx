@@ -6,7 +6,7 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
-import Household from "../../../Common(obsolete)/household";
+// import Household from "../../../Common(obsolete)/household";
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import styles from "./styles";
@@ -18,6 +18,8 @@ import JoinHouseholdModal from "../../component/householdComponents/joinHousehol
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { logout } from "../../Redux/features/loginUser/loginUserSlice";
+import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
+import Household from "../../Redux/entity/householdRequestType"
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
@@ -26,9 +28,16 @@ const HouseholdScreen: FC<Props> = ({
 }: Props): React.ReactElement => {
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [joinModalIsOpen, setJoinModalIsOpen] = useState(false);
-
-  const dispatch = useAppDispatch();
-  const user = useAppSelector(selectCurrentLoginUser);
+   const dispatch = useAppDispatch();
+   const user = useAppSelector(selectCurrentLoginUser);
+   
+   if (!user){
+     navigation.navigate(MainRoutes.LoginScreen);
+     return <View></View>
+   } 
+  const { data, isLoading, isFetching, isError, error } =
+    useGetHouseholdByUserIdQuery(user.id!);
+ 
 
   useEffect(() => {
     if (!user) navigation.navigate(MainRoutes.LoginScreen);
@@ -69,7 +78,7 @@ const HouseholdScreen: FC<Props> = ({
         <View>
           <View>
             <FlatList
-              data={households}
+              data={data}
               keyExtractor={(item: any) => item.id}
               renderItem={({ item }) => (
                 <HouseholdComponent
@@ -116,7 +125,9 @@ const HouseholdScreen: FC<Props> = ({
 
 export default HouseholdScreen;
 
-let households: Household[] = [
-  { name: "Hemma", JoinCode: 1234, id: "1" },
-  { name: "Stugan", JoinCode: 1337, id: "2" },
-];
+// let households: Household[] = [
+//   { name: "Hemma", JoinCode: 1234, id: "1" },
+//   { name: "Stugan", JoinCode: 1337, id: "2" },
+// ];
+
+

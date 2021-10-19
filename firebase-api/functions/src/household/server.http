@@ -32,7 +32,7 @@ Content-Type: application/json
 ###
 // GET 
 // get all houseHolds for 1 user on userId param
-GET http://172.19.200.32:5001/react-native-household-app/us-central1/webApi/household/WrHSQTb8vsVQMVRVO14z
+GET http://localhost:5000/react-native-household-app/us-central1/webApi/household/WrHSQTb8vsVQMVRVO14z
 
 ###
 
