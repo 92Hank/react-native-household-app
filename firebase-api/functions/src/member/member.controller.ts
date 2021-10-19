@@ -13,6 +13,7 @@ const memberCollection = "member";
 export const postMember = async (req: Request, res: Response) => {
   try {
     const member: Member = {
+      name: req.body["name"],
       userId: req.body["userId"],
       emoji: req.body["emoji"],
       isPaused: false,

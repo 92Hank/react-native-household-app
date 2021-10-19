@@ -29,7 +29,6 @@ interface Member {
   emoji: number;
   isPaused: boolean;
   isOwner: boolean;
-  value: number;
   isAccepted: boolean;
 }
 

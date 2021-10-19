@@ -1,5 +1,5 @@
 
 
-export const LocalIp = "http://192.168.1.71:5001"
+export const LocalIp = "http://192.168.1.240:5001";
 
 

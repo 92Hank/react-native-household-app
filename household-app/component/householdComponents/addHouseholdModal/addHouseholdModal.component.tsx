@@ -2,15 +2,16 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-paper";
+import household from "../../../../Common/household";
 import { LocalIp } from "../../../Redux/Config";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
+import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 
 interface Props {
   isOpen: boolean;
   handleModalClose: () => void;
 }
-
 enum Avatars {
   "🦊" = "1",
   "🐷" = "2",
@@ -29,15 +30,13 @@ export default function AddHouseholdModal(props: Props) {
   const [avatar, setAvatar] = useState<string>();
 
   const avatars = Object.keys(Avatars).filter((key) => isNaN(Number(key)));
-  const avatarsArr = [];
-  avatarsArr.push(avatars);
 
   const avatarSelect = (index: number) => {
     setAvatar(index.toString());
   };
 
   const onSave = async () => {
-    if (name) {
+    if (name && avatar) {
       const requestData = {
         name: name,
         ownerId: user?.id,
@@ -52,19 +51,19 @@ export default function AddHouseholdModal(props: Props) {
         LocalIp + "/react-native-household-app/us-central1/webApi/household",
         {
           method: "POST",
+          body: JSON.stringify(requestData),
           headers: {
             Accept: "application/json,text/plain",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ requestData }),
         }
       );
-      console.log(rawResponse.status);
-      if (rawResponse.status === 200) {
-        console.log(rawResponse.status);
+
+      if (rawResponse.status === 201) {
+        props.handleModalClose();
       }
     } else {
-      alert("APAPAP! Du måste ange ett namn");
+      alert("APAPAP! Du måste ange ett namn och välja en avatar!");
     }
   };
 
