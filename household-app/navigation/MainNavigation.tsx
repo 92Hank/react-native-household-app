@@ -44,7 +44,7 @@ const MainNavigation = (): React.ReactElement => {
           }}
         />
         <Stack.Screen
-          name={MainRoutes.UsersInHouseholdScreen}
+          name={MainRoutes.UsersInHouseHoldScreen}
           component={UsersStack}
           options={{
             title: "Users",

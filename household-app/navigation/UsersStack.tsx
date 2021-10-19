@@ -1,15 +1,15 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { MainRoutes, MainStack } from "../routes/routes";
-import UsersInHouseholdScreen from "../testscreens/UsersInHouseholdScreen";
+import UsersInHouseHoldScreen from "../screens/Tasks/UsersInHouseHoldScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
 const UserStack = () => (
   <MainStack.Navigator>
     <MainStack.Screen
-      name={MainRoutes.UsersInHouseholdScreen}
-      component={UsersInHouseholdScreen}
+      name={MainRoutes.UsersInHouseHoldScreen}
+      component={UsersInHouseHoldScreen}
       options={{
         // headerShown: false,
         title: "Medlemmar",
