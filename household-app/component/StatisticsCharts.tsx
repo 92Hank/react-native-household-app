@@ -14,21 +14,24 @@ const StatisticsCharts: FC<Props> = ({ data, allTasks }): React.ReactElement => 
 
     //funktion för att spamma ut smallpiecharts per task i allTasks
 
-    const allDoneTasks = allTasks.map((task) => {
+    const allDoneTasks = allTasks //om doneTask håller value, byt ut till data.taskDone.value
+        .filter((task, index) => allTasks)
+        .map((task) => {
 
 
-		return (
-			<SmallPieChart
-            //properties 
-			/>
-		);
-	});
+            return (
+                <SmallPieChart
+                    data={data}
+                    specificTask={task}
+                />
+            );
+        });
 
     return ( //lägg ut först stora piechart, sen för varje task som är gjord minst 1 gång under tidsperiod, alla små charts
         // om viss member har 0 på viss task, ta bort ur data somskkickas ner dit
 
         <>
-              <PieChart data={data} allTasks={allTasks} />
+            <PieChart data={data} allTasks={allTasks} />
         </>
 
     )
