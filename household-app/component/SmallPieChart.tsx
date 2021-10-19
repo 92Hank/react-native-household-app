@@ -6,10 +6,10 @@ import PieChartLabels from './PieChartLabels';
 
 interface Props {
     data: MemberStatistics[];
-    specificTask: task;
+    specificTaskId: string;
 }
 
-const SmallPieChart: FC<Props> = ({ data, specificTask }): React.ReactElement => {
+const SmallPieChart: FC<Props> = ({ data, specificTaskId }): React.ReactElement => {
 
     return (
         <ImportedPieChart
@@ -21,7 +21,7 @@ const SmallPieChart: FC<Props> = ({ data, specificTask }): React.ReactElement =>
             valueAccessor={({ item }) => {
                 let totalValue = 0;
                 for (let i = 0; i < item.tasksDone.length; i++) {
-                    if (item.tasksDone[i] == specificTask.id) totalValue += specificTask.value!;
+                    if (item.tasksDone[i].taskId == specificTaskId) totalValue += item.tasksDone[i].value!;
                 }
                 return totalValue;
             }}

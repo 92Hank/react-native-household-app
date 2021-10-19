@@ -6,10 +6,9 @@ import PieChartLabels from './PieChartLabels';
 
 interface Props {
     data: MemberStatistics[];
-    allTasks: task[];
 }
 
-const PieChart: FC<Props> = ({ data, allTasks }): React.ReactElement => {
+const PieChart: FC<Props> = ({ data }): React.ReactElement => {
 
     return (
         <ImportedPieChart
@@ -18,14 +17,17 @@ const PieChart: FC<Props> = ({ data, allTasks }): React.ReactElement => {
             outerRadius={'92%'}
             innerRadius={'0%'}
             padAngle={0.01}
-            valueAccessor={({ item }) => {
+            valueAccessor={({ item }) => { //Piechart slice calculation.
                 let totalValue = 0;
                 for (let i = 0; i < item.tasksDone.length; i++) {
-                    const doneTask = allTasks.find(task => task.id === item.tasksDone[i]);
-                    if (!doneTask || doneTask == undefined) return totalValue = 0;
+                    // const doneTask = allTasks.find(task => task.id === item.tasksDone[i]);
+                    // if (!doneTask || doneTask == undefined) return totalValue = 0;
 
-                    const valueOfTask = doneTask.value!;
-                    totalValue += valueOfTask;
+                    // const valueOfTask = doneTask.value!;
+                    // totalValue += valueOfTask;
+
+                    totalValue += item.tasksDone[i].value;
+
                 }
 
                 return totalValue;

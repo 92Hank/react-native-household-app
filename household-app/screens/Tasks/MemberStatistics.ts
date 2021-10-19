@@ -1,6 +1,9 @@
 import { emoji } from "../../../Common/member";
+import doneTask from "../../../Common/doneTask";
 
 /**
+ * Retrieve one MemberStatistics object per user.
+ * 
  * Values for the following properties are to be retrieved from the
  * database or otherwise assigned by the implementing component.
  * 
@@ -14,7 +17,7 @@ import { emoji } from "../../../Common/member";
     key: number,
     userId: string,
     emoji: emoji,
-    tasksDone: string[],
+    tasksDone: doneTask[],
     svg: {
         fill: string,
         onPress: () => void
