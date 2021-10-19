@@ -3,6 +3,7 @@ import { SafeAreaView, StyleSheet, View } from "react-native";
 import PieChart from "../../component/PieChart";
 import task from "../../../Common/Task";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import { emoji } from '../../../Common/member'
 
 /**
  * key: number - assigned by the component.
@@ -14,7 +15,7 @@ import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
  export type MemberStatistics = {
     key: number,
     userId: string,
-    emoji: "🦊" | "🐷" | "🐸" | "🐥" | "🐙" | "🐬" | "🦉" | "🦄",
+    emoji: emoji,
     tasksDone: string[],
     svg: {
         fill: string,
