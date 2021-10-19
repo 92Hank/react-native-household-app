@@ -13,6 +13,7 @@ import ModalComponent from "../../component/modal/ModalComponent";
 import TaskCard from "../../component/taskFolder/TaksCard";
 
 
+
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
