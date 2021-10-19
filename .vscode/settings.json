@@ -5,6 +5,7 @@
         "firestore",
         "formik",
         "Hemmet",
+        "invitecode",
         "predeploy",
         "Pressable",
         "signin"

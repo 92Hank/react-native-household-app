@@ -24,12 +24,13 @@ interface CreateUser {
 
 interface Member {
   id?: string;
+  name: string;
   userId: string;
   emoji: number;
   isPaused: boolean;
   isOwner: boolean;
   value: number;
-  isAccepted: boolean
+  isAccepted: boolean;
 }
 
 interface Household {
@@ -37,6 +38,7 @@ interface Household {
   ownerId?: string;
   member?: Member[];
   inviteCode: string;
+  userIds: string[];
 }
 
 interface DoneTask {
