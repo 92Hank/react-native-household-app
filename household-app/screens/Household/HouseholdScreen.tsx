@@ -39,9 +39,9 @@ const HouseholdScreen: FC<Props> = ({
     useGetHouseholdByUserIdQuery(user.id!);
  
 
-  useEffect(() => {
-    if (!user) navigation.navigate(MainRoutes.LoginScreen);
-  }, [user])
+  // useEffect(() => {
+  //   if (!user) navigation.navigate(MainRoutes.LoginScreen);
+  // }, [user])
 
 
   const clickOnHousehold = () => {
