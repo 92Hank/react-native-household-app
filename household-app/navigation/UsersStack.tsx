@@ -19,6 +19,7 @@ const UserStack = () => (
         headerTitleStyle: {
           fontWeight: "bold",
         },
+        headerBackVisible: false,
         // headerRight: () => (
         //   <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
         // ),
@@ -40,6 +41,7 @@ const MemberProfileStack = () => (
         headerTitleStyle: {
           fontWeight: "bold",
         },
+        headerBackVisible: false,
         // headerRight: () => (
         //   <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
         // ),
