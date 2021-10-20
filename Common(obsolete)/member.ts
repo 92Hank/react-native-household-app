@@ -6,3 +6,5 @@ export default interface member {
   role: "Admin" | "User";
   paused: boolean;
 }
+
+export type emoji = "🦊" | "🐷" | "🐸" | "🐥" | "🐙" | "🐬" | "🦉" | "🦄";
