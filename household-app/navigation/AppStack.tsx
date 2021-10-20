@@ -50,6 +50,7 @@ const HouseholdStack = () => (
         headerTitleStyle: {
           fontWeight: "bold",
         },
+        headerBackVisible: false,
         // headerRight: () => (
         //   <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
         // ),
@@ -89,6 +90,7 @@ const ProfileStack = () => (
         headerTitleStyle: {
           fontWeight: "bold",
         },
+        headerBackVisible: false,
       }}
     />
   </MainStack.Navigator>
