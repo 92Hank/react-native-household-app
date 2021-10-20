@@ -2,12 +2,12 @@ import React, { FC } from "react";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import doneTask from "../../../Common(obsolete)/doneTask";
 import StatisticsCharts from "../../component/StatisticsCharts";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+// import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { MemberStatistics } from "./memberStatistics";
 
-type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
+// type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
-const LastWeekScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+const LastWeekScreen = ({ navigation }: any): React.ReactElement => {
     const dagensDatum = new Date(1995, 11, 17);
 
     const testTasksDone: doneTask[] = [

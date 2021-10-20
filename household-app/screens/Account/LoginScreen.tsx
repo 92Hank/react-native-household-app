@@ -12,11 +12,11 @@ import {
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+// import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
-type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
+// type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 
-const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+const LoginScreen = ({ navigation }: any): React.ReactElement => {
   const [email, setEmail] = useState<string>("foo@foo.com");
   const [password, setPassword] = useState<string>("fobar");
 
@@ -28,7 +28,7 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     if (user) {
       console.log("user", user);
 
-      navigation.navigate(MainRoutes.HouseholdScreen);
+      navigation.navigate('HouseholdScreen');
     }
   }, [user])
 
@@ -43,7 +43,7 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
   const onChangeTextPassword = (password: string) => setPassword(password);
 
   const onPressShortcut = () => {
-    navigation.navigate(MainRoutes.HouseholdScreen);
+    navigation.navigate('HouseholdScreen');
   };
 
   return (

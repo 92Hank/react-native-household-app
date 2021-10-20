@@ -4,7 +4,7 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
-import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
+// import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 import { RadioButton } from "react-native-paper";
 
 interface Props {

@@ -6,7 +6,7 @@ import { TextInput } from "react-native-paper";
 import { LocalIp } from "../../../Redux/Config";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
-import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
+// import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 
 interface Props {
   isOpen: boolean;

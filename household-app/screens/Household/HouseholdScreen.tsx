@@ -8,7 +8,7 @@ import {
 } from "react-native";
 // import Household from "../../../Common(obsolete)/household";
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+// import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import styles from "./styles";
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -21,18 +21,18 @@ import { logout } from "../../Redux/features/loginUser/loginUserSlice";
 import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
 import Household from "../../Redux/entity/household"
 
-type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
+// type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
-const HouseholdScreen: FC<Props> = ({
+const HouseholdScreen = ({
   navigation,
-}: Props): React.ReactElement => {
+}: any): React.ReactElement => {
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [joinModalIsOpen, setJoinModalIsOpen] = useState(false);
    const dispatch = useAppDispatch();
    const user = useAppSelector(selectCurrentLoginUser);
    
    if (!user){
-     navigation.navigate(MainRoutes.LoginScreen);
+     navigation.navigate('LoginScreen');
      return <View></View>
    } 
   const { data, isLoading, isFetching, isError, error } =
@@ -44,13 +44,19 @@ const HouseholdScreen: FC<Props> = ({
   // }, [user])
 
 
-  const clickOnHousehold = () => {
-    navigation.navigate(MainRoutes.TasksScreen);
+  const clickOnHousehold = (id: string) => {
+    console.log(id);
+    navigation.navigate("TaskStack", {
+      screen: "TasksScreen",
+      params: {
+        householdId: id,
+      },
+    });
   };
 
   const onPressLogout = () => {
     dispatch(logout());
-    navigation.navigate(MainRoutes.LoginScreen);
+    navigation.navigate('LoginScreen');
   };
 
   const onPressCreateHousehold = () => {
@@ -68,7 +74,7 @@ const HouseholdScreen: FC<Props> = ({
   };
 
   const onPressUsersInHousehold = () => {
-    navigation.navigate(MainRoutes.UsersInHouseHoldScreen);
+    navigation.navigate('UsersInHouseHoldScreen');
   };
 
   React.useLayoutEffect(() => {
@@ -102,7 +108,7 @@ const HouseholdScreen: FC<Props> = ({
                 <HouseholdComponent
                   key={item.id}
                   household={item}
-                  onPress={clickOnHousehold}
+                  onPress={() => clickOnHousehold(item.id)}
                 />
               )}
             />

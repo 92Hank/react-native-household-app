@@ -2,13 +2,13 @@ import React, { FC } from 'react'
 import { View, StyleSheet, Text } from "react-native";
 import { Switch, TouchableRipple } from 'react-native-paper';
 import { PreferencesContext } from '../../context/PreferencesContext';
-import { FeedStackScreenProps, MainRoutes } from '../../routes/routes';
+// import { FeedStackScreenProps, MainRoutes } from '../../routes/routes';
 
-type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
+// type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
-const HouseholdProfile: FC<Props> = ({
+const HouseholdProfile = ({
   navigation,
-}: Props): React.ReactElement => {
+}: any): React.ReactElement => {
   const { theme, toggleTheme } = React.useContext(PreferencesContext);
   return (
     <View style={styles.container}>

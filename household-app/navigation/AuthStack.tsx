@@ -4,7 +4,7 @@ import LoginScreen from "../screens/Account/LoginScreen";
 import ProfileScreen from "../screens/Profile/ProfileScreen";
 import TasksScreen from "../screens/Tasks/TasksScreen";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { MainRoutes, MainStack } from "../routes/routes";
+// import { MainRoutes, MainStack } from "../routes/routes";
 import CreateAccountScreen from "../screens/Account/CreateAccount";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Button, Pressable } from "react-native";
@@ -12,13 +12,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LastWeekScreen from "../screens/Tasks/LastWeekScreen";
 import CurrentWeekScreen from "../screens/Tasks/CurrentWeekScreen";
 import HouseholdScreen from "../screens/Household/HouseholdScreen";
-
+const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 const LoginStack = () => (
-  <MainStack.Navigator>
-    <MainStack.Screen
-      name={MainRoutes.LoginScreen}
+  <Stack.Navigator>
+    <Stack.Screen
+      name={'LoginScreen'}
       component={LoginScreen}
       options={{
         // headerShown: false,
@@ -33,13 +33,13 @@ const LoginStack = () => (
         // ),
       }}
     />
-  </MainStack.Navigator>
+  </Stack.Navigator>
 );
 
 const CreateStack = () => (
-  <MainStack.Navigator>
-    <MainStack.Screen
-      name={MainRoutes.CreateAccountScreen}
+  <Stack.Navigator>
+    <Stack.Screen
+      name={'CreateAccountScreen'}
       component={CreateAccountScreen}
       options={{
         // headerShown: false,
@@ -51,7 +51,7 @@ const CreateStack = () => (
         },
       }}
     />
-  </MainStack.Navigator>
+  </Stack.Navigator>
 );
 
 const AuthStack = () => {

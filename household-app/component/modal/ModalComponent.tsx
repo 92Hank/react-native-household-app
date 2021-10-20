@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import {
-  FlatList,
   KeyboardAvoidingView,
   Modal,
   Platform,
   ScrollView,
-  StyleSheet,
   Text,
-  TouchableHighlight,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -16,9 +13,9 @@ import { Card, TextInput } from "react-native-paper";
 import styles from "./styles";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useNavigation } from "@react-navigation/native";
 import CircleButtonGroup from "../circleButtonGroup/circleButtonGroup";
 import ListItem from "../taskDayListItem/taskDayListItem";
+import { useAppSelector } from "../../Redux/hooks";
 
 interface Props {
   isOpen: boolean;

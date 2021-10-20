@@ -6,7 +6,7 @@ import {
   DefaultTheme as NavigationDefaultTheme,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { MainRoutes } from "../routes/routes";
+// import { MainRoutes } from "../routes/routes";
 import AppStack from "./AppStack";
 import { Appbar, Switch, TouchableRipple, useTheme } from "react-native-paper";
 import { DefaultTheme, DarkTheme } from "@react-navigation/native";
@@ -26,17 +26,17 @@ const MainNavigation = (): React.ReactElement => {
     <NavigationContainer theme={navigationTheme}>
       <Stack.Navigator>
         <Stack.Screen
-          name={MainRoutes.LoginScreen}
+          name={'LoginScreen'}
           component={AuthStack}
           options={{ title: "", headerBackVisible: false }}
         />
         <Stack.Screen
-          name={MainRoutes.HouseholdScreen}
+          name={'HouseholdScreen'}
           component={AppStack}
           options={{ title: "", headerBackVisible: false }}
         />
         <Stack.Screen
-          name={MainRoutes.TasksScreen}
+          name={'TasksScreen'}
           component={TaskStack}
           options={{
             title: "Tasks",
@@ -44,7 +44,7 @@ const MainNavigation = (): React.ReactElement => {
           }}
         />
         <Stack.Screen
-          name={MainRoutes.UsersInHouseHoldScreen}
+          name={'UsersInHouseHoldScreen'}
           component={UsersStack}
           options={{
             title: "Users",

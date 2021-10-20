@@ -1,15 +1,17 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { MainRoutes, MainStack } from "../routes/routes";
+// import { MainRoutes, MainStack } from "../routes/routes";
 import UsersInHouseHoldScreen from "../screens/Tasks/UsersInHouseHoldScreen";
 import HouseholdProfile from "../screens/Household/HouseholdProfile";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 const UserStack = () => (
-  <MainStack.Navigator>
-    <MainStack.Screen
-      name={MainRoutes.UsersInHouseHoldScreen}
+  <Stack.Navigator>
+    <Stack.Screen
+      name={'UsersInHouseHoldScreen'}
       component={UsersInHouseHoldScreen}
       options={{
         // headerShown: false,
@@ -25,13 +27,13 @@ const UserStack = () => (
         // ),
       }}
     />
-  </MainStack.Navigator>
+  </Stack.Navigator>
 );
 
 const MemberProfileStack = () => (
-  <MainStack.Navigator>
-    <MainStack.Screen
-      name={MainRoutes.HouseholdProfile}
+  <Stack.Navigator>
+    <Stack.Screen
+      name={'HouseholdProfile'}
       component={HouseholdProfile}
       options={{
         // headerShown: false,
@@ -47,7 +49,7 @@ const MemberProfileStack = () => (
         // ),
       }}
     />
-  </MainStack.Navigator>
+  </Stack.Navigator>
 );
 
 const UsersStack = () => {

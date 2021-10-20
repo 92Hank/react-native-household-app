@@ -6,42 +6,56 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+// import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import ModalComponent from "../../component/modal/ModalComponent";
 import TaskCard from "../../component/taskFolder/TaksCard";
+import household from "../../Redux/entity/household";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+type RootStackParamList = {
+  HouseholdScreen: undefined;
+  TasksScreen: {
+    householdId: string;
+  };
+};
 
+// type Props = NativeStackScreenProps<RootStackParamList, "TasksScreen">;
 
-type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
-
-const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElement => {
+const TasksScreen = ({
+  route,
+  navigation,
+  event,
+}: any): React.ReactElement => {
   const [addModalOpen, setAddModalOpen] = useState(false);
-  
+
+  // const householdId: string = route.params.householdId;
+    
+
   const clickOnTask = () => {
+    console.log(route);
     console.log("click on task, now we will mark it as done?");
   };
 
   const handleAddClick = () => {
     setAddModalOpen(true);
     console.log("open");
-
   };
   const handleAddClose = () => {
-    console.log("close")
+    console.log("close");
     setAddModalOpen(false);
   };
 
-  const onPressUsersInHousehold = () => {
-    navigation.navigate(MainRoutes.UsersInHouseHoldScreen);
-  };
+  // const onPressUsersInHousehold = () => {
+  //   navigation.navigate(MainRoutes.UsersInHouseHoldScreen);
+  // };
 
   const onPressEditTasks = () => {
-    console.log("navigate")
+    console.log("navigate");
     // navigation.navigate(MainRoutes.UsersInHouseHoldScreen)
   };
- 
+
   return (
     <>
       <View style={styles.container}>

@@ -2,15 +2,15 @@ import React, { FC } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Switch, TouchableRipple } from 'react-native-paper';
 import { PreferencesContext } from '../../context/PreferencesContext';
-import { FeedStackScreenProps, MainRoutes } from '../../routes/routes';
+// import { FeedStackScreenProps, MainRoutes } from '../../routes/routes';
 
-type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
+// type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
-const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+const ProfileScreen = ({ navigation }: any): React.ReactElement => {
   const { theme, toggleTheme } = React.useContext(PreferencesContext);
 
     const onPressTasks = () => {
-      navigation.navigate(MainRoutes.TasksScreen);
+      navigation.navigate('TasksScreen');
     };
 
   return (

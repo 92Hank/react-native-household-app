@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react'
 import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from "react-native";
-import { FeedStackScreenProps, MainRoutes } from '../../routes/routes';
+// import { FeedStackScreenProps, MainRoutes } from '../../routes/routes';
 import { Formik } from "formik"
 import TextInput from './textInput';
 import * as Yup from "yup";
@@ -30,12 +30,12 @@ const PostSchema = Yup.object().shape<PostSchemaType>({
   userName: Yup.string().required().trim(),
 });
 
-type Props = FeedStackScreenProps<MainRoutes.CreateAccountScreen>;
+// type Props = FeedStackScreenProps<MainRoutes.CreateAccountScreen>;
 
 
-const CreateAccountScreen: FC<Props> = ({
+const CreateAccountScreen = ({
   navigation,
-}: Props): React.ReactElement => {
+}: any): React.ReactElement => {
 
   const defaultUser: User = { userName: "", email: "", password: "" };
   const [

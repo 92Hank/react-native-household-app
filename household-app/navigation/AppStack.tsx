@@ -4,7 +4,7 @@ import LoginScreen from "../screens/Account/LoginScreen";
 import ProfileScreen from "../screens/Profile/ProfileScreen";
 import TasksScreen from "../screens/Tasks/TasksScreen";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { MainRoutes, MainStack } from "../routes/routes";
+// import { MainRoutes, MainStack } from "../routes/routes";
 import CreateAccountScreen from "../screens/Account/CreateAccount";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Button, Pressable } from "react-native";
@@ -17,9 +17,9 @@ const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 const LoginStack = () => (
-  <MainStack.Navigator>
-    <MainStack.Screen
-      name={MainRoutes.LoginScreen}
+  <Stack.Navigator>
+    <Stack.Screen
+      name={'LoginScreen'}
       component={LoginScreen}
       options={{
         // headerShown: false,
@@ -34,13 +34,13 @@ const LoginStack = () => (
         // ),
       }}
     />
-  </MainStack.Navigator>
+  </Stack.Navigator>
 );
 
 const HouseholdStack = () => (
-  <MainStack.Navigator>
-    <MainStack.Screen
-      name={MainRoutes.HouseholdScreen}
+  <Stack.Navigator>
+    <Stack.Screen
+      name={'HouseholdScreen'}
       component={HouseholdScreen}
       options={{
         // headerShown: false,
@@ -56,31 +56,13 @@ const HouseholdStack = () => (
         // ),
       }}
     />
-  </MainStack.Navigator>
-);
-
-const CreateStack = () => (
-  <MainStack.Navigator>
-    <MainStack.Screen
-      name={MainRoutes.CreateAccountScreen}
-      component={CreateAccountScreen}
-      options={{
-        // headerShown: false,
-        title: "Create your account",
-        headerTitleAlign: "center",
-        headerTintColor: "grey",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-      }}
-    />
-  </MainStack.Navigator>
+  </Stack.Navigator>
 );
 
 const ProfileStack = () => (
-  <MainStack.Navigator>
-    <MainStack.Screen
-      name={MainRoutes.ProfileScreen}
+  <Stack.Navigator>
+    <Stack.Screen
+      name={'ProfileScreen'}
       component={ProfileScreen}
       options={{
         // headerShown: false,
@@ -93,13 +75,13 @@ const ProfileStack = () => (
         headerBackVisible: false,
       }}
     />
-  </MainStack.Navigator>
+  </Stack.Navigator>
 );
 
 const TasksStack = () => (
-  <MainStack.Navigator>
-    <MainStack.Screen
-      name={MainRoutes.TasksScreen}
+  <Stack.Navigator>
+    <Stack.Screen
+      name={'TasksScreen'}
       component={TasksScreen}
       options={{
         // headerShown: false,
@@ -111,8 +93,8 @@ const TasksStack = () => (
         },
       }}
     />
-    <MainStack.Screen
-      name={MainRoutes.LastWeekScreen}
+    <Stack.Screen
+      name={'LastWeekScreen'}
       component={LastWeekScreen}
       options={{
         // headerShown: false,
@@ -125,8 +107,8 @@ const TasksStack = () => (
         },
       }}
     />
-    <MainStack.Screen
-      name={MainRoutes.CurrentWeekScreen}
+    <Stack.Screen
+      name={'CurrentWeekScreen'}
       component={CurrentWeekScreen}
       options={{
         // headerShown: false,
@@ -139,7 +121,7 @@ const TasksStack = () => (
         },
       }}
     />
-  </MainStack.Navigator>
+  </Stack.Navigator>
 );
 
 const AppStack = () => {

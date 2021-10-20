@@ -4,14 +4,14 @@ import HouseholdComponent from "../../component/householdComponents/household.co
 import UserListComponent from "../../component/taskFolder/UserListComponent";
 import styles from "../Household/styles";
 import ChangeMemberStatusModal from "../../component/householdComponents/changeMemberStatusModal/changeMemberStatusModal"
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+// import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { defineAnimation } from "react-native-reanimated";
 
-type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
+// type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
 
-const UsersInHouseHoldScreen: FC<Props> = ({
+const UsersInHouseHoldScreen = ({
   navigation,
-}: Props): React.ReactElement =>{
+}: any): React.ReactElement =>{
   const [modalOpen, setModalOpen] = useState(false);
   const [member, setSetMember] = useState<fullMemberInfo>();
 
