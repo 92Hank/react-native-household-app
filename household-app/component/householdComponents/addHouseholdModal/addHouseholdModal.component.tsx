@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Dimensions,
   Modal,
@@ -9,14 +9,20 @@ import {
   View,
 } from "react-native";
 import { TextInput } from "react-native-paper";
-import { webUrl } from "../../../Redux/Config";
+import { householdCreate } from "../../../Redux/entity/householdType";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
+import { useCreateHouseholdMutation } from "../../../Redux/Service/household/householdApi";
+import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 
-interface Props {
+interface DefaultProps {
   isOpen: boolean;
   handleModalClose: () => void;
 }
+
+type NavProps = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
+
+type Props = DefaultProps & NavProps;
 enum Avatars {
   "🦊" = "1",
   "🐷" = "2",
@@ -31,13 +37,44 @@ enum Avatars {
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function AddHouseholdModal(props: Props) {
+const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
   const [name, setName] = useState<string>();
   const onChangeInput = (name: string) => setName(name);
   const user = useAppSelector(selectCurrentLoginUser);
   const [avatar, setAvatar] = useState<string>();
-
   const avatars = Object.keys(Avatars).filter((key) => isNaN(Number(key)));
+
+  if (!user) {
+    props.navigation.navigate(MainRoutes.LoginScreen);
+    return <View></View>;
+  }
+
+  const [
+    CreateHousehold, // This is the mutation trigger
+
+    { status, isSuccess, error, isLoading }, // This is the destructured mutation result
+  ] = useCreateHouseholdMutation();
+
+  useEffect(() => {
+    console.log("isSuccess", isSuccess);
+    if (isSuccess) {
+      props.handleModalClose();
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    console.log("isCreating", isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    console.log("status", status);
+  }, [status]);
+
+  useEffect(() => {
+    if (error) {
+      console.log("error", error);
+    }
+  }, [error]);
 
   const avatarSelect = (index: number) => {
     setAvatar(index.toString());
@@ -45,28 +82,16 @@ export default function AddHouseholdModal(props: Props) {
 
   const onSave = async () => {
     if (name && avatar) {
-      const requestData = {
+      const requestData: householdCreate = {
         name: name,
-        ownerId: user?.id,
+        ownerId: user.id!,
         member: {
-          name: user?.userName,
-          userId: user?.id,
+          name: user.userName,
+          userId: user.id!,
           emoji: Number(avatar),
         },
       };
-
-      const rawResponse = await fetch(`${webUrl}/household/`, {
-        method: "POST",
-        body: JSON.stringify(requestData),
-        headers: {
-          Accept: "application/json,text/plain",
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (rawResponse.status === 201) {
-        props.handleModalClose();
-      }
+      CreateHousehold(requestData);
     } else {
       alert("APAPAP! Du måste ange ett namn och välja en avatar!");
     }
@@ -150,7 +175,7 @@ export default function AddHouseholdModal(props: Props) {
       </Modal>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   avatarPressed: {
@@ -261,3 +286,5 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
 });
+
+export default AddHouseholdModal;

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { webUrl } from "../../../Redux/Config";
-import household from "../../../Redux/entity/householdRequestType";
+import householdType from "../../../Redux/entity/householdType";
 
 interface Props {
   isOpen: boolean;
@@ -36,7 +36,7 @@ export default function JoinHouseholdModal(props: Props) {
   const [codeSubmitted, setCodeSubmitted] = useState(false);
   const [avatar, setAvatar] = useState<string>();
   const [avatarIndex, setAvatarIndex] = useState<number>();
-  const [household, setHousehold] = useState<household>();
+  const [household, setHousehold] = useState<householdType>();
   const [emojis, setAvatars] = useState<string[]>();
 
   let avatars = Object.keys(Avatars).filter((key) => !isNaN(Number(key)));
@@ -64,9 +64,10 @@ export default function JoinHouseholdModal(props: Props) {
       if (rawResponse.status === 200) {
         setCodeSubmitted(true);
 
-        const foundHousehold: household = await rawResponse.json();
+        const foundHousehold: householdType = await rawResponse.json();
         foundHousehold.member.forEach((element) => {
           existingAvatars.push(element.emoji);
+          // console.log(foundHousehold);
         });
         avatars = avatars.filter(
           (val) => !existingAvatars.includes(Number(val))
@@ -159,6 +160,7 @@ export default function JoinHouseholdModal(props: Props) {
             <View style={styles.modalRequestView}>
               <Text style={styles.modalText}>{code}</Text>
               <Text style={styles.modalHeader}>{household?.name}</Text>
+              <Text style={styles.modalText}>{household?.id}</Text>
               <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
               <View style={styles.avatars}>
                 {emojis?.map(function (name, index) {

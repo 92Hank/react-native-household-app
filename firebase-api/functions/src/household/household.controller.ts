@@ -201,6 +201,7 @@ export const getHouseholdsOnInviteCode = async (
         }
         snapDoc.forEach((s) => {
           const data = s.data();
+          data.id = s.id;
           res.status(200).json(data);
         });
       })

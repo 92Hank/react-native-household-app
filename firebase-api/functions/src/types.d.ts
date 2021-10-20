@@ -30,6 +30,7 @@ interface Member {
   isPaused: boolean;
   isOwner: boolean;
   isAccepted: boolean;
+  // acceptedStatus: "accepted" | "pending" | "rejected";
 }
 
 interface Household {
