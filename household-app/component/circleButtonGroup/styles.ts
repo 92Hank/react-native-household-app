@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   circleButton: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,

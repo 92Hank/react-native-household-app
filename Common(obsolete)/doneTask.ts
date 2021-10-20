@@ -3,4 +3,5 @@ export default interface doneTask {
   taskId: string;
   memberId: number[];
   dateDone: Date;
+  value?: number;
 }

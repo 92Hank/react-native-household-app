@@ -250,8 +250,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   circleButton: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
@@ -260,8 +260,8 @@ const styles = StyleSheet.create({
     margin: 2,
   },
   circleButtonValue: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
@@ -271,13 +271,13 @@ const styles = StyleSheet.create({
   },
   circleBtnText: {
     color: "white",
-    fontSize: 20,
+    fontSize: 14,
     justifyContent: "center",
     textAlign: "center",
   },
   circleBtnTextValue: {
     color: "black",
-    fontSize: 20,
+    fontSize: 14,
     justifyContent: "center",
     textAlign: "center",
   },

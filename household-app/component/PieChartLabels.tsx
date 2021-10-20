@@ -1,6 +1,6 @@
 import React from 'react';
 import { NumberArray, Text } from 'react-native-svg';
-import { MemberStatistics } from "../screens/Tasks/CurrentWeekScreen";
+import { MemberStatistics } from "../screens/Tasks/memberStatistics";
 
 type slice = {
     data: MemberStatistics,
@@ -31,7 +31,7 @@ const PieChartLabels = ({ slices }: LabelProps) => {
                         <Text
                             key={index}
                             x={pieCentroid[0]}
-                            y={pieCentroid[1]}
+                            y={slices!.length > 1 ? pieCentroid[1] : Number(pieCentroid[1]) - 50}
                             fill={'white'}
                             textAnchor={'middle'}
                             alignmentBaseline={'middle'}

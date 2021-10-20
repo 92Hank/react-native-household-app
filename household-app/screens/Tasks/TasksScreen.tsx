@@ -34,7 +34,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
   };
 
   const onPressUsersInHousehold = () => {
-    navigation.navigate(MainRoutes.UsersInHouseholdScreen);
+    navigation.navigate(MainRoutes.UsersInHouseHoldScreen);
   };
 
   const onPressEditTasks = () => {
@@ -45,13 +45,6 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
   return (
     <>
       <View style={styles.container}>
-        <TouchableOpacity
-          onPress={onPressUsersInHousehold}
-          style={styles.householdButton}
-        >
-          <MaterialIcons name="add-circle-outline" size={30} color="black" />
-          <Text style={styles.householdButtonText}>Medlemmar</Text>
-        </TouchableOpacity>
         <View>
           <FlatList
             data={tasksNow}
@@ -72,14 +65,14 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
             style={styles.householdButton}
           >
             <MaterialIcons name="add-circle-outline" size={30} color="black" />
-            <Text style={styles.householdButtonText}>Create</Text>
+            <Text style={styles.householdButtonText}>Skapa</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={onPressEditTasks}
             style={styles.householdButton}
           >
             <Feather name="edit-2" size={30} color="black" />
-            <Text style={styles.householdButtonText}>Medlemmar</Text>
+            <Text style={styles.householdButtonText}>Ändra</Text>
           </TouchableOpacity>
         </View>
       </View>
