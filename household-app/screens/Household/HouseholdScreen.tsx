@@ -46,12 +46,13 @@ const HouseholdScreen = ({
 
   const clickOnHousehold = (id: string) => {
     console.log(id);
-    navigation.navigate("TaskStack", {
-      screen: "TasksScreen",
+    navigation.navigate("TasksScreen", {
+      screen: "Today",
       params: {
         householdId: id,
       },
     });
+    // navigation.navigate('TasksScreen');
   };
 
   const onPressLogout = () => {

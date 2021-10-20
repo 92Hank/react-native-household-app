@@ -40,7 +40,7 @@ const LoginStack = () => (
 const HouseholdStack = () => (
   <Stack.Navigator>
     <Stack.Screen
-      name={'HouseholdScreen'}
+      name={"HouseholdScreen"}
       component={HouseholdScreen}
       options={{
         // headerShown: false,

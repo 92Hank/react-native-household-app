@@ -71,56 +71,10 @@ const LastMonthStack = () => (
   </Stack.Navigator>
 );
 
-// const TasksStack = () => (
-//   <MainStack.Navigator initialRouteName={MainRoutes.TasksScreen}>
-//     <MainStack.Screen
-//       name={MainRoutes.TasksScreen}
-//       component={TasksScreen}
-//       options={{
-//         headerShown: false,
-//         title: "Today",
-//         headerTitleAlign: "center",
-//         headerTintColor: "grey",
-//         headerTitleStyle: {
-//           fontWeight: "bold",
-//         },
-//       }}
-//     />
-//     <MainStack.Screen
-//       name={MainRoutes.LastWeekScreen}
-//       component={LastWeekScreen}
-//       options={{
-//         headerShown: false,
-//         headerBackVisible: false,
-//         title: "Last Week",
-//         headerTitleAlign: "center",
-//         headerTintColor: "grey",
-//         headerTitleStyle: {
-//           fontWeight: "bold",
-//         },
-//       }}
-//     />
-//     <MainStack.Screen
-//       name={MainRoutes.CurrentWeekScreen}
-//       component={CurrentWeekScreen}
-//       options={{
-//         headerShown: false,
-//         headerBackVisible: false,
-//         title: "Current Week",
-//         headerTitleAlign: "center",
-//         headerTintColor: "grey",
-//         headerTitleStyle: {
-//           fontWeight: "bold",
-//         },
-//       }}
-//     />
-//   </MainStack.Navigator>
-// );
-
 const TaskStack = () => {
   return (
-    <Stack.Screen name="TaskStack">
-      {(props) => (
+    // <Stack.Screen name="TaskScreenStack">
+    //   {(props) => (
         <Tab.Navigator
           initialRouteName="Today"
           screenOptions={{
@@ -135,12 +89,11 @@ const TaskStack = () => {
           <Tab.Screen
             name="Today"
             component={TaskScreenStack}
-            initialParams={props.route.params}
           />
           <Tab.Screen name="Current Week" component={LastMonthStack} />
         </Tab.Navigator>
-      )}
-    </Stack.Screen>
+    //   )}
+    // </Stack.Screen>
   );
 };
 export default TaskStack;

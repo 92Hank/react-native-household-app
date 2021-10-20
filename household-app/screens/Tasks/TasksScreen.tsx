@@ -31,7 +31,6 @@ const TasksScreen = ({
   const [addModalOpen, setAddModalOpen] = useState(false);
 
   // const householdId: string = route.params.householdId;
-    
 
   const clickOnTask = () => {
     console.log(route);

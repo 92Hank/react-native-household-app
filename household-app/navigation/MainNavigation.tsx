@@ -17,7 +17,7 @@ import UsersStack from "./UsersStack";
 
 const Stack = createNativeStackNavigator();
 
-const MainNavigation = (): React.ReactElement => {
+const MainNavigation = () => {
 
   const theme = useTheme();
   const navigationTheme = theme.dark ? DarkTheme : DefaultTheme;
@@ -26,17 +26,17 @@ const MainNavigation = (): React.ReactElement => {
     <NavigationContainer theme={navigationTheme}>
       <Stack.Navigator>
         <Stack.Screen
-          name={'LoginScreen'}
+          name={"LoginScreen"}
           component={AuthStack}
           options={{ title: "", headerBackVisible: false }}
         />
         <Stack.Screen
-          name={'HouseholdScreen'}
+          name={"HouseholdScreen"}
           component={AppStack}
           options={{ title: "", headerBackVisible: false }}
         />
         <Stack.Screen
-          name={'TasksScreen'}
+          name={"TasksScreen"}
           component={TaskStack}
           options={{
             title: "Tasks",
@@ -44,7 +44,7 @@ const MainNavigation = (): React.ReactElement => {
           }}
         />
         <Stack.Screen
-          name={'UsersInHouseHoldScreen'}
+          name={"UsersInHouseHoldScreen"}
           component={UsersStack}
           options={{
             title: "Users",
