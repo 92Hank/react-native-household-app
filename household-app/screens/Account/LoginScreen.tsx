@@ -42,8 +42,12 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
   };
   const onChangeTextPassword = (password: string) => setPassword(password);
 
+  const onPressShortcut = () => {
+    navigation.navigate(MainRoutes.HouseholdScreen);
+  };
+
   return (
-    <View >
+    <View>
       <KeyboardAvoidingView
         style={{ flexGrow: 1, height: "80%" }}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -71,11 +75,15 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
               onChangeText={onChangeTextPassword}
               value={password}
             />
+            <TouchableOpacity onPress={onPressLogin} style={styles.loginButton}>
+              <Text style={styles.buttonText}>Sign in</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity
-              onPress={onPressLogin}
+              onPress={onPressShortcut}
               style={styles.loginButton}
             >
-              <Text style={styles.buttonText}>Sign in</Text>
+              <Text style={styles.buttonText}>Shortcut</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

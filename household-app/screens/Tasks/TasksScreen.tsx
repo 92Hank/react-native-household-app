@@ -16,9 +16,9 @@ import TaskCard from "../../component/taskFolder/TaksCard";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
-const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElement => {
   const [addModalOpen, setAddModalOpen] = useState(false);
-
+  
   const clickOnTask = () => {
     console.log("click on task, now we will mark it as done?");
   };
@@ -33,12 +33,13 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     setAddModalOpen(false);
   };
 
-  const onPressCreateTasks = () => {
-    alert("Add");
+  const onPressUsersInHousehold = () => {
+    navigation.navigate(MainRoutes.UsersInHouseHoldScreen);
   };
 
   const onPressEditTasks = () => {
-    alert("Edit");
+    console.log("navigate")
+    // navigation.navigate(MainRoutes.UsersInHouseHoldScreen)
   };
  
   return (
@@ -49,16 +50,13 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             data={tasksNow}
             keyExtractor={(item: any) => item.id}
             renderItem={({ item }) => (
-              <TaskCard
-                key={item.id}
-                task={item}
-                onPress={clickOnTask}
-              />
+              <TaskCard key={item.id} task={item} onPress={clickOnTask} />
             )}
           />
           <ModalComponent
             isOpen={addModalOpen}
             handleAddClose={handleAddClose}
+            event={event}
           />
         </View>
         <View style={styles.buttonsContainer}>
@@ -67,14 +65,14 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             style={styles.householdButton}
           >
             <MaterialIcons name="add-circle-outline" size={30} color="black" />
-            <Text style={styles.householdButtonText}>Create</Text>
+            <Text style={styles.householdButtonText}>Skapa</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={onPressEditTasks}
             style={styles.householdButton}
           >
             <Feather name="edit-2" size={30} color="black" />
-            <Text style={styles.householdButtonText}>Edit</Text>
+            <Text style={styles.householdButtonText}>Ändra</Text>
           </TouchableOpacity>
         </View>
       </View>
