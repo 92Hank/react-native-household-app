@@ -26,12 +26,14 @@ Designen av appen ska utgå ifrån befintliga skisser, undantag kan ges men ska 
 med produktägare, godkännas och dokumenteras. \*
 All information ska kommuniceras till och från en server. (VG) JA
 
+
 ### Hushåll (7)
 
 Ett hushåll ska ha ett namn och en genererad (enkel) kod så andra kan gå med i hushållet,
 namnet ska gå att ändra. \*
 Alla användare i ett hushåll ska kunna se vilka som tillhör ett hushåll.
 En ägare av ett hushåll ska kunna se förfrågningar om att gå med i hushållet.
+
 En ägare ska kunna acceptera eller neka förfrågningar. // byta isAccepted till accepted | pending | rejected .. ändra api
 En ägare ska kunna göra andra till ägare.
 En ägare ska kunna pausa en användare och under pausade perioder ska användare inte

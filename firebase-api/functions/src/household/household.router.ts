@@ -3,11 +3,16 @@ import * as express from "express";
 import {
   post,
   //   getHousehold,
+  changeNameOnHouseHold,
   getHouseholdsOnInviteCode,
   acceptMember,
   getUsersHouseholdsOnUserId,
   joinHousehold,
   makeMemberAdmin,
+  setMemberOnPauseHouseHold,
+  memberLeaveHouseHold,
+  memberChangeName,
+  memberChangeEmoji,
 } from "./household.controller";
 
 // eslint-disable-next-line new-cap
@@ -24,4 +29,10 @@ householdRouter.get(
 householdRouter.post("/household/join", joinHousehold);
 householdRouter.patch("/household/accept", acceptMember);
 householdRouter.patch("/household/owner", makeMemberAdmin);
+householdRouter.patch("/household/changename", changeNameOnHouseHold);
+householdRouter.patch("/household/setpaused", setMemberOnPauseHouseHold);
+householdRouter.patch("/household/changenameOnMember", memberChangeName);
+householdRouter.patch("/household/changeemoji", memberChangeEmoji);
+householdRouter.delete("/household/leave", memberLeaveHouseHold);
+
 

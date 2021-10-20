@@ -68,3 +68,68 @@ Content-Type: application/json
 }
 
 ###
+
+//change name on household
+PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/household/changename
+Content-Type: application/json
+
+{
+    "houseHoldId": "Dt1nCSiTG5QWYtPuMFQ",
+    "name": "Robins hushåll"
+    
+}
+
+###
+
+###
+
+//set member on paused
+PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/household/setpaused
+Content-Type: application/json
+
+{
+    "houseHoldId": "D66g4HdjydwhJSmDUsWm",
+    "userId": "userID som vill jiona"
+    
+}
+
+###
+
+//member leave household
+DELETE http://localhost:5000/react-native-household-app/us-central1/webApi/household/leave
+Content-Type: application/json
+
+{
+    "houseHoldId": "Dt1nCSiTG5QWYtPuMFQR",
+    "userId": "userID som skapar"
+    
+}
+
+###
+
+//change name on member
+PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/household/changenameOnMember
+Content-Type: application/json
+
+{
+    "houseHoldId": "D66g4HdjydwhJSmDUsWm",
+    "userId": "WrHSQTb8vsVQMVRVO14z",
+    "name": "robin är king"
+    
+}
+
+###
+
+###
+
+//camge emoji on member
+PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/household/changeemoji
+Content-Type: application/json
+
+{
+    "houseHoldId": "D66g4HdjydwhJSmDUsWm",
+    "userId": "WrHSQTb8vsVQMVRVO14z",
+    "emoji": 3
+}
+
+###
