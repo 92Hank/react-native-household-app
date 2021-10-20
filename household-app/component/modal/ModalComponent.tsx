@@ -51,7 +51,7 @@ const PostSchema = Yup.object().shape<PostSchemaType>({
 });
 
 
-const recurring = 7;
+const recurring = 2;
 
 const ModalComponent: React.FC<Props> = ({
   isOpen,
@@ -193,7 +193,7 @@ const ModalComponent: React.FC<Props> = ({
                       <Card style={styles.inputsCard2}>
                         <Card.Content>
                           <CircleButtonGroup
-                            buttons={["1", "2", "3", "4", "5", "6"]}
+                            buttons={["1", "2", "4", "6", "8"]}
                             onPress={onPress}
                             event={event}
                           />
