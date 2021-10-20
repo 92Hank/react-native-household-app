@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import PieChart from "../component/PieChart";
 import { MemberStatistics } from "../screens/Tasks/memberStatistics";
 import SmallPieChart from './SmallPieChart';
@@ -9,7 +9,6 @@ interface Props {
 }
 
 const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
-
     let allDoneTaskIdsArray: string[] = [];
 
     const getUniqueDoneTaskIds = () => {
@@ -26,15 +25,13 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
         })
     }
 
-    getUniqueDoneTaskIds();
-
     /**
      * Function to loop through the MemberStatistics data array and remove from
      * it all household members not having the taskId in their doneTasks[] parameter.
      * The filtered data can be used to determine the amount of slices of a piechart.
      *
-     * @param data 
-     * @param taskId 
+     * @param data
+     * @param taskId
      * @returns {MemberStatistics[]}
      */
     const filterOutNonparticipantMembers = (data: MemberStatistics[], taskId: string) => {
@@ -64,21 +61,42 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
                     data={filterOutNonparticipantMembers(data, taskId)}
                     specificTaskId={taskId}
                     key={index}
+                    style={[styles.smallChartSize]}
                 />
             );
         });
     }
 
+    getUniqueDoneTaskIds();
     return (
         <>
             <PieChart data={data} />
-            <View>
+            <View style={[styles.smallChartView]}>
                 {generateSmallPieCharts()}
             </View>
+
         </>
     )
 };
 
 export default StatisticsCharts;
 
-
+const styles = StyleSheet.create({
+    smallChartView: {
+        display: "flex", //ok
+        flexGrow: 1,        //ok
+        flexShrink: 0,
+        flexDirection: "row", //---
+        flexWrap: "wrap",  //VARFÖR ÄR DEN VÄND SOM EN KOLUMN OCJ BRYTER INTE MED LITET AVSTÅND PÅ ROW WRAP?
+        alignContent: "flex-start",
+        justifyContent: "space-evenly",
+    },
+    smallChartSize: {
+        display: "flex",
+        flex: 1,
+        height: 125,
+        flexBasis: "30%",
+        margin: 0,
+        padding: 0,
+    }
+});

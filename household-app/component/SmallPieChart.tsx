@@ -1,17 +1,19 @@
 import React, { FC } from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
 import { PieChart as ImportedPieChart } from 'react-native-svg-charts';
 import { MemberStatistics } from "../screens/Tasks/memberStatistics";
 
 interface Props {
     data: MemberStatistics[];
     specificTaskId: string;
+    style: StyleProp<ViewStyle>;
 }
 
-const SmallPieChart: FC<Props> = ({ data, specificTaskId }): React.ReactElement => {
+const SmallPieChart: FC<Props> = ({ data, specificTaskId, style }): React.ReactElement => {
 
     return (
         <ImportedPieChart
-            style={{ height: 125 }}
+            style={style}
             data={data}
             outerRadius={'92%'}
             innerRadius={'0%'}

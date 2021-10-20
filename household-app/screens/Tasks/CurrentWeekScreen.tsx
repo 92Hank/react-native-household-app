@@ -36,6 +36,13 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
             dateDone: dagensDatum,
             value: 10,
         },
+        {
+            id: "5",
+            taskId: "5",
+            memberId: [4, 1],
+            dateDone: dagensDatum,
+            value: 10,
+        },
     ]
 
     const data: MemberStatistics[] = [
@@ -54,7 +61,7 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
             key: 2,
             userId: "2",
             emoji: "🦊",
-            doneTasks: [testTasksDone[1], testTasksDone[2]], //2+2=4
+            doneTasks: [testTasksDone[1], testTasksDone[2], testTasksDone[4]], //2+2=4
             svg: {
                 fill: 'green',
                 onPress: () => console.log('USER2'),
@@ -74,7 +81,7 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
             key: 4,
             userId: "999", //4
             emoji: "🦄",
-            doneTasks: [testTasksDone[3]],
+            doneTasks: [testTasksDone[3],  testTasksDone[4]],
             svg: {
                 fill: 'red',
                 onPress: () => console.log('USER4'),
