@@ -1,25 +1,22 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  FlatList,
+  Dimensions,
   Modal,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { TextInput } from "react-native-paper";
-import { LocalIp, webUrl } from "../../../Redux/Config";
-import household, {
-  householdJoin,
-} from "../../../Redux/entity/householdRequestType";
+import { webUrl } from "../../../Redux/Config";
+import household from "../../../Redux/entity/householdRequestType";
 
 interface Props {
   isOpen: boolean;
   handleModalClose: () => void;
 }
 
-// GÖR DOM STÖRRE
 enum Avatars {
   "🦊" = 1,
   "🐷" = 2,
@@ -30,6 +27,8 @@ enum Avatars {
   "🦉" = 7,
   "🦄" = 8,
 }
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export default function JoinHouseholdModal(props: Props) {
   const [code, setCode] = useState<string>();
@@ -42,6 +41,7 @@ export default function JoinHouseholdModal(props: Props) {
 
   let avatars = Object.keys(Avatars).filter((key) => !isNaN(Number(key)));
   let existingAvatars: Avatars[] = [];
+
 
   const avatarSelect = (index: number) => {
     setAvatarIndex(index);
@@ -158,8 +158,7 @@ export default function JoinHouseholdModal(props: Props) {
           >
             <View style={styles.modalRequestView}>
               <Text style={styles.modalText}>{code}</Text>
-              <Text style={styles.modalText}>{household?.name}</Text>
-              <Text style={styles.modalText}>{household?.ownerId}</Text>
+              <Text style={styles.modalHeader}>{household?.name}</Text>
               <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
               <View style={styles.avatars}>
                 {emojis?.map(function (name, index) {
@@ -174,10 +173,12 @@ export default function JoinHouseholdModal(props: Props) {
                 })}
               </View>
               <View>
-                <Text style={{ marginTop: 40, fontSize: 20 }}>
-                  Vald avatar:
-                  {avatar && <Text style={styles.avatar}> {avatar} </Text>}
-                </Text>
+                {avatar && (
+                  <Text style={{ marginTop: 40, fontSize: 20 }}>
+                    Vald avatar:
+                    <Text style={styles.avatar}> {avatar} </Text>
+                  </Text>
+                )}
               </View>
               <View style={styles.buttonsContainer}>
                 <TouchableOpacity
@@ -216,13 +217,21 @@ export default function JoinHouseholdModal(props: Props) {
 }
 
 const styles = StyleSheet.create({
-  avatars: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  modalHeader: {
+    fontSize: 26,
+    fontWeight: "bold",
+    marginBottom: 30,
   },
   avatar: {
-    fontSize: 26,
-    // marginTop: "50%",
+    fontSize: 45,
+    marginHorizontal: 15,
+    marginVertical: 10,
+    flexWrap: "wrap",
+  },
+  avatars: {
+    flexDirection: "row",
+    justifyContent: "center",
+    flexWrap: "wrap",
   },
   input: {
     backgroundColor: "#ffff",
@@ -242,8 +251,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalRequestView: {
-    width: 300,
-    height: 500,
+    width: windowWidth - 20,
+    height: windowHeight - 100,
     backgroundColor: "#f2f2f2",
     borderRadius: 20,
     padding: 20,

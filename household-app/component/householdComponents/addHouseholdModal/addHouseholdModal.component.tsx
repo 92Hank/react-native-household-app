@@ -1,6 +1,13 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { TextInput } from "react-native-paper";
 import { webUrl } from "../../../Redux/Config";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
@@ -20,6 +27,9 @@ enum Avatars {
   "🦉" = "7",
   "🦄" = "8",
 }
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export default function AddHouseholdModal(props: Props) {
   const [name, setName] = useState<string>();
@@ -45,17 +55,14 @@ export default function AddHouseholdModal(props: Props) {
         },
       };
 
-      const rawResponse = await fetch(
-        `${webUrl}/household/`,
-        {
-          method: "POST",
-          body: JSON.stringify(requestData),
-          headers: {
-            Accept: "application/json,text/plain",
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const rawResponse = await fetch(`${webUrl}/household/`, {
+        method: "POST",
+        body: JSON.stringify(requestData),
+        headers: {
+          Accept: "application/json,text/plain",
+          "Content-Type": "application/json",
+        },
+      });
 
       if (rawResponse.status === 201) {
         props.handleModalClose();
@@ -91,26 +98,28 @@ export default function AddHouseholdModal(props: Props) {
               label="Namn på hushållet"
               onChangeText={onChangeInput}
             />
-            <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
-            <View style={styles.avatars}>
-              {avatars.map(function (name, index) {
-                return (
-                  <TouchableOpacity
-                    onPress={() => avatarSelect(index)}
-                    key={index}
-                  >
-                    <Text style={styles.avatar}>{name}</Text>
-                  </TouchableOpacity>
-                );
-              })}
+            <View style={{ marginTop: 25 }}>
+              <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
+              <View style={styles.avatars}>
+                {avatars.map(function (name, index) {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => avatarSelect(index)}
+                      key={index}
+                    >
+                      <Text style={styles.avatar}>{name}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
             </View>
             <View>
-              <Text style={{ marginTop: 40, fontSize: 20 }}>
-                Vald avatar:
-                {avatar && (
+              {avatar && (
+                <Text style={{ marginTop: 40, fontSize: 20 }}>
+                  Vald avatar:
                   <Text style={styles.avatar}> {avatars[Number(avatar)]} </Text>
-                )}
-              </Text>
+                </Text>
+              )}
             </View>
             <View style={styles.buttonsContainer}>
               <TouchableOpacity
@@ -148,12 +157,14 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
   },
   avatar: {
-    fontSize: 26,
-    // marginTop: "50%",
+    fontSize: 45,
+    margin: 10,
+    flexWrap: "wrap",
   },
   avatars: {
     flexDirection: "row",
     justifyContent: "space-between",
+    flexWrap: "wrap",
   },
   input: {
     backgroundColor: "#ffff",
@@ -175,8 +186,8 @@ const styles = StyleSheet.create({
   },
   modalView: {
     // margin: 20,
-    width: 300,
-    height: 500,
+    width: windowWidth - 20,
+    height: windowHeight - 100,
     backgroundColor: "#f2f2f2",
     borderRadius: 20,
     padding: 20,

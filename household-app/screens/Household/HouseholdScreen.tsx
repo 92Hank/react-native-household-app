@@ -24,7 +24,7 @@ import Household from "../../Redux/entity/householdRequestType"
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
 const HouseholdScreen: FC<Props> = ({
-  navigation,
+  navigation, 
 }: Props): React.ReactElement => {
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [joinModalIsOpen, setJoinModalIsOpen] = useState(false);
