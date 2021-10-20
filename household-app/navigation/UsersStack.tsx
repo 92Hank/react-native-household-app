@@ -8,7 +8,7 @@ const Tab = createMaterialTopTabNavigator();
 const UserStack = () => (
   <MainStack.Navigator>
     <MainStack.Screen
-      name={MainRoutes.UsersInHouseholdScreen}
+      name={MainRoutes.UsersInHouseHoldScreen}
       component={UsersInHouseholdScreen}
       options={{
         // headerShown: false,

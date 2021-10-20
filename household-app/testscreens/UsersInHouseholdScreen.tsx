@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import { FeedStackScreenProps, MainRoutes } from '../routes/routes';
 
-type Props = FeedStackScreenProps<MainRoutes.UsersInHouseholdScreen>;
+type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
 
-const UsersInHouseholdScreen: FC<Props> = ({
+const UsersInHouseHoldScreen: FC<Props> = ({
   navigation,
 }: Props): React.ReactElement => {
   return (
@@ -28,7 +28,7 @@ const UsersInHouseholdScreen: FC<Props> = ({
   );
 };
 
-export default UsersInHouseholdScreen;
+export default UsersInHouseHoldScreen;
 
 const styles = StyleSheet.create({
   container: {
