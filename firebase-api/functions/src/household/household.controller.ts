@@ -24,7 +24,6 @@ export const post = async (req: Request, res: Response) => {
           name: req.body.member["name"],
           isOwner: true,
           emoji: req.body.member["emoji"],
-          value: 0,
           isPaused: false,
           isAccepted: true,
         },
@@ -66,7 +65,8 @@ export const getUsersHouseholdsOnUserId = async (req: Request, res: Response): P
       .then((snapshot) => {
         const snapDoc = snapshot.docs;
         snapDoc.forEach((s) => {
-          const data = s.data();
+          let data = s.data();
+          data.id = s.id;
           households.push(data);
         });
       }).then(() => {
@@ -87,7 +87,6 @@ export const joinHousehold = (req: Request, res: Response): void => {
     userId: req.body.member["userId"],
     isOwner: false,
     emoji: req.body.member["emoji"],
-    value: 0,
     isPaused: false,
     isAccepted: false,
   };

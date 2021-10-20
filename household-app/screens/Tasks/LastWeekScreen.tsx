@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
-import doneTask from "../../../Common/doneTask";
+import doneTask from "../../../Common(obsolete)/doneTask";
 import StatisticsCharts from "../../component/StatisticsCharts";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { MemberStatistics } from "./memberStatistics";

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { LocalIp } from "../../Config";
-import user from "./User";
+import user from "../../entity/User";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -23,25 +23,37 @@ export const userApi = createApi({
         // },
         body,
       }),
-
-      transformResponse(response: string) {
-        console.log("response", response);
-        return response;
-      },
       invalidatesTags: (result, error, arg) => [{ type: "User", id: arg.id }],
     }),
+
     getAllUser: builder.query<user[], void>({
       query: () => `/`,
-      transformResponse(response: user[]) {
-        console.log(response);
-        return response;
-      },
+
       providesTags: (result, error, arg) =>
         result
           ? [...result.map(({ id }) => ({ type: "User" as const, id })), "User"]
           : ["User"],
     }),
+
+    GetUserById: builder.query<user, string>({
+      query: (body) => `/` + body,
+
+      providesTags: (result, error, arg) =>
+        result
+          ? [
+              {
+                type: "User" as const,
+                id: result.id,
+              },
+              "User",
+            ]
+          : ["User"],
+    }),
   }),
 });
 
-export const { useGetAllUserQuery, useCreateUserMutation } = userApi;
+export const {
+  useGetAllUserQuery,
+  useCreateUserMutation,
+  useGetUserByIdQuery,
+} = userApi;

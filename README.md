@@ -18,51 +18,51 @@ G: 24 (60%).
 VG: 34 (85%). 
 
 ### Krav (4) 
-En logga, splashscreen och appikon ska designas och användas. * 
-Applikationen ska byggas med RN, Expo & TS. * 
+En logga, splashscreen och appikon ska designas och användas. * logga kvar att användas?
+Applikationen ska byggas med RN, Expo & TS. * JA
 Designen av appen ska utgå ifrån befintliga skisser, undantag kan ges men ska diskuteras 
 med produktägare, godkännas och dokumenteras. * 
-All information ska kommuniceras till och från en server. (VG) 
+All information ska kommuniceras till och från en server. (VG) JA
 
 ### Hushåll (7) 
 Ett hushåll ska ha ett namn och en genererad (enkel) kod så andra kan gå med i hushållet, 
 namnet ska gå att ändra. * 
 Alla användare i ett hushåll ska kunna se vilka som tillhör ett hushåll. 
 En ägare av ett hushåll ska kunna se förfrågningar om att gå med i hushållet. 
-En ägare ska kunna acceptera eller neka förfrågningar. 
+En ägare ska kunna acceptera eller neka förfrågningar. // byta isAccepted till accepted | pending | rejected .. ändra api
 En ägare ska kunna göra andra till ägare. 
 En ägare ska kunna pausa en användare och under pausade perioder ska användare inte 
-tas med i statistiken. 
+tas med i statistiken. // göra api
 Om en använder har pausats under en del av en period i statistiken ska graferna 
 normaliseras. 
 
 ### Konto (5) 
-En användare ska kunna logga in sig. * 
-En användare ska kunna skapa ett nytt hushåll. * 
+En användare ska kunna logga in sig. * JA
+En användare ska kunna skapa ett nytt hushåll. * JA
 En användare ska kunna gå med i ett hushåll genom att ange hushållets kod. * 
 När en användare har valt att gå med i ett hushåll behöver en ägare av hushållet först 
 godkänna användaren.
-En användare ska kunna lämna ett hushåll. 
+En användare ska kunna lämna ett hushåll. //göra api för
 
 ### Profil (6) 
-En användare ska kunna ange sitt namn. * 
-En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista. * 
+En användare ska kunna ange sitt namn. * ska man kunna ändra sitt member name? = göra api
+En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista. * göra Api
 Valda avatarer ska inte kunna väljas av andra användare i hushållet. * 
 Avataren ska användas i appen för att visa vad användaren har gjort. * 
-En användare ska kunna ställa in appens utseende (mörkt, ljust, auto). 
+En användare ska kunna ställa in appens utseende (mörkt, ljust, auto). JA
 Om en användare tillhör två eller fler hushåll ska denne kunna välja att byta mellan de 
-olika hushållen. 
+olika hushållen. Strax
 
 ### Sysslor (6) 
-En ägare ska kunna lägga till sysslor att göra i hemmet. * 
+En ägare ska kunna lägga till sysslor att göra i hemmet. * Strax
 En syssla ska ha ett namn, en beskrivning (text), hur ofta den ska göras (dagar), och en 
-vikt som beskriver hur energikrävande den är. * 
+vikt som beskriver hur energikrävande den är. * JA
 En användare ska kunna lägga till en ljudinspelning och en bild för att beskriva sysslan 
-ytterligare. 
-En ägare ska kunna redigera en syssla. * 
-En ägare ska kunna ta bort en syssla. * 
+ytterligare. Senare...
+En ägare ska kunna redigera en syssla. * Api
+En ägare ska kunna ta bort en syssla. * Api
 När en syssla tas bort ska användaren få en varning om att all statistik gällande sysslan 
-också kommer att tas bort och få valet att arkivera sysslan istället. 
+också kommer att tas bort och få valet att arkivera sysslan istället. Senare..
 
 ### Dagsvyn (3) 
 Alla sysslor ska listas i en dagsvy och ge en översikt kring vad som behöver göras. * 
