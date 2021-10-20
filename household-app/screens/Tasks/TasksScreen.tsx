@@ -34,7 +34,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
   };
 
   const onPressUsersInHousehold = () => {
-    navigation.navigate(MainRoutes.UsersInHouseholdScreen);
+    navigation.navigate(MainRoutes.UsersInHouseHoldScreen);
   };
 
   const onPressEditTasks = () => {
