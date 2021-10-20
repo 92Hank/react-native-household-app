@@ -11,6 +11,7 @@ export enum MainRoutes {
   HouseholdScreen = "HouseholdScreen",
   StatisticsScreen = "StatisticsScreen",
   UsersInHouseHoldScreen = "UsersInHouseHoldScreen",
+  HouseholdProfile = "HouseholdProfile",
 }
 
 export type MainStackParamList = {
@@ -23,7 +24,8 @@ export type MainStackParamList = {
   [MainRoutes.HouseholdScreen]: undefined;
   [MainRoutes.StatisticsScreen]: undefined;
   [MainRoutes.UsersInHouseHoldScreen]: undefined;
-};
+  [MainRoutes.HouseholdProfile]: undefined;
+}
 
 type ScreenName = keyof MainStackParamList;
 
