@@ -51,7 +51,7 @@ const PostSchema = Yup.object().shape<PostSchemaType>({
 });
 
 
-const recurring = 7;
+const recurring = 2;
 
 const ModalComponent: React.FC<Props> = ({
   isOpen,
@@ -150,35 +150,39 @@ const ModalComponent: React.FC<Props> = ({
                       <Card style={styles.inputsCard}>
                         <Card.Content>
                           <View style={styles.clickedDay}>
-                            {/* <View style={styles.clickedDayTitle}>
-                              <Text style={styles.buttonText}>
-                                Återkommer:{" "}
-                              </Text>
-                            </View>
-                            <View style={styles.clickedDayReturn}>
-                              <Text style={{ marginRight: 3 }}>Var</Text>
-                              <TouchableOpacity
-                                style={styles.circleButton}
-                                onPress={() => alert("your added value")}
-                              >
-                                <Text style={styles.circleBtnText}>
-                                  {recurring}
-                                </Text>
-                              </TouchableOpacity>
-                              <Text style={{ marginLeft: 3 }}>dag</Text>
-                            </View> */}
-
                             <ListItem
                               days={[
-                                "1",
-                                "2",
-                                "3",
-                                "4",
-                                "5",
-                                "6",
-                                "7",
-                                "8",
-                                "9",
+                                { key: "1" },
+                                { key: "2" },
+                                { key: "3" },
+                                { key: "4" },
+                                { key: "5" },
+                                { key: "6" },
+                                { key: "7" },
+                                { key: "8" },
+                                { key: "9" },
+                                { key: "10" },
+                                { key: "11" },
+                                { key: "12" },
+                                { key: "13" },
+                                { key: "14" },
+                                { key: "15" },
+                                { key: "16" },
+                                { key: "17" },
+                                { key: "18" },
+                                { key: "19" },
+                                { key: "20" },
+                                { key: "21" },
+                                { key: "22" },
+                                { key: "23" },
+                                { key: "24" },
+                                { key: "25" },
+                                { key: "26" },
+                                { key: "27" },
+                                { key: "28" },
+                                { key: "29" },
+                                { key: "30" },
+                                { key: "31" },
                               ]}
                               onPressDays={onPressDays}
                               event={event}
@@ -189,7 +193,7 @@ const ModalComponent: React.FC<Props> = ({
                       <Card style={styles.inputsCard2}>
                         <Card.Content>
                           <CircleButtonGroup
-                            buttons={["1", "2", "3", "4", "5", "6"]}
+                            buttons={["1", "2", "4", "6", "8"]}
                             onPress={onPress}
                             event={event}
                           />
@@ -311,13 +315,6 @@ const ModalComponent: React.FC<Props> = ({
                               </TouchableOpacity>
                               <Text style={{ marginLeft: 3 }}>dag</Text>
                             </View>
-                            {/* <View style={styles.clickedDayTitle}>
-                            <ListItem
-                              days={["1", "2", "3", "4", "5", "6", "7", "8", "9"]}
-                              onPress={onPress}
-                              event={event}
-                            />
-                            </View> */}
                           </View>
                         </Card.Content>
                       </Card>
