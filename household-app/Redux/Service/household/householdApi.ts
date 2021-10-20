@@ -4,7 +4,7 @@ import household, {
   householdAcceptOrMakeOwner,
   householdCreate,
   householdJoin,
-} from "../../entity/householdRequestType";
+} from "../../entity/householdType";
 
 export const householdApi = createApi({
   reducerPath: "household",

@@ -10,7 +10,7 @@ import {
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import styles from "./styles";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { baseProps } from "react-native-gesture-handler/lib/typescript/handlers/gestureHandlers";
 import AddHouseholdModal from "../../component/householdComponents/addHouseholdModal/addHouseholdModal.component";
@@ -19,7 +19,7 @@ import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSele
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { logout } from "../../Redux/features/loginUser/loginUserSlice";
 import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
-import Household from "../../Redux/entity/householdRequestType"
+import Household from "../../Redux/entity/householdType"
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
@@ -66,6 +66,24 @@ const HouseholdScreen: FC<Props> = ({
   const handleJoinModalClose = () => {
     setJoinModalIsOpen(false);
   };
+
+  const onPressUsersInHousehold = () => {
+    navigation.navigate(MainRoutes.UsersInHouseHoldScreen);
+  };
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={onPressUsersInHousehold}
+          // style={styles.householdButton}
+        >
+          <FontAwesome5 name="house-user" size={24} color="black" />
+          {/* <Text style={styles.householdButtonText}>Medlemmar</Text> */}
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   return (
     <>
