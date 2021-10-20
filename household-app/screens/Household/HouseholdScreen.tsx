@@ -19,7 +19,7 @@ import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSele
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { logout } from "../../Redux/features/loginUser/loginUserSlice";
 import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
-import Household from "../../Redux/entity/householdType"
+import Household from "../../Redux/entity/household"
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
