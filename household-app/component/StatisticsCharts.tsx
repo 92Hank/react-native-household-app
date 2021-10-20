@@ -83,11 +83,11 @@ export default StatisticsCharts;
 
 const styles = StyleSheet.create({
     smallChartView: {
-        display: "flex", //ok
-        flexGrow: 1,        //ok
+        display: "flex",
+        flexGrow: 1,
         flexShrink: 0,
-        flexDirection: "row", //---
-        flexWrap: "wrap",  //VARFÖR ÄR DEN VÄND SOM EN KOLUMN OCJ BRYTER INTE MED LITET AVSTÅND PÅ ROW WRAP?
+        flexDirection: "row",
+        flexWrap: "wrap",
         alignContent: "flex-start",
         justifyContent: "space-evenly",
     },
