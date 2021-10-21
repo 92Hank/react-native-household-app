@@ -19,8 +19,11 @@ export const LoginAsync = createAsyncThunk(
     const [user, statusCode, status] = await LogIn(email, password);
 
     if (statusCode === 200 && user) {
+      console.log("fulfill", statusCode, user);
+
       return user;
     } else {
+      console.log("rejectWithValue", status);
       throw new Error(String(statusCode) + " " + status);
     }
   }

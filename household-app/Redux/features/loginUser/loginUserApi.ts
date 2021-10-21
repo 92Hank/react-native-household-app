@@ -1,6 +1,7 @@
 import {  webUrl } from "../../Config";
 import user from "../../entity/User";
 
+// A mock function to mimic making an async request for data
 export async function LogIn(
   email: string,
   password: string
