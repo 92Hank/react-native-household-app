@@ -29,7 +29,6 @@ interface Props {
   isOpen: boolean;
   handleAddClose: () => void;
   event: any;
-  i: number;
 }
 
 interface Task {
@@ -67,7 +66,6 @@ const ModalComponent: React.FC<Props> = ({
   isOpen,
   handleAddClose,
   event,
-  i,
 }) => {
   const [name, setName] = useState<string>();
   const [description, setDescription] = useState<string>();
