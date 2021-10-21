@@ -4,7 +4,6 @@ import loginUserSliceReducer, {
 } from "./features/loginUser/loginUserSlice";
 import SelectedStateReducer, {
   SelectedStateSlice,
-  SelectedStateSlice,
 } from "./features/SelectedState/SelectedSrateSlice";
 import { householdApi } from "./Service/household/householdApi";
 import { taskApi } from "./Service/task/taskApi";
