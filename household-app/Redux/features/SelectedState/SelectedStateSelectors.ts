@@ -1,7 +1,7 @@
 import { RootState } from "../../store";
 
-export const selectSelectedHousehold = (state: RootState) =>
-  state.SelectedState.SelectedHousehold;
+export const selectedHouseholdData = (state: RootState) =>
+  state.SelectedState.SelectedHouseholdData;
 
-export const selectSelectedTask = (state: RootState) =>
-  state.SelectedState.SelectedTask;
+export const selectedTask = (state: RootState) =>
+  state.SelectedState.SelectedTaskData.SelectedTask;
