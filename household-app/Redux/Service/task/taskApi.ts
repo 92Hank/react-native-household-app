@@ -27,6 +27,26 @@ export const taskApi = createApi({
           ? [...result.map(({ id }) => ({ type: "Task" as const, id })), "Task"]
           : ["Task"],
     }),
+
+    editTask: builder.mutation<string, task>({
+      query: (body) => ({
+        url: `/` + body.id,
+        method: "PUT",
+        responseHandler: "text",
+        body,
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg.id }],
+    }),
+
+    deleteTask: builder.mutation<string, string>({
+      query: (body) => ({
+        url: `/` + body,
+        method: "DELETE",
+        responseHandler: "text",
+        body,
+      }),
+      invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg }],
+    }),
   }),
 });
 
@@ -34,4 +54,6 @@ export const {
   useCreateTaskMutation,
   useGetTaskByHouseholdIdQuery,
   useLazyGetTaskByHouseholdIdQuery,
+  useEditTaskMutation,
+  useDeleteTaskMutation,
 } = taskApi;
