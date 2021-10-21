@@ -11,14 +11,18 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import ModalComponent from "../../component/modal/ModalComponent";
 import TaskCard from "../../component/taskFolder/TaksCard";
-
-
+import { useAppSelector } from "../../Redux/hooks";
+import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
-const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElement => {
+const TasksScreen: FC<Props> = ({
+  navigation,
+  event,
+}: Props): React.ReactElement => {
   const [addModalOpen, setAddModalOpen] = useState(false);
-  
+  const currentHousehold = useAppSelector(selectSelectedHousehold);
+  console.log(currentHousehold);
   const clickOnTask = () => {
     console.log("click on task, now we will mark it as done?");
   };
@@ -26,10 +30,9 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
   const handleAddClick = () => {
     setAddModalOpen(true);
     console.log("open");
-
   };
   const handleAddClose = () => {
-    console.log("close")
+    console.log("close");
     setAddModalOpen(false);
   };
 
@@ -38,45 +41,43 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
   };
 
   const onPressEditTasks = () => {
-    console.log("navigate")
+    console.log("navigate");
     // navigation.navigate(MainRoutes.UsersInHouseHoldScreen)
   };
- 
+
   return (
-    <>
-      <View style={styles.container}>
-        <View>
-          <FlatList
-            data={tasksNow}
-            keyExtractor={(item: any) => item.id}
-            renderItem={({ item }) => (
-              <TaskCard key={item.id} task={item} onPress={clickOnTask} />
-            )}
-          />
-          <ModalComponent
-            isOpen={addModalOpen}
-            handleAddClose={handleAddClose}
-            event={event}
-          />
-        </View>
-        <View style={styles.buttonsContainer}>
-          <TouchableOpacity
-            onPress={handleAddClick}
-            style={styles.householdButton}
-          >
-            <MaterialIcons name="add-circle-outline" size={30} color="black" />
-            <Text style={styles.householdButtonText}>Skapa</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={onPressEditTasks}
-            style={styles.householdButton}
-          >
-            <Feather name="edit-2" size={30} color="black" />
-            <Text style={styles.householdButtonText}>Ändra</Text>
-          </TouchableOpacity>
-        </View>
+    <View style={styles.container}>
+      <View>
+        <FlatList
+          data={tasksNow}
+          keyExtractor={(item: any) => item.id}
+          renderItem={({ item }) => (
+            <TaskCard key={item.id} task={item} onPress={clickOnTask} />
+          )}
+        />
+        <ModalComponent
+          isOpen={addModalOpen}
+          handleAddClose={handleAddClose}
+          event={event}
+        />
       </View>
-    </>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity
+          onPress={handleAddClick}
+          style={styles.householdButton}
+        >
+          <MaterialIcons name="add-circle-outline" size={30} color="black" />
+          <Text style={styles.householdButtonText}>Skapa</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onPressEditTasks}
+          style={styles.householdButton}
+        >
+          <Feather name="edit-2" size={30} color="black" />
+          <Text style={styles.householdButtonText}>Ändra</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
@@ -163,8 +164,6 @@ let tasksNow: TaskNow[] = [
     emojiList: emojiList,
   },
 ];
-
-
 
 interface TaskNow {
   id?: string;
