@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {  webUrl } from "../../Config";
+import { webUrl } from "../../Config";
 import task from "../../entity/task";
 
 export const taskApi = createApi({
@@ -30,4 +30,8 @@ export const taskApi = createApi({
   }),
 });
 
-export const { useCreateTaskMutation, useGetTaskByHouseholdIdQuery } = taskApi;
+export const {
+  useCreateTaskMutation,
+  useGetTaskByHouseholdIdQuery,
+  useLazyGetTaskByHouseholdIdQuery,
+} = taskApi;

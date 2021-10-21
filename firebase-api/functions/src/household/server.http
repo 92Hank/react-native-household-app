@@ -70,7 +70,7 @@ Content-Type: application/json
 ###
 
 //change name on household
-PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/household/changename
+PATCH http://172.19.200.32:5001/react-native-household-app/us-central1/webApi/household/changename
 Content-Type: application/json
 
 {
