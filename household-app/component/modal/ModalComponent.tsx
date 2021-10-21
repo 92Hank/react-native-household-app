@@ -122,10 +122,11 @@ const ModalComponent: React.FC<Props> = ({
   };
 
   const onPress = (event: any) => {
-    console.log('onPress works fine');
+    console.log("onPress works fine");
     setIsClicked(true);
-    console.log(event)
+    console.log(event);
     //do some stuff here
+    // need to pass repeated here to CircleButtonGroup.tsx
     // onChangeInputRepeated;
   };
 
@@ -134,6 +135,7 @@ const ModalComponent: React.FC<Props> = ({
     setIsClickedDays(true);
     console.log(event);
     //do some stuff here
+    // need to pass value here to taskDayListItem.tsx
     // onChangeInputValue;
   };
 
