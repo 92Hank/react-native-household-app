@@ -20,7 +20,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
   const [addModalOpen, setAddModalOpen] = useState(false);
   
   const clickOnTask = () => {
-    console.log("click on task, now we will mark it as done?");
+    console.log("click on task,");
   };
 
   const handleAddClick = () => {
@@ -37,10 +37,10 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
     navigation.navigate(MainRoutes.UsersInHouseHoldScreen);
   };
 
-  const onPressEditTasks = () => {
-    console.log("navigate")
-    // navigation.navigate(MainRoutes.UsersInHouseHoldScreen)
-  };
+  // const onPressEditTasks = () => {
+    
+  //   navigation.navigate(MainRoutes.UsersInHouseHoldScreen)
+  // };
  
   return (
     <>
@@ -68,11 +68,11 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
             <Text style={styles.householdButtonText}>Skapa</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={onPressEditTasks}
+            onPress={onPressUsersInHousehold}
             style={styles.householdButton}
           >
             <Feather name="edit-2" size={30} color="black" />
-            <Text style={styles.householdButtonText}>Ändra</Text>
+            <Text style={styles.householdButtonText}>Medlemmar</Text>
           </TouchableOpacity>
         </View>
       </View>
