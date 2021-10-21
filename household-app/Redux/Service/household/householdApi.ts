@@ -48,6 +48,30 @@ export const householdApi = createApi({
           : ["Household"],
     }),
 
+    GetHouseholdById: builder.query<household, string>({
+      query: (body) => ({
+        url: `/` + body,
+        method: "GET",
+        responseHandler: (response) => {
+          if (response.status !== 200) {
+            return response.text();
+          } else {
+            return response.json();
+          }
+        },
+      }),
+      providesTags: (result, error, arg) =>
+        result
+          ? [
+              {
+                type: "Household" as const,
+                id: result.id,
+              },
+              "Household",
+            ]
+          : ["Household"],
+    }),
+
     GetHouseholdByInviteCode: builder.query<household, string>({
       query: (body) => ({
         url: `household/invitecode/` + body,
@@ -115,6 +139,7 @@ export const householdApi = createApi({
 
 export const {
   useCreateHouseholdMutation,
+  useGetHouseholdByIdQuery,
   useGetHouseholdByUserIdQuery,
   useJoinHouseholdMutation,
   useGetHouseholdByInviteCodeQuery,
