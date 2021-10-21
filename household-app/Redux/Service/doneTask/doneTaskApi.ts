@@ -3,7 +3,7 @@ import { webUrl } from "../../Config";
 import doneTask from "../../entity/doneTask";
 import task from "../../entity/task";
 
-export const doneTask = createApi({
+export const doneTaskApi = createApi({
   reducerPath: "doneTask",
   baseQuery: fetchBaseQuery({
     baseUrl: webUrl + "donetask",
@@ -15,13 +15,6 @@ export const doneTask = createApi({
         url: `/`,
         method: "POST",
         responseHandler: "text",
-        // responseHandler: (response) => {
-        //   if (response.status !== 200) {
-        //     return response.text();
-        //   } else {
-        //     return response.json();
-        //   }
-        // },
         body,
       }),
       invalidatesTags: (result, error, arg) => [
@@ -43,4 +36,4 @@ export const doneTask = createApi({
   }),
 });
 
-export const { useCreateDoneTaskMutation, useGetTaskByHouseholdIdQuery } = doneTask;
+export const { useCreateDoneTaskMutation, useGetTaskByHouseholdIdQuery } = doneTaskApi;

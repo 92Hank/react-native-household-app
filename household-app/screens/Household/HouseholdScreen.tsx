@@ -20,6 +20,9 @@ import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { logout } from "../../Redux/features/loginUser/loginUserSlice";
 import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
 import Household from "../../Redux/entity/household"
+import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
+import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
+import household from "../../Redux/entity/household";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
@@ -30,6 +33,7 @@ const HouseholdScreen: FC<Props> = ({
   const [joinModalIsOpen, setJoinModalIsOpen] = useState(false);
    const dispatch = useAppDispatch();
    const user = useAppSelector(selectCurrentLoginUser);
+   const currentHousehold = useAppSelector(selectSelectedHousehold);
    
    if (!user){
      navigation.navigate(MainRoutes.LoginScreen);
@@ -37,6 +41,7 @@ const HouseholdScreen: FC<Props> = ({
    } 
   const { data, isLoading, isFetching, isError, error } =
     useGetHouseholdByUserIdQuery(user.id!);
+
  
 
   // useEffect(() => {
@@ -44,7 +49,8 @@ const HouseholdScreen: FC<Props> = ({
   // }, [user])
 
 
-  const clickOnHousehold = () => {
+  const clickOnHousehold = (item: household) => {
+    dispatch(setSelectedHousehold(item));
     navigation.navigate(MainRoutes.TasksScreen);
   };
 
@@ -102,7 +108,7 @@ const HouseholdScreen: FC<Props> = ({
                 <HouseholdComponent
                   key={item.id}
                   household={item}
-                  onPress={clickOnHousehold}
+                  onPress={() => clickOnHousehold(item)}
                 />
               )}
             />
