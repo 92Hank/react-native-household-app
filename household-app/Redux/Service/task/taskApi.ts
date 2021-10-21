@@ -14,13 +14,6 @@ export const taskApi = createApi({
         url: `/`,
         method: "POST",
         responseHandler: "text",
-        // responseHandler: (response) => {
-        //   if (response.status !== 200) {
-        //     return response.text();
-        //   } else {
-        //     return response.json();
-        //   }
-        // },
         body,
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg.id }],
