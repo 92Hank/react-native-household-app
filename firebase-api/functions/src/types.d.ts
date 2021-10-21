@@ -29,8 +29,7 @@ interface Member {
   emoji: number;
   isPaused: boolean;
   isOwner: boolean;
-  isAccepted: boolean;
-  // acceptedStatus: "accepted" | "pending" | "rejected";
+  AcceptedStatus: "accepted" | "pending" | "rejected";
 }
 
 interface Household {

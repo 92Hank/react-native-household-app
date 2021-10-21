@@ -14,7 +14,7 @@ const initialState: loginUserState = {
 };
 
 export const LoginAsync = createAsyncThunk(
-  "counter/fetchCount",
+  "loginUser/LoginAsync",
   async ({ email, password }: loginSend) => {
     const [user, statusCode, status] = await LogIn(email, password);
 

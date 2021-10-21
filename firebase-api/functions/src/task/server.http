@@ -20,3 +20,23 @@ GET http://localhost:5000/react-native-household-app/us-central1/webApi/tasks/ho
 # GET http://localhost:5000/react-native-household-app/us-central1/webApi/tasks
 // dont think we are going to need this..
 ###
+//update, send in id in url and the whole objekt
+PUT http://localhost:5000/react-native-household-app/us-central1/webApi/tasks/e23PF2PrNAkQ9YYm7WJE
+Content-Type: application/json
+
+{
+    "description": "damsuga mattan",
+    "value": 2,
+    "houseHoldId": "houseHoldId1",
+    "repeated": 3,
+    "archived": false,
+    "name": "städa"
+}
+
+###
+
+###
+// delete task on task id
+DELETE  http://localhost:5000/react-native-household-app/us-central1/webApi/tasks/mAYLUENps7KWqnKPtI3D
+
+###
