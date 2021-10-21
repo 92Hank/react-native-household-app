@@ -16,27 +16,6 @@ import HouseholdScreen from "../screens/Household/HouseholdScreen";
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
-const LoginStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name={'LoginScreen'}
-      component={LoginScreen}
-      options={{
-        // headerShown: false,
-        title: "Login",
-        headerTitleAlign: "center",
-        headerTintColor: "grey",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-        // headerRight: () => (
-        //   <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
-        // ),
-      }}
-    />
-  </Stack.Navigator>
-);
-
 const HouseholdStack = () => (
   <Stack.Navigator>
     <Stack.Screen
@@ -73,52 +52,6 @@ const ProfileStack = () => (
           fontWeight: "bold",
         },
         headerBackVisible: false,
-      }}
-    />
-  </Stack.Navigator>
-);
-
-const TasksStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen
-      name={'TasksScreen'}
-      component={TasksScreen}
-      options={{
-        // headerShown: false,
-        title: "Your Tasks",
-        headerTitleAlign: "center",
-        headerTintColor: "grey",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-      }}
-    />
-    <Stack.Screen
-      name={'LastWeekScreen'}
-      component={LastWeekScreen}
-      options={{
-        // headerShown: false,
-        headerBackVisible: false,
-        title: "Last Week",
-        headerTitleAlign: "center",
-        headerTintColor: "grey",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-      }}
-    />
-    <Stack.Screen
-      name={'CurrentWeekScreen'}
-      component={CurrentWeekScreen}
-      options={{
-        // headerShown: false,
-        headerBackVisible: false,
-        title: "Current Week",
-        headerTitleAlign: "center",
-        headerTintColor: "grey",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
       }}
     />
   </Stack.Navigator>
