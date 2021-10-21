@@ -1,9 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { webUrl } from "../../Config";
 import household, {
-  householdAcceptOrMakeOwner,
+  householdIdAndUserId,
+  householdChangeName,
   householdCreate,
   householdJoin,
+  householdChangeEmoji,
 } from "../../entity/household";
 
 export const householdApi = createApi({
@@ -96,6 +98,44 @@ export const householdApi = createApi({
           : ["Household"],
     }),
 
+    changeName: builder.mutation<string, householdChangeName>({
+      query: (body) => ({
+        url: `/changename`,
+        method: "PATCH",
+        responseHandler: "text",
+        body,
+      }),
+
+      invalidatesTags: (result, error, arg) => [
+        { type: "Household", id: arg.houseHoldId },
+      ],
+    }),
+    changeEmoji: builder.mutation<string, householdChangeEmoji>({
+      query: (body) => ({
+        url: `/changeemoji`,
+        method: "PATCH",
+        responseHandler: "text",
+        body,
+      }),
+
+      invalidatesTags: (result, error, arg) => [
+        { type: "Household", id: arg.houseHoldId },
+      ],
+    }),
+
+    pauseUser: builder.mutation<string, householdIdAndUserId>({
+      query: (body) => ({
+        url: `/setpaused`,
+        method: "PATCH",
+        responseHandler: "text",
+        body,
+      }),
+
+      invalidatesTags: (result, error, arg) => [
+        { type: "Household", id: arg.houseHoldId },
+      ],
+    }),
+
     JoinHousehold: builder.mutation<string, householdJoin>({
       query: (body) => ({
         url: `/join`,
@@ -108,8 +148,20 @@ export const householdApi = createApi({
         { type: "Household", id: arg.houseHoldId },
       ],
     }),
+    leaveHousehold: builder.mutation<string, householdIdAndUserId>({
+      query: (body) => ({
+        url: `/leave`,
+        method: "PATCH",
+        responseHandler: "text",
+        body,
+      }),
 
-    AcceptUser: builder.mutation<string, householdAcceptOrMakeOwner>({
+      invalidatesTags: (result, error, arg) => [
+        { type: "Household", id: arg.houseHoldId },
+      ],
+    }),
+
+    AcceptUser: builder.mutation<string, householdIdAndUserId>({
       query: (body) => ({
         url: `/accept`,
         method: "PATCH",
@@ -122,7 +174,7 @@ export const householdApi = createApi({
       ],
     }),
 
-    MakeUserToOwner: builder.mutation<string, householdAcceptOrMakeOwner>({
+    MakeUserToOwner: builder.mutation<string, householdIdAndUserId>({
       query: (body) => ({
         url: `/owner`,
         method: "PATCH",
@@ -138,11 +190,15 @@ export const householdApi = createApi({
 });
 
 export const {
-  useCreateHouseholdMutation,
   useGetHouseholdByIdQuery,
   useGetHouseholdByUserIdQuery,
-  useJoinHouseholdMutation,
   useGetHouseholdByInviteCodeQuery,
+  usePauseUserMutation,
+  useCreateHouseholdMutation,
+  useJoinHouseholdMutation,
+  useLeaveHouseholdMutation,
+  useChangeNameMutation,
+  useChangeEmojiMutation,
   useAcceptUserMutation,
   useMakeUserToOwnerMutation,
 } = householdApi;

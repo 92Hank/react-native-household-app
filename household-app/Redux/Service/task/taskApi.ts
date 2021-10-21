@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import {  webUrl } from "../../Config";
+import { webUrl } from "../../Config";
 import task from "../../entity/task";
 
 export const taskApi = createApi({
@@ -14,13 +14,6 @@ export const taskApi = createApi({
         url: `/`,
         method: "POST",
         responseHandler: "text",
-        // responseHandler: (response) => {
-        //   if (response.status !== 200) {
-        //     return response.text();
-        //   } else {
-        //     return response.json();
-        //   }
-        // },
         body,
       }),
       invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg.id }],
@@ -37,4 +30,8 @@ export const taskApi = createApi({
   }),
 });
 
-export const { useCreateTaskMutation, useGetTaskByHouseholdIdQuery } = taskApi;
+export const {
+  useCreateTaskMutation,
+  useGetTaskByHouseholdIdQuery,
+  useLazyGetTaskByHouseholdIdQuery,
+} = taskApi;

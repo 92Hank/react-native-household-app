@@ -27,10 +27,19 @@ export interface householdJoin {
   inviteCode: number;
   member: memberSend;
 }
+export interface householdChangeName {
+  houseHoldId: string;
+  name: string;
+}
 
-export interface householdAcceptOrMakeOwner {
+export interface householdIdAndUserId {
   houseHoldId: string;
   userId: string;
+}
+export interface householdChangeEmoji {
+  houseHoldId: string;
+  userId: string;
+  emoji: number;
 }
 
 
