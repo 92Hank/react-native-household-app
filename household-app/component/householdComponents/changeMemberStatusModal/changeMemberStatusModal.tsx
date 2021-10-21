@@ -11,6 +11,8 @@ import RadioForm, {
   RadioButtonInput,
   RadioButtonLabel,
 } from "react-native-simple-radio-button";
+import household from "../../../Redux/entity/household";
+import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 
 let radioPropsOwner = [
   { label: "Ja", value: 1 },
@@ -27,6 +29,11 @@ let radioPropsAccept = [
   { label: "Nej", value: 0 },
 ];
 
+let radioPropsUnPause = [
+  { label: "Ja", value: 1 },
+  { label: "Nej", value: 0 },
+];
+
 interface Props {
   isOpen: boolean;
   handleModalClose: () => void;
@@ -34,41 +41,85 @@ interface Props {
 }
 
 function ChangeMemberStatusModal(props: Props) {
-  const [name, setName] = useState<string>();
+  // const [name, setName] = useState<string>();
   const user = useAppSelector(selectCurrentLoginUser);
   const [makeOwner, setMakeOwner] = useState<number>(0);
   const [paused, setPaused] = useState<number>(0);
+  const [unPaused, setUnPaused] = useState<number>(0);
+  const currentHousehold = useAppSelector(selectSelectedHousehold);
   const [acceptUser, setAcceptUser] = useState<number>(0);
 
-  useEffect(() => {
-    if(props.member)
-    setPaused(props.member.isPaused ? 0 : 1);
-    
-  },[])
-
-  const setData = () => {};
-  // måste göre en koll om han är på paus lr inte
-
   const onSave = () => {
-    if (makeOwner === 1) {
-      console.log("make owner api");
+    let rights = false;
+    currentHousehold?.member.forEach((m) => {
+      if(m.userId === user?.id && m.isOwner){
+        rights = true;
+      }
+    })
+    // console.log()
+    if(!rights){
+      alert("Du har ej rättigheter att ändra status");
+      // snackbar in future!
       setMakeOwner(0);
+      setPaused(0);
+    }
+    if(makeOwner === 1 && paused === 1){
+      alert("kan ej både pausa och göra till ägare!")
+      // snackbar in future!
+      setMakeOwner(0);
+      setPaused(0);
+      setPaused(0);
+      setUnPaused(0);
+      setAcceptUser(0);
+      return;
+    }
+    if (makeOwner === 1 && props.member.isOwner === false) {
+      console.log("make owner api");
+       setMakeOwner(0);
+       setPaused(0);
+       setPaused(0);
+       setUnPaused(0);
+       setAcceptUser(0);
       return;
       // api mot att göra till owner
     }
-    if (paused === 1) {
+    if (paused === 1 && props.member.isPaused === false) {
       // Make som changes here
       console.log("set on pause api");
-      setPaused(0);
+       setMakeOwner(0);
+       setPaused(0);
+       setPaused(0);
+       setUnPaused(0);
+       setAcceptUser(0);
       return;
+    }
+    if (unPaused === 1 && props.member.isPaused === true) {
+      console.log("unPause member api");
+       setMakeOwner(0);
+       setPaused(0);
+       setPaused(0);
+       setUnPaused(0);
+       setAcceptUser(0);
+      return;
+      // api mot att göra till owner
     }
     if (acceptUser === 1 && props.member.AcceptedStatus === "pending") {
       console.log("acceptUserApi");
-      setAcceptUser(0);
+       setMakeOwner(0);
+       setPaused(0);
+       setPaused(0);
+       setUnPaused(0);
+       setAcceptUser(0);
+      return;
     } 
     if (acceptUser === 0 && props.member.AcceptedStatus === "pending") {
       console.log("reject remove user");
-      setAcceptUser(0);
+       setMakeOwner(0);
+       setPaused(0);
+       setPaused(0);
+       setUnPaused(0);
+       setAcceptUser(0);
+      return;
     }
   };
 
@@ -95,7 +146,7 @@ function ChangeMemberStatusModal(props: Props) {
               </Text>
               {props.member.AcceptedStatus == "accepted" && (
                 <View>
-                  {props.member.isOwner == false ? (
+                  {props.member.isOwner === false &&props.member.isPaused=== false &&(
                     <View>
                       <Text style={styles.modalText}>Gör till ägare:</Text>
                       <View style={{ flexDirection: "row" }}>
@@ -110,17 +161,27 @@ function ChangeMemberStatusModal(props: Props) {
                       <Text style={styles.modalText}>Pausa användare:</Text>
                       <RadioForm
                         radio_props={radioPropsPause}
-                        initial={paused}
+                        initial={1}
                         onPress={(value: number) => {
                           setPaused(value as number);
                         }}
                       />
                     </View>
-                  ) : (
-                    <Text style={styles.modalText}>
-                      En av ägarna i hushållet
-                    </Text>
                   )}
+                </View>
+              )}
+              {props.member.isPaused === true && (
+                <View>
+                  <Text style={styles.modalText}>
+                    Aktivera pausad användare:
+                  </Text>
+                  <RadioForm
+                    radio_props={radioPropsPause}
+                    initial={1}
+                    onPress={(value: number) => {
+                      setUnPaused(value as number);
+                    }}
+                  />
                 </View>
               )}
               {props.member.AcceptedStatus == "pending" && (
@@ -133,6 +194,11 @@ function ChangeMemberStatusModal(props: Props) {
                       setAcceptUser(value as number);
                     }}
                   />
+                </View>
+              )}
+              {props.member.isOwner === true && (
+                <View>
+                  <Text style={styles.modalText}>En av ägarna i hushållet</Text>
                 </View>
               )}
               <View style={styles.buttonsContainer}>

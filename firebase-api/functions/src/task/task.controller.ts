@@ -14,7 +14,7 @@ export const postTask = async (req: Request, res: Response) => {
     const task: Task = {
       houseHoldId: req.body["houseHoldId"],
       repeated: req.body["repeated"],
-      archived: req.body["archived"],
+      archived: false,
       description: req.body["description"],
       value: req.body["value"],
       name: req.body["name"],

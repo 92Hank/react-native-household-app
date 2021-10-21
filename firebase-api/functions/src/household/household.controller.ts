@@ -134,7 +134,7 @@ export const acceptMember = (req: Request, res: Response): void => {
                 member: FieldValue.arrayRemove(m),
               })
               .then(() => {
-                m.isAccepted = true;
+                m.AcceptedStatus = "accepted";
                 query.ref
                     .update({
                       member: FieldValue.arrayUnion(m),
@@ -235,6 +235,7 @@ export const setMemberOnPauseHouseHold = (
 ): void => {
   const houseHoldId = req.body["houseHoldId"];
   const userId = req.body["userId"];
+  const isPaused = req.body["isPaused"];
 
   const ref = db.collection(householdCollection).doc(houseHoldId);
   ref
@@ -249,7 +250,7 @@ export const setMemberOnPauseHouseHold = (
                 member: FieldValue.arrayRemove(m),
               })
               .then(() => {
-                m.isPaused = true;
+                m.isPaused = isPaused;
                 query.ref
                     .update({
                       member: FieldValue.arrayUnion(m),
