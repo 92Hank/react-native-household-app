@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { LocalIp } from "../../Config";
+import {  webUrl } from "../../Config";
 import task from "../../entity/task";
 
 export const taskApi = createApi({
   reducerPath: "taskApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: LocalIp + "/react-native-household-app/us-central1/webApi/Task",
+    baseUrl: webUrl + "Task",
   }),
   tagTypes: ["Task"],
   endpoints: (builder) => ({

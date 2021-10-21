@@ -26,7 +26,7 @@ export const householdApi = createApi({
 
     GetHouseholdByUserId: builder.query<household[], string>({
       query: (body) => ({
-        url: `/` + body,
+        url: `/userId/` + body,
         method: "GET",
         responseHandler: (response) => {
           if (response.status !== 200) {
@@ -50,7 +50,7 @@ export const householdApi = createApi({
 
     GetHouseholdByInviteCode: builder.query<household, string>({
       query: (body) => ({
-        url: `/` + body,
+        url: `household/invitecode/` + body,
         method: "GET",
         responseHandler: (response) => {
           if (response.status !== 200) {
