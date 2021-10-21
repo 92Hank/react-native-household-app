@@ -6,6 +6,8 @@ import styles from "../Household/styles";
 import ChangeMemberStatusModal from "../../component/householdComponents/changeMemberStatusModal/changeMemberStatusModal"
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { defineAnimation } from "react-native-reanimated";
+import { useAppSelector } from "../../Redux/hooks";
+import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 
 type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
 
@@ -14,6 +16,8 @@ const UsersInHouseHoldScreen: FC<Props> = ({
 }: Props): React.ReactElement =>{
   const [modalOpen, setModalOpen] = useState(false);
   const [member, setSetMember] = useState<fullMemberInfo>();
+  const currentHousehold = useAppSelector(selectSelectedHousehold);
+
 
 
   const clickOnMember = (item: fullMemberInfo) => {
@@ -33,7 +37,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({
         <View>
           <View>
             <FlatList
-              data={members}
+              data={currentHousehold?.member}
               keyExtractor={(item: any) => item.userId}
               renderItem={({ item }) => (
                 <UserListComponent
@@ -79,6 +83,14 @@ const members: fullMemberInfo[] = [
     emoji: 1,
     isPaused: false,
     isOwner: true,
+    AcceptedStatus: "accepted",
+  },
+  {
+    name: "foo4",
+    userId: "foo4",
+    emoji: 1,
+    isPaused: true,
+    isOwner: false,
     AcceptedStatus: "accepted",
   },
 ];
