@@ -1,17 +1,29 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { FC, useEffect, useState } from "react";
+import {
+  Dimensions,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { TextInput } from "react-native-paper";
-// import household from "../../../../Common/household";
-import { LocalIp } from "../../../Redux/Config";
+import { householdCreate } from "../../../Redux/entity/household";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
+import { useCreateHouseholdMutation } from "../../../Redux/Service/household/householdApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 
-interface Props {
+interface DefaultProps {
   isOpen: boolean;
   handleModalClose: () => void;
 }
+
+type NavProps = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
+
+type Props = DefaultProps & NavProps;
+
 enum Avatars {
   "🦊" = "1",
   "🐷" = "2",
@@ -23,13 +35,47 @@ enum Avatars {
   "🦄" = "8",
 }
 
-export default function AddHouseholdModal(props: Props) {
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
+
+const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
   const [name, setName] = useState<string>();
   const onChangeInput = (name: string) => setName(name);
   const user = useAppSelector(selectCurrentLoginUser);
   const [avatar, setAvatar] = useState<string>();
-
   const avatars = Object.keys(Avatars).filter((key) => isNaN(Number(key)));
+
+  if (!user) {
+    props.navigation.navigate(MainRoutes.LoginScreen);
+    return <View></View>;
+  }
+
+  const [
+    CreateHousehold, // This is the mutation trigger
+
+    { status, isSuccess, error, isLoading }, // This is the destructured mutation result
+  ] = useCreateHouseholdMutation();
+
+  useEffect(() => {
+    console.log("isSuccess", isSuccess);
+    if (isSuccess) {
+      props.handleModalClose();
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    console.log("isCreating", isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    console.log("status", status);
+  }, [status]);
+
+  useEffect(() => {
+    if (error) {
+      console.log("error", error);
+    }
+  }, [error]);
 
   const avatarSelect = (index: number) => {
     setAvatar(index.toString());
@@ -37,31 +83,16 @@ export default function AddHouseholdModal(props: Props) {
 
   const onSave = async () => {
     if (name && avatar) {
-      const requestData = {
+      const requestData: householdCreate = {
         name: name,
-        ownerId: user?.id,
+        ownerId: user.id!,
         member: {
-          name: user?.userName,
-          userId: user?.id,
+          name: user.userName,
+          userId: user.id!,
           emoji: Number(avatar),
         },
       };
-
-      const rawResponse = await fetch(
-        LocalIp + "/react-native-household-app/us-central1/webApi/household",
-        {
-          method: "POST",
-          body: JSON.stringify(requestData),
-          headers: {
-            Accept: "application/json,text/plain",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (rawResponse.status === 201) {
-        props.handleModalClose();
-      }
+      CreateHousehold(requestData);
     } else {
       alert("APAPAP! Du måste ange ett namn och välja en avatar!");
     }
@@ -93,26 +124,28 @@ export default function AddHouseholdModal(props: Props) {
               label="Namn på hushållet"
               onChangeText={onChangeInput}
             />
-            <Text style={styles.modalText}> Välj en avatar:</Text>
-            <View style={styles.avatars}>
-              {avatars.map(function (name, index) {
-                return (
-                  <TouchableOpacity
-                    onPress={() => avatarSelect(index)}
-                    key={index}
-                  >
-                    <Text style={styles.avatar}>{name}</Text>
-                  </TouchableOpacity>
-                );
-              })}
+            <View style={{ marginTop: 25 }}>
+              <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
+              <View style={styles.avatars}>
+                {avatars.map(function (name, index) {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => avatarSelect(index)}
+                      key={index}
+                    >
+                      <Text style={styles.avatar}>{name}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
             </View>
             <View>
-              <Text style={{ marginTop: 40, fontSize: 20 }}>
-                Vald avatar:
-                {avatar && (
+              {avatar && (
+                <Text style={{ marginTop: 40, fontSize: 20 }}>
+                  Vald avatar:
                   <Text style={styles.avatar}> {avatars[Number(avatar)]} </Text>
-                )}
-              </Text>
+                </Text>
+              )}
             </View>
             <View style={styles.buttonsContainer}>
               <TouchableOpacity
@@ -143,19 +176,21 @@ export default function AddHouseholdModal(props: Props) {
       </Modal>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   avatarPressed: {
     backgroundColor: "green",
   },
   avatar: {
-    fontSize: 26,
-    // marginTop: "50%",
+    fontSize: 45,
+    margin: 10,
+    flexWrap: "wrap",
   },
   avatars: {
     flexDirection: "row",
     justifyContent: "space-between",
+    flexWrap: "wrap",
   },
   input: {
     backgroundColor: "#ffff",
@@ -177,8 +212,8 @@ const styles = StyleSheet.create({
   },
   modalView: {
     // margin: 20,
-    width: 300,
-    height: 500,
+    width: windowWidth - 20,
+    height: windowHeight - 100,
     backgroundColor: "#f2f2f2",
     borderRadius: 20,
     padding: 20,
@@ -252,3 +287,5 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
 });
+
+export default AddHouseholdModal;

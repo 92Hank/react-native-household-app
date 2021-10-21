@@ -17,9 +17,9 @@ interface fullMemberInfo {
 
 
 export interface householdCreate {
-  houseHoldId: string;
   ownerId: string;
   member: memberSend;
+  name: string;
 }
 
 export interface householdJoin {
@@ -35,7 +35,8 @@ export interface householdAcceptOrMakeOwner {
 
 
 export interface memberSend {
-  id: string;
+  id?: string;
   userId: string;
   emoji:number;
+  name: string;
 }
