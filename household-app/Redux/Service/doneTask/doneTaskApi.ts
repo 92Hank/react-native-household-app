@@ -3,7 +3,7 @@ import { webUrl } from "../../Config";
 import doneTask from "../../entity/doneTask";
 import task from "../../entity/task";
 
-export const doneTask = createApi({
+export const doneTaskApi = createApi({
   reducerPath: "doneTask",
   baseQuery: fetchBaseQuery({
     baseUrl: webUrl + "donetask",
@@ -36,4 +36,4 @@ export const doneTask = createApi({
   }),
 });
 
-export const { useCreateDoneTaskMutation, useGetTaskByHouseholdIdQuery } = doneTask;
+export const { useCreateDoneTaskMutation, useGetTaskByHouseholdIdQuery } = doneTaskApi;
