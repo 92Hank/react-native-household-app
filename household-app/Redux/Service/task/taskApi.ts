@@ -20,7 +20,17 @@ export const taskApi = createApi({
     }),
 
     GetTaskByHouseholdId: builder.query<task[], string>({
-      query: (body) => `/` + body,
+      query: (body) => ({
+        url: `/` + body,
+        method: "GET",
+        responseHandler: (response) => {
+          if (response.status !== 200) {
+            return response.text();
+          } else {
+            return response.json();
+          }
+        },
+      }),
 
       providesTags: (result, error, arg) =>
         result
