@@ -16,10 +16,16 @@ export const SelectedStateSlice = createSlice({
   reducers: {
     setSelectedHousehold: (state, action: PayloadAction<household>) => {
       state.SelectedHousehold = action.payload;
-      },
-      removeSelectedHousehold: (state) => {
-          state.SelectedHousehold = undefined;
-      }
+    },
+    removeSelectedHousehold: (state) => {
+      state.SelectedHousehold = undefined;
+    },
+    setSelectedTask: (state, action: PayloadAction<task>) => {
+      state.SelectedTask = action.payload;
+    },
+    removeSelectedTask: (state) => {
+      state.SelectedTask = undefined;
+    },
   },
 });
 
