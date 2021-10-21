@@ -5,6 +5,42 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
+  buttonsCircleButton: {
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 100,
+    backgroundColor: "#f2f2f2",
+    margin: 4,
+  },
+  buttonsCircleBtnText: {
+    color: "black",
+    fontSize: 20,
+    justifyContent: "center",
+    textAlign: "center",
+  },
+  buttonsCircleContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+  },
+  repeatedCircleButton: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 5,
+    borderRadius: 100,
+  },
+  repeatedCircleBtnText: {
+    color: "black",
+    fontSize: 20,
+    justifyContent: "center",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
   centeredView: {
     flex: 1,
     justifyContent: "center",

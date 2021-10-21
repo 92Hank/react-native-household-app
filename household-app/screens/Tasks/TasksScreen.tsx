@@ -18,7 +18,7 @@ type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const TasksScreen: FC<Props> = ({
   navigation,
-  event,
+  event, i
 }: Props): React.ReactElement => {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const currentHousehold = useAppSelector(selectSelectedHousehold);
@@ -54,6 +54,7 @@ const TasksScreen: FC<Props> = ({
           isOpen={addModalOpen}
           handleAddClose={handleAddClose}
           event={event}
+          i={i as number}
         />
       </View>
       <View style={styles.buttonsContainer}>

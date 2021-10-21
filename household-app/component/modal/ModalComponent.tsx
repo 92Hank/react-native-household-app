@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -19,11 +19,17 @@ import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
 import CircleButtonGroup from "../circleButtonGroup/circleButtonGroup";
 import ListItem from "../taskDayListItem/taskDayListItem";
+import { useCreateTaskMutation } from "../../Redux/Service/task/taskApi";
+import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
+import task from "../../Redux/entity/task";
+import { LocalIp } from "../../Redux/Config";
+import { useAppSelector } from "../../Redux/hooks";
 
 interface Props {
   isOpen: boolean;
   handleAddClose: () => void;
   event: any;
+  i: number;
 }
 
 interface Task {
@@ -35,6 +41,11 @@ interface Task {
   archived?: boolean;
 }
 
+const buttonList: number[] = [1, 2, 4, 6, 8];
+const repeatedList = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  23, 24, 25, 26, 27, 28, 29, 30, 31,
+];
 
 type PostSchemaType = Record<keyof Task, Yup.AnySchema>;
 
@@ -50,41 +61,129 @@ const PostSchema = Yup.object().shape<PostSchemaType>({
   archived: Yup.boolean(),
 });
 
-
 const recurring = 2;
 
 const ModalComponent: React.FC<Props> = ({
   isOpen,
   handleAddClose,
-  event
+  event,
+  i,
 }) => {
-  const [id, setId] = useState<string>();
+  const [name, setName] = useState<string>();
   const [description, setDescription] = useState<string>();
+  const [repeated, setRepeated] = useState<number>();
+  const [value, setValue] = useState<number>();
   const [isClicked, setIsClicked] = useState(true);
   const [isClickedDays, setIsClickedDays] = useState(true);
 
-  const onChangeInputId = (id: string) => setId(id);
+  const onChangeInputName = (name: string) => setName(name);
   const onChangeInputDescription = (description: string) =>
     setDescription(description);
+  const currentHousehold = useAppSelector(selectSelectedHousehold);
+  console.log(currentHousehold);
 
-  const defaultTask: Task = { id: "", description: "" };
-
-  const handleSubmitForm = async () => {
-    console.log('id: ' + id);
-    console.log('description: ' + description);
-    // to api
+  const defaultTask: task = {
+    description: "Make food",
+    archived: false,
+    name: "cook",
+    repeated: 0,
+    value: 0,
+    houseHoldId: "houseHoldId1",
   };
 
-  const onPress = (event: any) => {
-    console.log('onPress works fine');
+  const [
+    CreateTask, // This is the mutation trigger
+
+    { status, isSuccess, error, isLoading }, // This is the destructured mutation result
+  ] = useCreateTaskMutation();
+
+  useEffect(() => {
+    console.log("isSuccess", isSuccess);
+  }, [isSuccess]);
+
+  useEffect(() => {
+    console.log("isCreating", isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    console.log("status", status);
+  }, [status]);
+
+  useEffect(() => {
+    if (error) {
+      console.log("error", error);
+    }
+  }, [error]);
+
+  const handleSubmitForm = async (createTaskItem: task) => {
+    if (name && description && repeated && value) {
+      const requestData: task = {
+        houseHoldId: "2",
+        description: description,
+        name: name,
+        repeated: repeated,
+        value: value,
+        archived: false,
+      };
+
+      CreateTask(requestData);
+    } else {
+      alert("APAPAP! Du måste ange ett namn och välja en avatar!");
+    }
+    console.log(createTaskItem);
+  };
+
+  const onPress2 = (i: Number) => {
+    console.log("onPress works fine");
     setIsClicked(true);
+    console.log(i);
+    setValue(i as number);
     //do some stuff here
+    // need to pass repeated here to CircleButtonGroup.tsx
+    // onChangeInputRepeated;
   };
-
   const onPressDays = (event: any) => {
     console.log("onPress works fine");
     setIsClickedDays(true);
+  }
+  const onPressRepeated = (i: Number) => {
+    console.log("onPress works fine");
+    setIsClicked(true);
+    console.log(i);
+    setRepeated(i as number);
     //do some stuff here
+    // need to pass repeated here to CircleButtonGroup.tsx
+    // onChangeInputRepeated;
+  };
+
+  const onSave = async () => {
+    if (name && description) {
+      const requestData = {
+        description: description,
+        name: name,
+        repeated: repeated,
+        value: value,
+        householdId: currentHousehold // check the controller
+      };
+
+      const rawResponse = await fetch(
+        LocalIp + "/react-native-household-app/us-central1/webApi/task",
+        {
+          method: "POST",
+          body: JSON.stringify(requestData),
+          headers: {
+            Accept: "application/json,text/plain",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (rawResponse.status === 201) {
+        handleAddClose();
+      }
+    } else {
+      alert("APAPAP! Du måste ange ett namn och välja en avatar!");
+    }
   };
 
   return !isClicked || !isClickedDays ? (
@@ -132,9 +231,9 @@ const ModalComponent: React.FC<Props> = ({
                         outlineColor="white"
                         mode="outlined"
                         style={styles.input}
-                        value={id}
+                        value={name}
                         label="Titel"
-                        onChangeText={onChangeInputId}
+                        onChangeText={onChangeInputName}
                       />
 
                       <TextInput
@@ -150,20 +249,46 @@ const ModalComponent: React.FC<Props> = ({
                       <Card style={styles.inputsCard}>
                         <Card.Content>
                           <View style={styles.clickedDay}>
-                            <ListItem
+                            {/* <ListItem
                               onPressDays={onPressDays}
                               event={event}
-                            />
+                            /> */}
+                            <View style={styles.buttonsCircleContainer}>
+                              <FlatList
+                                horizontal
+                                data={repeatedList}
+                                renderItem={({ item }) => (
+                                  <TouchableOpacity
+                                    key={item}
+                                    style={styles.repeatedCircleButton}
+                                    onPress={() => onPressRepeated(item)}
+                                  >
+                                    <Text style={styles.repeatedCircleBtnText}>
+                                      {item}
+                                    </Text>
+                                  </TouchableOpacity>
+                                )}
+                                showsHorizontalScrollIndicator={false}
+                              />
+                            </View>
                           </View>
                         </Card.Content>
                       </Card>
                       <Card style={styles.inputsCard2}>
                         <Card.Content>
-                          <CircleButtonGroup
-                            buttons={["1", "2", "4", "6", "8"]}
-                            onPress={onPress}
-                            event={event}
-                          />
+                          <View style={styles.buttonsCircleContainer}>
+                            {buttonList.map(( i) => (
+                              <TouchableOpacity
+                                key={i}
+                                style={styles.buttonsCircleButton}
+                                onPress={() => onPress2(i)}
+                              >
+                                <Text style={styles.buttonsCircleBtnText}>
+                                  {i}
+                                </Text>
+                              </TouchableOpacity>
+                            ))}
+                          </View>
                         </Card.Content>
                       </Card>
                     </View>
@@ -245,9 +370,9 @@ const ModalComponent: React.FC<Props> = ({
                         outlineColor="white"
                         mode="outlined"
                         style={styles.input}
-                        value={id}
+                        value={name}
                         label="Titel"
-                        onChangeText={onChangeInputId}
+                        onChangeText={onChangeInputName}
                       />
 
                       <TextInput
@@ -311,7 +436,7 @@ const ModalComponent: React.FC<Props> = ({
 
                     <View style={styles.buttonsContainer}>
                       <TouchableOpacity
-                        onPress={handleSubmit as any}
+                        onPress={onSave}
                         style={styles.saveButton}
                       >
                         <MaterialIcons
@@ -342,6 +467,6 @@ const ModalComponent: React.FC<Props> = ({
       </ScrollView>
     </KeyboardAvoidingView>
   );
-}
+};
 
 export default ModalComponent;
