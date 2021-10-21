@@ -23,11 +23,7 @@ type RootStackParamList = {
 
 // type Props = NativeStackScreenProps<RootStackParamList, "TasksScreen">;
 
-const TasksScreen = ({
-  route,
-  navigation,
-  event,
-}: any): React.ReactElement => {
+const TasksScreen = ({ route, navigation, event }: any): React.ReactElement => {
   const [addModalOpen, setAddModalOpen] = useState(false);
 
   // const householdId: string = route.params.householdId;
@@ -176,8 +172,6 @@ let tasksNow: TaskNow[] = [
     emojiList: emojiList,
   },
 ];
-
-
 
 interface TaskNow {
   id?: string;

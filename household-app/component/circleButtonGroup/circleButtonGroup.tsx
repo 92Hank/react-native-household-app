@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 import styles from "./styles";
 
 interface Props {
-  buttons: string[];
+  buttons: number[];
   onPress: (event: any) => void;
   event: any;
 }

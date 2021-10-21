@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Modal,
@@ -16,36 +16,38 @@ import * as Yup from "yup";
 import CircleButtonGroup from "../circleButtonGroup/circleButtonGroup";
 import ListItem from "../taskDayListItem/taskDayListItem";
 import { useAppSelector } from "../../Redux/hooks";
-
+import task from "../../Redux/entity/task";
+import { useCreateTaskMutation } from "../../Redux/Service/task/taskApi";
+import { LocalIp } from "../../Redux/Config";
 interface Props {
   isOpen: boolean;
   handleAddClose: () => void;
   event: any;
 }
 
-interface Task {
-  id: string;
-  description: string;
-  value?: number;
-  householdId?: number;
-  repeated?: number;
-  archived?: boolean;
-}
+// interface Task {
+//   id: string;
+//   description: string;
+//   value?: number;
+//   householdId?: number;
+//   repeated?: number;
+//   archived?: boolean;
+// }
 
 
-type PostSchemaType = Record<keyof Task, Yup.AnySchema>;
+// type PostSchemaType = Record<keyof Task, Yup.AnySchema>;
 
-const PostSchema = Yup.object().shape<PostSchemaType>({
-  id: Yup.string()
-    .required("Title is required")
-    .min(6, "Minimum 6 characters")
-    .trim(),
-  description: Yup.string().required().min(6, "Minimum 6 characters").trim(),
-  value: Yup.number(),
-  householdId: Yup.number(),
-  repeated: Yup.number(),
-  archived: Yup.boolean(),
-});
+// const PostSchema = Yup.object().shape<PostSchemaType>({
+//   id: Yup.string()
+//     .required("Title is required")
+//     .min(6, "Minimum 6 characters")
+//     .trim(),
+//   description: Yup.string().required().min(6, "Minimum 6 characters").trim(),
+//   value: Yup.number(),
+//   householdId: Yup.number(),
+//   repeated: Yup.number(),
+//   archived: Yup.boolean(),
+// });
 
 
 const recurring = 2;
@@ -55,33 +57,113 @@ const ModalComponent: React.FC<Props> = ({
   handleAddClose,
   event
 }) => {
-  const [id, setId] = useState<string>();
+  const [name, setName] = useState<string>();
   const [description, setDescription] = useState<string>();
+  const [repeated, setRepeated] = useState<number>();
+  const [value, setValue] = useState<number>();
   const [isClicked, setIsClicked] = useState(true);
   const [isClickedDays, setIsClickedDays] = useState(true);
 
-  const onChangeInputId = (id: string) => setId(id);
+  const onChangeInputName = (name: string) => setName(name);
   const onChangeInputDescription = (description: string) =>
     setDescription(description);
+  const onChangeInputRepeated = (repeated: number) => setRepeated(repeated);
+  const onChangeInputValue = (value: number) => setValue(value);
 
-  const defaultTask: Task = { id: "", description: "" };
+  const defaultTask: task = {
+    description: "Make food",
+    archived: false,
+    name: "cook",
+    repeated: 0,
+    value: 0,
+    houseHoldId: "houseHoldId1",
+  };
 
-  const handleSubmitForm = async () => {
-    console.log('id: ' + id);
-    console.log('description: ' + description);
-    // to api
+    const [
+      CreateTask, // This is the mutation trigger
+
+      { status, isSuccess, error, isLoading }, // This is the destructured mutation result
+    ] = useCreateTaskMutation();
+
+    useEffect(() => {
+      console.log("isSuccess", isSuccess);
+    }, [isSuccess]);
+
+    useEffect(() => {
+      console.log("isCreating", isLoading);
+    }, [isLoading]);
+
+    useEffect(() => {
+      console.log("status", status);
+    }, [status]);
+
+    useEffect(() => {
+      if (error) {
+        console.log("error", error);
+      }
+    }, [error]);
+
+  const handleSubmitForm = async (createTaskItem: task) => {
+    if (name && description && repeated && value) {
+      const requestData: task = {
+        houseHoldId: "2",
+        description: description,
+        name: name,
+        repeated: repeated,
+        value: value,
+        archived: false,
+      };
+
+      CreateTask(requestData);
+    } else {
+      alert("APAPAP! Du måste ange ett namn och välja en avatar!");
+    }
+    console.log(createTaskItem);
   };
 
   const onPress = (event: any) => {
     console.log('onPress works fine');
     setIsClicked(true);
+    console.log(event)
     //do some stuff here
+    // onChangeInputRepeated;
   };
 
   const onPressDays = (event: any) => {
     console.log("onPress works fine");
     setIsClickedDays(true);
+    console.log(event);
     //do some stuff here
+    // onChangeInputValue;
+  };
+
+  const onSave = async () => {
+    if (name && description) {
+      const requestData = {
+        description: description,
+        name: name,
+        repeated: repeated,
+        value: value,
+      };
+
+      const rawResponse = await fetch(
+        LocalIp + "/react-native-household-app/us-central1/webApi/task",
+        {
+          method: "POST",
+          body: JSON.stringify(requestData),
+          headers: {
+            Accept: "application/json,text/plain",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (rawResponse.status === 201) {
+        handleAddClose();
+      }
+    } else {
+      alert("APAPAP! Du måste ange ett namn och välja en avatar!");
+    }
   };
 
   return !isClicked || !isClickedDays ? (
@@ -129,9 +211,9 @@ const ModalComponent: React.FC<Props> = ({
                         outlineColor="white"
                         mode="outlined"
                         style={styles.input}
-                        value={id}
+                        value={name}
                         label="Titel"
-                        onChangeText={onChangeInputId}
+                        onChangeText={onChangeInputName}
                       />
 
                       <TextInput
@@ -147,17 +229,14 @@ const ModalComponent: React.FC<Props> = ({
                       <Card style={styles.inputsCard}>
                         <Card.Content>
                           <View style={styles.clickedDay}>
-                            <ListItem
-                              onPressDays={onPressDays}
-                              event={event}
-                            />
+                            <ListItem onPressDays={onPressDays} event={event} />
                           </View>
                         </Card.Content>
                       </Card>
                       <Card style={styles.inputsCard2}>
                         <Card.Content>
                           <CircleButtonGroup
-                            buttons={["1", "2", "4", "6", "8"]}
+                            buttons={[1, 2, 4, 6, 8]}
                             onPress={onPress}
                             event={event}
                           />
@@ -242,9 +321,9 @@ const ModalComponent: React.FC<Props> = ({
                         outlineColor="white"
                         mode="outlined"
                         style={styles.input}
-                        value={id}
+                        value={name}
                         label="Titel"
-                        onChangeText={onChangeInputId}
+                        onChangeText={onChangeInputName}
                       />
 
                       <TextInput
