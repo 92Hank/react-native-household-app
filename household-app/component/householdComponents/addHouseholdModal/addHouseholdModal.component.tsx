@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import { TextInput } from "react-native-paper";
-import { householdCreate } from "../../../Redux/entity/householdType";
+import { householdCreate } from "../../../Redux/entity/household";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { useCreateHouseholdMutation } from "../../../Redux/Service/household/householdApi";
@@ -23,6 +23,7 @@ interface DefaultProps {
 type NavProps = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
 type Props = DefaultProps & NavProps;
+
 enum Avatars {
   "🦊" = "1",
   "🐷" = "2",

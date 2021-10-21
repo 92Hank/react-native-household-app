@@ -98,7 +98,7 @@ export const joinHousehold = (req: Request, res: Response): void => {
       .then((query) => {
         const data = query.data();
         console.log(data?.inviteCode);
-        if (data?.inviteCode === inviteCode) {
+        if (data?.inviteCode == inviteCode) {
           query.ref.update({
             member: FieldValue.arrayUnion(member),
             userIds: FieldValue.arrayUnion(req.body.member["userId"]),

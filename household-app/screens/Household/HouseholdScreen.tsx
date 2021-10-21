@@ -111,12 +111,14 @@ const HouseholdScreen: FC<Props> = ({
         <AddHouseholdModal
           isOpen={createModalIsOpen}
           handleModalClose={handleCreateModalClose}
-          navigation = {navigation}
-          route = {route}
+          navigation={navigation}
+          route={route}
         />
         <JoinHouseholdModal
           isOpen={joinModalIsOpen}
           handleModalClose={handleJoinModalClose}
+          navigation={navigation}
+          route={route}
         />
         <View style={styles.buttonsContainer}>
           <TouchableOpacity

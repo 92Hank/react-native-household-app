@@ -1,21 +1,31 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Dimensions,
   Modal,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { webUrl } from "../../../Redux/Config";
-import householdType from "../../../Redux/entity/householdType";
+import householdType, { householdJoin } from "../../../Redux/entity/household";
+import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
+import { useAppSelector } from "../../../Redux/hooks";
+import { useJoinHouseholdMutation } from "../../../Redux/Service/household/householdApi";
+import { userApi } from "../../../Redux/Service/user/userApi";
+import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
+import memberSend from "../../../Redux/entity/household";
 
-interface Props {
+interface DefaultProps {
   isOpen: boolean;
   handleModalClose: () => void;
 }
+
+type NavProps = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
+
+type Props = DefaultProps & NavProps;
 
 enum Avatars {
   "🦊" = 1,
@@ -30,7 +40,7 @@ enum Avatars {
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-export default function JoinHouseholdModal(props: Props) {
+const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
   const [code, setCode] = useState<string>();
   const onChangeInput = (code: string) => setCode(code);
   const [codeSubmitted, setCodeSubmitted] = useState(false);
@@ -39,9 +49,42 @@ export default function JoinHouseholdModal(props: Props) {
   const [household, setHousehold] = useState<householdType>();
   const [emojis, setAvatars] = useState<string[]>();
 
+  const user = useAppSelector(selectCurrentLoginUser);
+
+  if (!user) {
+    props.navigation.navigate(MainRoutes.LoginScreen);
+    return <View></View>;
+  }
+
   let avatars = Object.keys(Avatars).filter((key) => !isNaN(Number(key)));
   let existingAvatars: Avatars[] = [];
 
+  const [
+    JoinHousehold, // This is the mutation trigger
+
+    { status, isSuccess, error, isLoading }, // This is the destructured mutation result
+  ] = useJoinHouseholdMutation();
+
+    useEffect(() => {
+      console.log("isSuccess", isSuccess);
+      if (isSuccess) {
+        props.handleModalClose();
+      }
+    }, [isSuccess]);
+
+    useEffect(() => {
+      console.log("isCreating", isLoading);
+    }, [isLoading]);
+
+    useEffect(() => {
+      console.log("status", status);
+    }, [status]);
+
+    useEffect(() => {
+      if (error) {
+        console.log("error", error);
+      }
+    }, [error]);
 
   const avatarSelect = (index: number) => {
     setAvatarIndex(index);
@@ -65,6 +108,7 @@ export default function JoinHouseholdModal(props: Props) {
         setCodeSubmitted(true);
 
         const foundHousehold: householdType = await rawResponse.json();
+        console.log(foundHousehold);
         foundHousehold.member.forEach((element) => {
           existingAvatars.push(element.emoji);
           // console.log(foundHousehold);
@@ -84,8 +128,19 @@ export default function JoinHouseholdModal(props: Props) {
   };
 
   function onApply(): void {
-    alert("Ansöker");
-    console.log(avatarIndex);
+    if (household && avatarIndex && user) {
+      const requestData: householdJoin = {
+        houseHoldId: household.id,
+        inviteCode: Number(code),
+        member: {
+          userId: user.id!,
+          emoji: avatarIndex,
+          name: user.userName,
+        },
+      };
+      console.log(requestData);
+      JoinHousehold(requestData);
+    }
   }
 
   return (
@@ -216,7 +271,7 @@ export default function JoinHouseholdModal(props: Props) {
       )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   modalHeader: {
@@ -346,3 +401,4 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
 });
+export default JoinHouseholdModal;
