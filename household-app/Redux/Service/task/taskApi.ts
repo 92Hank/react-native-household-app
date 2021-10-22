@@ -5,7 +5,7 @@ import task from "../../entity/task";
 export const taskApi = createApi({
   reducerPath: "taskApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: webUrl + "Task",
+    baseUrl: webUrl + "tasks",
   }),
   tagTypes: ["Task"],
   endpoints: (builder) => ({

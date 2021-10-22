@@ -8,8 +8,8 @@ interface TaskNow {
   description?: string;
   repeated?: number;
   archived?: boolean;
-  value?: 1 | 2 | 4 | 6 | 8;
-  emojiList: string[];
+  value?: number;
+  emojiList?: string[];
 }
 
 interface Props {
@@ -25,7 +25,7 @@ interface Props {
           <View style={Styles.infoStyle}>
             <Text style={Styles.titleStyle}>
               {props.task.description}
-              <Text style={Styles.bodyEmoji}>{props.task.emojiList.join(" ")}</Text>
+              <Text style={Styles.bodyEmoji}>{props.task.emojiList?.join(" ")}</Text>
             </Text>
           </View>
         </View>
