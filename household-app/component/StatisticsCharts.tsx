@@ -1,8 +1,8 @@
-import React, { FC } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { FC } from "react";
+import { View, StyleSheet } from "react-native";
 import PieChart from "../component/PieChart";
 import { MemberStatistics } from "../screens/Tasks/memberStatistics";
-import SmallPieChart from './SmallPieChart';
+import SmallPieChart from "./SmallPieChart";
 
 interface Props {
     data: MemberStatistics[];
@@ -12,18 +12,18 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
     let allDoneTaskIdsArray: string[] = [];
 
     const getUniqueDoneTaskIds = () => {
-        let uniqueIds: string[] = [];
+        const uniqueIds: string[] = [];
 
         data.forEach((member) => {
             member.doneTasks.forEach((doneTask) => {
                 uniqueIds.push(doneTask.id);
-            })
-        })
+            });
+        });
 
         allDoneTaskIdsArray = uniqueIds.filter((taskId, index, self) => {
             if (self.indexOf(taskId) === index) return self[index];
-        })
-    }
+        });
+    };
 
     /**
      * Function to loop through the MemberStatistics data array and remove from
@@ -35,17 +35,16 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
      * @returns {MemberStatistics[]}
      */
     const filterOutNonparticipantMembers = (data: MemberStatistics[], taskId: string) => {
-        let filteredMembers: MemberStatistics[] = [];
+        const filteredMembers: MemberStatistics[] = [];
 
         data.forEach((member) => {
             member.doneTasks.filter((doneTask, index) => {
-                if (member.doneTasks[index].taskId == taskId)
-                    filteredMembers.push(member);
-            })
-        })
+                if (member.doneTasks[index].taskId == taskId) filteredMembers.push(member);
+            });
+        });
 
         return filteredMembers;
-    }
+    };
 
     /**
      * Function to loop through the array of all unique doneTask.taskId values and
@@ -65,18 +64,15 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
                 />
             );
         });
-    }
+    };
 
     getUniqueDoneTaskIds();
     return (
         <>
             <PieChart data={data} />
-            <View style={[styles.smallChartView]}>
-                {generateSmallPieCharts()}
-            </View>
-
+            <View style={[styles.smallChartView]}>{generateSmallPieCharts()}</View>
         </>
-    )
+    );
 };
 
 export default StatisticsCharts;
@@ -98,5 +94,5 @@ const styles = StyleSheet.create({
         flexBasis: "30%",
         margin: 0,
         padding: 0,
-    }
+    },
 });

@@ -17,89 +17,95 @@ const LastWeekScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =>
             memberId: [1, 2, 3],
             dateDone: dagensDatum,
             value: 2,
-        }, {
+        },
+        {
             id: "2",
             taskId: "102",
             memberId: [2, 3],
             dateDone: dagensDatum,
             value: 2,
-        }, {
+        },
+        {
             id: "3",
             taskId: "103",
             memberId: [2, 3],
             dateDone: dagensDatum,
             value: 2,
-        }, {
+        },
+        {
             id: "4",
             taskId: "500",
             memberId: [4],
             dateDone: dagensDatum,
             value: 10,
         },
-    ]
+    ];
 
     const data: MemberStatistics[] = [
-        { //DETTA ÄR EN USER
+        {
+            //DETTA ÄR EN USER
             key: 1,
             userId: "1",
             emoji: "🐙",
             doneTasks: [testTasksDone[0]], //0
             svg: {
-                fill: '#600080',
-                onPress: () => console.log('USER1'),
+                fill: "#600080",
+                onPress: () => console.log("USER1"),
             },
         },
-        { //DETTA ÄR EN USER
+        {
+            //DETTA ÄR EN USER
             key: 2,
             userId: "2",
             emoji: "🦊",
             doneTasks: [testTasksDone[1], testTasksDone[2]], //2+2=4
             svg: {
-                fill: 'green',
-                onPress: () => console.log('USER2'),
+                fill: "green",
+                onPress: () => console.log("USER2"),
             },
         },
-        { //DETTA ÄR EN USER
+        {
+            //DETTA ÄR EN USER
             key: 3,
             userId: "3",
             emoji: "🐸",
             doneTasks: [testTasksDone[1], testTasksDone[2]], //2+2=4
             svg: {
-                fill: 'blue',
-                onPress: () => console.log('USER3'),
+                fill: "blue",
+                onPress: () => console.log("USER3"),
             },
         },
-        { //DETTA ÄR EN USER
+        {
+            //DETTA ÄR EN USER
             key: 4,
             userId: "999", //4
             emoji: "🦄",
             doneTasks: [testTasksDone[3]],
             svg: {
-                fill: 'red',
-                onPress: () => console.log('USER4'),
+                fill: "red",
+                onPress: () => console.log("USER4"),
             },
         },
-    ]
+    ];
 
-
-  return (
-      <SafeAreaView>
-          <ScrollView>
-              <StatisticsCharts data={data} />
-          </ScrollView>
-      </SafeAreaView>
-  )
+    return (
+        <SafeAreaView>
+            <ScrollView>
+                <StatisticsCharts data={data} />
+            </ScrollView>
+        </SafeAreaView>
+    );
 };
 
 export default LastWeekScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  text: {
-    color: "grey",
-  },
+    container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    text: {
+        color: "grey",
+    },
 });

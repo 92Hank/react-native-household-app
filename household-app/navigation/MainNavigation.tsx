@@ -1,9 +1,9 @@
 import React from "react";
 import { PreferencesContext } from "../context/PreferencesContext";
 import {
-  NavigationContainer,
-  DarkTheme as NavigationDarkTheme,
-  DefaultTheme as NavigationDefaultTheme,
+    NavigationContainer,
+    DarkTheme as NavigationDarkTheme,
+    DefaultTheme as NavigationDefaultTheme,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { MainRoutes } from "../routes/routes";
@@ -18,42 +18,41 @@ import UsersStack from "./UsersStack";
 const Stack = createNativeStackNavigator();
 
 const MainNavigation = (): React.ReactElement => {
+    const theme = useTheme();
+    const navigationTheme = theme.dark ? DarkTheme : DefaultTheme;
 
-  const theme = useTheme();
-  const navigationTheme = theme.dark ? DarkTheme : DefaultTheme;
-
-  return (
-    <NavigationContainer theme={navigationTheme}>
-      <Stack.Navigator>
-        <Stack.Screen
-          name={MainRoutes.LoginScreen}
-          component={AuthStack}
-          options={{ title: "", headerBackVisible: false }}
-        />
-        <Stack.Screen
-          name={MainRoutes.HouseholdScreen}
-          component={AppStack}
-          options={{ title: "", headerBackVisible: false }}
-        />
-        <Stack.Screen
-          name={MainRoutes.TasksScreen}
-          component={TaskStack}
-          options={{
-            title: "Tasks",
-            headerTitleStyle: { fontSize: 24 },
-          }}
-        />
-        <Stack.Screen
-          name={MainRoutes.UsersInHouseHoldScreen}
-          component={UsersStack}
-          options={{
-            title: "Users",
-            headerTitleStyle: { fontSize: 24 },
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    return (
+        <NavigationContainer theme={navigationTheme}>
+            <Stack.Navigator>
+                <Stack.Screen
+                    name={MainRoutes.LoginScreen}
+                    component={AuthStack}
+                    options={{ title: "", headerBackVisible: false }}
+                />
+                <Stack.Screen
+                    name={MainRoutes.HouseholdScreen}
+                    component={AppStack}
+                    options={{ title: "", headerBackVisible: false }}
+                />
+                <Stack.Screen
+                    name={MainRoutes.TasksScreen}
+                    component={TaskStack}
+                    options={{
+                        title: "Tasks",
+                        headerTitleStyle: { fontSize: 24 },
+                    }}
+                />
+                <Stack.Screen
+                    name={MainRoutes.UsersInHouseHoldScreen}
+                    component={UsersStack}
+                    options={{
+                        title: "Users",
+                        headerTitleStyle: { fontSize: 24 },
+                    }}
+                />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
 };
 
 export default MainNavigation;
