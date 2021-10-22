@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,8 @@ import ModalComponent from "../../component/modal/ModalComponent";
 import TaskCard from "../../component/taskFolder/TaksCard";
 import { useAppSelector } from "../../Redux/hooks";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
+import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
+import task from "../../Redux/entity/task";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
@@ -22,7 +24,24 @@ const TasksScreen: FC<Props> = ({
 }: Props): React.ReactElement => {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const currentHousehold = useAppSelector(selectSelectedHousehold);
-  console.log(currentHousehold);
+
+  if (!currentHousehold) {
+    navigation.navigate(MainRoutes.HouseholdScreen);
+    return <View></View>;
+  }
+  const { data, isLoading, isFetching, isError, error } =
+    useGetTaskByHouseholdIdQuery(currentHousehold.id);
+
+  let tasksNow: TaskNow[] = [];
+  console.log(data);
+
+  // useEffect(() => {
+  //   data?.forEach((element) => {
+  //     console.log(element);
+  //     tasksNow.push(element);
+  //   });
+  // }, [data]);
+
   const clickOnTask = () => {
     console.log("click on task,");
   };
@@ -44,7 +63,7 @@ const TasksScreen: FC<Props> = ({
     <View style={styles.container}>
       <View>
         <FlatList
-          data={tasksNow}
+          data={data}
           keyExtractor={(item: any) => item.id}
           renderItem={({ item }) => (
             <TaskCard key={item.id} task={item} onPress={clickOnTask} />
@@ -136,29 +155,29 @@ const styles = StyleSheet.create({
 //   { description: "foo2", value: 2, id: "abc2" },
 // ];
 
-let emojiList: string[] = ["🦊", "🐷", "🐸"];
+// let emojiList: string[] = ["🦊", "🐷", "🐸"];
 
 // create this list from our data with useEffect or something
-let tasksNow: TaskNow[] = [
-  {
-    householdId: "abs3",
-    description: "foo",
-    value: 1,
-    id: "abc2",
-    repeated: 2,
-    archived: false,
-    emojiList: emojiList,
-  },
-  {
-    householdId: "abs4",
-    description: "foo 2",
-    value: 1,
-    id: "abc",
-    repeated: 2,
-    archived: false,
-    emojiList: emojiList,
-  },
-];
+// let tasksNow: TaskNow[] = [
+//   {
+//     householdId: "abs3",
+//     description: "foo",
+//     value: 1,
+//     id: "abc2",
+//     repeated: 2,
+//     archived: false,
+//     emojiList: emojiList,
+//   },
+//   {
+//     householdId: "abs4",
+//     description: "foo 2",
+//     value: 1,
+//     id: "abc",
+//     repeated: 2,
+//     archived: false,
+//     emojiList: emojiList,
+//   },
+// ];
 
 interface TaskNow {
   id?: string;
@@ -166,6 +185,6 @@ interface TaskNow {
   description?: string;
   repeated?: number;
   archived?: boolean;
-  value?: 1 | 2 | 4 | 6 | 8;
-  emojiList: string[];
+  value?: number;
+  emojiList?: string[];
 }
