@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { LocalIp, webUrl } from "../../Config";
+import { webUrl } from "../../Config";
 import user from "../../entity/User";
 
 export const userApi = createApi({

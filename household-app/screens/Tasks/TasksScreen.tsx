@@ -18,7 +18,7 @@ type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const TasksScreen: FC<Props> = ({
   navigation,
-  event,
+  event
 }: Props): React.ReactElement => {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const currentHousehold = useAppSelector(selectSelectedHousehold);
