@@ -11,8 +11,9 @@ export const postDoneTask = async (req: Request, res: Response) => {
   try {
     const doneTask: DoneTask = {
       taskId: req.body["taskId"],
-      memberId: req.body["memberId"],
-      dateDone: new Date,
+      userId: req.body["userId"],
+      dateDone: new Date(),
+      houseHoldId: req.body["houseHoldId"],
     };
 
     const newDoc = await db.collection(taskCollection).add(doneTask);
