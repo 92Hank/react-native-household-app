@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "lint": "eslint . --ext .tsx,.ts"
   },
   "dependencies": {
     "@react-navigation/material-top-tabs": "^6.0.6",
@@ -39,6 +40,18 @@
     "@types/react": "^17.0.30",
     "@types/react-native": "^0.65.7",
     "@types/react-native-simple-radio-button": "^2.7.1",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^5.1.1",
+    "eslint-plugin-react": "^7.26.1",
+    "prettier": "^2.4.1",
+    "prettier-eslint": "^13.0.0",
     "typescript": "^4.4.4"
   },
   "private": true
