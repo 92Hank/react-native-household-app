@@ -36,7 +36,7 @@ jobs:
         working-directory: firebase-api/functions
 
       - name: Run build
-        run: npm run build --if-present
+        run: tsc -b
 
       - name: Run lint household-app
         run: npm run lint --if-present
