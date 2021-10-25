@@ -35,13 +35,8 @@ jobs:
         run: npm ci
         working-directory: firebase-api/functions
 
-      - name: Run build firebase-api
+      - name: Run build
         run: tsc -b
-        working-directory: firebase-api/functions
-
-      - name: Run build household-app
-        run: tsc -b
-        working-directory: household-app
 
       - name: Run lint household-app
         run: npm run lint --if-present
