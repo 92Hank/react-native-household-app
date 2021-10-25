@@ -19,7 +19,7 @@ export const doneTaskApi = createApi({
             invalidatesTags: (result, error, arg) => [{ type: "DoneTask", id: arg.id }],
         }),
 
-        GetDoneTaskByHouseholdId: builder.query<doneTask[], string>({
+        GetDoneTasksWithHouseholdId: builder.query<doneTask[], string>({
             query: (body) => ({
                 url: `/` + body,
                 method: "GET",
@@ -39,4 +39,4 @@ export const doneTaskApi = createApi({
     }),
 });
 
-export const { useCreateDoneTaskMutation, useGetDoneTaskByHouseholdIdQuery } = doneTaskApi;
+export const { useCreateDoneTaskMutation, useGetDoneTasksWithHouseholdIdQuery } = doneTaskApi;
