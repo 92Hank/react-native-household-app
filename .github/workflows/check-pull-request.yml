@@ -23,6 +23,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+          cache-dependency-path: |
+            firebase-api/functions/package-lock.json
+            household-app/package-lock.json
 
       - name: Install dependencies household-app
         run: npm ci
