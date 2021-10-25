@@ -27,6 +27,6 @@
         "eqeqeq": "warn",
         "no-alert": "warn",
         "no-eq-null": "warn",
-        "no-label-var": "error",
+        "no-label-var": "error"
     }
 }
