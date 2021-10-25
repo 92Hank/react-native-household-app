@@ -58,7 +58,7 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                     keyboardShouldPersistTaps={"handled"}
                 >
                     <View style={styles.container}>
-                        <Image source={require('../../assets/logotypeBlack/logoBL.png')} style={styles.logo} />
+                        <Image source={require("../../assets/logotypeBlack/logoBL.png")} style={styles.logo} />
                         <Text style={styles.title}>Email:</Text>
                         <TextInput
                             keyboardType="email-address"
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
         width: 300,
         height: 200,
-        resizeMode: 'contain',
+        resizeMode: "contain",
     },
 });
 

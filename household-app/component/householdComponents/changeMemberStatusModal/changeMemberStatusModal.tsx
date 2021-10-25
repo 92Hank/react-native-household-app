@@ -1,14 +1,16 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { TextInput } from "react-native-paper";
-import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
-import { useAppSelector } from "../../../Redux/hooks";
-import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 // import { RadioButton } from "react-native-paper";
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from "react-native-simple-radio-button";
-import household from "../../../Redux/entity/household";
+import RadioForm from "react-native-simple-radio-button";
+import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
+import { useAppSelector } from "../../../Redux/hooks";
+import {
+    useAcceptUserMutation,
+    useMakeUserToOwnerMutation,
+    usePauseUserMutation,
+} from "../../../Redux/Service/household/householdApi";
 
 const radioPropsOwner = [
     { label: "Ja", value: 1 },
@@ -39,21 +41,31 @@ interface Props {
 function ChangeMemberStatusModal(props: Props) {
     // const [name, setName] = useState<string>();
     const user = useAppSelector(selectCurrentLoginUser);
+    if (!user) return <view></view>;
+
     const [makeOwner, setMakeOwner] = useState<number>(0);
     const [paused, setPaused] = useState<number>(0);
     const [unPaused, setUnPaused] = useState<number>(0);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [acceptUser, setAcceptUser] = useState<number>(0);
 
+    const [makeUserToOwner, { isLoading: isUpdatingMakeUserToOwner }] = useMakeUserToOwnerMutation();
+    const [pauseUser, { isLoading: isUpdatingPauseUser }] = usePauseUserMutation();
+    const [acceptUserApi, { isLoading: isAcceptUser }] = useAcceptUserMutation();
+
     const onSave = () => {
+        if (!currentHousehold) return;
+
+        const { userId, isOwner, isPaused, AcceptedStatus } = props.member;
+
         let rights = false;
-        currentHousehold?.member.forEach((m) => {
-            if (m.userId === user?.id && m.isOwner) {
-                rights = true;
-            }
-        });
+        if (currentHousehold?.member.find((m) => m.userId === user.id && m.isOwner)) {
+            rights = true;
+        }
+
         // console.log()
         if (!rights) {
+            // eslint-disable-next-line no-alert
             alert("Du har ej rättigheter att ändra status");
             // snackbar in future!
             setMakeOwner(0);
@@ -63,6 +75,7 @@ function ChangeMemberStatusModal(props: Props) {
             setAcceptUser(0);
         }
         if (makeOwner === 1 && paused === 1) {
+            // eslint-disable-next-line no-alert
             alert("kan ej både pausa och göra till ägare!");
             // snackbar in future!
             setMakeOwner(0);
@@ -72,7 +85,8 @@ function ChangeMemberStatusModal(props: Props) {
             setAcceptUser(0);
             return;
         }
-        if (makeOwner === 1 && props.member.isOwner === false) {
+        if (makeOwner === 1 && isOwner === false) {
+            makeUserToOwner({ houseHoldId: currentHousehold.id, userId: userId });
             console.log("make owner api");
             setMakeOwner(0);
             setPaused(0);
@@ -82,8 +96,9 @@ function ChangeMemberStatusModal(props: Props) {
             return;
             // api mot att göra till owner
         }
-        if (paused === 1 && props.member.isPaused === false) {
+        if (paused === 1 && isPaused === false) {
             // Make som changes here
+            pauseUser({ houseHoldId: currentHousehold.id, userId: userId, isPaused: true });
             console.log("set on pause api");
             setMakeOwner(0);
             setPaused(0);
@@ -92,8 +107,10 @@ function ChangeMemberStatusModal(props: Props) {
             setAcceptUser(0);
             return;
         }
-        if (unPaused === 1 && props.member.isPaused === true) {
+        if (unPaused === 1 && isPaused === true) {
             console.log("unPause member api");
+            pauseUser({ houseHoldId: currentHousehold.id, userId: userId, isPaused: false });
+
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
@@ -102,8 +119,9 @@ function ChangeMemberStatusModal(props: Props) {
             return;
             // api mot att göra till owner
         }
-        if (acceptUser === 1 && props.member.AcceptedStatus === "pending") {
+        if (acceptUser === 1 && AcceptedStatus === "pending") {
             console.log("acceptUserApi");
+            acceptUserApi({ houseHoldId: currentHousehold.id, userId: userId });
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
@@ -111,8 +129,10 @@ function ChangeMemberStatusModal(props: Props) {
             setAcceptUser(0);
             return;
         }
-        if (acceptUser === 0 && props.member.AcceptedStatus === "pending") {
+        if (acceptUser === 0 && AcceptedStatus === "pending") {
             console.log("reject remove user");
+
+            //[TODO:Redux]reject user
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
