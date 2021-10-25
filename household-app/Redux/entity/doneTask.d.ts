@@ -2,8 +2,9 @@ import { valueType } from "./value";
 
 export default interface doneTask {
   id?: string;
-  taskId: string;
-  userId: string;
-  value: valueType;
-  dateDone: Date;
+  taskId?: string;
+  userId?: string;
+  // value: valueType;
+  houseHoldId?: string;
+  dateDone?: Date;
 }

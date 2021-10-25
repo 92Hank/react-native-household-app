@@ -28,6 +28,8 @@ export const doneTaskApi = createApi({
                         console.log(response.text());
                         return response.text();
                     } else {
+                        // console.log("api GET is successful!\n" + response.json()); //TEST
+                        // console.log(JSON.stringify(response.json())); //TEST
                         return response.json();
                     }
                 },
