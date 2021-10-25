@@ -35,6 +35,12 @@ export interface householdIdAndUserId {
     houseHoldId: string;
     userId: string;
 }
+export interface householdPauseUser {
+    houseHoldId: string;
+    userId: string;
+    isPaused: boolean;
+}
+
 export interface householdChangeEmoji {
     houseHoldId: string;
     userId: string;
