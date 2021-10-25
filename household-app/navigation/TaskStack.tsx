@@ -10,7 +10,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Button, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LastWeekScreen from "../screens/Tasks/LastWeekScreen";
-import CurrentWeekScreen from "../screens/Tasks/CurrentWeekScreen";
+import LastMonthScreen from "../screens/Tasks/LastMonthScreen";
 import HouseholdScreen from "../screens/Household/HouseholdScreen";
 
 const Stack = createNativeStackNavigator();
@@ -55,8 +55,8 @@ const LastWeekStack = () => (
 const LastMonthStack = () => (
     <MainStack.Navigator>
         <MainStack.Screen
-            name={MainRoutes.CurrentWeekScreen}
-            component={CurrentWeekScreen}
+            name={MainRoutes.LastMonthScreen}
+            component={LastMonthScreen}
             options={{
                 headerShown: false,
                 headerBackVisible: false,
@@ -131,7 +131,7 @@ const TaskStack = () => {
       <Tab.Screen name="Sign up" component={CreateStack} /> */}
             <Tab.Screen name="Last Week" component={LastWeekStack} />
             <Tab.Screen name="Today" component={TaskScreenStack} />
-            <Tab.Screen name="Current Week" component={LastMonthStack} />
+            <Tab.Screen name="Last Month" component={LastMonthStack} />
         </Tab.Navigator>
     );
 };

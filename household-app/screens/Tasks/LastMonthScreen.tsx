@@ -4,11 +4,44 @@ import doneTask from "../../../Common(obsolete)/doneTask";
 import StatisticsCharts from "../../component/StatisticsCharts";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { MemberStatistics } from "./memberStatistics";
+import { useGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
+import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
+import { useAppSelector } from "../../Redux/hooks";
+import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const dagensDatum = new Date(1995, 11, 17);
+
+    const currentHousehold = useAppSelector(selectSelectedHousehold);
+    console.log("HOUSEHOLD ID ÄR:" + currentHousehold!.id!);
+
+    const doneTasks = useGetDoneTasksWithHouseholdIdQuery(currentHousehold!.id!).data; //ange if för finns ej sen? eller tas via 0 diagram?
+
+    // const tasks = useGetTaskByHouseholdIdQuery(currentHousehold!.id!).data;
+
+    doneTasks!.forEach((task) => {
+        console.log(task);
+    });
+
+    // tasks!.forEach((task) => {
+    //     console.log(task);
+    // });
+
+    // const getLastMonthDates = () => {
+    //     const lastMonthDate = new Date();
+    //     const lastOfLastMonth = lastMonthDate.setDate(0);
+    //     const firstOfLastMonth = lastMonthDate.setDate(1);
+    //     return [firstOfLastMonth, lastOfLastMonth];
+    // };
+
+    //1. hämta householdId
+    //2. hämta doneTasks per householdId
+    //3. sortera på datumintervall
+
+
+
 
     const testTasksDone: doneTask[] = [
         {
