@@ -6,7 +6,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "eslint . --ext .tsx,.ts"
+    "lint": "eslint . --ext .tsx,.ts",
+    "fix":"eslint . --ext .tsx,.ts --fix"
   },
   "dependencies": {
     "@react-navigation/material-top-tabs": "^6.0.6",

@@ -1,11 +1,8 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import loginUserSliceReducer, {
-  loginUserSlice,
-} from "./features/loginUser/loginUserSlice";
-import SelectedStateReducer, {
-  SelectedStateSlice,
-} from "./features/SelectedState/SelectedStateSlice";
+import loginUserSliceReducer, { loginUserSlice } from "./features/loginUser/loginUserSlice";
+import SelectedStateReducer, { SelectedStateSlice } from "./features/SelectedState/SelectedStateSlice";
 import { doneTaskApi } from "./Service/doneTask/doneTaskApi";
+
 import { householdApi } from "./Service/household/householdApi";
 import { taskApi } from "./Service/task/taskApi";
 import { userApi } from "./Service/user/userApi";
@@ -29,9 +26,4 @@ export const store = configureStore({
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;

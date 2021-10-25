@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, View, StyleSheet, Dimensions ,Text} from "react-native";
+import { TouchableOpacity, View, StyleSheet, Dimensions, Text } from "react-native";
 import task from "../../../Common(obsolete)/Task";
 
 interface TaskNow {
@@ -13,8 +13,8 @@ interface TaskNow {
 }
 
 interface Props {
-  task: TaskNow;
-  onPress: () => void;
+    task: TaskNow;
+    onPress: () => void;
 }
 
  const TaskCard = (props:Props) => {
@@ -40,48 +40,48 @@ const deviceWidth = Math.round(Dimensions.get("window").width);
 const offset = 25;
 const radius = 20;
 const Styles = StyleSheet.create({
-  container: {
-    width: deviceWidth - 20,
-    marginTop: 20,
-  },
-
-  cardContainer: {
-    margin: 10,
-    width: deviceWidth - offset,
-    backgroundColor: "yellow",
-    height: 70,
-    borderRadius: radius,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 5,
-      height: 5,
+    container: {
+        width: deviceWidth - 20,
+        marginTop: 20,
     },
-    shadowOpacity: 0.75,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  titleStyle: {
-    // color: "#F5EDED",
-    // textAlign: "center",
-    // flex: 1,
-    lineHeight: 11 + 11 + 10,
-    fontSize: 20,
-    fontWeight: "800",
-  },
-  bodyTextStyle: {
-    fontWeight: "200",
-    // color: "#F5EDED",
-    textAlign: "center",
-  },
-  bodyEmoji: {
-    fontWeight: "200",
-    // color: "#F5EDED",
-    // lineHeight: 11 + 11 + 10,
-    // paddingLeft: 2000,
-    // textAlign: "right",
-  },
-  infoStyle: {
-    marginHorizontal: 10,
-    marginVertical: 1,
-  },
+
+    cardContainer: {
+        margin: 10,
+        width: deviceWidth - offset,
+        backgroundColor: "yellow",
+        height: 70,
+        borderRadius: radius,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 0.75,
+        shadowRadius: 5,
+        elevation: 3,
+    },
+    titleStyle: {
+        // color: "#F5EDED",
+        // textAlign: "center",
+        // flex: 1,
+        lineHeight: 11 + 11 + 10,
+        fontSize: 20,
+        fontWeight: "800",
+    },
+    bodyTextStyle: {
+        fontWeight: "200",
+        // color: "#F5EDED",
+        textAlign: "center",
+    },
+    bodyEmoji: {
+        fontWeight: "200",
+        // color: "#F5EDED",
+        // lineHeight: 11 + 11 + 10,
+        // paddingLeft: 2000,
+        // textAlign: "right",
+    },
+    infoStyle: {
+        marginHorizontal: 10,
+        marginVertical: 1,
+    },
 });
