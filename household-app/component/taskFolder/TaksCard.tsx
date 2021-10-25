@@ -9,7 +9,7 @@ interface TaskNow {
   repeated?: number;
   archived?: boolean;
   value?: number;
-  emojiList: number[];
+  emojiList?: number[];
 }
 
 interface Props {

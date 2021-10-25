@@ -13,9 +13,7 @@ import { useGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTas
 import doneTask from "../../Redux/entity/doneTask";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
-let tasksNow: TaskNow[] = [];
-
-
+let allTasks: TaskNow[] = [];
 
 const TasksScreen: FC<Props> = ({
   navigation,
@@ -24,7 +22,8 @@ const TasksScreen: FC<Props> = ({
   const [addModalOpen, setAddModalOpen] = useState(false);
   const currentHousehold = useAppSelector(selectSelectedHousehold);
   const [render, setRender] = useState(false);
-  const [tasks, setTasks] = useState(tasksNow);
+  const [tasks, setTasks] = useState(allTasks);
+
 
   // if (!currentHousehold) {
   //   navigation.navigate(MainRoutes.HouseholdScreen);
@@ -47,39 +46,6 @@ const TasksScreen: FC<Props> = ({
       value.getFullYear() == today.getFullYear()
     );
   };
-  console.log("TASK", data);
-  console.log("DONE TASK", doneTasksData);
-  // const test2 = useGetDoneTaskByHouseholdIdQuery(currentHousehold.id).isLoading
-  // const test3 = useGetDoneTaskByHouseholdIdQuery(currentHousehold.id).isFetching
-  // const test4 = useGetDoneTaskByHouseholdIdQuery(currentHousehold.id).isError
-  // const test5 = useGetDoneTaskByHouseholdIdQuery(currentHousehold.id).error
-
-  // console.log(data);
-
-    // useEffect(() => {
-    //   data?.forEach((element) => {
-    //     console.log(element);
-    //     tasksNow.push(element);
-    //   });
-    // }, [data]);
-
-  // useEffect(() => {
-  //   data?.forEach((t) => {
-  //     doneTasksData?.forEach((d) => {
-  //       console.log("NU ÄR VI HÄR")
-  //       if (t.id === d.taskId) {
-  //         console.log("taskID");
-  //         currentHousehold?.member.forEach((m) => {
-  //             if (d.userId === m.userId) {
-  //               console.log("bajs");
-  //               console.log(m.emoji);
-  //             }
-  //           });
-  //         });
-  //       }
-  //     });
-  //   });
-  // }, [data, doneTasksData]);
 
   useEffect(() => {
     data?.forEach((t) => {
@@ -92,26 +58,23 @@ const TasksScreen: FC<Props> = ({
         value: t.value,
         emojiList: [],
       };
+
+      allTasks.push(taskItem);
+
       doneTasksData?.forEach((d) => {
         const today: boolean = isToday(d.dateDone)
         if (t.id === d.taskId && today) {
           currentHousehold?.member.forEach((m) => {
             if (d.userId === m.userId) {
-
-              if(tasks.find((x => x.id == t.id))) {
-                return;
-              } else {
-                tasksNow = []
-                taskItem.emojiList.push(m.emoji);
-                tasksNow.push(taskItem);
-                setTasks(tasksNow);
-              }
+                allTasks[allTasks.length - 1].emojiList.push(m.emoji);
+                setTasks(allTasks);
+              // }
             }
           });
         }
       });
     });
-    if (tasksNow.length > 0) {
+    if (allTasks.length > 0) {
       setRender(true);
     }
   }, [data, doneTasksData]);
