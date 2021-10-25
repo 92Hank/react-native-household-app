@@ -3,13 +3,14 @@ import { TouchableOpacity, View, StyleSheet, Dimensions, Text } from "react-nati
 import task from "../../../Common(obsolete)/Task";
 
 interface TaskNow {
-  id: string;
-  householdId?: string;
-  description?: string;
-  repeated?: number;
-  archived?: boolean;
-  value?: number;
-  emojiList?: number[];
+    id: string;
+    name: string;
+    householdId?: string;
+    description?: string;
+    repeated?: number;
+    archived?: boolean;
+    value?: number;
+    emojiList?: number[];
 }
 
 interface Props {
@@ -17,22 +18,22 @@ interface Props {
     onPress: () => void;
 }
 
- const TaskCard = (props:Props) => {
-   console.log("TASK CARD", props.task);
-  return (
-    <TouchableOpacity onPress={props.onPress}>
-      <View style={Styles.container}>
-        <View style={Styles.cardContainer}>
-          <View style={Styles.infoStyle}>
-            <Text style={Styles.titleStyle}>
-              {props.task.description}
-              <Text style={Styles.bodyEmoji}>{props.task.emojiList?.join(" ")}</Text>
-            </Text>
-          </View>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+const TaskCard = (props: Props) => {
+    console.log("TASK CARD", props.task);
+    return (
+        <TouchableOpacity onPress={props.onPress}>
+            <View style={Styles.container}>
+                <View style={Styles.cardContainer}>
+                    <View style={Styles.infoStyle}>
+                        <Text style={Styles.titleStyle}>
+                            {props.task.name}
+                            <Text style={Styles.bodyEmoji}>{props.task.emojiList?.join(" ")}</Text>
+                        </Text>
+                    </View>
+                </View>
+            </View>
+        </TouchableOpacity>
+    );
 };
 
 export default TaskCard;

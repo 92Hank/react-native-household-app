@@ -1,87 +1,74 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ModalComponent from "../../component/modal/ModalComponent";
-import TaskCard from "../../component/taskFolder/TaksCard";
-import { useAppSelector } from "../../Redux/hooks";
+import TaskCard from "../../component/taskFolder/TaskCard";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
-import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
-import task from "../../Redux/entity/task";
+import { useAppSelector } from "../../Redux/hooks";
 import { useGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
-import doneTask from "../../Redux/entity/doneTask";
+import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
+import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
-let allTasks: TaskNow[] = [];
 
-const TasksScreen: FC<Props> = ({
-  navigation,
-  event,
-}: Props): React.ReactElement => {
-  const [addModalOpen, setAddModalOpen] = useState(false);
-  const currentHousehold = useAppSelector(selectSelectedHousehold);
-  const [render, setRender] = useState(false);
-  const [tasks, setTasks] = useState(allTasks);
+const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElement => {
+    const [addModalOpen, setAddModalOpen] = useState(false);
+    const currentHousehold = useAppSelector(selectSelectedHousehold);
+    const [render, setRender] = useState(false);
+    const [tasks, setTasks] = useState<TaskNow[]>();
 
+    const { data: tasksData } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
 
-  // if (!currentHousehold) {
-  //   navigation.navigate(MainRoutes.HouseholdScreen);
-  //   return <View></View>;
-  // }
+    const doneTasksData = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!).data;
 
-  const { data, isLoading, isFetching, isError, error } =
-    useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
+    const isToday = (someDate: any): boolean => {
+        const today = new Date();
+        const value = new Date(someDate._seconds * 1000);
+        return (
+            value.getDate() === today.getDate() &&
+            value.getMonth() === today.getMonth() &&
+            value.getFullYear() === today.getFullYear()
+        );
+    };
 
-  const doneTasksData = useGetDoneTasksWithHouseholdIdQuery(
-    currentHousehold?.id!
-  ).data;
+    useEffect(() => {
+        const allTasks: TaskNow[] = [];
+        tasksData?.forEach((t) => {
+            const taskItem: TaskNow = {
+                id: t.id as string,
+                name: t.name,
+                householdId: t.houseHoldId,
+                description: t.description,
+                repeated: t.repeated,
+                archived: t.archived,
+                value: t.value,
+                emojiList: [],
+            };
 
-  const isToday = (someDate: any): boolean => {
-    const today = new Date();
-    const value = new Date(someDate._seconds * 1000);
-    return (
-      value.getDate() == today.getDate() &&
-      value.getMonth() == today.getMonth() &&
-      value.getFullYear() == today.getFullYear()
-    );
-  };
+            allTasks.push(taskItem);
 
-  useEffect(() => {
-    data?.forEach((t) => {
-      let taskItem: TaskNow = {
-        id: t.id as string,
-        householdId: t.houseHoldId,
-        description: t.description,
-        repeated: t.repeated,
-        archived: t.archived,
-        value: t.value,
-        emojiList: [],
-      };
-
-      allTasks.push(taskItem);
-
-      doneTasksData?.forEach((d) => {
-        const today: boolean = isToday(d.dateDone)
-        if (t.id === d.taskId && today) {
-          currentHousehold?.member.forEach((m) => {
-            if (d.userId === m.userId) {
-                allTasks[allTasks.length - 1].emojiList.push(m.emoji);
-                setTasks(allTasks);
-              // }
-            }
-          });
+            doneTasksData?.forEach((d) => {
+                const today: boolean = isToday(d.dateDone);
+                if (t.id === d.taskId && today) {
+                    currentHousehold?.member.forEach((m) => {
+                        if (d.userId === m.userId) {
+                            allTasks[allTasks.length - 1].emojiList.push(m.emoji);
+                            setTasks(allTasks);
+                        }
+                    });
+                }
+            });
+        });
+        if (allTasks.length > 0) {
+            setRender(true);
         }
-      });
-    });
-    if (allTasks.length > 0) {
-      setRender(true);
-    }
-  }, [data, doneTasksData]);
+    }, [tasksData, doneTasksData]);
 
-  const clickOnTask = () => {
-    console.log("click on task,");
-  };
+    const clickOnTask = () => {
+        console.log("click on task,");
+    };
 
     const handleAddClick = () => {
         setAddModalOpen(true);
@@ -96,42 +83,30 @@ const TasksScreen: FC<Props> = ({
         navigation.navigate(MainRoutes.UsersInHouseHoldScreen);
     };
 
-  return (
-    <View style={styles.container}>
-      {render && (
-        <View>
-          <FlatList
-            data={tasks}
-            keyExtractor={(item: any) => item.id}
-            renderItem={({ item }) => (
-              <TaskCard key={item.id} task={item} onPress={clickOnTask} />
+    return (
+        <View style={styles.container}>
+            {render && (
+                <View>
+                    <FlatList
+                        data={tasks}
+                        keyExtractor={(item: TaskNow) => item.id}
+                        renderItem={({ item }) => <TaskCard key={item.id} task={item} onPress={clickOnTask} />}
+                    />
+                    <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} event={event} />
+                </View>
             )}
-          />
-          <ModalComponent
-            isOpen={addModalOpen}
-            handleAddClose={handleAddClose}
-            event={event}
-          />
+            <View style={styles.buttonsContainer}>
+                <TouchableOpacity onPress={handleAddClick} style={styles.householdButton}>
+                    <MaterialIcons name="add-circle-outline" size={30} color="black" />
+                    <Text style={styles.householdButtonText}>Skapa</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={onPressUsersInHousehold} style={styles.householdButton}>
+                    <Feather name="edit-2" size={30} color="black" />
+                    <Text style={styles.householdButtonText}>Medlemmar</Text>
+                </TouchableOpacity>
+            </View>
         </View>
-      )}
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity
-          onPress={handleAddClick}
-          style={styles.householdButton}
-        >
-          <MaterialIcons name="add-circle-outline" size={30} color="black" />
-          <Text style={styles.householdButtonText}>Skapa</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={onPressUsersInHousehold}
-          style={styles.householdButton}
-        >
-          <Feather name="edit-2" size={30} color="black" />
-          <Text style={styles.householdButtonText}>Medlemmar</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+    );
 };
 
 export default TasksScreen;
@@ -189,41 +164,13 @@ const styles = StyleSheet.create({
     },
 });
 
-// let tasks: Task[] = [
-//   { description: "foo", value: 1, id: "abc" },
-//   { description: "foo2", value: 2, id: "abc2" },
-// ];
-
-// let emojiList: string[] = ["🦊", "🐷", "🐸"];
-
-// create this list from our data with useEffect or something
-// let tasksNow: TaskNow[] = [
-//   {
-//     householdId: "abs3",
-//     description: "foo",
-//     value: 1,
-//     id: "abc2",
-//     repeated: 2,
-//     archived: false,
-//     emojiList: emojiList,
-//   },
-//   {
-//     householdId: "abs4",
-//     description: "foo 2",
-//     value: 1,
-//     id: "abc",
-//     repeated: 2,
-//     archived: false,
-//     emojiList: emojiList,
-//   },
-// ];
-
 interface TaskNow {
-  id: string;
-  householdId?: string;
-  description?: string;
-  repeated?: number;
-  archived?: boolean;
-  value?: number;
-  emojiList: number[];
+    id: string;
+    name: string;
+    householdId?: string;
+    description?: string;
+    repeated?: number;
+    archived?: boolean;
+    value?: number;
+    emojiList: number[];
 }
