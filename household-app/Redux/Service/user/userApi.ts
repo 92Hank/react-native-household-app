@@ -22,14 +22,14 @@ export const userApi = createApi({
         getAllUser: builder.query<user[], void>({
             query: () => `/`,
 
-            providesTags: (result, error, arg) =>
+            providesTags: (result) =>
                 result ? [...result.map(({ id }) => ({ type: "User" as const, id })), "User"] : ["User"],
         }),
 
         GetUserById: builder.query<user, string>({
             query: (body) => `/` + body,
 
-            providesTags: (result, error, arg) =>
+            providesTags: (result) =>
                 result
                     ? [
                           {

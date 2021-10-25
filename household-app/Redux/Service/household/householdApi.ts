@@ -23,7 +23,7 @@ export const householdApi = createApi({
                 body,
             }),
 
-            invalidatesTags: (result, error, arg) => [{ type: "Household" }],
+            invalidatesTags: () => [{ type: "Household" }],
         }),
 
         GetHouseholdByUserId: builder.query<household[], string>({
@@ -38,7 +38,7 @@ export const householdApi = createApi({
                     }
                 },
             }),
-            providesTags: (result, error, arg) =>
+            providesTags: (result) =>
                 result
                     ? [
                           ...result.map(({ id }) => ({
@@ -62,7 +62,7 @@ export const householdApi = createApi({
                     }
                 },
             }),
-            providesTags: (result, error, arg) =>
+            providesTags: (result) =>
                 result
                     ? [
                           {
@@ -86,7 +86,7 @@ export const householdApi = createApi({
                     }
                 },
             }),
-            providesTags: (result, error, arg) =>
+            providesTags: (result) =>
                 result
                     ? [
                           {

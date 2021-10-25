@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { webUrl } from "../../Config";
 import doneTask from "../../entity/doneTask";
-import task from "../../entity/task";
 
 export const doneTaskApi = createApi({
     reducerPath: "doneTask",
@@ -23,7 +22,7 @@ export const doneTaskApi = createApi({
         GetTaskByHouseholdId: builder.query<doneTask[], string>({
             query: (body) => `/` + body,
 
-            providesTags: (result, error, arg) =>
+            providesTags: (result) =>
                 result ? [...result.map(({ id }) => ({ type: "DoneTask" as const, id })), "DoneTask"] : ["DoneTask"],
         }),
     }),

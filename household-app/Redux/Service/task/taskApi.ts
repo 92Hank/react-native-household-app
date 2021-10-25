@@ -32,7 +32,7 @@ export const taskApi = createApi({
                 },
             }),
 
-            providesTags: (result, error, arg) =>
+            providesTags: (result) =>
                 result ? [...result.map(({ id }) => ({ type: "Task" as const, id })), "Task"] : ["Task"],
         }),
 
