@@ -30,6 +30,7 @@ const TasksScreen: FC<Props> = ({
   const [addModalOpen, setAddModalOpen] = useState(false);
   const currentHousehold = useAppSelector(selectSelectedHousehold);
   const [render, setRender] = useState(false);
+  const [tasks, setTasks] = useState(tasksNow);
 
   // if (!currentHousehold) {
   //   navigation.navigate(MainRoutes.HouseholdScreen);
@@ -43,16 +44,15 @@ const TasksScreen: FC<Props> = ({
     currentHousehold?.id!
   ).data;
 
-const isToday = (someDate: any): boolean => {
-  const today = new Date();
-  const value = new Date(someDate._seconds * 1000);
-  console.log(value.toDateString());
-  return (
-    value.getDate() == today.getDate() &&
-    value.getMonth() == today.getMonth() &&
-    value.getFullYear() == today.getFullYear()
-  );
-};
+  const isToday = (someDate: any): boolean => {
+    const today = new Date();
+    const value = new Date(someDate._seconds * 1000);
+    return (
+      value.getDate() == today.getDate() &&
+      value.getMonth() == today.getMonth() &&
+      value.getFullYear() == today.getFullYear()
+    );
+  };
   console.log("TASK", data);
   console.log("DONE TASK", doneTasksData);
   // const test2 = useGetDoneTaskByHouseholdIdQuery(currentHousehold.id).isLoading
@@ -89,7 +89,7 @@ const isToday = (someDate: any): boolean => {
 
   useEffect(() => {
     data?.forEach((t) => {
-      let test: TaskNow = {
+      let taskItem: TaskNow = {
         id: t.id as string,
         householdId: t.houseHoldId,
         description: t.description,
@@ -103,14 +103,23 @@ const isToday = (someDate: any): boolean => {
         if (t.id === d.taskId && today) {
           currentHousehold?.member.forEach((m) => {
             if (d.userId === m.userId) {
-              test.emojiList.push(m.emoji);
-              tasksNow.push(test);
+
+              if(tasks.find((x => x.id == t.id))) {
+                return;
+              } else {
+                tasksNow = []
+                taskItem.emojiList.push(m.emoji);
+                tasksNow.push(taskItem);
+                setTasks(tasksNow);
+              }
             }
           });
         }
       });
     });
-    setRender(true);
+    if (tasksNow.length > 0) {
+      setRender(true);
+    }
   }, [data, doneTasksData]);
 
   const clickOnTask = () => {
@@ -135,7 +144,7 @@ const isToday = (someDate: any): boolean => {
       {render && (
         <View>
           <FlatList
-            data={tasksNow}
+            data={tasks}
             keyExtractor={(item: any) => item.id}
             renderItem={({ item }) => (
               <TaskCard key={item.id} task={item} onPress={clickOnTask} />
