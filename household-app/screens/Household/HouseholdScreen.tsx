@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { FlatList, TouchableOpacity, View, Text, StyleSheet } from "react-native";
 // import Household from "../../../Common(obsolete)/household";
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
@@ -17,6 +17,8 @@ import Household from "../../Redux/entity/household";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
 import household from "../../Redux/entity/household";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
+import { snackbarContext } from "../../context/snackBarContext";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
@@ -25,17 +27,16 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     const [joinModalIsOpen, setJoinModalIsOpen] = useState(false);
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentLoginUser);
+    const { isVisible, message } = useContext(snackbarContext);
+
     const currentHousehold = useAppSelector(selectSelectedHousehold);
 
     if (!user) {
         navigation.navigate(MainRoutes.LoginScreen);
         return <View></View>;
     }
-    const { data, isLoading, isFetching, isError, error } = useGetHouseholdByUserIdQuery(user.id!);
 
-    // useEffect(() => {
-    //   if (!user) navigation.navigate(MainRoutes.LoginScreen);
-    // }, [user])
+    const { data, isLoading, isFetching, isError, error } = useGetHouseholdByUserIdQuery(user.id!);
 
     const clickOnHousehold = (item: household) => {
         dispatch(setSelectedHousehold(item));
@@ -82,6 +83,8 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     return (
         <>
             <View style={styles.container}>
+                <SnackbarComponent isVisible={isVisible} message={message} />
+
                 <View style={styles.containerButton}>
                     <TouchableOpacity onPress={onPressLogout} style={styles.logoutButton}>
                         <Text style={styles.buttonText}>Sign out</Text>

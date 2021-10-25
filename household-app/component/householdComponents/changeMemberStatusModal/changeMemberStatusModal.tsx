@@ -1,8 +1,9 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 // import { RadioButton } from "react-native-paper";
 import RadioForm from "react-native-simple-radio-button";
+import { snackbarContext } from "../../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
@@ -11,7 +12,6 @@ import {
     useMakeUserToOwnerMutation,
     usePauseUserMutation,
 } from "../../../Redux/Service/household/householdApi";
-import SnackbarComponent from "../../snackbar/snackbarComponent";
 
 const radioPropsOwner = [
     { label: "Ja", value: 1 },
@@ -49,10 +49,55 @@ function ChangeMemberStatusModal(props: Props) {
     const [unPaused, setUnPaused] = useState<number>(0);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [acceptUser, setAcceptUser] = useState<number>(0);
+    // const [message, setMessage] = useState<string>("");
+    // const [openSnackbar, setOpenSnackbar] = useState<boolean>();
+    const { setSnackbar } = useContext(snackbarContext);
 
-    const [makeUserToOwner, { isLoading: isUpdatingMakeUserToOwner }] = useMakeUserToOwnerMutation();
-    const [pauseUser, { isLoading: isUpdatingPauseUser }] = usePauseUserMutation();
-    const [acceptUserApi, { isLoading: isAcceptUser }] = useAcceptUserMutation();
+    const [makeUserToOwner, { error: makeToOwnerError, isSuccess: isMakeOwnerSuccess }] = useMakeUserToOwnerMutation();
+    const [pauseUser, { error: pauseUserError, isSuccess: isPasuedSuccess }] = usePauseUserMutation();
+    const [acceptUserApi, { error: acceptError, isSuccess: isAcceptSuccess }] = useAcceptUserMutation();
+
+    useEffect(() => {
+        if (isAcceptSuccess) {
+            setSnackbar("Förfrågan accepterad", true);
+            props.handleModalClose();
+        }
+    }, [isAcceptSuccess]);
+
+    useEffect(() => {
+        if (isPasuedSuccess) {
+            setSnackbar("Pausad status ändrad på medlem", true);
+            props.handleModalClose();
+        }
+    }, [isPasuedSuccess]);
+
+    useEffect(() => {
+        if (isMakeOwnerSuccess) {
+            setSnackbar("Medlem har blivit en ägare", true);
+            props.handleModalClose();
+        }
+    }, [isMakeOwnerSuccess]);
+
+    useEffect(() => {
+        if (makeToOwnerError) {
+            setSnackbar("Ett oväntat fel dök upp", true);
+            console.log("error", makeToOwnerError);
+        }
+    }, [makeToOwnerError]);
+
+    useEffect(() => {
+        if (pauseUserError) {
+            setSnackbar("Ett oväntat fel dök upp", true);
+            console.log("error", pauseUserError);
+        }
+    }, [pauseUserError]);
+
+    useEffect(() => {
+        if (acceptError) {
+            setSnackbar("Ett oväntat fel dök upp", true);
+            console.log("error", acceptError);
+        }
+    }, [acceptError]);
 
     const onSave = () => {
         if (!currentHousehold) return;
@@ -67,29 +112,39 @@ function ChangeMemberStatusModal(props: Props) {
         // console.log()
         if (!rights) {
             // eslint-disable-next-line no-alert
-            alert("Du har ej rättigheter att ändra status");
+            // setMessage("Du har ej rättigheter att ändra status");
+            setSnackbar("Du har ej rättigheter att ändra status", true);
+            // setOpenSnackbar(true);
+            // alert("Du har ej rättigheter att ändra status");
             // snackbar in future!
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
             setUnPaused(0);
             setAcceptUser(0);
+            props.handleModalClose();
             return;
         }
         if (makeOwner === 1 && paused === 1) {
             // eslint-disable-next-line no-alert
-            alert("kan ej både pausa och göra till ägare!");
+            // alert("kan ej både pausa och göra till ägare!");
+            // setMessage("kan ej både pausa och göra till ägare!");
+            // setOpenSnackbar(true);
+            setSnackbar("kan ej både pausa och göra till ägare!", true);
+
+            console.log("snack");
             // snackbar in future!
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
             setUnPaused(0);
             setAcceptUser(0);
+            props.handleModalClose();
             return;
         }
         if (makeOwner === 1 && isOwner === false) {
             makeUserToOwner({ houseHoldId: currentHousehold.id, userId: userId });
-            console.log("make owner api");
+            // console.log("får kolla hur vi kan använda response från redux för att ge feedback");
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
@@ -151,7 +206,6 @@ function ChangeMemberStatusModal(props: Props) {
 
     return (
         <View>
-            <SnackbarComponent isVisible={true} message={"foo"} />
             <View style={styles.centeredView}>
                 {props.member && (
                     <Modal
