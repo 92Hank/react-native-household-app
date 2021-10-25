@@ -11,6 +11,7 @@ import {
     useMakeUserToOwnerMutation,
     usePauseUserMutation,
 } from "../../../Redux/Service/household/householdApi";
+import SnackbarComponent from "../../snackbar/snackbarComponent";
 
 const radioPropsOwner = [
     { label: "Ja", value: 1 },
@@ -149,91 +150,94 @@ function ChangeMemberStatusModal(props: Props) {
     };
 
     return (
-        <View style={styles.centeredView}>
-            {props.member && (
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={props.isOpen}
-                    onRequestClose={() => {
-                        props.isOpen;
-                    }}
-                >
-                    <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>
-                                Namn:
-                                <Text style={styles.modalText}>{" " + props.member.name}</Text>
-                            </Text>
-                            {props.member.AcceptedStatus == "accepted" && (
-                                <View>
-                                    {props.member.isOwner === false && props.member.isPaused === false && (
-                                        <View>
-                                            <Text style={styles.modalText}>Gör till ägare:</Text>
-                                            <View style={{ flexDirection: "row" }}>
+        <View>
+            <SnackbarComponent isVisible={true} message={"foo"} />
+            <View style={styles.centeredView}>
+                {props.member && (
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={props.isOpen}
+                        onRequestClose={() => {
+                            props.isOpen;
+                        }}
+                    >
+                        <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>
+                                    Namn:
+                                    <Text style={styles.modalText}>{" " + props.member.name}</Text>
+                                </Text>
+                                {props.member.AcceptedStatus === "accepted" && (
+                                    <View>
+                                        {props.member.isOwner === false && props.member.isPaused === false && (
+                                            <View>
+                                                <Text style={styles.modalText}>Gör till ägare:</Text>
+                                                <View style={{ flexDirection: "row" }}>
+                                                    <RadioForm
+                                                        radio_props={radioPropsOwner}
+                                                        initial={1}
+                                                        onPress={(value: number) => {
+                                                            setMakeOwner(value as number);
+                                                        }}
+                                                    />
+                                                </View>
+                                                <Text style={styles.modalText}>Pausa användare:</Text>
                                                 <RadioForm
-                                                    radio_props={radioPropsOwner}
+                                                    radio_props={radioPropsPause}
                                                     initial={1}
                                                     onPress={(value: number) => {
-                                                        setMakeOwner(value as number);
+                                                        setPaused(value as number);
                                                     }}
                                                 />
                                             </View>
-                                            <Text style={styles.modalText}>Pausa användare:</Text>
-                                            <RadioForm
-                                                radio_props={radioPropsPause}
-                                                initial={1}
-                                                onPress={(value: number) => {
-                                                    setPaused(value as number);
-                                                }}
-                                            />
-                                        </View>
-                                    )}
+                                        )}
+                                    </View>
+                                )}
+                                {props.member.isPaused === true && (
+                                    <View>
+                                        <Text style={styles.modalText}>Aktivera pausad användare:</Text>
+                                        <RadioForm
+                                            radio_props={radioPropsUnPause}
+                                            initial={1}
+                                            onPress={(value: number) => {
+                                                setUnPaused(value as number);
+                                            }}
+                                        />
+                                    </View>
+                                )}
+                                {props.member.AcceptedStatus === "pending" && (
+                                    <View>
+                                        <Text style={styles.modalText}>Ansöker om att gå med</Text>
+                                        <RadioForm
+                                            radio_props={radioPropsAccept}
+                                            initial={1}
+                                            onPress={(value: number) => {
+                                                setAcceptUser(value as number);
+                                            }}
+                                        />
+                                    </View>
+                                )}
+                                {props.member.isOwner === true && (
+                                    <View>
+                                        <Text style={styles.modalText}>En av ägarna i hushållet</Text>
+                                    </View>
+                                )}
+                                <View style={styles.buttonsContainer}>
+                                    <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
+                                        <MaterialIcons name="add-circle-outline" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Spara</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
+                                        <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Stäng</Text>
+                                    </TouchableOpacity>
                                 </View>
-                            )}
-                            {props.member.isPaused === true && (
-                                <View>
-                                    <Text style={styles.modalText}>Aktivera pausad användare:</Text>
-                                    <RadioForm
-                                        radio_props={radioPropsUnPause}
-                                        initial={1}
-                                        onPress={(value: number) => {
-                                            setUnPaused(value as number);
-                                        }}
-                                    />
-                                </View>
-                            )}
-                            {props.member.AcceptedStatus == "pending" && (
-                                <View>
-                                    <Text style={styles.modalText}>Ansöker om att gå med</Text>
-                                    <RadioForm
-                                        radio_props={radioPropsAccept}
-                                        initial={1}
-                                        onPress={(value: number) => {
-                                            setAcceptUser(value as number);
-                                        }}
-                                    />
-                                </View>
-                            )}
-                            {props.member.isOwner === true && (
-                                <View>
-                                    <Text style={styles.modalText}>En av ägarna i hushållet</Text>
-                                </View>
-                            )}
-                            <View style={styles.buttonsContainer}>
-                                <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
-                                    <MaterialIcons name="add-circle-outline" size={30} color="black" />
-                                    <Text style={styles.buttonText}>Spara</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
-                                    <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
-                                    <Text style={styles.buttonText}>Stäng</Text>
-                                </TouchableOpacity>
                             </View>
                         </View>
-                    </View>
-                </Modal>
-            )}
+                    </Modal>
+                )}
+            </View>
         </View>
     );
 }
