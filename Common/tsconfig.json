@@ -6,7 +6,7 @@
     "rootDir": ".",
     "composite": true,
     "module": "ESNext",
-    "outFile": "js/app.js"
+    "outDir": "lib"
   },
   "references": [] // * Any project that is referenced must itself have a `references` array (which may be empty).
 }

@@ -1,22 +1,19 @@
-import React, { FC, useEffect, useState } from "react";
-import { FlatList, TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { FontAwesome5, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import React, { FC, useState } from "react";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { household } from "../../../Common/household";
+import AddHouseholdModal from "../../component/householdComponents/addHouseholdModal/addHouseholdModal.component";
 // import Household from "../../../Common(obsolete)/household";
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import styles from "./styles";
-import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { baseProps } from "react-native-gesture-handler/lib/typescript/handlers/gestureHandlers";
-import AddHouseholdModal from "../../component/householdComponents/addHouseholdModal/addHouseholdModal.component";
 import JoinHouseholdModal from "../../component/householdComponents/joinHouseholdModal/joinHouseholdModal.component";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
-import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { logout } from "../../Redux/features/loginUser/loginUserSlice";
-import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
-import Household from "../../../Common/household";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
-import household from "../../../Common/household";
+import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
+import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
+import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import styles from "./styles";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 

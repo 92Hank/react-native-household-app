@@ -1,6 +1,6 @@
 import { valueType } from "./value";
 
-export default interface task {
+export declare interface task {
     id?: string;
     description: string;
     value: valueType;

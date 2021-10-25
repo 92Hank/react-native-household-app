@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./Common"
+    },
+    {
+      "path": "./firebase-api/functions"
+    }//,
+    // {
+    //   "path": "./household-app"
+    // }
+  ]
+}

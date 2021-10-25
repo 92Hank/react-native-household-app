@@ -14,7 +14,7 @@ import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
-const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElement => {
+const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const [addModalOpen, setAddModalOpen] = useState(false);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [render, setRender] = useState(false);
@@ -56,7 +56,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                 const today: boolean = isToday(d.dateDone);
                 if (t.id === d.taskId && today) {
                     currentHousehold?.member.forEach((m) => {
-                        if (d.userId === m.userId) {
+                        if (d.memberId === m.userId) {
                             allTasks[allTasks.length - 1].emojiList.push(m.emoji);
                             setTasks(allTasks);
                         }

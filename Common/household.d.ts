@@ -1,4 +1,4 @@
-export default interface household {
+export declare  interface household {
     id: string;
     name: string;
     ownerId: string;
@@ -6,7 +6,7 @@ export default interface household {
     inviteCode: string;
     userIds: string[];
 }
-interface fullMemberInfo {
+export declare interface fullMemberInfo {
     name: string;
     userId: string;
     emoji: number;
@@ -15,41 +15,44 @@ interface fullMemberInfo {
     AcceptedStatus: "accepted" | "pending" | "rejected";
 }
 
-export interface householdCreate {
+export declare interface householdCreate {
     ownerId: string;
     member: memberSend;
     name: string;
 }
 
-export interface householdJoin {
+export declare interface householdJoin {
     houseHoldId: string;
     inviteCode: number;
     member: memberSend;
 }
-export interface householdChangeName {
+export declare interface householdChangeName {
     houseHoldId: string;
     name: string;
 }
 
-export interface householdIdAndUserId {
+export declare interface householdIdAndUserId {
     houseHoldId: string;
     userId: string;
 }
-export interface householdPauseUser {
+export declare interface householdPauseUser {
     houseHoldId: string;
     userId: string;
     isPaused: boolean;
 }
 
-export interface householdChangeEmoji {
+export declare interface householdChangeEmoji {
     houseHoldId: string;
     userId: string;
     emoji: number;
 }
 
-export interface memberSend {
+export declare interface memberSend {
     id?: string;
     userId: string;
     emoji: number;
     name: string;
 }
+
+export declare type emoji = "🦊" | "🐷" | "🐸" | "🐥" | "🐙" | "🐬" | "🦉" | "🦄";
+

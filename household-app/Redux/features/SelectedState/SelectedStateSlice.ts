@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import household from "../../../../Common/household";
-import task from "../../../../Common/task";
+import { household } from "../../../../Common/household";
+import { task } from "../../../../Common/task";
 
 export interface SelectedState {
     SelectedHousehold?: household;

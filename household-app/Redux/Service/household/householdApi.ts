@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { webUrl } from "../../Config";
-import household, {
+import {
+    household,
     householdIdAndUserId,
     householdChangeName,
     householdCreate,

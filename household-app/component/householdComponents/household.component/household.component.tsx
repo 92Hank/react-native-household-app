@@ -1,11 +1,10 @@
 import React from "react";
-import { Text, View, Pressable, StyleSheet } from "react-native";
-import Household from "../../../../Common/household";
-import { Avatar, Button, Card, Title, Paragraph, List } from "react-native-paper";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { household } from "../../../../Common/household";
 import ItemSeparator from "../../itemSeparator/itemSeparator.component";
 
 interface Props {
-    household: Household;
+    household: household;
     onPress: () => void;
 }
 

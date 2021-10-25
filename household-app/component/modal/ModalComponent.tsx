@@ -1,3 +1,5 @@
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import {
     FlatList,
@@ -5,25 +7,19 @@ import {
     Modal,
     Platform,
     ScrollView,
-    StyleSheet,
     Text,
-    TouchableHighlight,
     TouchableOpacity,
     View,
 } from "react-native";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Card, TextInput } from "react-native-paper";
-import styles from "./styles";
-import { Formik } from "formik";
 import * as Yup from "yup";
-import { useNavigation } from "@react-navigation/native";
-import CircleButtonGroup from "../circleButtonGroup/circleButtonGroup";
-import ListItem from "../taskDayListItem/taskDayListItem";
-import { useCreateTaskMutation } from "../../Redux/Service/task/taskApi";
-import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
-import task from "../../../Common/task";
+import { task } from "../../../Common/task";
+import { valueType } from "../../../Common/value";
 import { LocalIp } from "../../Redux/Config";
+import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
+import { useCreateTaskMutation } from "../../Redux/Service/task/taskApi";
+import styles from "./styles";
 
 interface Props {
     isOpen: boolean;
@@ -75,7 +71,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose, event }) => {
         archived: false,
         name: "cook",
         repeated: 0,
-        value: 0,
+        value: 1,
         houseHoldId: "houseHoldId1",
     };
 
@@ -105,12 +101,14 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose, event }) => {
 
     const handleSubmitForm = async (createTaskItem: task) => {
         if (name && description && repeated && value) {
+            const v = value as valueType;
+
             const requestData: task = {
                 houseHoldId: "2",
                 description: description,
                 name: name,
                 repeated: repeated,
-                value: value,
+                value: v,
                 archived: false,
             };
 
