@@ -44,6 +44,6 @@ DELETE  http://localhost:5000/react-native-household-app/us-central1/webApi/task
 
 ###
 // arcive task on task id
-PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/tasks/mAYLUENps7KWqnKPtI3D
+PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/tasks/vwIqUUMi7kYjBRmqDS7n
 
 ###
