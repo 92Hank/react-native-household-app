@@ -53,6 +53,7 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                 repeated: t.repeated,
                 archived: t.archived,
                 value: t.value,
+                createdAt: t.createdAt,
                 emojiList: [],
             };
 
@@ -202,5 +203,5 @@ interface TaskNow {
     value?: number;
     emojiList: number[];
     dateDone?: Date;
-    createdAt?: Date;
+    createdAt: Date;
 }

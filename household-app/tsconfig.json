@@ -3,6 +3,7 @@
     "compilerOptions": {
         "strict": true
     },
+    "exclude": ["lib"],
     "references": [
         {
             "path": "../Common"

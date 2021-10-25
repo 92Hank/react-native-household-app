@@ -6,9 +6,9 @@
     },
     {
       "path": "./firebase-api/functions"
-    }//,
-    // {
-    //   "path": "./household-app"
-    // }
+    },
+    {
+      "path": "./household-app"
+    }
   ]
 }
