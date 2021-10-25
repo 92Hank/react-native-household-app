@@ -13,6 +13,7 @@ import {
   memberLeaveHouseHold,
   memberChangeName,
   memberChangeEmoji,
+  rejectMember,
 } from "./household.controller";
 
 // eslint-disable-next-line new-cap
@@ -33,6 +34,7 @@ householdRouter.patch("/household/changename", changeNameOnHouseHold);
 householdRouter.patch("/household/setpaused", setMemberOnPauseHouseHold);
 householdRouter.patch("/household/changenameOnMember", memberChangeName);
 householdRouter.patch("/household/changeemoji", memberChangeEmoji);
+householdRouter.patch("/household/reject", rejectMember);
 householdRouter.delete("/household/leave", memberLeaveHouseHold);
 
 
