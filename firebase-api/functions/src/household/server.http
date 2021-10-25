@@ -62,8 +62,8 @@ PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/househ
 Content-Type: application/json
 
 {
-    "houseHoldId": "Dt1nCSiTG5QWYtPuMFQR",
-    "userId": "userID soddddm vill jiona"
+    "houseHoldId": "1J8rfrvRn6TUE8U9wJnv",
+    "userId": "userID som vill jiona2342"
     
 }
 
