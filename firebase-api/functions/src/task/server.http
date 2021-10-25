@@ -41,3 +41,9 @@ Content-Type: application/json
 DELETE  http://localhost:5000/react-native-household-app/us-central1/webApi/tasks/mAYLUENps7KWqnKPtI3D
 
 ###
+
+###
+// arcive task on task id
+PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/tasks/mAYLUENps7KWqnKPtI3D
+
+###

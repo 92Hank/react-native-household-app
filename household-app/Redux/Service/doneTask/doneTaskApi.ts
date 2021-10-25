@@ -28,6 +28,7 @@ export const doneTaskApi = createApi({
                         console.log(response.text());
                         return response.text();
                     } else {
+                        console.log("foo");
                         return response.json();
                     }
                 },

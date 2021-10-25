@@ -3,6 +3,7 @@
         "ägare",
         "ägarna",
         "Aktivera",
+        "Ändra",
         "Ansökan",
         "Ansöker",
         "användare",
@@ -17,6 +18,7 @@
         "Hemmet",
         "hushållet",
         "invitecode",
+        "Klar",
         "Medlem",
         "Medlemmar",
         "Namn",
@@ -28,6 +30,7 @@
         "setpaused",
         "signin",
         "själv",
-        "Skapare"
+        "Skapare",
+        "Stäng"
     ]
 }
