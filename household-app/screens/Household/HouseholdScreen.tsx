@@ -13,10 +13,10 @@ import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSele
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { logout } from "../../Redux/features/loginUser/loginUserSlice";
 import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
-import Household from "../../Redux/entity/household";
+import Household from "../../../Common/household";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
-import household from "../../Redux/entity/household";
+import household from "../../../Common/household";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 

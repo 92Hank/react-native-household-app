@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 // import { RadioButton } from "react-native-paper";
 import RadioForm from "react-native-simple-radio-button";
@@ -49,9 +49,17 @@ function ChangeMemberStatusModal(props: Props) {
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [acceptUser, setAcceptUser] = useState<number>(0);
 
-    const [makeUserToOwner, { isLoading: isUpdatingMakeUserToOwner }] = useMakeUserToOwnerMutation();
+    const [makeUserToOwner, { isLoading: isUpdatingMakeUserToOwner, status }] = useMakeUserToOwnerMutation();
     const [pauseUser, { isLoading: isUpdatingPauseUser }] = usePauseUserMutation();
     const [acceptUserApi, { isLoading: isAcceptUser }] = useAcceptUserMutation();
+
+    useEffect(() => {
+        console.log("isUpdatingMakeUserToOwner", isUpdatingMakeUserToOwner);
+    }, [isUpdatingMakeUserToOwner]);
+
+    useEffect(() => {
+        console.log("status", status);
+    }, [status]);
 
     const onSave = () => {
         if (!currentHousehold) return;

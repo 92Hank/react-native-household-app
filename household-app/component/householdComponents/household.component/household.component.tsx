@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, Pressable, StyleSheet } from "react-native";
-import Household from "../../../Redux/entity/household";
+import Household from "../../../../Common/household";
 import { Avatar, Button, Card, Title, Paragraph, List } from "react-native-paper";
 import ItemSeparator from "../../itemSeparator/itemSeparator.component";
 

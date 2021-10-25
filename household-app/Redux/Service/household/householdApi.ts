@@ -7,7 +7,7 @@ import household, {
     householdJoin,
     householdChangeEmoji,
     householdPauseUser,
-} from "../../entity/household";
+} from "../../../../Common/household";
 
 export const householdApi = createApi({
     reducerPath: "household",

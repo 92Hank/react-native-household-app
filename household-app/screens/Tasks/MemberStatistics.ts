@@ -1,5 +1,5 @@
-import { emoji } from "../../../Common(obsolete)/member";
-import doneTask from "../../../Common(obsolete)/doneTask";
+import { emoji } from "../../../Common/member";
+import doneTask from "../../../Common/doneTask";
 
 /**
  * Retrieve one MemberStatistics object per user.

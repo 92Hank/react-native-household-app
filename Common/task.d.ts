@@ -1,7 +1,9 @@
+import { valueType } from "./value";
+
 export default interface task {
     id?: string;
     description: string;
-    value: number;
+    value: valueType;
     houseHoldId: string;
     repeated: number;
     archived: false;

@@ -3,13 +3,13 @@ import React, { FC, useEffect, useState } from "react";
 import { Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import { webUrl } from "../../../Redux/Config";
-import householdType, { householdJoin } from "../../../Redux/entity/household";
+import householdType, { householdJoin } from "../../../../Common/household";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { useJoinHouseholdMutation } from "../../../Redux/Service/household/householdApi";
 import { userApi } from "../../../Redux/Service/user/userApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
-import memberSend from "../../../Redux/entity/household";
+import memberSend from "../../../../Common/household";
 
 interface DefaultProps {
     isOpen: boolean;

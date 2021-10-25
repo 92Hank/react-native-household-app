@@ -21,7 +21,7 @@ import CircleButtonGroup from "../circleButtonGroup/circleButtonGroup";
 import ListItem from "../taskDayListItem/taskDayListItem";
 import { useCreateTaskMutation } from "../../Redux/Service/task/taskApi";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
-import task from "../../Redux/entity/task";
+import task from "../../../Common/task";
 import { LocalIp } from "../../Redux/Config";
 import { useAppSelector } from "../../Redux/hooks";
 

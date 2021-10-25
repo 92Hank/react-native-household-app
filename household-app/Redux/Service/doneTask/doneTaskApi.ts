@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { webUrl } from "../../Config";
-import doneTask from "../../entity/doneTask";
+import doneTask from "../../../../Common/doneTask";
 
 export const doneTaskApi = createApi({
     reducerPath: "doneTask",
