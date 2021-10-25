@@ -22,7 +22,6 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
     const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
     const [taskInModal, setTaskInModal] = useState<TaskNow>();
 
-
     const { data: tasksData } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
 
     const doneTasksData = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!).data;
@@ -70,14 +69,13 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
         }
     }, [tasksData, doneTasksData]);
 
-    const clickOnTask = (task : TaskNow) => {
-
-      setTaskInModal(task);
-      setIsClickedTaskOpen(true);
-      console.log("click on task,");
+    const clickOnTask = (task: TaskNow) => {
+        setTaskInModal(task);
+        setIsClickedTaskOpen(true);
+        console.log("click on task,");
     };
     const handleTaskClose = () => {
-      setIsClickedTaskOpen(false);
+        setIsClickedTaskOpen(false);
     };
 
     const handleAddClick = () => {
@@ -100,10 +98,16 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                     <FlatList
                         data={tasks}
                         keyExtractor={(item: TaskNow) => item.id}
-                        renderItem={({ item }) => <TaskCard key={item.id} task={item} onPress={()=>clickOnTask(item)} />}
+                        renderItem={({ item }) => (
+                            <TaskCard key={item.id} task={item} onPress={() => clickOnTask(item)} />
+                        )}
                     />
                     <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} event={event} />
-                    <TaskModal isOpen={isClickedTaskOpen} handleModalClose={handleTaskClose} task={taskInModal as TaskNow}/>
+                    <TaskModal
+                        isOpen={isClickedTaskOpen}
+                        handleModalClose={handleTaskClose}
+                        task={taskInModal as TaskNow}
+                    />
                 </View>
             )}
             <View style={styles.buttonsContainer}>
