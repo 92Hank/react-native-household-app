@@ -73,6 +73,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose, event }) => {
         repeated: 0,
         value: 1,
         houseHoldId: "houseHoldId1",
+        createdAt: new Date(),
     };
 
     const [
@@ -110,6 +111,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose, event }) => {
                 repeated: repeated,
                 value: v,
                 archived: false,
+                createdAt: new Date(),
             };
 
             CreateTask(requestData);
