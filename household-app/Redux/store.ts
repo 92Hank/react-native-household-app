@@ -8,20 +8,20 @@ import { taskApi } from "./Service/task/taskApi";
 import { userApi } from "./Service/user/userApi";
 
 export const store = configureStore({
-  reducer: {
-    [loginUserSlice.name]: loginUserSliceReducer,
-    [SelectedStateSlice.name]: SelectedStateReducer,
-    [userApi.reducerPath]: userApi.reducer,
-    [householdApi.reducerPath]: householdApi.reducer,
-    [taskApi.reducerPath]: taskApi.reducer,
-    [doneTaskApi.reducerPath]: doneTaskApi.reducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
-      .concat(userApi.middleware)
-      .concat(householdApi.middleware)
-      .concat(taskApi.middleware)
-      .concat(doneTaskApi.middleware)
+    reducer: {
+        [loginUserSlice.name]: loginUserSliceReducer,
+        [SelectedStateSlice.name]: SelectedStateReducer,
+        [userApi.reducerPath]: userApi.reducer,
+        [householdApi.reducerPath]: householdApi.reducer,
+        [taskApi.reducerPath]: taskApi.reducer,
+        [doneTaskApi.reducerPath]: doneTaskApi.reducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware()
+            .concat(userApi.middleware)
+            .concat(householdApi.middleware)
+            .concat(taskApi.middleware)
+            .concat(doneTaskApi.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;
