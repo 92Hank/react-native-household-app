@@ -26,13 +26,13 @@ export default function HouseholdComponent(props: Props) {
         <View>
             <Pressable style={styles.title} onPress={props.onPress}>
                 {props.member.isOwner && user?.id === props.member.userId && (
-                    <Text style={styles.text}>{"Du själv som skapare: " + props.member.name}</Text>
+                    <Text style={styles.text}>{"Du själv som ägare: " + props.member.name}</Text>
                 )}
                 {props.member.userId === user?.id && !props.member.isOwner && (
                     <Text style={styles.text}>{"Du själv: " + props.member.name}</Text>
                 )}
                 {props.member.userId !== user?.id && props.member.isOwner && (
-                    <Text style={styles.text}>{"Skapare: " + props.member.name}</Text>
+                    <Text style={styles.text}>{"Ägare: " + props.member.name}</Text>
                 )}
                 {props.member.userId !== user?.id &&
                     !props.member.isOwner &&

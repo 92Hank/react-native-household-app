@@ -28,6 +28,7 @@ function TaskModal(props: Props) {
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [rights, setRights] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
 
     const onSave = () => {
         console.log("mark task as done");
@@ -46,8 +47,18 @@ function TaskModal(props: Props) {
     };
 
     const handleDeleteClick = () => {
+        setOpenDelete(true);
+        // props.handleModalClose();
+    };
+
+    const onDelete = () => {
         console.log("delete task api");
-        props.handleModalClose();
+        setOpenDelete(false);
+    };
+
+    const onArchive = () => {
+        console.log("archive task api");
+        setOpenDelete(false);
     };
 
     useEffect(() => {
@@ -93,6 +104,32 @@ function TaskModal(props: Props) {
                             </View>
                         </View>
                     </Modal>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={openDelete}
+                        onRequestClose={() => {
+                            openDelete;
+                        }}
+                    >
+                        <View style={[openDelete ? styles.centeredViewBlurred : styles.centeredView]}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.warningText}>
+                                    Varning! arkivera sysslan om du vill ha kvar den i statistiken
+                                </Text>
+                                <View style={styles.buttonsContainer}>
+                                    <TouchableOpacity onPress={() => onDelete()} style={styles.saveButton}>
+                                        <MaterialIcons name="delete" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Radera</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => onArchive()} style={styles.closeButton}>
+                                        <MaterialCommunityIcons name="archive" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Arkivera</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
                     <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
                         <View style={styles.modalView}>
                             <Text style={styles.modalText}>
@@ -105,7 +142,7 @@ function TaskModal(props: Props) {
                             </Text>
                             {rights && (
                                 <View>
-                                    <View>
+                                    <View style={{ flexDirection: "row" }}>
                                         <TouchableOpacity onPress={handleEditClick} style={styles.householdButton}>
                                             <Feather name="edit-2" size={30} color="black" />
                                             <Text style={styles.householdButtonText}>Ändra</Text>
@@ -145,7 +182,8 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     householdButton: {
-        margin: 15,
+        marginTop: 20,
+        margin: 5,
         backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
@@ -254,5 +292,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
+    },
+    warningText: {
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "red",
     },
 });
