@@ -8,6 +8,7 @@ import {
     Platform,
     ScrollView,
     TextInput,
+    Image,
 } from "react-native";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
@@ -57,6 +58,7 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                     keyboardShouldPersistTaps={"handled"}
                 >
                     <View style={styles.container}>
+                        <Image source={require('../../assets/logotypeBlack/logoBL.png')} style={styles.logo} />
                         <Text style={styles.title}>Email:</Text>
                         <TextInput
                             keyboardType="email-address"
@@ -73,10 +75,6 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                         />
                         <TouchableOpacity onPress={onPressLogin} style={styles.loginButton}>
                             <Text style={styles.buttonText}>Sign in</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={onPressShortcut} style={styles.loginButton}>
-                            <Text style={styles.buttonText}>Shortcut</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -138,4 +136,16 @@ const styles = StyleSheet.create({
         width: 100,
         alignItems: "center",
     },
+    logo: {
+        marginTop: 30,
+        width: 300,
+        height: 200,
+        resizeMode: 'contain',
+    },
 });
+
+/*
+<TouchableOpacity onPress={onPressShortcut} style={styles.loginButton}>
+    <Text style={styles.buttonText}>Shortcut</Text>
+</TouchableOpacity>
+*/
