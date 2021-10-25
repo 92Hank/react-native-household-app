@@ -5,6 +5,7 @@ import loginUserSliceReducer, {
 import SelectedStateReducer, {
   SelectedStateSlice,
 } from "./features/SelectedState/SelectedStateSlice";
+import { doneTaskApi } from "./Service/doneTask/doneTaskApi";
 import { householdApi } from "./Service/household/householdApi";
 import { taskApi } from "./Service/task/taskApi";
 import { userApi } from "./Service/user/userApi";
@@ -16,12 +17,14 @@ export const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [householdApi.reducerPath]: householdApi.reducer,
     [taskApi.reducerPath]: taskApi.reducer,
+    [doneTaskApi.reducerPath]: doneTaskApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(userApi.middleware)
       .concat(householdApi.middleware)
-      .concat(taskApi.middleware),
+      .concat(taskApi.middleware)
+      .concat(doneTaskApi.middleware)
 });
 
 export type AppDispatch = typeof store.dispatch;

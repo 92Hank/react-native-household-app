@@ -78,7 +78,7 @@ const ModalComponent: React.FC<Props> = ({
   const onChangeInputDescription = (description: string) =>
     setDescription(description);
   const currentHousehold = useAppSelector(selectSelectedHousehold);
-  console.log(currentHousehold);
+  // console.log(currentHousehold);
 
   const defaultTask: task = {
     description: "Make food",

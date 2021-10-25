@@ -3,13 +3,13 @@ import { TouchableOpacity, View, StyleSheet, Dimensions ,Text} from "react-nativ
 import task from "../../../Common(obsolete)/Task";
 
 interface TaskNow {
-  id?: string;
+  id: string;
   householdId?: string;
   description?: string;
   repeated?: number;
   archived?: boolean;
   value?: number;
-  emojiList?: string[];
+  emojiList: number[];
 }
 
 interface Props {
@@ -18,6 +18,7 @@ interface Props {
 }
 
  const TaskCard = (props:Props) => {
+   console.log("TASK CARD", props.task);
   return (
     <TouchableOpacity onPress={props.onPress}>
       <View style={Styles.container}>

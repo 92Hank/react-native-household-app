@@ -15,25 +15,52 @@ import { useAppSelector } from "../../Redux/hooks";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
 import task from "../../Redux/entity/task";
+import { useGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
+import doneTask from "../../Redux/entity/doneTask";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
+let tasksNow: TaskNow[] = [];
+
+
 
 const TasksScreen: FC<Props> = ({
   navigation,
-  event
+  event,
 }: Props): React.ReactElement => {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const currentHousehold = useAppSelector(selectSelectedHousehold);
+  const [render, setRender] = useState(false);
 
-  if (!currentHousehold) {
-    navigation.navigate(MainRoutes.HouseholdScreen);
-    return <View></View>;
-  }
+  // if (!currentHousehold) {
+  //   navigation.navigate(MainRoutes.HouseholdScreen);
+  //   return <View></View>;
+  // }
+
   const { data, isLoading, isFetching, isError, error } =
-    useGetTaskByHouseholdIdQuery(currentHousehold.id);
+    useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
 
-  let tasksNow: TaskNow[] = [];
-  console.log(data);
+  const doneTasksData = useGetDoneTasksWithHouseholdIdQuery(
+    currentHousehold?.id!
+  ).data;
+
+const isToday = (someDate: any): boolean => {
+  const today = new Date();
+  const value = new Date(someDate._seconds * 1000);
+  console.log(value.toDateString());
+  return (
+    value.getDate() == today.getDate() &&
+    value.getMonth() == today.getMonth() &&
+    value.getFullYear() == today.getFullYear()
+  );
+};
+  console.log("TASK", data);
+  console.log("DONE TASK", doneTasksData);
+  // const test2 = useGetDoneTaskByHouseholdIdQuery(currentHousehold.id).isLoading
+  // const test3 = useGetDoneTaskByHouseholdIdQuery(currentHousehold.id).isFetching
+  // const test4 = useGetDoneTaskByHouseholdIdQuery(currentHousehold.id).isError
+  // const test5 = useGetDoneTaskByHouseholdIdQuery(currentHousehold.id).error
+
+  // console.log(data);
 
   // useEffect(() => {
   //   data?.forEach((element) => {
@@ -41,6 +68,50 @@ const TasksScreen: FC<Props> = ({
   //     tasksNow.push(element);
   //   });
   // }, [data]);
+
+  // useEffect(() => {
+  //   data?.forEach((t) => {
+  //     doneTasksData?.forEach((d) => {
+  //       console.log("NU ÄR VI HÄR")
+  //       if (t.id === d.taskId) {
+  //         console.log("taskID");
+  //         currentHousehold?.member.forEach((m) => {
+  //             if (d.userId === m.userId) {
+  //               console.log("bajs");
+  //               console.log(m.emoji);
+  //             }
+  //           });
+  //         });
+  //       }
+  //     });
+  //   });
+  // }, [data, doneTasksData]);
+
+  useEffect(() => {
+    data?.forEach((t) => {
+      let test: TaskNow = {
+        id: t.id as string,
+        householdId: t.houseHoldId,
+        description: t.description,
+        repeated: t.repeated,
+        archived: t.archived,
+        value: t.value,
+        emojiList: [],
+      };
+      doneTasksData?.forEach((d) => {
+        const today: boolean = isToday(d.dateDone)
+        if (t.id === d.taskId && today) {
+          currentHousehold?.member.forEach((m) => {
+            if (d.userId === m.userId) {
+              test.emojiList.push(m.emoji);
+              tasksNow.push(test);
+            }
+          });
+        }
+      });
+    });
+    setRender(true);
+  }, [data, doneTasksData]);
 
   const clickOnTask = () => {
     console.log("click on task,");
@@ -61,20 +132,22 @@ const TasksScreen: FC<Props> = ({
 
   return (
     <View style={styles.container}>
-      <View>
-        <FlatList
-          data={data}
-          keyExtractor={(item: any) => item.id}
-          renderItem={({ item }) => (
-            <TaskCard key={item.id} task={item} onPress={clickOnTask} />
-          )}
-        />
-        <ModalComponent
-          isOpen={addModalOpen}
-          handleAddClose={handleAddClose}
-          event={event}
-        />
-      </View>
+      {render && (
+        <View>
+          <FlatList
+            data={tasksNow}
+            keyExtractor={(item: any) => item.id}
+            renderItem={({ item }) => (
+              <TaskCard key={item.id} task={item} onPress={clickOnTask} />
+            )}
+          />
+          <ModalComponent
+            isOpen={addModalOpen}
+            handleAddClose={handleAddClose}
+            event={event}
+          />
+        </View>
+      )}
       <View style={styles.buttonsContainer}>
         <TouchableOpacity
           onPress={handleAddClick}
@@ -180,11 +253,11 @@ const styles = StyleSheet.create({
 // ];
 
 interface TaskNow {
-  id?: string;
+  id: string;
   householdId?: string;
   description?: string;
   repeated?: number;
   archived?: boolean;
   value?: number;
-  emojiList?: string[];
+  emojiList: number[];
 }

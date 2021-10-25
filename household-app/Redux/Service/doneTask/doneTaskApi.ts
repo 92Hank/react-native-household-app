@@ -22,7 +22,27 @@ export const doneTaskApi = createApi({
       ],
     }),
 
-    GetTaskByHouseholdId: builder.query<doneTask[], string>({
+    GetDoneTasksWithHouseholdId: builder.query<doneTask[], string>({
+      query: (body) => ({
+        url: `/` + body,
+        method: "GET",
+        responseHandler: (response) => {
+          if (response.status !== 200) {
+            console.log(response.text())
+            return response.text();
+          } else {
+            return response.json();
+          }
+        },
+      }),
+
+      providesTags: (result, error, arg) =>
+        result
+          ? [...result.map(({ id }) => ({ type: "DoneTask" as const, id })), "DoneTask"]
+          : ["DoneTask"],
+    }),
+
+    GetDoneTaskByHouseholdId: builder.query<doneTask[], string>({
       query: (body) => `/` + body,
 
       providesTags: (result, error, arg) =>
@@ -36,4 +56,8 @@ export const doneTaskApi = createApi({
   }),
 });
 
-export const { useCreateDoneTaskMutation, useGetTaskByHouseholdIdQuery } = doneTaskApi;
+export const {
+  useCreateDoneTaskMutation,
+  useGetDoneTaskByHouseholdIdQuery,
+  useGetDoneTasksWithHouseholdIdQuery,
+} = doneTaskApi;
