@@ -1,15 +1,15 @@
 import React from "react";
 import { TouchableOpacity, View, StyleSheet, Dimensions, Text } from "react-native";
-import task from "../../../Common(obsolete)/Task";
 
 interface TaskNow {
-    id?: string;
+    id: string;
+    name: string;
     householdId?: string;
     description?: string;
     repeated?: number;
     archived?: boolean;
     value?: number;
-    emojiList?: string[];
+    emojiList?: number[];
 }
 
 interface Props {
@@ -18,13 +18,14 @@ interface Props {
 }
 
 const TaskCard = (props: Props) => {
+    console.log("TASK CARD", props.task);
     return (
         <TouchableOpacity onPress={props.onPress}>
             <View style={Styles.container}>
                 <View style={Styles.cardContainer}>
                     <View style={Styles.infoStyle}>
                         <Text style={Styles.titleStyle}>
-                            {props.task.description}
+                            {props.task.name}
                             <Text style={Styles.bodyEmoji}>{props.task.emojiList?.join(" ")}</Text>
                         </Text>
                     </View>

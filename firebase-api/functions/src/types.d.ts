@@ -43,7 +43,7 @@ interface Household {
 interface DoneTask {
   id?: string;
   taskId: string;
-  userId: string[];
+  userId: string;
   houseHoldId: string;
   dateDone: Date;
 }

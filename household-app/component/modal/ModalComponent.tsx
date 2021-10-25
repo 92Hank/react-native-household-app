@@ -69,7 +69,6 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose, event }) => {
     const onChangeInputName = (name: string) => setName(name);
     const onChangeInputDescription = (description: string) => setDescription(description);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
-    console.log(currentHousehold);
 
     const defaultTask: task = {
         description: "Make food",

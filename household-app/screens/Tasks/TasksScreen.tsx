@@ -1,36 +1,70 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Feather, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ModalComponent from "../../component/modal/ModalComponent";
-import TaskCard from "../../component/taskFolder/TaksCard";
-import { useAppSelector } from "../../Redux/hooks";
+import TaskCard from "../../component/taskFolder/TaskCard";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
+import { useAppSelector } from "../../Redux/hooks";
+import { useGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
 import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
-import task from "../../Redux/entity/task";
+import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElement => {
     const [addModalOpen, setAddModalOpen] = useState(false);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
+    const [render, setRender] = useState(false);
+    const [tasks, setTasks] = useState<TaskNow[]>();
 
-    if (!currentHousehold) {
-        navigation.navigate(MainRoutes.HouseholdScreen);
-        return <View></View>;
-    }
-    const { data, isLoading, isFetching, isError, error } = useGetTaskByHouseholdIdQuery(currentHousehold.id);
+    const { data: tasksData } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
 
-    const tasksNow: TaskNow[] = [];
-    console.log(data);
+    const doneTasksData = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!).data;
 
-    // useEffect(() => {
-    //   data?.forEach((element) => {
-    //     console.log(element);
-    //     tasksNow.push(element);
-    //   });
-    // }, [data]);
+    const isToday = (someDate: any): boolean => {
+        const today = new Date();
+        const value = new Date(someDate._seconds * 1000);
+        return (
+            value.getDate() === today.getDate() &&
+            value.getMonth() === today.getMonth() &&
+            value.getFullYear() === today.getFullYear()
+        );
+    };
+
+    useEffect(() => {
+        const allTasks: TaskNow[] = [];
+        tasksData?.forEach((t) => {
+            const taskItem: TaskNow = {
+                id: t.id as string,
+                name: t.name,
+                householdId: t.houseHoldId,
+                description: t.description,
+                repeated: t.repeated,
+                archived: t.archived,
+                value: t.value,
+                emojiList: [],
+            };
+
+            allTasks.push(taskItem);
+
+            doneTasksData?.forEach((d) => {
+                const today: boolean = isToday(d.dateDone);
+                if (t.id === d.taskId && today) {
+                    currentHousehold?.member.forEach((m) => {
+                        if (d.userId === m.userId) {
+                            allTasks[allTasks.length - 1].emojiList.push(m.emoji);
+                            setTasks(allTasks);
+                        }
+                    });
+                }
+            });
+        });
+        if (allTasks.length > 0) {
+            setRender(true);
+        }
+    }, [tasksData, doneTasksData]);
 
     const clickOnTask = () => {
         console.log("click on task,");
@@ -51,14 +85,16 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
 
     return (
         <View style={styles.container}>
-            <View>
-                <FlatList
-                    data={data}
-                    keyExtractor={(item: any) => item.id}
-                    renderItem={({ item }) => <TaskCard key={item.id} task={item} onPress={clickOnTask} />}
-                />
-                <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} event={event} />
-            </View>
+            {render && (
+                <View>
+                    <FlatList
+                        data={tasks}
+                        keyExtractor={(item: TaskNow) => item.id}
+                        renderItem={({ item }) => <TaskCard key={item.id} task={item} onPress={clickOnTask} />}
+                    />
+                    <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} event={event} />
+                </View>
+            )}
             <View style={styles.buttonsContainer}>
                 <TouchableOpacity onPress={handleAddClick} style={styles.householdButton}>
                     <MaterialIcons name="add-circle-outline" size={30} color="black" />
@@ -128,41 +164,13 @@ const styles = StyleSheet.create({
     },
 });
 
-// let tasks: Task[] = [
-//   { description: "foo", value: 1, id: "abc" },
-//   { description: "foo2", value: 2, id: "abc2" },
-// ];
-
-// let emojiList: string[] = ["🦊", "🐷", "🐸"];
-
-// create this list from our data with useEffect or something
-// let tasksNow: TaskNow[] = [
-//   {
-//     householdId: "abs3",
-//     description: "foo",
-//     value: 1,
-//     id: "abc2",
-//     repeated: 2,
-//     archived: false,
-//     emojiList: emojiList,
-//   },
-//   {
-//     householdId: "abs4",
-//     description: "foo 2",
-//     value: 1,
-//     id: "abc",
-//     repeated: 2,
-//     archived: false,
-//     emojiList: emojiList,
-//   },
-// ];
-
 interface TaskNow {
-    id?: string;
+    id: string;
+    name: string;
     householdId?: string;
     description?: string;
     repeated?: number;
     archived?: boolean;
     value?: number;
-    emojiList?: string[];
+    emojiList: number[];
 }
