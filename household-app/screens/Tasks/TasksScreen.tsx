@@ -3,6 +3,7 @@
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import TaskModal from "../../component/householdComponents/taskModal/taskModal";
 import ModalComponent from "../../component/modal/ModalComponent";
 import TaskCard from "../../component/taskFolder/TaskCard";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
@@ -18,6 +19,9 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [render, setRender] = useState(false);
     const [tasks, setTasks] = useState<TaskNow[]>();
+    const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
+    const [taskInModal, setTaskInModal] = useState<TaskNow>();
+
 
     const { data: tasksData } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
 
@@ -66,8 +70,14 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
         }
     }, [tasksData, doneTasksData]);
 
-    const clickOnTask = () => {
-        console.log("click on task,");
+    const clickOnTask = (task : TaskNow) => {
+
+      setTaskInModal(task);
+      setIsClickedTaskOpen(true);
+      console.log("click on task,");
+    };
+    const handleTaskClose = () => {
+      setIsClickedTaskOpen(false);
     };
 
     const handleAddClick = () => {
@@ -90,9 +100,10 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                     <FlatList
                         data={tasks}
                         keyExtractor={(item: TaskNow) => item.id}
-                        renderItem={({ item }) => <TaskCard key={item.id} task={item} onPress={clickOnTask} />}
+                        renderItem={({ item }) => <TaskCard key={item.id} task={item} onPress={()=>clickOnTask(item)} />}
                     />
                     <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} event={event} />
+                    <TaskModal isOpen={isClickedTaskOpen} handleModalClose={handleTaskClose} task={taskInModal as TaskNow}/>
                 </View>
             )}
             <View style={styles.buttonsContainer}>
