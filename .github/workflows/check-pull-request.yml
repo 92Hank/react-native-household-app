@@ -37,12 +37,12 @@ jobs:
 
       - name: Run lint firebase-api
         run: npm ci
-        working-directory: firebase-api
+        working-directory: firebase-api/functions
 
       - name: Run build firebase-api
         run: npm run build --if-present
-        working-directory: firebase-api
+        working-directory: firebase-api/functions
 
       - name: Run lint firebase-api
         run: npm run lint --if-present
-        working-directory: firebase-api
+        working-directory: firebase-api/functions
