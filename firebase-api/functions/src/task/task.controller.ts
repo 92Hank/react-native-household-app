@@ -7,7 +7,6 @@ const db = fb.firestore();
 
 const taskCollection = "tasks";
 
-
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const postTask = async (req: Request, res: Response) => {
   try {
@@ -18,6 +17,7 @@ export const postTask = async (req: Request, res: Response) => {
       description: req.body["description"],
       value: req.body["value"],
       name: req.body["name"],
+      createdAt: new Date(),
     };
 
     const newDoc = await db.collection(taskCollection).add(task);

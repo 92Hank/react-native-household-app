@@ -2,12 +2,12 @@ POST http://localhost:5001/react-native-household-app/us-central1/webApi/tasks
 Content-Type: application/json
 
 {
-    "description": "Hela dagen lång",
+    "description": "Klipp gräset",
     "value": 2,
     "houseHoldId": "1J8rfrvRn6TUE8U9wJnv",
     "repeated": 3,
     "archived": false,
-    "name": "Fiska"
+    "name": "Klipp gräs"
 }
 
 ###

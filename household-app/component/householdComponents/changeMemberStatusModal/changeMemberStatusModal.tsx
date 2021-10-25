@@ -81,6 +81,7 @@ function ChangeMemberStatusModal(props: Props) {
             setPaused(0);
             setUnPaused(0);
             setAcceptUser(0);
+            return;
         }
         if (makeOwner === 1 && paused === 1) {
             // eslint-disable-next-line no-alert
@@ -101,6 +102,7 @@ function ChangeMemberStatusModal(props: Props) {
             setPaused(0);
             setUnPaused(0);
             setAcceptUser(0);
+            props.handleModalClose();
             return;
             // api mot att göra till owner
         }
@@ -113,6 +115,7 @@ function ChangeMemberStatusModal(props: Props) {
             setPaused(0);
             setUnPaused(0);
             setAcceptUser(0);
+            props.handleModalClose();
             return;
         }
         if (unPaused === 1 && isPaused === true) {
@@ -124,6 +127,7 @@ function ChangeMemberStatusModal(props: Props) {
             setPaused(0);
             setUnPaused(0);
             setAcceptUser(0);
+            props.handleModalClose();
             return;
             // api mot att göra till owner
         }
@@ -135,6 +139,7 @@ function ChangeMemberStatusModal(props: Props) {
             setPaused(0);
             setUnPaused(0);
             setAcceptUser(0);
+            props.handleModalClose();
             return;
         }
         if (acceptUser === 0 && AcceptedStatus === "pending") {
@@ -146,6 +151,7 @@ function ChangeMemberStatusModal(props: Props) {
             setPaused(0);
             setUnPaused(0);
             setAcceptUser(0);
+            props.handleModalClose();
             return;
         }
     };

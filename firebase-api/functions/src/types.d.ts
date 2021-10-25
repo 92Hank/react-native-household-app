@@ -6,6 +6,7 @@ interface Task {
   value: 1 | 2 | 4 | 6 | 8;
   repeated: number;
   archived: boolean;
+  createdAt?: Date;
 }
 
 interface User {

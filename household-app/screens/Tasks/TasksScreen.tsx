@@ -24,8 +24,8 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
 
     const { data: tasksData } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
 
-    const doneTasksData = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!).data;
-
+    const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
+    console.log("KLARA TASKAR", doneTasksData);
     const isToday = (someDate: any): boolean => {
         const today = new Date();
         const value = new Date(someDate._seconds * 1000);
@@ -34,6 +34,12 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             value.getMonth() === today.getMonth() &&
             value.getFullYear() === today.getFullYear()
         );
+    };
+
+    const dateConvert = (date: any): Date => {
+        const hejsan = new Date(date._seconds * 1000);
+        console.log("NYA DATUMET", hejsan);
+        return hejsan;
     };
 
     useEffect(() => {
@@ -50,15 +56,22 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                 emojiList: [],
             };
 
+            if (t.createdAt) {
+                taskItem.createdAt = dateConvert(t.createdAt);
+            }
             allTasks.push(taskItem);
+            console.log("SKAPAD", taskItem.createdAt);
 
             doneTasksData?.forEach((d) => {
+                console.log("DATUM GJORD", taskItem.dateDone);
                 const today: boolean = isToday(d.dateDone);
                 if (t.id === d.taskId && today) {
                     currentHousehold?.member.forEach((m) => {
                         if (d.memberId === m.userId) {
                             allTasks[allTasks.length - 1].emojiList.push(m.emoji);
                             setTasks(allTasks);
+                        } else {
+                            allTasks[allTasks.length - 1].dateDone = dateConvert(d.dateDone);
                         }
                     });
                 }
@@ -188,4 +201,6 @@ interface TaskNow {
     archived?: boolean;
     value?: number;
     emojiList: number[];
+    dateDone?: Date;
+    createdAt?: Date;
 }

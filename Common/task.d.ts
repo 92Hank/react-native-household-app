@@ -8,4 +8,5 @@ export declare interface task {
     repeated: number;
     archived: false;
     name: string;
+    createdAt: Date;
 }
