@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
-import { PieChart as ImportedPieChart } from 'react-native-svg-charts';
+import React, { FC } from "react";
+import { StyleProp, ViewStyle } from "react-native";
+import { PieChart as ImportedPieChart } from "react-native-svg-charts";
 import { MemberStatistics } from "../screens/Tasks/memberStatistics";
 
 interface Props {
@@ -10,14 +10,13 @@ interface Props {
 }
 
 const SmallPieChart: FC<Props> = ({ data, specificTaskId, style }): React.ReactElement => {
-
     return (
         <ImportedPieChart
             style={style}
             data={data}
-            outerRadius={'92%'}
-            innerRadius={'0%'}
-            padAngle={0.00}
+            outerRadius={"92%"}
+            innerRadius={"0%"}
+            padAngle={0.0}
             valueAccessor={({ item }) => {
                 let totalValue = 0;
                 for (let i = 0; i < item.doneTasks.length; i++) {
@@ -26,9 +25,7 @@ const SmallPieChart: FC<Props> = ({ data, specificTaskId, style }): React.ReactE
                 return totalValue;
             }}
         />
-    )
+    );
 };
 
 export default SmallPieChart;
-
-
