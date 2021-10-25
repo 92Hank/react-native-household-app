@@ -5,7 +5,7 @@
     "declarationMap": true,
     "rootDir": ".",
     "composite": true,
-    "module": "AMD",
+    "module": "ESNext",
     "outFile": "js/app.js"
   },
   "references": [] // * Any project that is referenced must itself have a `references` array (which may be empty).
