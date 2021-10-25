@@ -163,6 +163,17 @@ export const householdApi = createApi({
             invalidatesTags: (result, error, arg) => [{ type: "Household", id: arg.houseHoldId }],
         }),
 
+        rejectUser: builder.mutation<string, householdIdAndUserId>({
+            query: (body) => ({
+                url: `/accept`,
+                method: "PATCH",
+                responseHandler: "text",
+                body,
+            }),
+
+            invalidatesTags: (result, error, arg) => [{ type: "Household", id: arg.houseHoldId }],
+        }),
+
         MakeUserToOwner: builder.mutation<string, householdIdAndUserId>({
             query: (body) => ({
                 url: `/owner`,
@@ -188,4 +199,5 @@ export const {
     useChangeEmojiMutation,
     useAcceptUserMutation,
     useMakeUserToOwnerMutation,
+    useRejectUserMutation,
 } = householdApi;
