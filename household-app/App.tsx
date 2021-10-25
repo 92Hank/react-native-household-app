@@ -2,7 +2,6 @@ import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultThem
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet } from "react-native";
 import { useColorScheme } from "react-native-appearance";
 import {
     DarkTheme,
@@ -16,6 +15,7 @@ import { PreferencesContext } from "./context/PreferencesContext";
 import MainNavigation from "./navigation/MainNavigation";
 import { store } from "./Redux/store";
 import { Provider as ReduxProvider } from "react-redux";
+import SnackbarProvider from "./context/snackBarContext";
 
 // const Stack = createNativeStackNavigator();
 
@@ -58,33 +58,26 @@ export default function App() {
 
     return (
         <ReduxProvider store={store}>
-            <PreferencesContext.Provider value={preferences}>
-                <PaperProvider
-                    theme={
-                        theme === "light"
-                            ? {
-                                  ...CombinedDefaultTheme,
-                                  colors: { ...CombinedDefaultTheme.colors, primary: "#1ba1f2" },
-                              }
-                            : {
-                                  ...CombinedDarkTheme,
-                                  colors: { ...DarkTheme.colors, primary: "#1ba1f2" },
-                              }
-                    }
-                >
-                    <StatusBar style="auto" />
-                    <MainNavigation />
-                </PaperProvider>
-            </PreferencesContext.Provider>
+            <SnackbarProvider>
+                <PreferencesContext.Provider value={preferences}>
+                    <PaperProvider
+                        theme={
+                            theme === "light"
+                                ? {
+                                      ...CombinedDefaultTheme,
+                                      colors: { ...CombinedDefaultTheme.colors, primary: "#1ba1f2" },
+                                  }
+                                : {
+                                      ...CombinedDarkTheme,
+                                      colors: { ...DarkTheme.colors, primary: "#1ba1f2" },
+                                  }
+                        }
+                    >
+                        <StatusBar style="auto" />
+                        <MainNavigation />
+                    </PaperProvider>
+                </PreferencesContext.Provider>
+            </SnackbarProvider>
         </ReduxProvider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});

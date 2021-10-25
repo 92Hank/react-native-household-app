@@ -11,9 +11,9 @@ interface TaskNow {
     repeated?: number;
     archived?: boolean;
     value?: number;
-    emojiList?: number[];
+    emojiList: number[];
     dateDone?: Date;
-    createdAt: Date;
+    createdAt?: Date;
 }
 
 enum Avatars {
