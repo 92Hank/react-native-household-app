@@ -6,6 +6,7 @@ import household, {
     householdCreate,
     householdJoin,
     householdChangeEmoji,
+    householdPauseUser,
 } from "../../entity/household";
 
 export const householdApi = createApi({
@@ -119,7 +120,7 @@ export const householdApi = createApi({
             invalidatesTags: (result, error, arg) => [{ type: "Household", id: arg.houseHoldId }],
         }),
 
-        pauseUser: builder.mutation<string, householdIdAndUserId>({
+        pauseUser: builder.mutation<string, householdPauseUser>({
             query: (body) => ({
                 url: `/setpaused`,
                 method: "PATCH",
