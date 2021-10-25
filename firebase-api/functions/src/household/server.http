@@ -134,3 +134,14 @@ Content-Type: application/json
 }
 
 ###
+
+//reject member
+PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/household/reject
+Content-Type: application/json
+
+{
+    "houseHoldId": "D66g4HdjydwhJSmDUsWm",
+    "userId": "hnYHoi3buysy7DeifSlf"
+}
+
+###

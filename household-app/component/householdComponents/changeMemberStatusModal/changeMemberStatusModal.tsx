@@ -58,6 +58,9 @@ function ChangeMemberStatusModal(props: Props) {
             // snackbar in future!
             setMakeOwner(0);
             setPaused(0);
+            setPaused(0);
+            setUnPaused(0);
+            setAcceptUser(0);
         }
         if (makeOwner === 1 && paused === 1) {
             alert("kan ej både pausa och göra till ägare!");
@@ -166,7 +169,7 @@ function ChangeMemberStatusModal(props: Props) {
                                 <View>
                                     <Text style={styles.modalText}>Aktivera pausad användare:</Text>
                                     <RadioForm
-                                        radio_props={radioPropsPause}
+                                        radio_props={radioPropsUnPause}
                                         initial={1}
                                         onPress={(value: number) => {
                                             setUnPaused(value as number);
