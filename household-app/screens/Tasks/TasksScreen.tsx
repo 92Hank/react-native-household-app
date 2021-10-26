@@ -6,6 +6,7 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native
 import TaskModal from "../../component/householdComponents/taskModal/taskModal";
 import ModalComponent from "../../component/modal/ModalComponent";
 import TaskCard from "../../component/taskFolder/TaskCard";
+import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
 import { useGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
@@ -21,11 +22,12 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
     const [tasks, setTasks] = useState<TaskNow[]>();
     const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
     const [taskInModal, setTaskInModal] = useState<TaskNow>();
+    const [rights, setRights] = useState(false);
+    const user = useAppSelector(selectCurrentLoginUser);
 
     const { data: tasksData } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
-
     const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
-    console.log("KLARA TASKAR", doneTasksData);
+
     const isToday = (someDate: any): boolean => {
         const today = new Date();
         const value = new Date(someDate._seconds * 1000);
@@ -41,6 +43,14 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
         console.log("NYA DATUMET", hejsan);
         return hejsan;
     };
+
+    useEffect(() => {
+        currentHousehold?.member.forEach((m) => {
+            if (m.userId === user?.id && m.isOwner) {
+                setRights(true);
+            }
+        });
+    }, [rights]);
 
     useEffect(() => {
         const allTasks: TaskNow[] = [];
@@ -72,8 +82,11 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                             setTasks(allTasks);
                         } else {
                             allTasks[allTasks.length - 1].dateDone = dateConvert(d.dateDone);
+                            setTasks(allTasks);
                         }
                     });
+                } else {
+                    setTasks(allTasks);
                 }
             });
         });
@@ -123,13 +136,18 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                     />
                 </View>
             )}
-            <View style={styles.buttonsContainer}>
-                <TouchableOpacity onPress={handleAddClick} style={styles.householdButton}>
-                    <MaterialIcons name="add-circle-outline" size={30} color="black" />
-                    <Text style={styles.householdButtonText}>Skapa</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={onPressUsersInHousehold} style={styles.householdButton}>
-                    <Feather name="edit-2" size={30} color="black" />
+            <View style={rights ? styles.buttonsContainer : styles.buttonsContainerUser}>
+                {rights && (
+                    <TouchableOpacity onPress={handleAddClick} style={styles.householdButton}>
+                        <MaterialIcons name="add-circle-outline" size={30} color="black" />
+                        <Text style={styles.householdButtonText}>Lägg till</Text>
+                    </TouchableOpacity>
+                )}
+                <TouchableOpacity
+                    onPress={onPressUsersInHousehold}
+                    style={rights ? styles.householdButton : styles.householdButtonUser}
+                >
+                    <Feather name="users" size={30} color="black" />
                     <Text style={styles.householdButtonText}>Medlemmar</Text>
                 </TouchableOpacity>
             </View>
@@ -156,12 +174,10 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     householdButton: {
-        margin: 15,
         backgroundColor: "white",
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-        borderRadius: 100,
-        width: 140,
+        paddingVertical: 15,
+        paddingHorizontal: 15,
+        width: "45%",
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
@@ -170,12 +186,40 @@ const styles = StyleSheet.create({
         elevation: 6,
         shadowRadius: 15,
         shadowOffset: { width: 1, height: 13 },
+        borderRadius: 20,
+        marginBottom: 15,
+        marginLeft: 10,
+        marginRight: 10,
+        height: 55,
+    },
+    householdButtonUser: {
+        backgroundColor: "white",
+        paddingVertical: 15,
+        paddingHorizontal: 15,
+        width: "45%",
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "center",
+        shadowColor: "rgba(0, 0, 0, 0.1)",
+        shadowOpacity: 0.8,
+        elevation: 6,
+        shadowRadius: 15,
+        shadowOffset: { width: 1, height: 13 },
+        borderRadius: 20,
+        marginBottom: 15,
+        marginLeft: 10,
+        marginRight: 10,
+        height: 55,
+    },
+    buttonText: {
+        color: "grey",
+        fontSize: 16,
     },
     householdButtonText: {
         color: "black",
         fontSize: 18,
         fontWeight: "bold",
-        marginLeft: 15,
+        marginLeft: 10,
     },
     buttonsContainer: {
         alignItems: "center",
@@ -186,9 +230,16 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        marginBottom: 20,
-        marginRight: 10,
-        marginLeft: 10,
+    },
+    buttonsContainerUser: {
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignSelf: "flex-end",
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
     },
 });
 
