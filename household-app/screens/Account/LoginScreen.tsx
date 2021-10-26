@@ -46,7 +46,7 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     return (
         <View>
             <KeyboardAvoidingView
-                style={{ flexGrow: 1, height: "80%" }}
+                style={{ flexGrow: 1, height: "100%" }}
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 enabled
             >

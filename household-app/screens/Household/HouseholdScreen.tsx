@@ -66,10 +66,10 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
         navigation.setOptions({
             headerRight: () => (
                 <TouchableOpacity
-                    onPress={onPressUsersInHousehold}
+                    onPress={onPressLogout}
                     // style={styles.householdButton}
                 >
-                    <FontAwesome5 name="house-user" size={24} color="black" />
+                    <FontAwesome5 name="sign-out-alt" size={24} color="black" />
                     {/* <Text style={styles.householdButtonText}>Medlemmar</Text> */}
                 </TouchableOpacity>
             ),
@@ -80,14 +80,8 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
         <>
             <View style={styles.container}>
                 <SnackbarComponent isVisible={isVisible} message={message} />
-
-                <View style={styles.containerButton}>
-                    <TouchableOpacity onPress={onPressLogout} style={styles.logoutButton}>
-                        <Text style={styles.buttonText}>Sign out</Text>
-                    </TouchableOpacity>
-                </View>
                 <View>
-                    <View>
+                    <View style={styles.listContainer}>
                         <FlatList
                             data={data}
                             keyExtractor={(item: any) => item.id}

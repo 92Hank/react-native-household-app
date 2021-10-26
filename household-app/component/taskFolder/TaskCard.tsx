@@ -1,7 +1,6 @@
 import React from "react";
-import { TouchableOpacity, View, StyleSheet, Dimensions, Text } from "react-native";
-import { Surface } from "react-native-paper";
-import { Badge } from "react-native-paper";
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Badge, Surface } from "react-native-paper";
 
 interface TaskNow {
     id: string;
