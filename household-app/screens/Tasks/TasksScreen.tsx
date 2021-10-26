@@ -14,7 +14,9 @@ import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
-const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+//[TODO] add event difenitions to Props
+// eslint-disable-next-line prettier/prettier
+const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElement => {
     const [addModalOpen, setAddModalOpen] = useState(false);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [render, setRender] = useState(false);
