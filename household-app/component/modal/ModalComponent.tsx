@@ -119,7 +119,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
             console.log("------- End of Submit Form -------");
             CreateTask(requestData);
         } else {
-            alert("APAPAP! Du måste ange ett namn och välja en avatar!");
+            alert("APAPAP! Du måste ange ett namn, beskrivning, värde, återkommande!");
         }
         console.log(createTaskItem);
     };
@@ -129,18 +129,12 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
         setIsClicked(true);
         console.log(i);
         setValue(i as number);
-        //do some stuff here
-        // need to pass repeated here to CircleButtonGroup.tsx
-        // onChangeInputRepeated;
     };
     const onPressRepeated = (i: number) => {
         console.log("onPress works fine");
         setIsClicked(true);
         console.log(i);
         setRepeated(i as number);
-        //do some stuff here
-        // need to pass repeated here to CircleButtonGroup.tsx
-        // onChangeInputRepeated;
     };
 
     const onSave = async () => {

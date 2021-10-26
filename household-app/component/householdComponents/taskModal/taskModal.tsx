@@ -2,16 +2,21 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { Feather } from "@expo/vector-icons";
 import { doneTask } from "../../../../Common/doneTask";
 import { useCreateDoneTaskMutation } from "../../../Redux/Service/doneTask/doneTaskApi";
-import { useDeleteTaskMutation } from "../../../Redux/Service/task/taskApi";
+import { useDeleteTaskMutation, useEditTaskMutation } from "../../../Redux/Service/task/taskApi";
 import { useArchiveTaskMutation } from "../../../Redux/Service/task/taskApi";
 import { snackbarContext } from "../../../context/snackBarContext";
+import styles from "./styles";
+import { valueType } from "../../../../Common/value";
+import { task } from "../../../../Common/task";
+import { LocalIp } from "../../../Redux/Config";
+import { Card, TextInput } from "react-native-paper";
 
 interface TaskNow {
     id?: string;
@@ -30,6 +35,11 @@ interface Props {
     task: TaskNow;
 }
 
+const buttonList: number[] = [1, 2, 4, 6, 8];
+const repeatedList = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+];
+
 function TaskModal(props: Props) {
     const user = useAppSelector(selectCurrentLoginUser);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
@@ -37,11 +47,26 @@ function TaskModal(props: Props) {
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const { setSnackbar } = useContext(snackbarContext);
+    const [name, setName] = useState<string>();
+    const [description, setDescription] = useState<string>();
+    const [repeated, setRepeated] = useState<number>();
+    const [value, setValue] = useState<number>();
+    const [isClicked, setIsClicked] = useState(true);
+    const [isClickedDays, setIsClickedDays] = useState(true);
+
+    const onChangeInputName = (name: string) => setName(name);
+    const onChangeInputDescription = (description: string) => setDescription(description);
 
     const [
         createDoneTask, // This is the mutation trigger
         { status, isSuccess, error, isLoading }, // This is the destructured mutation result
     ] = useCreateDoneTaskMutation();
+
+    const [
+        editTask, // This is the mutation trigger
+
+        { isSuccess: successEdit, error: errorEdit }, // This is the destructured mutation result
+    ] = useEditTaskMutation();
 
     const [deleteTask, { isSuccess: isDeleted, error: deleteError }] = useDeleteTaskMutation();
     const [archiveTask, { isSuccess: isArchived, error: archivedError }] = useArchiveTaskMutation();
@@ -56,7 +81,7 @@ function TaskModal(props: Props) {
     useEffect(() => {
         if (isArchived) {
             props.handleModalClose();
-            setSnackbar("Syssla arkiverd", true);
+            setSnackbar("Syssla arkiverad", true);
         }
     }, [isArchived]);
 
@@ -125,6 +150,71 @@ function TaskModal(props: Props) {
         setOpenDelete(false);
     };
 
+    const handleEditSubmitForm = async (editTaskItem: TaskNow) => {
+        if (name && description && repeated && value) {
+            const v = value as valueType;
+            const requestData: task = {
+                houseHoldId: currentHousehold?.id as string,
+                description: description,
+                name: name,
+                repeated: repeated,
+                value: v,
+                archived: false,
+            };
+            console.log("------- Edit Form -------");
+            console.log("repeated: " + repeated);
+            console.log("description: " + description);
+            console.log("name: " + name);
+            console.log("value: " + value);
+            console.log("household: " + currentHousehold?.id);
+            console.log("------- End of Edit Form -------");
+            editTask(requestData);
+        } else {
+            alert("APAPAP! något gick fel!");
+        }
+        console.log(editTaskItem);
+    };
+
+    const onPress2 = (i: number) => {
+        console.log("onPress works fine");
+        setIsClicked(true);
+        console.log(i);
+        setValue(i as number);
+    };
+    const onPressRepeated = (i: number) => {
+        console.log("onPress works fine");
+        setIsClicked(true);
+        console.log(i);
+        setRepeated(i as number);
+    };
+
+    const onSaveEdit = async () => {
+        if (name && description) {
+            const requestData = {
+                description: description,
+                name: name,
+                repeated: repeated,
+                value: value,
+                householdId: currentHousehold, // check the controller
+            };
+
+            const rawResponse = await fetch(LocalIp + "/react-native-household-app/us-central1/webApi/task", {
+                method: "POST",
+                body: JSON.stringify(requestData),
+                headers: {
+                    Accept: "application/json,text/plain",
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (rawResponse.status === 201) {
+                props.handleModalClose();
+            }
+        } else {
+            alert("APAPAP! Du måste ange en titel, beskrivning, värde och återkommande dagar!");
+        }
+    };
+
     useEffect(() => {
         currentHousehold?.member.forEach((m) => {
             if (m.userId === user?.id && m.isOwner) {
@@ -154,7 +244,75 @@ function TaskModal(props: Props) {
                     >
                         <View style={[openEdit ? styles.centeredViewBlurred : styles.centeredView]}>
                             <View style={styles.modalView}>
-                                <Text>{"Här får henke använda samma gränsnitt som han gjort för create"}</Text>
+                                <View style={styles.modalTextView}>
+                                    <Text style={styles.modalText}>Ändra syssla</Text>
+                                </View>
+                                <View
+                                    style={{
+                                        position: "absolute",
+                                        alignItems: "center",
+                                        marginTop: 25,
+                                    }}
+                                >
+                                    <TextInput
+                                        theme={{ roundness: 10 }}
+                                        outlineColor="white"
+                                        mode="outlined"
+                                        style={styles.input}
+                                        value={name}
+                                        label="Titel"
+                                        onChangeText={onChangeInputName}
+                                    />
+
+                                    <TextInput
+                                        theme={{ roundness: 10 }}
+                                        outlineColor="white"
+                                        mode="outlined"
+                                        style={styles.input2}
+                                        value={description}
+                                        label="Beskrivning"
+                                        onChangeText={onChangeInputDescription}
+                                    />
+
+                                    <Card style={styles.inputsCard}>
+                                        <Card.Content>
+                                            <View style={styles.clickedDay}>
+                                                <View style={styles.buttonsCircleContainer}>
+                                                    <FlatList
+                                                        horizontal
+                                                        data={repeatedList}
+                                                        keyExtractor={(index) => "key" + index}
+                                                        renderItem={({ item }) => (
+                                                            <TouchableOpacity
+                                                                key={item}
+                                                                style={styles.repeatedCircleButton}
+                                                                onPress={() => onPressRepeated(item)}
+                                                            >
+                                                                <Text style={styles.repeatedCircleBtnText}>{item}</Text>
+                                                            </TouchableOpacity>
+                                                        )}
+                                                        showsHorizontalScrollIndicator={false}
+                                                    />
+                                                </View>
+                                            </View>
+                                        </Card.Content>
+                                    </Card>
+                                    <Card style={styles.inputsCard2}>
+                                        <Card.Content>
+                                            <View style={styles.buttonsCircleContainer}>
+                                                {buttonList.map((i) => (
+                                                    <TouchableOpacity
+                                                        key={i}
+                                                        style={styles.buttonsCircleButton}
+                                                        onPress={() => onPress2(i)}
+                                                    >
+                                                        <Text style={styles.buttonsCircleBtnText}>{i}</Text>
+                                                    </TouchableOpacity>
+                                                ))}
+                                            </View>
+                                        </Card.Content>
+                                    </Card>
+                                </View>
                                 <View style={styles.buttonsContainer}>
                                     <TouchableOpacity onPress={() => onEdit()} style={styles.saveButton}>
                                         <MaterialIcons name="check-circle" size={30} color="black" />
@@ -200,14 +358,14 @@ function TaskModal(props: Props) {
                         </View>
                     </Modal>
                     <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>
+                        <View style={styles.modalView2}>
+                            <Text style={styles.modalText2}>
                                 Syssla:
-                                <Text style={styles.modalText}>{" " + props.task.name}</Text>
+                                <Text style={styles.modalText2}>{" " + props.task.name}</Text>
                             </Text>
-                            <Text style={styles.modalText}>
-                                Beskriving:
-                                <Text style={styles.modalText}>{" " + props.task.description}</Text>
+                            <Text style={styles.modalText2}>
+                                Beskrivning:
+                                <Text style={styles.modalText2}>{" " + props.task.description}</Text>
                             </Text>
                             {rights && (
                                 <View>
@@ -243,193 +401,3 @@ function TaskModal(props: Props) {
 }
 
 export default TaskModal;
-
-const styles = StyleSheet.create({
-    input: {
-        backgroundColor: "#ffff",
-        width: "100%",
-        marginBottom: 15,
-    },
-    householdButton: {
-        marginTop: 20,
-        margin: 5,
-        backgroundColor: "white",
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-        borderRadius: 100,
-        width: 140,
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
-    },
-    householdButtonText: {
-        color: "black",
-        fontSize: 18,
-        fontWeight: "bold",
-        marginLeft: 15,
-    },
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22,
-    },
-    centeredViewBlurred: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22,
-        backgroundColor: "rgba(0,0,0,0.5)",
-    },
-    modalView: {
-        // margin: 20,
-        width: 300,
-        height: 500,
-        backgroundColor: "#f2f2f2",
-        borderRadius: 20,
-        padding: 20,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-    },
-    modalViewDelete: {
-        // margin: 20,
-        width: 400,
-        height: 200,
-        backgroundColor: "#f2f2f2",
-        borderRadius: 20,
-        padding: 20,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center",
-        fontWeight: "bold",
-        fontSize: 20,
-    },
-    buttonsContainer: {
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignSelf: "flex-end",
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-    },
-    closeButton: {
-        backgroundColor: "white",
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-        width: "50%",
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
-        borderBottomRightRadius: 20,
-        borderStartWidth: 1,
-        borderStartColor: "gainsboro",
-    },
-    saveButton: {
-        backgroundColor: "white",
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-        width: "50%",
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
-        borderBottomLeftRadius: 20,
-    },
-    saveButtonDelete: {
-        backgroundColor: "white",
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-        width: "33.3%",
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
-        borderBottomLeftRadius: 20,
-    },
-    archiveButton: {
-        backgroundColor: "white",
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-        width: "33.3%",
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
-    },
-    closeButtonDelete: {
-        backgroundColor: "white",
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-        width: "33.3%",
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
-        borderBottomRightRadius: 20,
-        borderStartWidth: 1,
-        borderStartColor: "gainsboro",
-    },
-    buttonText: {
-        color: "black",
-        fontSize: 18,
-        fontWeight: "bold",
-        marginLeft: 15,
-    },
-    warningText: {
-        marginBottom: 15,
-        textAlign: "center",
-        fontWeight: "bold",
-        fontSize: 20,
-        color: "red",
-    },
-});
