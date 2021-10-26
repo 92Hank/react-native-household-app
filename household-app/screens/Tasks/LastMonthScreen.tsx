@@ -14,57 +14,69 @@ import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
+type Timestamp = {
+    _seconds: number;
+    _nanoseconds: number;
+};
+
 const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const dagensDatum = new Date(1995, 11, 17);
-    console.log("------------------------------- NEW RENDITION");
+    console.log("------------------------------- NEW RENDITION"); //TEST
     const currentHousehold = useAppSelector(selectSelectedHousehold);
-    console.log("HOUSEHOLD ID ÄR:   " + currentHousehold!.id!);
+    console.log("HOUSEHOLD ID ÄR:   " + currentHousehold!.id!); //TEST
 
-    const { data: doneTasksData, isSuccess, error } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
-    // console.log("KLARA TASKAR", doneTasksData);
+    const { data: doneTasksArray, isSuccess, error } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
+    // console.log("KLARA TASKAR", doneTasksArray); //TEST
 
-    const { data: tasksData } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
-    console.log("tasksData:   ", tasksData);
+    doneTasksArray?.forEach((task) => {
+        //TEST
+        console.log("doneTask hushålls-id" + task.houseHoldId);
+    });
 
-    useEffect(() => {
-        if (isSuccess) {
-            console.log("klara tasks" + doneTasksData);
-        }
-    }, [isSuccess]);
+    const filterDoneTasksByHouseHold = (doneTasksArray: doneTask[]) => {
+        return doneTasksArray.filter((doneTask) => doneTask.houseHoldId === currentHousehold!.id!);
+    };
 
-    useEffect(() => {
-        if (error) {
-            console.log(error);
-        }
-    }, [error]);
+    const getLastMonthStartDate = () => {
+        const lastMonthStartDate = new Date();
+        lastMonthStartDate.setMonth(lastMonthStartDate.getMonth() - 1);
+        lastMonthStartDate.setDate(1);
+        lastMonthStartDate.setHours(0, 0, 0, 0);
+        return lastMonthStartDate;
+    };
+
+    const getLastMonthEndDate = () => {
+        const lastMonthEndDate = new Date();
+        lastMonthEndDate.setMonth(lastMonthEndDate.getMonth());
+        lastMonthEndDate.setDate(0);
+        lastMonthEndDate.setHours(23, 59, 59, 59);
+        return lastMonthEndDate;
+    };
+
+    const filterDoneTasksByDateInterval = (doneTasksArray: doneTask[], startDate: Date, endDate: Date) => {
+        //ta in Timestamp typ variabel, tilldela värdet av dateDone.
+        //konvertera till datum Date-typ.
+        //anvönd nedan.
+
+        
 
 
-    // DoneTasks!.forEach((task) => {
-    //     console.log(task);
-    // });
 
-    // useEffect(() => {
-    //     console.log("isSuccess i useEffect är:" + isSuccess); //VARFÖR BLIR SUCCESS FAIL
-    //     if (isSuccess) {
-    //         DoneTasks!.forEach((doneTask) => {
-    //             console.log("doneTask id som hittas:" + doneTask.id); //< --eller något
-    //         });
-    //     }
-    // }, [DoneTasks]);
+        return doneTasksArray.filter((doneTask) => {
+            if (
+                doneTask.dateDone!.getTime() - endDate.getTime() <= 0 &&
+                doneTask.dateDone!.getTime() - startDate.getTime() > 0
+            )
+                return doneTask;
+        });
+    };
 
-    // tasks!.forEach((task) => {
-    //     console.log(task);
-    // });
-
-    // const getLastMonthDates = () => {
-    //     const lastMonthDate = new Date();
-    //     const lastOfLastMonth = lastMonthDate.setDate(0);
-    //     const firstOfLastMonth = lastMonthDate.setDate(1);
-    //     return [firstOfLastMonth, lastOfLastMonth];
-    // };
+    console.log("STARTDATUM ÄR   " + getLastMonthStartDate() + "\n"); //TEST
+    console.log("SLUTDATUM ÄR   " + getLastMonthEndDate() + "\n"); //TEST
 
     //1. hämta householdId
     //2. hämta doneTasks per householdId
+    // OBS sortera på id med
     //3. sortera på datumintervall
 
     // const testTasksDone: doneTask[] = [
