@@ -1,8 +1,7 @@
 import React from "react";
-import { Text, View, Pressable, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Surface } from "react-native-paper";
 import Household from "../../../Redux/entity/household";
-import { Avatar, Button, Card, Title, Paragraph, List } from "react-native-paper";
-import ItemSeparator from "../../itemSeparator/itemSeparator.component";
 
 interface Props {
     household: Household;
@@ -27,38 +26,38 @@ export default function HouseholdComponent(props: Props) {
         //   </List.Item>
         // </View>
 
-        <View>
-            <Pressable style={styles.title} onPress={props.onPress}>
-                <Text style={styles.text}>{props.household.name}</Text>
-            </Pressable>
-            <ItemSeparator />
-        </View>
+        <TouchableOpacity onPress={props.onPress}>
+            <Surface style={styles.container}>
+                <View>
+                    <Text style={styles.title}>{props.household.name}</Text>
+                </View>
+            </Surface>
+        </TouchableOpacity>
     );
 }
+const deviceWidth = Math.round(Dimensions.get("window").width);
 const styles = StyleSheet.create({
     container: {
-        // display: "flex",
-        // backgroundColor: "white",
-        // flexDirection: "column",
-        // alignItems: "center",
-        // padding: 8,
-    },
-    text: {
-        fontSize: 20,
-        padding: 12,
-    },
-    item: {
-        display: "flex",
-        backgroundColor: "white",
-        flexDirection: "column",
-        alignItems: "center",
+        width: deviceWidth - 20,
+        flexDirection: "row",
+        alignContent: "center",
         justifyContent: "center",
-        padding: 8,
+        alignSelf: "center",
+        borderRadius: 10,
+        marginVertical: 6,
+        elevation: 3,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 0.75,
+        shadowRadius: 5,
     },
     title: {
-        backgroundColor: "white",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: 8,
+        fontWeight: "bold",
+        fontSize: 22,
+        marginHorizontal: 15,
+        marginVertical: 12,
     },
 });
