@@ -40,7 +40,6 @@ interface Props {
 }
 
 function ChangeMemberStatusModal(props: Props) {
-    // const [name, setName] = useState<string>();
     const user = useAppSelector(selectCurrentLoginUser);
     if (!user) return <view></view>;
 
@@ -49,8 +48,6 @@ function ChangeMemberStatusModal(props: Props) {
     const [unPaused, setUnPaused] = useState<number>(0);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [acceptUser, setAcceptUser] = useState<number>(0);
-    // const [message, setMessage] = useState<string>("");
-    // const [openSnackbar, setOpenSnackbar] = useState<boolean>();
     const { setSnackbar } = useContext(snackbarContext);
 
     const [makeUserToOwner, { error: makeToOwnerError, isSuccess: isMakeOwnerSuccess }] = useMakeUserToOwnerMutation();
