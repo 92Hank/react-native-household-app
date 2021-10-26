@@ -1,8 +1,9 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 // import { RadioButton } from "react-native-paper";
 import RadioForm from "react-native-simple-radio-button";
+import { snackbarContext } from "../../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
@@ -48,10 +49,61 @@ function ChangeMemberStatusModal(props: Props) {
     const [unPaused, setUnPaused] = useState<number>(0);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [acceptUser, setAcceptUser] = useState<number>(0);
+    // const [message, setMessage] = useState<string>("");
+    // const [openSnackbar, setOpenSnackbar] = useState<boolean>();
+    const { setSnackbar } = useContext(snackbarContext);
 
+<<<<<<< HEAD
     const [makeUserToOwner, { isLoading: isUpdatingMakeUserToOwner, status }] = useMakeUserToOwnerMutation();
     const [pauseUser, { isLoading: isUpdatingPauseUser }] = usePauseUserMutation();
     const [acceptUserApi, { isLoading: isAcceptUser }] = useAcceptUserMutation();
+=======
+    const [makeUserToOwner, { error: makeToOwnerError, isSuccess: isMakeOwnerSuccess }] = useMakeUserToOwnerMutation();
+    const [pauseUser, { error: pauseUserError, isSuccess: isPasuedSuccess }] = usePauseUserMutation();
+    const [acceptUserApi, { error: acceptError, isSuccess: isAcceptSuccess }] = useAcceptUserMutation();
+
+    useEffect(() => {
+        if (isAcceptSuccess) {
+            setSnackbar("Förfrågan accepterad", true);
+            props.handleModalClose();
+        }
+    }, [isAcceptSuccess]);
+
+    useEffect(() => {
+        if (isPasuedSuccess) {
+            setSnackbar("Pausad status ändrad på medlem", true);
+            props.handleModalClose();
+        }
+    }, [isPasuedSuccess]);
+
+    useEffect(() => {
+        if (isMakeOwnerSuccess) {
+            setSnackbar("Medlem har blivit en ägare", true);
+            props.handleModalClose();
+        }
+    }, [isMakeOwnerSuccess]);
+
+    useEffect(() => {
+        if (makeToOwnerError) {
+            setSnackbar("Ett oväntat fel dök upp", true);
+            console.log("error", makeToOwnerError);
+        }
+    }, [makeToOwnerError]);
+
+    useEffect(() => {
+        if (pauseUserError) {
+            setSnackbar("Ett oväntat fel dök upp", true);
+            console.log("error", pauseUserError);
+        }
+    }, [pauseUserError]);
+
+    useEffect(() => {
+        if (acceptError) {
+            setSnackbar("Ett oväntat fel dök upp", true);
+            console.log("error", acceptError);
+        }
+    }, [acceptError]);
+>>>>>>> origin/main
 
     useEffect(() => {
         console.log("isUpdatingMakeUserToOwner", isUpdatingMakeUserToOwner);
@@ -74,29 +126,39 @@ function ChangeMemberStatusModal(props: Props) {
         // console.log()
         if (!rights) {
             // eslint-disable-next-line no-alert
-            alert("Du har ej rättigheter att ändra status");
+            // setMessage("Du har ej rättigheter att ändra status");
+            setSnackbar("Du har ej rättigheter att ändra status", true);
+            // setOpenSnackbar(true);
+            // alert("Du har ej rättigheter att ändra status");
             // snackbar in future!
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
             setUnPaused(0);
             setAcceptUser(0);
+            props.handleModalClose();
             return;
         }
         if (makeOwner === 1 && paused === 1) {
             // eslint-disable-next-line no-alert
-            alert("kan ej både pausa och göra till ägare!");
+            // alert("kan ej både pausa och göra till ägare!");
+            // setMessage("kan ej både pausa och göra till ägare!");
+            // setOpenSnackbar(true);
+            setSnackbar("kan ej både pausa och göra till ägare!", true);
+
+            console.log("snack");
             // snackbar in future!
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
             setUnPaused(0);
             setAcceptUser(0);
+            props.handleModalClose();
             return;
         }
         if (makeOwner === 1 && isOwner === false) {
             makeUserToOwner({ houseHoldId: currentHousehold.id, userId: userId });
-            console.log("make owner api");
+            // console.log("får kolla hur vi kan använda response från redux för att ge feedback");
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
@@ -157,91 +219,93 @@ function ChangeMemberStatusModal(props: Props) {
     };
 
     return (
-        <View style={styles.centeredView}>
-            {props.member && (
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={props.isOpen}
-                    onRequestClose={() => {
-                        props.isOpen;
-                    }}
-                >
-                    <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>
-                                Namn:
-                                <Text style={styles.modalText}>{" " + props.member.name}</Text>
-                            </Text>
-                            {props.member.AcceptedStatus == "accepted" && (
-                                <View>
-                                    {props.member.isOwner === false && props.member.isPaused === false && (
-                                        <View>
-                                            <Text style={styles.modalText}>Gör till ägare:</Text>
-                                            <View style={{ flexDirection: "row" }}>
+        <View>
+            <View style={styles.centeredView}>
+                {props.member && (
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={props.isOpen}
+                        onRequestClose={() => {
+                            props.isOpen;
+                        }}
+                    >
+                        <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>
+                                    Namn:
+                                    <Text style={styles.modalText}>{" " + props.member.name}</Text>
+                                </Text>
+                                {props.member.AcceptedStatus === "accepted" && (
+                                    <View>
+                                        {props.member.isOwner === false && props.member.isPaused === false && (
+                                            <View>
+                                                <Text style={styles.modalText}>Gör till ägare:</Text>
+                                                <View style={{ flexDirection: "row" }}>
+                                                    <RadioForm
+                                                        radio_props={radioPropsOwner}
+                                                        initial={1}
+                                                        onPress={(value: number) => {
+                                                            setMakeOwner(value as number);
+                                                        }}
+                                                    />
+                                                </View>
+                                                <Text style={styles.modalText}>Pausa användare:</Text>
                                                 <RadioForm
-                                                    radio_props={radioPropsOwner}
+                                                    radio_props={radioPropsPause}
                                                     initial={1}
                                                     onPress={(value: number) => {
-                                                        setMakeOwner(value as number);
+                                                        setPaused(value as number);
                                                     }}
                                                 />
                                             </View>
-                                            <Text style={styles.modalText}>Pausa användare:</Text>
-                                            <RadioForm
-                                                radio_props={radioPropsPause}
-                                                initial={1}
-                                                onPress={(value: number) => {
-                                                    setPaused(value as number);
-                                                }}
-                                            />
-                                        </View>
-                                    )}
+                                        )}
+                                    </View>
+                                )}
+                                {props.member.isPaused === true && (
+                                    <View>
+                                        <Text style={styles.modalText}>Aktivera pausad användare:</Text>
+                                        <RadioForm
+                                            radio_props={radioPropsUnPause}
+                                            initial={1}
+                                            onPress={(value: number) => {
+                                                setUnPaused(value as number);
+                                            }}
+                                        />
+                                    </View>
+                                )}
+                                {props.member.AcceptedStatus === "pending" && (
+                                    <View>
+                                        <Text style={styles.modalText}>Ansöker om att gå med</Text>
+                                        <RadioForm
+                                            radio_props={radioPropsAccept}
+                                            initial={1}
+                                            onPress={(value: number) => {
+                                                setAcceptUser(value as number);
+                                            }}
+                                        />
+                                    </View>
+                                )}
+                                {props.member.isOwner === true && (
+                                    <View>
+                                        <Text style={styles.modalText}>En av ägarna i hushållet</Text>
+                                    </View>
+                                )}
+                                <View style={styles.buttonsContainer}>
+                                    <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
+                                        <MaterialIcons name="add-circle-outline" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Spara</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
+                                        <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Stäng</Text>
+                                    </TouchableOpacity>
                                 </View>
-                            )}
-                            {props.member.isPaused === true && (
-                                <View>
-                                    <Text style={styles.modalText}>Aktivera pausad användare:</Text>
-                                    <RadioForm
-                                        radio_props={radioPropsUnPause}
-                                        initial={1}
-                                        onPress={(value: number) => {
-                                            setUnPaused(value as number);
-                                        }}
-                                    />
-                                </View>
-                            )}
-                            {props.member.AcceptedStatus == "pending" && (
-                                <View>
-                                    <Text style={styles.modalText}>Ansöker om att gå med</Text>
-                                    <RadioForm
-                                        radio_props={radioPropsAccept}
-                                        initial={1}
-                                        onPress={(value: number) => {
-                                            setAcceptUser(value as number);
-                                        }}
-                                    />
-                                </View>
-                            )}
-                            {props.member.isOwner === true && (
-                                <View>
-                                    <Text style={styles.modalText}>En av ägarna i hushållet</Text>
-                                </View>
-                            )}
-                            <View style={styles.buttonsContainer}>
-                                <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
-                                    <MaterialIcons name="add-circle-outline" size={30} color="black" />
-                                    <Text style={styles.buttonText}>Spara</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
-                                    <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
-                                    <Text style={styles.buttonText}>Stäng</Text>
-                                </TouchableOpacity>
                             </View>
                         </View>
-                    </View>
-                </Modal>
-            )}
+                    </Modal>
+                )}
+            </View>
         </View>
     );
 }

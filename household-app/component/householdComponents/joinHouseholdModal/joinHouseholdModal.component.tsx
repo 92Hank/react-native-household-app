@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import { webUrl } from "../../../Redux/Config";
@@ -7,9 +7,8 @@ import { household, householdJoin } from "../../../../Common/household";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { useJoinHouseholdMutation } from "../../../Redux/Service/household/householdApi";
-import { userApi } from "../../../Redux/Service/user/userApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
-import { memberSend } from "../../../../Common/household";
+import { snackbarContext } from "../../../context/snackBarContext";
 
 interface DefaultProps {
     isOpen: boolean;
@@ -41,6 +40,7 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     const [avatarIndex, setAvatarIndex] = useState<number>();
     const [household, setHousehold] = useState<household>();
     const [emojis, setAvatars] = useState<string[]>();
+    const { setSnackbar } = useContext(snackbarContext);
 
     const user = useAppSelector(selectCurrentLoginUser);
 
@@ -61,6 +61,7 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     useEffect(() => {
         console.log("isSuccess", isSuccess);
         if (isSuccess) {
+            setSnackbar("Ansökan om att gå med i hushåll skickad", true);
             props.handleModalClose();
         }
     }, [isSuccess]);
@@ -75,6 +76,7 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
 
     useEffect(() => {
         if (error) {
+            setSnackbar("Ett oväntat fel dök upp", true);
             console.log("error", error);
         }
     }, [error]);
