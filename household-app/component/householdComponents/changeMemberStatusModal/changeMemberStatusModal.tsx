@@ -53,11 +53,6 @@ function ChangeMemberStatusModal(props: Props) {
     // const [openSnackbar, setOpenSnackbar] = useState<boolean>();
     const { setSnackbar } = useContext(snackbarContext);
 
-<<<<<<< HEAD
-    const [makeUserToOwner, { isLoading: isUpdatingMakeUserToOwner, status }] = useMakeUserToOwnerMutation();
-    const [pauseUser, { isLoading: isUpdatingPauseUser }] = usePauseUserMutation();
-    const [acceptUserApi, { isLoading: isAcceptUser }] = useAcceptUserMutation();
-=======
     const [makeUserToOwner, { error: makeToOwnerError, isSuccess: isMakeOwnerSuccess }] = useMakeUserToOwnerMutation();
     const [pauseUser, { error: pauseUserError, isSuccess: isPasuedSuccess }] = usePauseUserMutation();
     const [acceptUserApi, { error: acceptError, isSuccess: isAcceptSuccess }] = useAcceptUserMutation();
@@ -103,15 +98,6 @@ function ChangeMemberStatusModal(props: Props) {
             console.log("error", acceptError);
         }
     }, [acceptError]);
->>>>>>> origin/main
-
-    useEffect(() => {
-        console.log("isUpdatingMakeUserToOwner", isUpdatingMakeUserToOwner);
-    }, [isUpdatingMakeUserToOwner]);
-
-    useEffect(() => {
-        console.log("status", status);
-    }, [status]);
 
     const onSave = () => {
         if (!currentHousehold) return;
