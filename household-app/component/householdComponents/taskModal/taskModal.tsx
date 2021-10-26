@@ -8,6 +8,7 @@ import { Feather } from "@expo/vector-icons";
 import { doneTask } from "../../../../Common/doneTask";
 import { useCreateDoneTaskMutation } from "../../../Redux/Service/doneTask/doneTaskApi";
 import { snackbarContext } from "../../../context/snackBarContext";
+import SnackbarComponent from "../../../component/snackbar/snackbarComponent";
 
 interface TaskNow {
     id?: string;
@@ -42,7 +43,7 @@ function TaskModal(props: Props) {
     useEffect(() => {
         if (isSuccess) {
             props.handleModalClose();
-            setSnackbar("Sysslan är gjord!", true);
+            setSnackbar("Bra jobbat!", true);
         }
     }, [isSuccess]);
 
