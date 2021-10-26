@@ -1,6 +1,15 @@
 import { doneTask } from "../../../Common/doneTask";
 import { household } from "../../../Common/household";
 
+/**
+ * Function takes an array of doneTask objects and household object, and based on them
+ * returns a filtered array of doneTask objects created during the last month for the
+ * same household.
+ *
+ * @param doneTasksArray
+ * @param currentHousehold
+ * @returns
+ */
 export const getLastMonthDoneTasksByHousehold = (doneTasksArray: doneTask[], currentHousehold: household) => {
     const filteredArray = filterDoneTasksByHouseHold(doneTasksArray, currentHousehold);
     const startTime = getLastMonthStartInSeconds();
