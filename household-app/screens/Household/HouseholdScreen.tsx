@@ -1,13 +1,12 @@
 import { FontAwesome5, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useContext, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { household } from "../../../Common/household";
 import AddHouseholdModal from "../../component/householdComponents/addHouseholdModal/addHouseholdModal.component";
-// import Household from "../../../Common(obsolete)/household";
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
 import JoinHouseholdModal from "../../component/householdComponents/joinHouseholdModal/joinHouseholdModal.component";
 import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
-import household from "../../Redux/entity/household";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { logout } from "../../Redux/features/loginUser/loginUserSlice";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
-import doneTask from "../../../Common(obsolete)/doneTask";
+import { doneTask } from "../../../Common/doneTask";
 import StatisticsCharts from "../../component/StatisticsCharts";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { MemberStatistics } from "./memberStatistics";
@@ -14,37 +14,37 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
         {
             id: "1",
             taskId: "1",
-            memberId: [1, 2, 3],
+            memberId: "1",
             dateDone: dagensDatum,
             value: 2,
         },
         {
             id: "2",
             taskId: "2",
-            memberId: [2, 3],
+            memberId: "2",
             dateDone: dagensDatum,
             value: 2,
         },
         {
             id: "3",
             taskId: "3",
-            memberId: [2, 3],
+            memberId: "3",
             dateDone: dagensDatum,
             value: 2,
         },
         {
             id: "4",
             taskId: "4",
-            memberId: [4],
+            memberId: "4",
             dateDone: dagensDatum,
-            value: 10,
+            value: 8,
         },
         {
             id: "5",
             taskId: "5",
-            memberId: [4, 1],
+            memberId: "5",
             dateDone: dagensDatum,
-            value: 10,
+            value: 8,
         },
     ];
 

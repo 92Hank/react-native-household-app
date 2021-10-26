@@ -1,9 +1,9 @@
 import { valueType } from "./value";
 
-export default interface doneTask {
+export declare interface doneTask {
     id?: string;
     taskId: string;
-    userId: string;
+    memberId: string;
     value: valueType;
     dateDone: Date;
 }

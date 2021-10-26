@@ -16,7 +16,7 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
 
         data.forEach((member) => {
             member.doneTasks.forEach((doneTask) => {
-                uniqueIds.push(doneTask.id);
+                uniqueIds.push(doneTask.id!);
             });
         });
 

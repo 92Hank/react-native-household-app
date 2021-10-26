@@ -15,6 +15,8 @@ const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => 
 
     return (
         <View style={styles.container}>
+            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+            {/* @ts-ignore */}
             <TouchableRipple onPress={toggleTheme}>
                 <View style={styles.preference}>
                     <Text style={styles.text}>Dark Theme</Text>

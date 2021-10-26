@@ -3,13 +3,11 @@ import React, { FC, useContext, useEffect, useState } from "react";
 import { Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import { webUrl } from "../../../Redux/Config";
-import householdType, { householdJoin } from "../../../Redux/entity/household";
+import { household, householdJoin } from "../../../../Common/household";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { useJoinHouseholdMutation } from "../../../Redux/Service/household/householdApi";
-import { userApi } from "../../../Redux/Service/user/userApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
-import memberSend from "../../../Redux/entity/household";
 import { snackbarContext } from "../../../context/snackBarContext";
 
 interface DefaultProps {
@@ -40,7 +38,7 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     const [codeSubmitted, setCodeSubmitted] = useState(false);
     const [avatar, setAvatar] = useState<string>();
     const [avatarIndex, setAvatarIndex] = useState<number>();
-    const [household, setHousehold] = useState<householdType>();
+    const [household, setHousehold] = useState<household>();
     const [emojis, setAvatars] = useState<string[]>();
     const { setSnackbar } = useContext(snackbarContext);
 
@@ -101,7 +99,7 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
             if (rawResponse.status === 200) {
                 setCodeSubmitted(true);
 
-                const foundHousehold: householdType = await rawResponse.json();
+                const foundHousehold: household = await rawResponse.json();
                 console.log(foundHousehold);
                 foundHousehold.member.forEach((element) => {
                     existingAvatars.push(element.emoji);

@@ -1,13 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { webUrl } from "../../Config";
-import household, {
+import {
+    household,
     householdIdAndUserId,
     householdChangeName,
     householdCreate,
     householdJoin,
     householdChangeEmoji,
     householdPauseUser,
-} from "../../entity/household";
+} from "../../../../Common/household";
 
 export const householdApi = createApi({
     reducerPath: "household",

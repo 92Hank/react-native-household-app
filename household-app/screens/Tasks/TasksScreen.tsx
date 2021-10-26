@@ -16,6 +16,8 @@ import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 const deviceHeight = Math.round(Dimensions.get("window").height);
 
+//[TODO] add event difenitions to Props
+// eslint-disable-next-line prettier/prettier
 const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElement => {
     const [addModalOpen, setAddModalOpen] = useState(false);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
@@ -63,6 +65,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                 repeated: t.repeated,
                 archived: t.archived,
                 value: t.value,
+                createdAt: t.createdAt,
                 emojiList: [],
             };
 
@@ -75,7 +78,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                 const today: boolean = isToday(d.dateDone);
                 if (t.id === d.taskId && today) {
                     currentHousehold?.member.forEach((m) => {
-                        if (d.userId === m.userId) {
+                        if (d.memberId === m.userId) {
                             allTasks[allTasks.length - 1].emojiList.push(m.emoji);
                         } else {
                             allTasks[allTasks.length - 1].dateDone = dateConvert(d.dateDone);
@@ -251,5 +254,5 @@ interface TaskNow {
     value?: number;
     emojiList: number[];
     dateDone?: Date;
-    createdAt?: Date;
+    createdAt: Date;
 }

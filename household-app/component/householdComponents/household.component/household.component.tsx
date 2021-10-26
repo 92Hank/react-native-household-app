@@ -1,10 +1,10 @@
 import React from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Surface } from "react-native-paper";
-import Household from "../../../Redux/entity/household";
+import { household } from "../../../../Common/household";
 
 interface Props {
-    household: Household;
+    household: household;
     onPress: () => void;
 }
 
