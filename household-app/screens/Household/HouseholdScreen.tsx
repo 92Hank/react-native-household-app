@@ -1,3 +1,4 @@
+import { FontAwesome5, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useContext, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { household } from "../../../Common/household";
