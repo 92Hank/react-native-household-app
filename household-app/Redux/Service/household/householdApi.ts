@@ -144,7 +144,7 @@ export const householdApi = createApi({
         leaveHousehold: builder.mutation<string, householdIdAndUserId>({
             query: (body) => ({
                 url: `/leave`,
-                method: "PATCH",
+                method: "DELETE",
                 responseHandler: "text",
                 body,
             }),

@@ -287,7 +287,7 @@ export const memberLeaveHouseHold = (req: Request, res: Response): void => {
               .then(() => {
                 query.ref
                     .update({
-                      userId: FieldValue.arrayRemove(userId),
+                      userIds: FieldValue.arrayRemove(userId),
                     })
                     .then(() => {
                       res.status(200).json("member left houseHold");
