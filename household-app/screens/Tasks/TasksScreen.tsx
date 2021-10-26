@@ -78,7 +78,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                 const today: boolean = isToday(d.dateDone);
                 if (t.id === d.taskId && today) {
                     currentHousehold?.member.forEach((m) => {
-                        if (d.memberId === m.userId) {
+                        if (d.userId === m.userId) {
                             allTasks[allTasks.length - 1].emojiList.push(m.emoji);
                         } else {
                             allTasks[allTasks.length - 1].dateDone = dateConvert(d.dateDone);
