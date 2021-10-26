@@ -1,21 +1,21 @@
-import { Feather } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import React, { FC } from "react";
 import { StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from "react-native";
 import { iconName } from "../../../Common/iconName";
 
 type Props = {
     text: string;
-    featherName: iconName;
+    iconName: iconName;
 
     onPress: () => void;
     buttonStyle?: ViewStyle;
     textStyle?: TextStyle;
 };
 
-const Button: FC<Props> = ({ text, featherName, onPress, buttonStyle, textStyle }: Props): React.ReactElement => {
+const Button: FC<Props> = ({ text, iconName, onPress, buttonStyle, textStyle }: Props): React.ReactElement => {
     return (
         <TouchableOpacity onPress={onPress} style={{ ...styles.ButtonStyle, ...buttonStyle }}>
-            <Feather name={featherName} size={30} color="black" />
+            <MaterialIcons name={iconName} size={30} color="black" />
             <Text style={{ ...styles.TextStyle, ...textStyle }}>{text}</Text>
         </TouchableOpacity>
     );
