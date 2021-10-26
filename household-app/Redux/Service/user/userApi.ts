@@ -16,7 +16,7 @@ export const userApi = createApi({
                 responseHandler: "text",
                 body,
             }),
-            invalidatesTags: (result, error, arg) => [{ type: "User", id: arg.id }],
+            invalidatesTags: (result, error, arg) => [{ type: "User" }],
         }),
 
         getAllUser: builder.query<user[], void>({
