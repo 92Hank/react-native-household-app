@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Button from "../../component/common/Button";
 import TaskModal from "../../component/householdComponents/taskModal/taskModal";
@@ -13,6 +13,8 @@ import { useAppSelector } from "../../Redux/hooks";
 import { useGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
 import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
+import { snackbarContext } from "../../context/snackBarContext";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 const deviceHeight = Math.round(Dimensions.get("window").height);
@@ -28,6 +30,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
     const [taskInModal, setTaskInModal] = useState<TaskNow>();
     const [rights, setRights] = useState(false);
     const user = useAppSelector(selectCurrentLoginUser);
+    const { message, isVisible } = useContext(snackbarContext);
 
     const { data: tasksData } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
     const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
@@ -118,6 +121,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
 
     return (
         <View style={styles.container}>
+            <SnackbarComponent isVisible={isVisible} message={message} />
             {render && (
                 <View style={styles.listContainer}>
                     <FlatList

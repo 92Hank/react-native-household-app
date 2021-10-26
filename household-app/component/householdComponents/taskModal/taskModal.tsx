@@ -1,10 +1,14 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { Feather } from "@expo/vector-icons";
+import { doneTask } from "../../../../Common/doneTask";
+import { useCreateDoneTaskMutation } from "../../../Redux/Service/doneTask/doneTaskApi";
+import { snackbarContext } from "../../../context/snackBarContext";
+import SnackbarComponent from "../../../component/snackbar/snackbarComponent";
 
 interface TaskNow {
     id?: string;
@@ -29,10 +33,31 @@ function TaskModal(props: Props) {
     const [rights, setRights] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const { setSnackbar } = useContext(snackbarContext);
+
+    const [
+        createDoneTask, // This is the mutation trigger
+        { status, isSuccess, error, isLoading }, // This is the destructured mutation result
+    ] = useCreateDoneTaskMutation();
+
+    useEffect(() => {
+        if (isSuccess) {
+            props.handleModalClose();
+            setSnackbar("Bra jobbat!", true);
+        }
+    }, [isSuccess]);
 
     const onSave = () => {
-        console.log("mark task as done");
-        props.handleModalClose();
+        if (props.task.id && props.task.value && user?.id && currentHousehold?.id) {
+            const markAsDone: doneTask = {
+                taskId: props.task.id,
+                userId: user?.id,
+                houseHoldId: currentHousehold?.id,
+            };
+            createDoneTask(markAsDone);
+        }
+
+        // props.handleModalClose();
     };
 
     const onEdit = () => {
