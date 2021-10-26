@@ -72,7 +72,6 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                     currentHousehold?.member.forEach((m) => {
                         if (d.memberId === m.userId) {
                             allTasks[allTasks.length - 1].emojiList.push(m.emoji);
-                            setTasks(allTasks);
                         } else {
                             allTasks[allTasks.length - 1].dateDone = dateConvert(d.dateDone);
                         }
@@ -80,6 +79,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                 }
             });
         });
+        setTasks(allTasks);
         if (allTasks.length > 0) {
             setRender(true);
         }
