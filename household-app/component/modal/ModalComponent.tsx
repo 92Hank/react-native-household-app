@@ -24,7 +24,6 @@ import styles from "./styles";
 interface Props {
     isOpen: boolean;
     handleAddClose: () => void;
-    event: any;
 }
 
 interface Task {
@@ -54,7 +53,7 @@ const PostSchema = Yup.object().shape<PostSchemaType>({
 
 const recurring = 2;
 
-const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose, event }) => {
+const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     const [name, setName] = useState<string>();
     const [description, setDescription] = useState<string>();
     const [repeated, setRepeated] = useState<number>();
@@ -103,17 +102,21 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose, event }) => {
     const handleSubmitForm = async (createTaskItem: task) => {
         if (name && description && repeated && value) {
             const v = value as valueType;
-
             const requestData: task = {
-                houseHoldId: "2",
-                description: description,
-                name: name,
-                repeated: repeated,
-                value: v,
-                archived: false,
-                createdAt: new Date(),
+              houseHoldId: currentHousehold?.id as string,
+              description: description,
+              name: name,
+              repeated: repeated,
+              value: v,
+              archived: false,
             };
-
+            console.log('------- Submit Form -------')
+            console.log("repeated: " + repeated);
+            console.log("description: " + description);
+            console.log("name: " + name);
+            console.log('value: ' + value);
+            console.log('household: ' + currentHousehold?.id);
+            console.log("------- End of Submit Form -------");
             CreateTask(requestData);
         } else {
             alert("APAPAP! Du måste ange ett namn och välja en avatar!");
@@ -129,10 +132,6 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose, event }) => {
         //do some stuff here
         // need to pass repeated here to CircleButtonGroup.tsx
         // onChangeInputRepeated;
-    };
-    const onPressDays = (event: any) => {
-        console.log("onPress works fine");
-        setIsClickedDays(true);
     };
     const onPressRepeated = (i: number) => {
         console.log("onPress works fine");
@@ -167,7 +166,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose, event }) => {
                 handleAddClose();
             }
         } else {
-            alert("APAPAP! Du måste ange ett namn och välja en avatar!");
+            alert("APAPAP! Du måste ange en titel, beskrivning, värde och återkommande dagar!");
         }
     };
 
@@ -224,14 +223,11 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose, event }) => {
                                             <Card style={styles.inputsCard}>
                                                 <Card.Content>
                                                     <View style={styles.clickedDay}>
-                                                        {/* <ListItem
-                              onPressDays={onPressDays}
-                              event={event}
-                            /> */}
                                                         <View style={styles.buttonsCircleContainer}>
                                                             <FlatList
                                                                 horizontal
                                                                 data={repeatedList}
+                                                                keyExtractor={(index) => "key" + index}
                                                                 renderItem={({ item }) => (
                                                                     <TouchableOpacity
                                                                         key={item}
@@ -352,7 +348,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose, event }) => {
                                                                     setIsClickedDays(false);
                                                                 }}
                                                             >
-                                                                <Text style={styles.circleBtnText}>{recurring}</Text>
+                                                                <Text style={styles.circleBtnText}>{repeated}</Text>
                                                             </TouchableOpacity>
                                                             <Text style={{ marginLeft: 3 }}>dag</Text>
                                                         </View>
@@ -374,7 +370,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose, event }) => {
                                                                 setIsClicked(false);
                                                             }}
                                                         >
-                                                            <Text style={styles.circleBtnTextValue}>{recurring}</Text>
+                                                            <Text style={styles.circleBtnTextValue}>{value}</Text>
                                                         </TouchableOpacity>
                                                     </View>
                                                 </Card.Content>

@@ -19,9 +19,9 @@ import { snackbarContext } from "../../context/snackBarContext";
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 const deviceHeight = Math.round(Dimensions.get("window").height);
 
-//[TODO] add event difenitions to Props
+//[TODO] add event definitions to Props
 // eslint-disable-next-line prettier/prettier
-const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElement => {
+const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const [addModalOpen, setAddModalOpen] = useState(false);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [render, setRender] = useState(false);
@@ -69,7 +69,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                 repeated: t.repeated,
                 archived: t.archived,
                 value: t.value,
-                createdAt: t.createdAt,
+                createdAt: t.createdAt as Date,
                 emojiList: [],
             };
 
@@ -131,7 +131,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                             <TaskCard key={item.id} task={item} onPress={() => clickOnTask(item)} />
                         )}
                     />
-                    <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} event={event} />
+                    <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} />
                     <TaskModal
                         isOpen={isClickedTaskOpen}
                         handleModalClose={handleTaskClose}
@@ -140,9 +140,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                 </View>
             )}
             <View style={rights ? styles.buttonsContainer : styles.buttonsContainerUser}>
-                {rights && (
-                    <Button iconName="add-circle-outline" text="Lägg till" onPress={onPressUsersInHousehold}></Button>
-                )}
+                {rights && <Button iconName="add-circle-outline" text="Lägg till" onPress={handleAddClick}></Button>}
                 {/* {rights && (
                     <TouchableOpacity onPress={handleAddClick} style={styles.householdButton}>
                         <MaterialIcons name="add-circle-outline" size={30} color="black" />
