@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-undef */
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { View, TouchableOpacity, FlatList, StyleSheet, Text } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
@@ -11,14 +11,24 @@ import { useAppSelector } from "../../Redux/hooks";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
+import LeaveModal from "../../component/householdComponents/leaveModal/leaveModal";
+import { useLeaveHouseholdMutation } from "../../Redux/Service/household/householdApi";
+import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
+import { householdIdAndUserId } from "../../Redux/entity/household";
 
 type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
 
 const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+    const user = useAppSelector(selectCurrentLoginUser);
+    if (!user) return <view></view>;
+
     const [modalOpen, setModalOpen] = useState(false);
+    const [openLeaveModal, setOpenLeaveModal] = useState(false);
     const [member, setSetMember] = useState<fullMemberInfo>();
     const currentHousehold = useAppSelector(selectSelectedHousehold);
-    const { message, isVisible } = useContext(snackbarContext);
+    const { message, isVisible, setSnackbar } = useContext(snackbarContext);
+    // const [acceptUserApi, { error: acceptError, isSuccess: isAcceptSuccess }] = useAcceptUserMutation();
+    const [leaveHouseHoldApi, { isSuccess, error }] = useLeaveHouseholdMutation();
 
     const clickOnMember = (item: fullMemberInfo) => {
         console.log("click");
@@ -31,9 +41,43 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
         console.log("close");
         setModalOpen(false);
     };
+
     const handleLeaveClick = () => {
-        console.log("open modal to get option to leave");
+        const foo: householdIdAndUserId = {
+            houseHoldId: currentHousehold?.id as string,
+            userId: user.id as string,
+        };
+
+        console.log(foo);
+
+        leaveHouseHoldApi(foo);
+        console.log("leave api");
+        setOpenLeaveModal(false);
     };
+
+    const openLeaveModalClick = () => {
+        console.log("open");
+        setOpenLeaveModal(true);
+    };
+
+    const closeLeaveModalClick = () => {
+        console.log("close");
+        setOpenLeaveModal(false);
+    };
+
+    useEffect(() => {
+        if (isSuccess) {
+            setSnackbar("Du har lämnat hushåll: " + currentHousehold?.name, true);
+        }
+    }, [isSuccess]);
+
+    useEffect(() => {
+        if (error) {
+            console.log(error);
+            setSnackbar("Ett oväntat fel dök upp", true);
+        }
+    }, [error]);
+
     return (
         <View style={styles.container}>
             <SnackbarComponent isVisible={isVisible} message={message} />
@@ -48,7 +92,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
                     />
                 </View>
                 <View style={styles.buttonsContainer}>
-                    <TouchableOpacity onPress={handleLeaveClick} style={styles.householdButton}>
+                    <TouchableOpacity onPress={openLeaveModalClick} style={styles.householdButton}>
                         <MaterialIcons name="delete-forever" size={30} color="black" />
                         <Text style={styles.householdButtonText}>Lämna hushåll</Text>
                     </TouchableOpacity>
@@ -58,6 +102,11 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
                 isOpen={modalOpen}
                 handleModalClose={handleClose}
                 member={member as fullMemberInfo}
+            />
+            <LeaveModal
+                isOpen={openLeaveModal}
+                handleModalClose={closeLeaveModalClick}
+                handleLeave={handleLeaveClick}
             />
         </View>
     );
