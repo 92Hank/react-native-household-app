@@ -7,7 +7,7 @@ export const doneTaskApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: webUrl + "donetask",
     }),
-    tagTypes: ["DoneTask"],
+    tagTypes: ["Task"],
     endpoints: (builder) => ({
         createDoneTask: builder.mutation<string, doneTask>({
             query: (body) => ({
@@ -16,7 +16,7 @@ export const doneTaskApi = createApi({
                 responseHandler: "text",
                 body,
             }),
-            invalidatesTags: (result, error, arg) => [{ type: "DoneTask", id: arg.id }],
+            invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg.id }],
         }),
 
         GetDoneTasksWithHouseholdId: builder.query<doneTask[], string>({
@@ -35,7 +35,7 @@ export const doneTaskApi = createApi({
             }),
 
             providesTags: (result) =>
-                result ? [...result.map(({ id }) => ({ type: "DoneTask" as const, id })), "DoneTask"] : ["DoneTask"],
+                result ? [...result.map(({ id }) => ({ type: "Task" as const, id })), "Task"] : ["Task"],
         }),
     }),
 });
