@@ -106,14 +106,8 @@ function ChangeMemberStatusModal(props: Props) {
             rights = true;
         }
 
-        // console.log()
         if (!rights) {
-            // eslint-disable-next-line no-alert
-            // setMessage("Du har ej rättigheter att ändra status");
             setSnackbar("Du har ej rättigheter att ändra status", true);
-            // setOpenSnackbar(true);
-            // alert("Du har ej rättigheter att ändra status");
-            // snackbar in future!
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
@@ -123,14 +117,7 @@ function ChangeMemberStatusModal(props: Props) {
             return;
         }
         if (makeOwner === 1 && paused === 1) {
-            // eslint-disable-next-line no-alert
-            // alert("kan ej både pausa och göra till ägare!");
-            // setMessage("kan ej både pausa och göra till ägare!");
-            // setOpenSnackbar(true);
             setSnackbar("kan ej både pausa och göra till ägare!", true);
-
-            console.log("snack");
-            // snackbar in future!
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
@@ -141,7 +128,6 @@ function ChangeMemberStatusModal(props: Props) {
         }
         if (makeOwner === 1 && isOwner === false) {
             makeUserToOwner({ houseHoldId: currentHousehold.id, userId: userId });
-            // console.log("får kolla hur vi kan använda response från redux för att ge feedback");
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
@@ -149,10 +135,8 @@ function ChangeMemberStatusModal(props: Props) {
             setAcceptUser(0);
             props.handleModalClose();
             return;
-            // api mot att göra till owner
         }
         if (paused === 1 && isPaused === false) {
-            // Make som changes here
             pauseUser({ houseHoldId: currentHousehold.id, userId: userId, isPaused: true });
             console.log("set on pause api");
             setMakeOwner(0);
@@ -164,9 +148,7 @@ function ChangeMemberStatusModal(props: Props) {
             return;
         }
         if (unPaused === 1 && isPaused === true) {
-            console.log("unPause member api");
             pauseUser({ houseHoldId: currentHousehold.id, userId: userId, isPaused: false });
-
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
@@ -174,7 +156,6 @@ function ChangeMemberStatusModal(props: Props) {
             setAcceptUser(0);
             props.handleModalClose();
             return;
-            // api mot att göra till owner
         }
         if (acceptUser === 1 && AcceptedStatus === "pending") {
             console.log("acceptUserApi");
@@ -223,8 +204,9 @@ function ChangeMemberStatusModal(props: Props) {
                                     <View>
                                         {props.member.isOwner === false && props.member.isPaused === false && (
                                             <View>
-                                                <Text style={styles.modalText}>Gör till ägare:</Text>
-                                                <View style={{ flexDirection: "row" }}>
+                                                <View style={styles.row}>
+                                                    <Text style={styles.modalText}>Gör till ägare:</Text>
+
                                                     <RadioForm
                                                         radio_props={radioPropsOwner}
                                                         initial={1}
@@ -233,20 +215,22 @@ function ChangeMemberStatusModal(props: Props) {
                                                         }}
                                                     />
                                                 </View>
-                                                <Text style={styles.modalText}>Pausa användare:</Text>
-                                                <RadioForm
-                                                    radio_props={radioPropsPause}
-                                                    initial={1}
-                                                    onPress={(value: number) => {
-                                                        setPaused(value as number);
-                                                    }}
-                                                />
+                                                <View style={styles.row}>
+                                                    <Text style={styles.modalText}>Pausa användare:</Text>
+                                                    <RadioForm
+                                                        radio_props={radioPropsPause}
+                                                        initial={1}
+                                                        onPress={(value: number) => {
+                                                            setPaused(value as number);
+                                                        }}
+                                                    />
+                                                </View>
                                             </View>
                                         )}
                                     </View>
                                 )}
                                 {props.member.isPaused === true && (
-                                    <View>
+                                    <View style={styles.row}>
                                         <Text style={styles.modalText}>Aktivera pausad användare:</Text>
                                         <RadioForm
                                             radio_props={radioPropsUnPause}
@@ -310,6 +294,9 @@ const styles = StyleSheet.create({
         width: "100%",
         marginBottom: 15,
     },
+    row: {
+        flexDirection: "row",
+    },
     centeredView: {
         flex: 1,
         justifyContent: "center",
@@ -326,7 +313,7 @@ const styles = StyleSheet.create({
     modalView: {
         // margin: 20,
         width: 300,
-        height: 500,
+        height: 300,
         backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,

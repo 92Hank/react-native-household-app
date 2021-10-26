@@ -15,6 +15,7 @@ import LeaveModal from "../../component/householdComponents/leaveModal/leaveModa
 import { useLeaveHouseholdMutation } from "../../Redux/Service/household/householdApi";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import ChangeHouseholdNameModal from "../../component/householdComponents/changeHouseholdNameModal/changeHouseholdNameModal";
+import { Surface } from "react-native-paper";
 // import { householdIdAndUserId } from "../../Redux/entity/household";
 
 type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
@@ -34,6 +35,13 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
 
     const clickOnMember = (item: fullMemberInfo) => {
         console.log("click");
+
+        currentHousehold?.member.forEach((m) => {
+            if (m.userId === user.id && (m.AcceptedStatus === "pending" || m.AcceptedStatus === "rejected")) {
+                setSnackbar("Du har inte rättigheter att ändra medlemsstatus", true);
+                return;
+            }
+        });
         setSetMember(item);
         setModalOpen(true);
         console.log("open");
@@ -92,6 +100,9 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
         <View style={styles.container}>
             <SnackbarComponent isVisible={isVisible} message={message} />
             <View>
+                <Surface>
+                    <Text style={styles.inviteCode}>Hushållskod: {currentHousehold?.inviteCode}</Text>
+                </Surface>
                 <View style={styles.listContainer}>
                     <FlatList
                         data={currentHousehold?.member}
@@ -173,6 +184,13 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         height: 55,
+    },
+    inviteCode: {
+        textAlign: "center",
+        alignSelf: "center",
+        width: "100%",
+        height: 30,
+        // color: "red",
     },
     householdButtonUser: {
         backgroundColor: "white",
