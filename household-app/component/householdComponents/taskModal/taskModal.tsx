@@ -14,7 +14,7 @@ interface TaskNow {
     repeated?: number;
     archived?: boolean;
     value?: number;
-    emojiList?: string[];
+    emojiList?: number[];
 }
 
 interface Props {
@@ -27,17 +27,38 @@ function TaskModal(props: Props) {
     const user = useAppSelector(selectCurrentLoginUser);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [rights, setRights] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
 
     const onSave = () => {
         console.log("mark task as done");
+        props.handleModalClose();
+    };
+
+    const onEdit = () => {
+        console.log("edit api");
+        setOpenEdit(false);
     };
 
     const handleEditClick = () => {
         console.log("open new modal for edit");
+        setOpenEdit(true);
+        // props.handleModalClose();
     };
 
     const handleDeleteClick = () => {
+        setOpenDelete(true);
+        // props.handleModalClose();
+    };
+
+    const onDelete = () => {
         console.log("delete task api");
+        setOpenDelete(false);
+    };
+
+    const onArchive = () => {
+        console.log("archive task api");
+        setOpenDelete(false);
     };
 
     useEffect(() => {
@@ -59,11 +80,61 @@ function TaskModal(props: Props) {
                         props.isOpen;
                     }}
                 >
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={openEdit}
+                        onRequestClose={() => {
+                            openEdit;
+                        }}
+                    >
+                        <View style={[openEdit ? styles.centeredViewBlurred : styles.centeredView]}>
+                            <View style={styles.modalView}>
+                                <Text>{"Här får henke använda samma gränsnitt som han gjort för create"}</Text>
+                                <View style={styles.buttonsContainer}>
+                                    <TouchableOpacity onPress={() => onEdit()} style={styles.saveButton}>
+                                        <MaterialIcons name="check-circle" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Ändra</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => setOpenEdit(false)} style={styles.closeButton}>
+                                        <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Stäng</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={openDelete}
+                        onRequestClose={() => {
+                            openDelete;
+                        }}
+                    >
+                        <View style={[openDelete ? styles.centeredViewBlurred : styles.centeredView]}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.warningText}>
+                                    Varning! arkivera sysslan om du vill ha kvar den i statistiken
+                                </Text>
+                                <View style={styles.buttonsContainer}>
+                                    <TouchableOpacity onPress={() => onDelete()} style={styles.saveButton}>
+                                        <MaterialIcons name="delete" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Radera</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => onArchive()} style={styles.closeButton}>
+                                        <MaterialCommunityIcons name="archive" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Arkivera</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
                     <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
                         <View style={styles.modalView}>
                             <Text style={styles.modalText}>
                                 Syssla:
-                                <Text style={styles.modalText}>{" " + props.task.description}</Text>
+                                <Text style={styles.modalText}>{" " + props.task.name}</Text>
                             </Text>
                             <Text style={styles.modalText}>
                                 Beskriving:
@@ -71,7 +142,7 @@ function TaskModal(props: Props) {
                             </Text>
                             {rights && (
                                 <View>
-                                    <View style={styles.buttonsContainer}>
+                                    <View style={{ flexDirection: "row" }}>
                                         <TouchableOpacity onPress={handleEditClick} style={styles.householdButton}>
                                             <Feather name="edit-2" size={30} color="black" />
                                             <Text style={styles.householdButtonText}>Ändra</Text>
@@ -86,8 +157,8 @@ function TaskModal(props: Props) {
 
                             <View style={styles.buttonsContainer}>
                                 <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
-                                    <MaterialIcons name="add-circle-outline" size={30} color="black" />
-                                    <Text style={styles.buttonText}>Spara</Text>
+                                    <MaterialIcons name="check-circle" size={30} color="black" />
+                                    <Text style={styles.buttonText}>Klar</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
                                     <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
@@ -111,7 +182,8 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     householdButton: {
-        margin: 15,
+        marginTop: 20,
+        margin: 5,
         backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
@@ -220,5 +292,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
+    },
+    warningText: {
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "red",
     },
 });

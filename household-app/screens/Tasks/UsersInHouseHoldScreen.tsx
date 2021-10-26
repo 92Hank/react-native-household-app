@@ -1,20 +1,34 @@
-import React, { FC, useState } from "react";
-import { View, TouchableOpacity, FlatList } from "react-native";
+/* eslint-disable react/jsx-no-undef */
+import React, { FC, useContext, useEffect, useState } from "react";
+import { View, TouchableOpacity, FlatList, StyleSheet, Text } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
 import UserListComponent from "../../component/taskFolder/UserListComponent";
-import styles from "../Household/styles";
 import ChangeMemberStatusModal from "../../component/householdComponents/changeMemberStatusModal/changeMemberStatusModal";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { defineAnimation } from "react-native-reanimated";
 import { useAppSelector } from "../../Redux/hooks";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
+import { snackbarContext } from "../../context/snackBarContext";
+import LeaveModal from "../../component/householdComponents/leaveModal/leaveModal";
+import { useLeaveHouseholdMutation } from "../../Redux/Service/household/householdApi";
+import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
+import { householdIdAndUserId } from "../../Redux/entity/household";
 
 type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
 
 const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+    const user = useAppSelector(selectCurrentLoginUser);
+    if (!user) return <view></view>;
+
     const [modalOpen, setModalOpen] = useState(false);
+    const [openLeaveModal, setOpenLeaveModal] = useState(false);
     const [member, setSetMember] = useState<fullMemberInfo>();
     const currentHousehold = useAppSelector(selectSelectedHousehold);
+    const { message, isVisible, setSnackbar } = useContext(snackbarContext);
+    // const [acceptUserApi, { error: acceptError, isSuccess: isAcceptSuccess }] = useAcceptUserMutation();
+    const [leaveHouseHoldApi, { isSuccess, error }] = useLeaveHouseholdMutation();
 
     const clickOnMember = (item: fullMemberInfo) => {
         console.log("click");
@@ -27,8 +41,46 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
         console.log("close");
         setModalOpen(false);
     };
+
+    const handleLeaveClick = () => {
+        const foo: householdIdAndUserId = {
+            houseHoldId: currentHousehold?.id as string,
+            userId: user.id as string,
+        };
+
+        console.log(foo);
+
+        leaveHouseHoldApi(foo);
+        console.log("leave api");
+        setOpenLeaveModal(false);
+    };
+
+    const openLeaveModalClick = () => {
+        console.log("open");
+        setOpenLeaveModal(true);
+    };
+
+    const closeLeaveModalClick = () => {
+        console.log("close");
+        setOpenLeaveModal(false);
+    };
+
+    useEffect(() => {
+        if (isSuccess) {
+            setSnackbar("Du har lämnat hushåll: " + currentHousehold?.name, true);
+        }
+    }, [isSuccess]);
+
+    useEffect(() => {
+        if (error) {
+            console.log(error);
+            setSnackbar("Ett oväntat fel dök upp", true);
+        }
+    }, [error]);
+
     return (
         <View style={styles.container}>
+            <SnackbarComponent isVisible={isVisible} message={message} />
             <View>
                 <View>
                     <FlatList
@@ -39,11 +91,22 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
                         )}
                     />
                 </View>
+                <View style={styles.buttonsContainer}>
+                    <TouchableOpacity onPress={openLeaveModalClick} style={styles.householdButton}>
+                        <MaterialIcons name="delete-forever" size={30} color="black" />
+                        <Text style={styles.householdButtonText}>Lämna hushåll</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
             <ChangeMemberStatusModal
                 isOpen={modalOpen}
                 handleModalClose={handleClose}
                 member={member as fullMemberInfo}
+            />
+            <LeaveModal
+                isOpen={openLeaveModal}
+                handleModalClose={closeLeaveModalClick}
+                handleLeave={handleLeaveClick}
             />
         </View>
     );
@@ -51,40 +114,68 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
 
 export default UsersInHouseHoldScreen;
 
-const members: fullMemberInfo[] = [
-    {
-        name: "foo",
-        userId: "foo",
-        emoji: 1,
-        isPaused: false,
-        isOwner: false,
-        AcceptedStatus: "pending",
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
     },
-    {
-        name: "foo2",
-        userId: "foo2",
-        emoji: 1,
-        isPaused: false,
-        isOwner: false,
-        AcceptedStatus: "accepted",
+    containerButton: {
+        alignItems: "center",
+        justifyContent: "center",
     },
-    {
-        name: "foo3",
-        userId: "foo3",
-        emoji: 1,
-        isPaused: false,
-        isOwner: true,
-        AcceptedStatus: "accepted",
+    headerText: {
+        color: "grey",
     },
-    {
-        name: "foo4",
-        userId: "foo4",
-        emoji: 1,
-        isPaused: true,
-        isOwner: false,
-        AcceptedStatus: "accepted",
+    logoutButton: {
+        margin: 15,
+        backgroundColor: "#D8D8D8",
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 100,
+        width: 100,
+        alignItems: "center",
     },
-];
+    buttonText: {
+        color: "grey",
+        fontSize: 16,
+    },
+    text: {
+        color: "grey",
+    },
+    householdButton: {
+        margin: 15,
+        backgroundColor: "white",
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        borderRadius: 100,
+        width: 140,
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "center",
+        shadowColor: "rgba(0, 0, 0, 0.1)",
+        shadowOpacity: 0.8,
+        elevation: 6,
+        shadowRadius: 15,
+        shadowOffset: { width: 1, height: 13 },
+    },
+    householdButtonText: {
+        color: "black",
+        fontSize: 18,
+        fontWeight: "bold",
+        marginLeft: 15,
+    },
+    buttonsContainer: {
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignSelf: "center",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        marginBottom: 20,
+        marginRight: 10,
+        marginLeft: 10,
+    },
+});
 
 interface fullMemberInfo {
     name: string;

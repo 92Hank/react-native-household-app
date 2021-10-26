@@ -1,22 +1,20 @@
-import React, { FC, useEffect, useState } from "react";
-import { FlatList, TouchableOpacity, View, Text, StyleSheet } from "react-native";
-// import Household from "../../../Common(obsolete)/household";
-import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import styles from "./styles";
-import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { baseProps } from "react-native-gesture-handler/lib/typescript/handlers/gestureHandlers";
+import { FontAwesome5, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import React, { FC, useContext, useState } from "react";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { household } from "../../../Common/household";
 import AddHouseholdModal from "../../component/householdComponents/addHouseholdModal/addHouseholdModal.component";
+import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
 import JoinHouseholdModal from "../../component/householdComponents/joinHouseholdModal/joinHouseholdModal.component";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
+import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
-import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { logout } from "../../Redux/features/loginUser/loginUserSlice";
-import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
-import Household from "../../Redux/entity/household";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
-import household from "../../Redux/entity/household";
+import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
+import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
+import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import styles from "./styles";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
@@ -25,17 +23,16 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     const [joinModalIsOpen, setJoinModalIsOpen] = useState(false);
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentLoginUser);
+    const { isVisible, message } = useContext(snackbarContext);
+
     const currentHousehold = useAppSelector(selectSelectedHousehold);
 
     if (!user) {
         navigation.navigate(MainRoutes.LoginScreen);
         return <View></View>;
     }
-    const { data, isLoading, isFetching, isError, error } = useGetHouseholdByUserIdQuery(user.id!);
 
-    // useEffect(() => {
-    //   if (!user) navigation.navigate(MainRoutes.LoginScreen);
-    // }, [user])
+    const { data, isLoading, isFetching, isError, error } = useGetHouseholdByUserIdQuery(user.id!);
 
     const clickOnHousehold = (item: household) => {
         dispatch(setSelectedHousehold(item));
@@ -69,10 +66,10 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
         navigation.setOptions({
             headerRight: () => (
                 <TouchableOpacity
-                    onPress={onPressUsersInHousehold}
+                    onPress={onPressLogout}
                     // style={styles.householdButton}
                 >
-                    <FontAwesome5 name="house-user" size={24} color="black" />
+                    <FontAwesome5 name="sign-out-alt" size={24} color="black" />
                     {/* <Text style={styles.householdButtonText}>Medlemmar</Text> */}
                 </TouchableOpacity>
             ),
@@ -82,13 +79,9 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     return (
         <>
             <View style={styles.container}>
-                <View style={styles.containerButton}>
-                    <TouchableOpacity onPress={onPressLogout} style={styles.logoutButton}>
-                        <Text style={styles.buttonText}>Sign out</Text>
-                    </TouchableOpacity>
-                </View>
+                <SnackbarComponent isVisible={isVisible} message={message} />
                 <View>
-                    <View>
+                    <View style={styles.listContainer}>
                         <FlatList
                             data={data}
                             keyExtractor={(item: any) => item.id}

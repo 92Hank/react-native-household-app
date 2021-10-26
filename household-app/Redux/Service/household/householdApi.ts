@@ -1,13 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { webUrl } from "../../Config";
-import household, {
+import {
+    household,
     householdIdAndUserId,
     householdChangeName,
     householdCreate,
     householdJoin,
     householdChangeEmoji,
     householdPauseUser,
-} from "../../entity/household";
+} from "../../../../Common/household";
 
 export const householdApi = createApi({
     reducerPath: "household",
@@ -144,7 +145,7 @@ export const householdApi = createApi({
         leaveHousehold: builder.mutation<string, householdIdAndUserId>({
             query: (body) => ({
                 url: `/leave`,
-                method: "PATCH",
+                method: "DELETE",
                 responseHandler: "text",
                 body,
             }),
@@ -153,6 +154,17 @@ export const householdApi = createApi({
         }),
 
         AcceptUser: builder.mutation<string, householdIdAndUserId>({
+            query: (body) => ({
+                url: `/accept`,
+                method: "PATCH",
+                responseHandler: "text",
+                body,
+            }),
+
+            invalidatesTags: (result, error, arg) => [{ type: "Household", id: arg.houseHoldId }],
+        }),
+
+        rejectUser: builder.mutation<string, householdIdAndUserId>({
             query: (body) => ({
                 url: `/accept`,
                 method: "PATCH",
@@ -188,4 +200,5 @@ export const {
     useChangeEmojiMutation,
     useAcceptUserMutation,
     useMakeUserToOwnerMutation,
+    useRejectUserMutation,
 } = householdApi;

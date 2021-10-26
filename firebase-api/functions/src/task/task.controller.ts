@@ -7,7 +7,6 @@ const db = fb.firestore();
 
 const taskCollection = "tasks";
 
-
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const postTask = async (req: Request, res: Response) => {
   try {
@@ -18,6 +17,7 @@ export const postTask = async (req: Request, res: Response) => {
       description: req.body["description"],
       value: req.body["value"],
       name: req.body["name"],
+      createdAt: new Date(),
     };
 
     const newDoc = await db.collection(taskCollection).add(task);
@@ -101,6 +101,29 @@ export const deleteTask = (req: Request, res: Response) => {
         if (doc.exists) {
           doc.ref.delete();
           res.status(200).json("deleted task item: " + id);
+        } else {
+          res.status(400).json("No such document: " + id);
+        }
+      })
+      .catch((error) => res.status(500).send(error));
+};
+
+export const archiveTask = (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const taskRef = db.collection(taskCollection).doc(id);
+
+  taskRef
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          doc.ref.set(
+              {
+                archived: true,
+              },
+              {merge: true}
+          );
+          res.status(200).json("archive task item: " + id);
         } else {
           res.status(400).json("No such document: " + id);
         }

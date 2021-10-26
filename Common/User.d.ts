@@ -1,4 +1,4 @@
-export default interface user {
+export declare interface user {
     id?: string;
     email: string;
     userName: string;

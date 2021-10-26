@@ -1,5 +1,6 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 
+const deviceHeight = Math.round(Dimensions.get("window").height);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -61,6 +62,9 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
+    },
+    listContainer: {
+        maxHeight: deviceHeight - 241,
     },
 });
 

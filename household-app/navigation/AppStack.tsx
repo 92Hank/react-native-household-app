@@ -12,9 +12,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LastWeekScreen from "../screens/Tasks/LastWeekScreen";
 import LastMonthScreen from "../screens/Tasks/LastMonthScreen";
 import HouseholdScreen from "../screens/Household/HouseholdScreen";
+import Constants from "expo-constants";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
+const statusBarHeight = Constants.statusBarHeight;
 
 const LoginStack = () => (
     <MainStack.Navigator>
@@ -149,6 +151,7 @@ const AppStack = () => {
             screenOptions={{
                 tabBarIndicatorStyle: { backgroundColor: "white" },
                 tabBarLabelStyle: { fontWeight: "bold" },
+                tabBarStyle: { marginTop: statusBarHeight },
             }}
             // screenOptions={{lazy: true, tabBarStyle: {marginTop: insets.top}}}
         >

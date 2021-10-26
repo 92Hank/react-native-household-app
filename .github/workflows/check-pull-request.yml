@@ -23,8 +23,25 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: cd .\\household-app\\ | npm ci
-      - run: cd .\\household-app\\ | npm run lint --if-present
-      - run: cd .\\firebase-api\functions\\ | npm ci
-      - run: cd .\\firebase-api\functions\\ | npm run build --if-present
-      - run: cd .\\firebase-api\functions\\ | npm run lint --if-present
+          cache-dependency-path: |
+            firebase-api/functions/package-lock.json
+            household-app/package-lock.json
+
+      - name: Install dependencies household-app
+        run: npm ci
+        working-directory: household-app
+
+      - name: Install dependencies firebase-api
+        run: npm ci
+        working-directory: firebase-api/functions
+
+      - name: Run build
+        run: tsc -b
+
+      - name: Run lint household-app
+        run: npm run lint --if-present
+        working-directory: household-app
+
+      - name: Run lint firebase-api
+        run: npm run lint --if-present
+        working-directory: firebase-api/functions

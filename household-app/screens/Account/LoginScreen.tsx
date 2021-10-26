@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -10,6 +10,7 @@ import {
     TextInput,
     Image,
 } from "react-native";
+import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
@@ -20,6 +21,7 @@ type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const [email, setEmail] = useState<string>("foo@foo.com");
     const [password, setPassword] = useState<string>("fobar");
+    const { setSnackbar } = useContext(snackbarContext);
 
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentLoginUser);
@@ -27,7 +29,7 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     useEffect(() => {
         if (user) {
             console.log("user", user);
-
+            setSnackbar("inloggning lyckas för :" + user.userName, true);
             navigation.navigate(MainRoutes.HouseholdScreen);
         }
     }, [user]);
@@ -41,14 +43,10 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     };
     const onChangeTextPassword = (password: string) => setPassword(password);
 
-    const onPressShortcut = () => {
-        navigation.navigate(MainRoutes.HouseholdScreen);
-    };
-
     return (
         <View>
             <KeyboardAvoidingView
-                style={{ flexGrow: 1, height: "80%" }}
+                style={{ flexGrow: 1, height: "100%" }}
                 behavior={Platform.OS === "ios" ? "padding" : undefined}
                 enabled
             >
@@ -58,7 +56,7 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                     keyboardShouldPersistTaps={"handled"}
                 >
                     <View style={styles.container}>
-                        <Image source={require('../../assets/logotypeBlack/logoBL.png')} style={styles.logo} />
+                        <Image source={require("../../assets/logotypeBlack/logoBL.png")} style={styles.logo} />
                         <Text style={styles.title}>Email:</Text>
                         <TextInput
                             keyboardType="email-address"
@@ -140,7 +138,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
         width: 300,
         height: 200,
-        resizeMode: 'contain',
+        resizeMode: "contain",
     },
 });
 

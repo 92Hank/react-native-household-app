@@ -15,7 +15,6 @@ import HouseholdScreen from "../screens/Household/HouseholdScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
-
 const TaskScreenStack = () => (
     <MainStack.Navigator>
         <MainStack.Screen
@@ -129,9 +128,9 @@ const TaskStack = () => {
         >
             {/* <Tab.Screen name="Sign in" component={LoginStack} />
       <Tab.Screen name="Sign up" component={CreateStack} /> */}
-            <Tab.Screen name="Last Week" component={LastWeekStack} />
-            <Tab.Screen name="Today" component={TaskScreenStack} />
-            <Tab.Screen name="Last Month" component={LastMonthStack} />
+            <Tab.Screen name="Idag" component={TaskScreenStack} />
+            <Tab.Screen name="Förra veckan" component={LastWeekStack} />
+            <Tab.Screen name="Denna månad" component={LastMonthStack} />
         </Tab.Navigator>
     );
 };

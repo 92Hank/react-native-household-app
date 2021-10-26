@@ -6,5 +6,3 @@ export const doneTaskRouter = express.Router();
 
 doneTaskRouter.post("/donetask", postDoneTask);
 doneTaskRouter.get("/donetask/:houseHoldId", getAllDoneTaskOfHouseHold);
-
-

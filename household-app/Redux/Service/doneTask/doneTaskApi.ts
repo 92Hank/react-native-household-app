@@ -1,13 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { webUrl } from "../../Config";
-import doneTask from "../../entity/doneTask";
+import { doneTask } from "../../../../Common/doneTask";
 
 export const doneTaskApi = createApi({
     reducerPath: "doneTask",
     baseQuery: fetchBaseQuery({
         baseUrl: webUrl + "donetask",
     }),
-    tagTypes: ["DoneTask"],
+    tagTypes: ["Task"],
     endpoints: (builder) => ({
         createDoneTask: builder.mutation<string, doneTask>({
             query: (body) => ({
@@ -16,7 +16,7 @@ export const doneTaskApi = createApi({
                 responseHandler: "text",
                 body,
             }),
-            invalidatesTags: (result, error, arg) => [{ type: "DoneTask", id: arg.id }],
+            invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg.id }],
         }),
 
         GetDoneTasksWithHouseholdId: builder.query<doneTask[], string>({
@@ -28,15 +28,14 @@ export const doneTaskApi = createApi({
                         console.log(response.text());
                         return response.text();
                     } else {
-                        // console.log("api GET is successful!\n" + response.json()); //TEST
-                        // console.log(JSON.stringify(response.json())); //TEST
+                        console.log("foo");
                         return response.json();
                     }
                 },
             }),
 
             providesTags: (result) =>
-                result ? [...result.map(({ id }) => ({ type: "DoneTask" as const, id })), "DoneTask"] : ["DoneTask"],
+                result ? [...result.map(({ id }) => ({ type: "Task" as const, id })), "Task"] : ["Task"],
         }),
     }),
 });

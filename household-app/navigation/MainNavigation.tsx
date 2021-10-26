@@ -27,12 +27,12 @@ const MainNavigation = (): React.ReactElement => {
                 <Stack.Screen
                     name={MainRoutes.LoginScreen}
                     component={AuthStack}
-                    options={{ title: "", headerBackVisible: false }}
+                    options={{ title: "", headerBackVisible: false, headerShown: false }}
                 />
                 <Stack.Screen
                     name={MainRoutes.HouseholdScreen}
                     component={AppStack}
-                    options={{ title: "", headerBackVisible: false }}
+                    options={{ title: "", headerBackVisible: false, headerShown: false }}
                 />
                 <Stack.Screen
                     name={MainRoutes.TasksScreen}

@@ -1,8 +1,9 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from "react-native-paper";
-import { householdCreate } from "../../../Redux/entity/household";
+import { householdCreate } from "../../../../Common/household";
+import { snackbarContext } from "../../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { useCreateHouseholdMutation } from "../../../Redux/Service/household/householdApi";
@@ -37,6 +38,7 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     const user = useAppSelector(selectCurrentLoginUser);
     const [avatar, setAvatar] = useState<string>();
     const avatars = Object.keys(Avatars).filter((key) => isNaN(Number(key)));
+    const { setSnackbar } = useContext(snackbarContext);
 
     if (!user) {
         props.navigation.navigate(MainRoutes.LoginScreen);
@@ -52,6 +54,7 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     useEffect(() => {
         console.log("isSuccess", isSuccess);
         if (isSuccess) {
+            setSnackbar("Lyckades att skapa hushåll : " + name, true);
             props.handleModalClose();
         }
     }, [isSuccess]);
@@ -66,6 +69,7 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
 
     useEffect(() => {
         if (error) {
+            setSnackbar("Ett oväntat fel dök upp", true);
             console.log("error", error);
         }
     }, [error]);
