@@ -1,24 +1,21 @@
-import React, { FC, useContext, useEffect, useState } from "react";
-import { FlatList, TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { FontAwesome5, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import React, { FC, useContext, useState } from "react";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import AddHouseholdModal from "../../component/householdComponents/addHouseholdModal/addHouseholdModal.component";
 // import Household from "../../../Common(obsolete)/household";
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import styles from "./styles";
-import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { baseProps } from "react-native-gesture-handler/lib/typescript/handlers/gestureHandlers";
-import AddHouseholdModal from "../../component/householdComponents/addHouseholdModal/addHouseholdModal.component";
 import JoinHouseholdModal from "../../component/householdComponents/joinHouseholdModal/joinHouseholdModal.component";
-import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
-import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
-import { logout } from "../../Redux/features/loginUser/loginUserSlice";
-import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
-import Household from "../../Redux/entity/household";
-import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
-import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
-import household from "../../Redux/entity/household";
 import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
+import household from "../../Redux/entity/household";
+import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
+import { logout } from "../../Redux/features/loginUser/loginUserSlice";
+import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
+import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
+import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
+import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
+import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import styles from "./styles";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
@@ -70,10 +67,10 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
         navigation.setOptions({
             headerRight: () => (
                 <TouchableOpacity
-                    onPress={onPressUsersInHousehold}
+                    onPress={onPressLogout}
                     // style={styles.householdButton}
                 >
-                    <FontAwesome5 name="house-user" size={24} color="black" />
+                    <FontAwesome5 name="sign-out-alt" size={24} color="black" />
                     {/* <Text style={styles.householdButtonText}>Medlemmar</Text> */}
                 </TouchableOpacity>
             ),
@@ -84,14 +81,8 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
         <>
             <View style={styles.container}>
                 <SnackbarComponent isVisible={isVisible} message={message} />
-
-                <View style={styles.containerButton}>
-                    <TouchableOpacity onPress={onPressLogout} style={styles.logoutButton}>
-                        <Text style={styles.buttonText}>Sign out</Text>
-                    </TouchableOpacity>
-                </View>
                 <View>
-                    <View>
+                    <View style={styles.listContainer}>
                         <FlatList
                             data={data}
                             keyExtractor={(item: any) => item.id}

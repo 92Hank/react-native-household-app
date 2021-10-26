@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import TaskModal from "../../component/householdComponents/taskModal/taskModal";
 import ModalComponent from "../../component/modal/ModalComponent";
 import TaskCard from "../../component/taskFolder/TaskCard";
@@ -14,6 +14,7 @@ import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
+const deviceHeight = Math.round(Dimensions.get("window").height);
 
 const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElement => {
     const [addModalOpen, setAddModalOpen] = useState(false);
@@ -120,7 +121,7 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
     return (
         <View style={styles.container}>
             {render && (
-                <View>
+                <View style={styles.listContainer}>
                     <FlatList
                         data={tasks}
                         keyExtractor={(item: TaskNow) => item.id}
@@ -158,6 +159,9 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
 export default TasksScreen;
 
 const styles = StyleSheet.create({
+    listContainer: {
+        maxHeight: deviceHeight - 241,
+    },
     container: {
         flex: 1,
     },
