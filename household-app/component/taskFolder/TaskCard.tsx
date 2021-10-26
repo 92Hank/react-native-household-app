@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, View, StyleSheet, Dimensions, Text } from "react-native";
 import { Surface } from "react-native-paper";
-// import styles from "../modal/styles";
+import { Badge } from "react-native-paper";
 
 interface TaskNow {
     id: string;
@@ -80,9 +80,9 @@ const TaskCard = (props: Props) => {
                     </View>
                 ) : (
                     <View>
-                        <Text style={difference < props.task.repeated! ? styles.bodyEmoji : styles.lateTask}>
+                        <Badge size={25} style={difference < props.task.repeated! ? styles.task : styles.lateTask}>
                             {difference}
-                        </Text>
+                        </Badge>
                     </View>
                 )}
             </Surface>
@@ -96,10 +96,18 @@ const offset = 25;
 const radius = 20;
 const styles = StyleSheet.create({
     lateTask: {
-        color: "red",
-        fontSize: 22,
+        color: "white",
+        fontSize: 18,
+        marginHorizontal: 16,
+        marginVertical: 15,
+        backgroundColor: "#cd5d6f",
+    },
+    task: {
+        color: "black",
+        fontSize: 18,
         marginHorizontal: 15,
-        marginVertical: 12,
+        marginVertical: 16,
+        backgroundColor: "#f2f2f2",
     },
     container: {
         width: deviceWidth - 20,
