@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -7,8 +9,9 @@ import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/S
 import { Feather } from "@expo/vector-icons";
 import { doneTask } from "../../../../Common/doneTask";
 import { useCreateDoneTaskMutation } from "../../../Redux/Service/doneTask/doneTaskApi";
+import { useDeleteTaskMutation } from "../../../Redux/Service/task/taskApi";
+import { useArchiveTaskMutation } from "../../../Redux/Service/task/taskApi";
 import { snackbarContext } from "../../../context/snackBarContext";
-import SnackbarComponent from "../../../component/snackbar/snackbarComponent";
 
 interface TaskNow {
     id?: string;
@@ -40,12 +43,43 @@ function TaskModal(props: Props) {
         { status, isSuccess, error, isLoading }, // This is the destructured mutation result
     ] = useCreateDoneTaskMutation();
 
+    const [deleteTask, { isSuccess: isDeleted, error: deleteError }] = useDeleteTaskMutation();
+    const [archiveTask, { isSuccess: isArchived, error: archivedError }] = useArchiveTaskMutation();
+
     useEffect(() => {
         if (isSuccess) {
             props.handleModalClose();
             setSnackbar("Bra jobbat!", true);
         }
     }, [isSuccess]);
+
+    useEffect(() => {
+        if (isArchived) {
+            props.handleModalClose();
+            setSnackbar("Syssla arkiverd", true);
+        }
+    }, [isArchived]);
+
+    useEffect(() => {
+        if (archivedError) {
+            props.handleModalClose();
+            setSnackbar("ett oväntat fel dök upp", true);
+        }
+    }, [archivedError]);
+
+    useEffect(() => {
+        if (isDeleted) {
+            setSnackbar("Syssla raderad", true);
+            props.handleModalClose();
+        }
+    }, [isSuccess]);
+
+    useEffect(() => {
+        if (deleteError) {
+            setSnackbar("Ett oväntat fel dök upp", true);
+            props.handleModalClose();
+        }
+    }, [deleteError]);
 
     const onSave = () => {
         if (props.task.id && props.task.value && user?.id && currentHousehold?.id) {
@@ -56,8 +90,6 @@ function TaskModal(props: Props) {
             };
             createDoneTask(markAsDone);
         }
-
-        // props.handleModalClose();
     };
 
     const onEdit = () => {
@@ -78,11 +110,18 @@ function TaskModal(props: Props) {
 
     const onDelete = () => {
         console.log("delete task api");
+        deleteTask(props.task?.id!);
         setOpenDelete(false);
     };
 
     const onArchive = () => {
         console.log("archive task api");
+        archiveTask(props.task?.id!);
+        setOpenDelete(false);
+    };
+
+    const onClose = () => {
+        console.log("close");
         setOpenDelete(false);
     };
 
@@ -138,18 +177,23 @@ function TaskModal(props: Props) {
                         }}
                     >
                         <View style={[openDelete ? styles.centeredViewBlurred : styles.centeredView]}>
-                            <View style={styles.modalView}>
+                            <View style={styles.modalViewDelete}>
                                 <Text style={styles.warningText}>
                                     Varning! arkivera sysslan om du vill ha kvar den i statistiken
                                 </Text>
                                 <View style={styles.buttonsContainer}>
-                                    <TouchableOpacity onPress={() => onDelete()} style={styles.saveButton}>
+                                    <TouchableOpacity onPress={() => onDelete()} style={styles.saveButtonDelete}>
                                         <MaterialIcons name="delete" size={30} color="black" />
                                         <Text style={styles.buttonText}>Radera</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => onArchive()} style={styles.closeButton}>
+                                    <TouchableOpacity onPress={() => onArchive()} style={styles.archiveButton}>
                                         <MaterialCommunityIcons name="archive" size={30} color="black" />
                                         <Text style={styles.buttonText}>Arkivera</Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity onPress={() => onClose()} style={styles.closeButtonDelete}>
+                                        <MaterialCommunityIcons name="close" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Stäng</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -259,6 +303,23 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
     },
+    modalViewDelete: {
+        // margin: 20,
+        width: 400,
+        height: 200,
+        backgroundColor: "#f2f2f2",
+        borderRadius: 20,
+        padding: 20,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
     textStyle: {
         color: "white",
         fontWeight: "bold",
@@ -312,6 +373,52 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 1, height: 13 },
         borderBottomLeftRadius: 20,
     },
+    saveButtonDelete: {
+        backgroundColor: "white",
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        width: "33.3%",
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "center",
+        shadowColor: "rgba(0, 0, 0, 0.1)",
+        shadowOpacity: 0.8,
+        elevation: 6,
+        shadowRadius: 15,
+        shadowOffset: { width: 1, height: 13 },
+        borderBottomLeftRadius: 20,
+    },
+    archiveButton: {
+        backgroundColor: "white",
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        width: "33.3%",
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "center",
+        shadowColor: "rgba(0, 0, 0, 0.1)",
+        shadowOpacity: 0.8,
+        elevation: 6,
+        shadowRadius: 15,
+        shadowOffset: { width: 1, height: 13 },
+    },
+    closeButtonDelete: {
+        backgroundColor: "white",
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        width: "33.3%",
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "center",
+        shadowColor: "rgba(0, 0, 0, 0.1)",
+        shadowOpacity: 0.8,
+        elevation: 6,
+        shadowRadius: 15,
+        shadowOffset: { width: 1, height: 13 },
+        borderBottomRightRadius: 20,
+        borderStartWidth: 1,
+        borderStartColor: "gainsboro",
+    },
     buttonText: {
         color: "black",
         fontSize: 18,
@@ -319,8 +426,10 @@ const styles = StyleSheet.create({
         marginLeft: 15,
     },
     warningText: {
-        fontWeight: "bold",
+        marginBottom: 15,
         textAlign: "center",
+        fontWeight: "bold",
+        fontSize: 20,
         color: "red",
     },
 });

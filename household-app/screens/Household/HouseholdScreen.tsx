@@ -23,7 +23,7 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     const [joinModalIsOpen, setJoinModalIsOpen] = useState(false);
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentLoginUser);
-    const { isVisible, message } = useContext(snackbarContext);
+    const { isVisible, message, setSnackbar } = useContext(snackbarContext);
 
     const currentHousehold = useAppSelector(selectSelectedHousehold);
 
@@ -35,6 +35,12 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     const { data, isLoading, isFetching, isError, error } = useGetHouseholdByUserIdQuery(user.id!);
 
     const clickOnHousehold = (item: household) => {
+        item.member.forEach((m) => {
+            if (m.userId === user.id && (m.AcceptedStatus === "pending" || m.AcceptedStatus === "rejected")) {
+                setSnackbar("Du har inte rättigheter att se detta hushåll än", true);
+                return;
+            }
+        });
         dispatch(setSelectedHousehold(item));
         navigation.navigate(MainRoutes.TasksScreen);
     };
