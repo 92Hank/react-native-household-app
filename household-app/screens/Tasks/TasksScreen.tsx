@@ -40,9 +40,8 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
     };
 
     const dateConvert = (date: any): Date => {
-        const hejsan = new Date(date._seconds * 1000);
-        console.log("NYA DATUMET", hejsan);
-        return hejsan;
+        const dateCompare = new Date(date._seconds * 1000);
+        return dateCompare;
     };
 
     useEffect(() => {
@@ -71,26 +70,21 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                 taskItem.createdAt = dateConvert(t.createdAt);
             }
             allTasks.push(taskItem);
-            console.log("SKAPAD", taskItem.createdAt);
 
             doneTasksData?.forEach((d) => {
-                console.log("DATUM GJORD", taskItem.dateDone);
                 const today: boolean = isToday(d.dateDone);
                 if (t.id === d.taskId && today) {
                     currentHousehold?.member.forEach((m) => {
                         if (d.userId === m.userId) {
                             allTasks[allTasks.length - 1].emojiList.push(m.emoji);
-                            setTasks(allTasks);
                         } else {
                             allTasks[allTasks.length - 1].dateDone = dateConvert(d.dateDone);
-                            setTasks(allTasks);
                         }
                     });
-                } else {
-                    setTasks(allTasks);
                 }
             });
         });
+        setTasks(allTasks);
         if (allTasks.length > 0) {
             setRender(true);
         }
