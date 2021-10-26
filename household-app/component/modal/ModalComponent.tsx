@@ -103,19 +103,19 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
         if (name && description && repeated && value) {
             const v = value as valueType;
             const requestData: task = {
-              houseHoldId: currentHousehold?.id as string,
-              description: description,
-              name: name,
-              repeated: repeated,
-              value: v,
-              archived: false,
+                houseHoldId: currentHousehold?.id as string,
+                description: description,
+                name: name,
+                repeated: repeated,
+                value: v,
+                archived: false,
             };
-            console.log('------- Submit Form -------')
+            console.log("------- Submit Form -------");
             console.log("repeated: " + repeated);
             console.log("description: " + description);
             console.log("name: " + name);
-            console.log('value: ' + value);
-            console.log('household: ' + currentHousehold?.id);
+            console.log("value: " + value);
+            console.log("household: " + currentHousehold?.id);
             console.log("------- End of Submit Form -------");
             CreateTask(requestData);
         } else {
