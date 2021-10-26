@@ -3,6 +3,7 @@
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useEffect, useState } from "react";
 import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Button from "../../component/common/Button";
 import TaskModal from "../../component/householdComponents/taskModal/taskModal";
 import ModalComponent from "../../component/modal/ModalComponent";
 import TaskCard from "../../component/taskFolder/TaskCard";
@@ -136,18 +137,22 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
             )}
             <View style={rights ? styles.buttonsContainer : styles.buttonsContainerUser}>
                 {rights && (
+                    <Button iconName="add-circle-outline" text="Lägg till" onPress={onPressUsersInHousehold}></Button>
+                )}
+                {/* {rights && (
                     <TouchableOpacity onPress={handleAddClick} style={styles.householdButton}>
                         <MaterialIcons name="add-circle-outline" size={30} color="black" />
                         <Text style={styles.householdButtonText}>Lägg till</Text>
                     </TouchableOpacity>
-                )}
-                <TouchableOpacity
+                )} */}
+                <Button iconName="person" text="Medlemmar" onPress={onPressUsersInHousehold}></Button>
+                {/* <TouchableOpacity
                     onPress={onPressUsersInHousehold}
                     style={rights ? styles.householdButton : styles.householdButtonUser}
                 >
                     <Feather name="users" size={30} color="black" />
                     <Text style={styles.householdButtonText}>Medlemmar</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     );
