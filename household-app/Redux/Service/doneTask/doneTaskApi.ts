@@ -8,6 +8,8 @@ export const doneTaskApi = createApi({
         baseUrl: webUrl + "donetask",
     }),
     tagTypes: ["Task"],
+    refetchOnMountOrArgChange: 120,
+
     endpoints: (builder) => ({
         createDoneTask: builder.mutation<string, doneTask>({
             query: (body) => ({
@@ -33,7 +35,6 @@ export const doneTaskApi = createApi({
                     }
                 },
             }),
-
             providesTags: (result) =>
                 result ? [...result.map(({ id }) => ({ type: "Task" as const, id })), "Task"] : ["Task"],
         }),
