@@ -398,6 +398,7 @@ export const rejectMember = (
               })
               .then(() => {
                 m.AcceptedStatus = "rejected";
+                m.emoji = undefined;
                 query.ref
                     .update({
                       member: FieldValue.arrayUnion(m),
