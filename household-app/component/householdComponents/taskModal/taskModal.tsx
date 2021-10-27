@@ -272,7 +272,7 @@ function TaskModal(props: Props) {
                                 setIsClickedDays(false);
                             }}
                         >
-                            <Text style={styles.circleBtnText}>{defaultTask.repeated}</Text>
+                            <Text style={styles.circleBtnText}>{repeated}</Text>
                         </TouchableOpacity>
                         <Text style={{ marginLeft: 3 }}>dag</Text>
                     </View>
@@ -308,7 +308,7 @@ function TaskModal(props: Props) {
                             setIsClicked(false);
                         }}
                     >
-                        <Text style={styles.circleBtnTextValue}>{defaultTask.value}</Text>
+                        <Text style={styles.circleBtnTextValue}>{value}</Text>
                     </TouchableOpacity>
                 </View>
             </Card.Content>
