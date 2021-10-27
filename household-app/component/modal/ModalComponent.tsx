@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     FlatList,
     KeyboardAvoidingView,
@@ -14,10 +14,11 @@ import {
 import { Card, TextInput } from "react-native-paper";
 import { task } from "../../../Common/task";
 import { valueType } from "../../../Common/value";
-import { LocalIp } from "../../Redux/Config";
+import { snackbarContext } from "../../context/snackBarContext";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
 import { useCreateTaskMutation } from "../../Redux/Service/task/taskApi";
+import SnackbarComponent from "../snackbar/snackbarComponent";
 import styles from "./styles";
 
 interface Props {
@@ -46,7 +47,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     const [value, setValue] = useState<number>();
     const [isClicked, setIsClicked] = useState(true);
     const [isClickedDays, setIsClickedDays] = useState(true);
-
+    const { setSnackbar, isVisible, message } = useContext(snackbarContext);
     const onChangeInputName = (name: string) => setName(name);
     const onChangeInputDescription = (description: string) => setDescription(description);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
@@ -69,6 +70,10 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
 
     useEffect(() => {
         console.log("isSuccess", isSuccess);
+        if (isSuccess) {
+            setSnackbar("success", true);
+            handleAddClose();
+        }
     }, [isSuccess]);
 
     useEffect(() => {
@@ -82,10 +87,11 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     useEffect(() => {
         if (error) {
             console.log("error", error);
+            setSnackbar("error", true);
         }
     }, [error]);
 
-    const handleSubmitForm = async (createTaskItem: task) => {
+    const handleSubmitForm = () => {
         if (name && description && repeated && value) {
             const v = value as valueType;
             const requestData: task = {
@@ -106,8 +112,8 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
             CreateTask(requestData);
         } else {
             // alert("APAPAP! Du måste ange ett namn, beskrivning, värde, återkommande!");
+            setSnackbar("Fyll i alla värden", true);
         }
-        console.log(createTaskItem);
     };
 
     const onPress2 = (i: number) => {
@@ -121,35 +127,6 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
         setIsClickedDays(true);
         console.log(i);
         setRepeated(i as number);
-    };
-
-    const onSave = async () => {
-        if (name && description) {
-            const requestData = {
-                description: description,
-                name: name,
-                repeated: repeated,
-                value: value,
-                householdId: currentHousehold, // check the controller
-            };
-
-            const rawResponse = await fetch(LocalIp + "/react-native-household-app/us-central1/webApi/task", {
-                method: "POST",
-                body: JSON.stringify(requestData),
-                headers: {
-                    Accept: "application/json,text/plain",
-                    "Content-Type": "application/json",
-                },
-            });
-
-            if (rawResponse.status === 201) {
-                handleAddClose();
-            }
-        } else {
-            // alert("APAPAP! Du måste ange en titel, beskrivning, värde och återkommande dagar!");
-        }
-        setIsClickedDays(false);
-        setIsClicked(false);
     };
 
     const repeatedInput = (
@@ -256,6 +233,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                             >
                                 <View style={[isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
                                     <View style={styles.modalView}>
+                                        <SnackbarComponent isVisible={isVisible} message={message} />
                                         <View style={styles.modalTextView}>
                                             <Text style={styles.modalText}>Skapa en ny syssla</Text>
                                         </View>
@@ -291,7 +269,10 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                             {!isClicked ? valueInput : valueForTask}
                                         </View>
                                         <View style={styles.buttonsContainer}>
-                                            <TouchableOpacity onPress={onSave} style={styles.saveButton}>
+                                            <TouchableOpacity
+                                                onPress={() => handleSubmitForm()}
+                                                style={styles.saveButton}
+                                            >
                                                 <MaterialIcons name="add-circle-outline" size={30} color="black" />
                                                 <Text style={styles.householdButtonText}>Spara</Text>
                                             </TouchableOpacity>

@@ -25,9 +25,8 @@ import { snackbarContext } from "../../../context/snackBarContext";
 import styles from "./styles";
 import { valueType } from "../../../../Common/value";
 import { task } from "../../../../Common/task";
-import { LocalIp } from "../../../Redux/Config";
 import { Card, TextInput } from "react-native-paper";
-import { Formik } from "formik";
+import SnackbarComponent from "../../snackbar/snackbarComponent";
 
 interface TaskNow {
     id?: string;
@@ -57,11 +56,11 @@ function TaskModal(props: Props) {
     const [rights, setRights] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
-    const { setSnackbar } = useContext(snackbarContext);
-    const [name, setName] = useState<string>();
-    const [description, setDescription] = useState<string>();
-    const [repeated, setRepeated] = useState<number>();
-    const [value, setValue] = useState<number>();
+    const { setSnackbar, isVisible, message } = useContext(snackbarContext);
+    const [name, setName] = useState<string>(props.task?.name as string);
+    const [description, setDescription] = useState<string>(props.task?.description as string);
+    const [repeated, setRepeated] = useState<number>(props.task?.repeated as number);
+    const [value, setValue] = useState<number>(props.task?.value as number);
     const [isClicked, setIsClicked] = useState(true);
     const [isClickedDays, setIsClickedDays] = useState(true);
 
@@ -110,7 +109,7 @@ function TaskModal(props: Props) {
         if (errorEdit) {
             props.handleModalClose();
             setSnackbar("error", true);
-            console.log(errorEdit);
+            console.log("fel " + errorEdit);
         }
     }, [errorEdit]);
 
@@ -118,7 +117,8 @@ function TaskModal(props: Props) {
         if (successEdit) {
             props.handleModalClose();
             setSnackbar("success", true);
-            console.log(successEdit);
+            console.log("success" + successEdit);
+            setOpenEdit(false);
         }
     }, [successEdit]);
 
@@ -165,6 +165,7 @@ function TaskModal(props: Props) {
                 repeated: repeated,
                 value: v,
                 archived: false,
+                id: props.task.id,
             };
             console.log("------- Edit Form -------");
             console.log("repeated: " + repeated);
@@ -175,11 +176,10 @@ function TaskModal(props: Props) {
             console.log("------- End of Edit Form -------");
             editTask(requestData);
         } else {
-            // alert("APAPAP! något gick fel!");
+            setSnackbar("Fyll i alla värden", true);
         }
         setIsClickedDays(false);
         setIsClicked(false);
-        setOpenEdit(false);
     };
 
     const handleEditClick = () => {
@@ -336,6 +336,7 @@ function TaskModal(props: Props) {
                     >
                         <View style={[openEdit ? styles.centeredViewBlurred : styles.centeredView]}>
                             <View style={styles.modalView}>
+                                <SnackbarComponent isVisible={isVisible} message={message} />
                                 <View style={styles.modalTextView}>
                                     <Text style={styles.modalText}>Ändra syssla</Text>
                                 </View>
