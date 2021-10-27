@@ -16,6 +16,7 @@ import { useLeaveHouseholdMutation } from "../../Redux/Service/household/househo
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import ChangeHouseholdNameModal from "../../component/householdComponents/changeHouseholdNameModal/changeHouseholdNameModal";
 import { Surface } from "react-native-paper";
+import Button from "../../component/common/Button";
 // import { householdIdAndUserId } from "../../Redux/entity/household";
 
 type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
@@ -137,18 +138,29 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
             <ChangeHouseholdNameModal isOpen={openChangeName} handleModalClose={closeNameModal} />
             <View style={rights ? styles.buttonsContainer : styles.buttonsContainerUser}>
                 {rights && (
-                    <TouchableOpacity onPress={changeNameModal} style={styles.householdButton}>
-                        <MaterialIcons name="change-history" size={30} color="black" />
-                        <Text style={styles.householdButtonText}>Byt namn</Text>
-                    </TouchableOpacity>
+                    <Button
+                        iconType={{ type: "MaterialIcons", icons: "change-history" }}
+                        onPress={changeNameModal}
+                        text="Byt namn"
+                    ></Button>
+                    // <TouchableOpacity onPress={changeNameModal} style={styles.householdButton}>
+                    //     <MaterialIcons name="change-history" size={30} color="black" />
+                    //     <Text style={styles.householdButtonText}>Byt namn</Text>
+                    // </TouchableOpacity>
                 )}
-                <TouchableOpacity
+                <Button
+                    iconType={{ type: "MaterialIcons", icons: "delete-forever" }}
+                    onPress={changeNameModal}
+                    text="Lämna hushåll"
+                ></Button>
+
+                {/* <TouchableOpacity
                     onPress={openLeaveModalClick}
                     style={rights ? styles.householdButton : styles.householdButtonUser}
                 >
                     <MaterialIcons name="delete-forever" size={30} color="black" />
                     <Text style={styles.householdButtonText}>Lämna hushåll</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     );

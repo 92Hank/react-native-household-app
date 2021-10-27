@@ -2,6 +2,7 @@ import { FontAwesome5, MaterialCommunityIcons, MaterialIcons } from "@expo/vecto
 import React, { FC, useContext, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { household } from "../../../Common/household";
+import Button from "../../component/common/Button";
 import AddHouseholdModal from "../../component/householdComponents/addHouseholdModal/addHouseholdModal.component";
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
 import JoinHouseholdModal from "../../component/householdComponents/joinHouseholdModal/joinHouseholdModal.component";
@@ -114,14 +115,24 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
                     route={route}
                 />
                 <View style={styles.buttonsContainer}>
-                    <TouchableOpacity onPress={onPressCreateHousehold} style={styles.householdButton}>
+                    <Button
+                        iconType={{ type: "MaterialIcons", icons: "add-circle-outline" }}
+                        onPress={onPressCreateHousehold}
+                        text="Nytt hushåll"
+                    ></Button>
+                    {/* <TouchableOpacity onPress={onPressCreateHousehold} style={styles.householdButton}>
                         <MaterialIcons name="add-circle-outline" size={30} color="black" />
                         <Text style={styles.householdButtonText}>Nytt hushåll</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={onPressJoinHousehold} style={styles.householdButton}>
+                    </TouchableOpacity> */}
+                    <Button
+                        iconType={{ type: "MaterialCommunityIcons", icons: "home-circle-outline" }}
+                        onPress={onPressJoinHousehold}
+                        text="Gå med"
+                    ></Button>
+                    {/* <TouchableOpacity onPress={onPressJoinHousehold} style={styles.householdButton}>
                         <MaterialCommunityIcons name="home-circle-outline" size={30} color="black" />
                         <Text style={styles.householdButtonText}>Gå med</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
         </>
