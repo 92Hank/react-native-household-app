@@ -8,7 +8,7 @@ export const userApi = createApi({
         baseUrl: webUrl + "users",
     }),
     tagTypes: ["User"],
-    refetchOnMountOrArgChange: 120,
+    refetchOnMountOrArgChange: true,
     endpoints: (builder) => ({
         createUser: builder.mutation<string, user>({
             query: (body) => ({

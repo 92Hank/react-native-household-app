@@ -8,7 +8,7 @@ export const doneTaskApi = createApi({
         baseUrl: webUrl + "donetask",
     }),
     tagTypes: ["Task"],
-    refetchOnMountOrArgChange: 120,
+    refetchOnMountOrArgChange: true,
 
     endpoints: (builder) => ({
         createDoneTask: builder.mutation<string, doneTask>({
