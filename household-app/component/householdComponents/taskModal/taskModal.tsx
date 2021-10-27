@@ -178,8 +178,8 @@ function TaskModal(props: Props) {
         } else {
             setSnackbar("Fyll i alla värden", true);
         }
-        setIsClickedDays(false);
-        setIsClicked(false);
+        // setIsClickedDays(false);
+        // setIsClicked(false);
     };
 
     const handleEditClick = () => {
@@ -272,7 +272,7 @@ function TaskModal(props: Props) {
                                 setIsClickedDays(false);
                             }}
                         >
-                            <Text style={styles.circleBtnText}>{repeated}</Text>
+                            <Text style={styles.circleBtnText}>{repeated ? repeated : defaultTask.repeated}</Text>
                         </TouchableOpacity>
                         <Text style={{ marginLeft: 3 }}>dag</Text>
                     </View>
@@ -308,7 +308,7 @@ function TaskModal(props: Props) {
                             setIsClicked(false);
                         }}
                     >
-                        <Text style={styles.circleBtnTextValue}>{value}</Text>
+                        <Text style={styles.circleBtnTextValue}>{value ? value : defaultTask.value}</Text>
                     </TouchableOpacity>
                 </View>
             </Card.Content>
