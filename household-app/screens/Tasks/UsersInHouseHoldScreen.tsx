@@ -89,6 +89,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     useEffect(() => {
         if (isSuccess) {
             setSnackbar("Du har lämnat hushåll: " + currentHousehold?.name, true);
+            navigation.navigate(MainRoutes.HouseholdScreen);
         }
     }, [isSuccess]);
 
