@@ -15,6 +15,9 @@ import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
+import { List, Surface } from "react-native-paper";
+import ArchivedTaskCard from "../../component/taskFolder/ArchivedTaskCard";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 const deviceHeight = Math.round(Dimensions.get("window").height);
@@ -26,13 +29,20 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [render, setRender] = useState(false);
     const [tasks, setTasks] = useState<TaskNow[]>();
+    const [archivedTasks, setArchivedTasks] = useState<TaskNow[]>();
     const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
     const [taskInModal, setTaskInModal] = useState<TaskNow>();
     const [rights, setRights] = useState(false);
     const user = useAppSelector(selectCurrentLoginUser);
     const { message, isVisible } = useContext(snackbarContext);
 
-    const { data: tasksData } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
+    const {
+        data: tasksData,
+        isLoading,
+        isFetching,
+        isError,
+        error,
+    } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
     const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
 
     const isToday = (someDate: any): boolean => {
@@ -51,6 +61,12 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     };
 
     useEffect(() => {
+        if (isLoading) {
+            console.log("laddar");
+        }
+    }, [isLoading]);
+
+    useEffect(() => {
         currentHousehold?.member.forEach((m) => {
             if (m.userId === user?.id && m.isOwner) {
                 setRights(true);
@@ -59,7 +75,8 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     }, [rights]);
 
     useEffect(() => {
-        const allTasks: TaskNow[] = [];
+        const activeTasks: TaskNow[] = [];
+        const inactiveTasks: TaskNow[] = [];
         tasksData?.forEach((t) => {
             const taskItem: TaskNow = {
                 id: t.id as string,
@@ -76,23 +93,30 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             if (t.createdAt) {
                 taskItem.createdAt = dateConvert(t.createdAt);
             }
-            allTasks.push(taskItem);
+            if (!taskItem.archived) {
+                activeTasks.push(taskItem);
+            } else {
+                inactiveTasks.push(taskItem);
+            }
 
             doneTasksData?.forEach((d) => {
                 const today: boolean = isToday(d.dateDone);
                 if (t.id === d.taskId && today) {
                     currentHousehold?.member.forEach((m) => {
                         if (d.userId === m.userId) {
-                            allTasks[allTasks.length - 1].emojiList.push(m.emoji);
+                            activeTasks[activeTasks.length - 1].emojiList.push(m.emoji);
                         } else {
-                            allTasks[allTasks.length - 1].dateDone = dateConvert(d.dateDone);
+                            activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
                         }
                     });
+                } else {
+                    activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
                 }
             });
         });
-        setTasks(allTasks);
-        if (allTasks.length > 0) {
+        setTasks(activeTasks);
+        setArchivedTasks(inactiveTasks);
+        if (activeTasks.length > 0) {
             setRender(true);
         }
     }, [tasksData, doneTasksData]);
@@ -122,6 +146,11 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     return (
         <View style={styles.container}>
             <SnackbarComponent isVisible={isVisible} message={message} />
+            {isLoading && (
+                <View style={{ marginTop: "50%" }}>
+                    <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
+                </View>
+            )}
             {render && (
                 <View style={styles.listContainer}>
                     <FlatList
@@ -131,6 +160,7 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                             <TaskCard key={item.id} task={item} onPress={() => clickOnTask(item)} />
                         )}
                     />
+                    {rights && archivedTasks && <ArchivedTaskCard archivedTasks={archivedTasks} />}
                     <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} />
                     <TaskModal
                         isOpen={isClickedTaskOpen}
@@ -141,20 +171,7 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             )}
             <View style={rights ? styles.buttonsContainer : styles.buttonsContainerUser}>
                 {rights && <Button iconName="add-circle-outline" text="Lägg till" onPress={handleAddClick}></Button>}
-                {/* {rights && (
-                    <TouchableOpacity onPress={handleAddClick} style={styles.householdButton}>
-                        <MaterialIcons name="add-circle-outline" size={30} color="black" />
-                        <Text style={styles.householdButtonText}>Lägg till</Text>
-                    </TouchableOpacity>
-                )} */}
                 <Button iconName="person" text="Medlemmar" onPress={onPressUsersInHousehold}></Button>
-                {/* <TouchableOpacity
-                    onPress={onPressUsersInHousehold}
-                    style={rights ? styles.householdButton : styles.householdButtonUser}
-                >
-                    <Feather name="users" size={30} color="black" />
-                    <Text style={styles.householdButtonText}>Medlemmar</Text>
-                </TouchableOpacity> */}
             </View>
         </View>
     );
@@ -162,9 +179,34 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
 
 export default TasksScreen;
 
+const deviceWidth = Math.round(Dimensions.get("window").width);
 const styles = StyleSheet.create({
+    item: {
+        fontWeight: "bold",
+        fontSize: 22,
+        // marginHorizontal: 15,
+        // marginVertical: 12,
+    },
+    listItem: {
+        width: deviceWidth - 20,
+        alignContent: "center",
+        alignSelf: "center",
+        borderRadius: 10,
+        marginVertical: 6,
+        elevation: 3,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 0.75,
+        shadowRadius: 5,
+    },
+    title: {
+        fontSize: 20,
+    },
     listContainer: {
-        maxHeight: deviceHeight - 241,
+        maxHeight: deviceHeight - 170,
     },
     container: {
         flex: 1,

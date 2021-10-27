@@ -51,23 +51,11 @@ const TaskCard = (props: Props) => {
     if (today && date) {
         const diff = Math.abs(today.getTime() - date.getTime());
         // eslint-disable-next-line prettier/prettier
-        difference = Math.ceil(diff / (1000 * 3600 * 24));
+        difference = Math.ceil(diff / (1000 * 3600 * 24)) - 1;
         console.log("SKILLNADEN", difference);
     }
 
     return (
-        // <TouchableOpacity onPress={props.onPress}>
-        //     <View style={Styles.container}>
-        //         <View style={Styles.cardContainer}>
-        //             <View style={Styles.infoStyle}>
-        //                 <Text style={Styles.titleStyle}>
-        //                     {props.task.name}
-        //                     <Text style={Styles.bodyEmoji}>{props.task.emojiList?.join(" ")}</Text>
-        //                 </Text>
-        //             </View>
-        //         </View>
-        //     </View>
-        // </TouchableOpacity>
         <TouchableOpacity onPress={props.onPress}>
             <Surface style={styles.container}>
                 <View>
