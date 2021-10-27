@@ -20,7 +20,6 @@ export type MemberStatistics = {
     doneTasks: doneTask[];
     svg: {
         fill: string;
-        onPress: () => void;
     };
 };
 
@@ -36,8 +35,7 @@ export const createMemberStatistics = (doneTasksArray: doneTask[], currentHouseh
             emoji: convertToEmoji(member.emoji),
             doneTasks: doneTasksPerMember[indexValue],
             svg: {
-                fill: "red",
-                onPress: () => console.log("USER4"),
+                fill: getColourCode(member.emoji),
             },
         } as MemberStatistics;
     });
@@ -83,5 +81,28 @@ const convertToEmoji = (emojiNumber: number) => {
             return "🦄" as emoji;
         default:
             return null;
+    }
+};
+
+const getColourCode = (emojiNumber: number) => {
+    switch (emojiNumber) {
+        case 1:
+            return "#FF6848";
+        case 2:
+            return "#FFA2F2";
+        case 3:
+            return "#CFF5BF";
+        case 4:
+            return "#F5E9B3";
+        case 5:
+            return "#F597C4";
+        case 6:
+            return "#B7DFFF";
+        case 7:
+            return "#FF9F26";
+        case 8:
+            return "#E4E5FE";
+        default:
+            return "#000";
     }
 };
