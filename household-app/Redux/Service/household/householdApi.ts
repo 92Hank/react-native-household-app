@@ -16,6 +16,7 @@ export const householdApi = createApi({
         baseUrl: webUrl + "household",
     }),
     tagTypes: ["Household"],
+    refetchOnMountOrArgChange: true,
     endpoints: (builder) => ({
         createHousehold: builder.mutation<string, householdCreate>({
             query: (body) => ({
