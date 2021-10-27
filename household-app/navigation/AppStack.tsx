@@ -128,8 +128,8 @@ const TasksStack = () => (
             }}
         />
         <MainStack.Screen
-            name={MainRoutes.CurrentWeekScreen}
-            component={CurrentWeekScreen}
+            name={MainRoutes.LastMonthScreen}
+            component={LastMonthScreen}
             options={{
                 // headerShown: false,
                 headerBackVisible: false,

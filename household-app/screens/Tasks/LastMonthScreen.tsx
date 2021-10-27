@@ -1,83 +1,40 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import React, { FC, useEffect } from "react";
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import React, { FC } from "react";
+import { SafeAreaView, ScrollView, StyleSheet, Text } from "react-native";
 import StatisticsCharts from "../../component/StatisticsCharts";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { MemberStatistics } from "./memberStatistics";
-import { useGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
+import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
-import doneTask from "../../Redux/entity/doneTask";
-import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
+import { useGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
+import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import { getLastMonthDoneTasksByHousehold } from "./doneTaskHelper";
+import { createMemberStatistics, MemberStatistics } from "./MemberStatistics";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
-type Timestamp = {
-    _seconds: number;
-    _nanoseconds: number;
-};
-
 const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
-    const dagensDatum = new Date(1995, 11, 17);
     console.log("------------------------------- NEW RENDITION"); //TEST
     const currentHousehold = useAppSelector(selectSelectedHousehold);
+    const currentuser = useAppSelector(selectCurrentLoginUser); //TEST
     console.log("HOUSEHOLD ID ÄR:   " + currentHousehold!.id!); //TEST
+    console.log("user ID ÄR:   " + currentuser!.id!); //TEST
 
     const { data: doneTasksArray, isSuccess, error } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
-    // console.log("KLARA TASKAR", doneTasksArray); //TEST
 
-    doneTasksArray?.forEach((task) => {
-        //TEST
-        console.log("doneTask hushålls-id" + task.houseHoldId);
-    });
+    let statisticsArray: MemberStatistics[] | undefined = undefined;
+    let fillerMessage = "No done tasks found for this household.";
 
-    const filterDoneTasksByHouseHold = (doneTasksArray: doneTask[]) => {
-        return doneTasksArray.filter((doneTask) => doneTask.houseHoldId === currentHousehold!.id!);
-    };
+    if (doneTasksArray !== undefined && doneTasksArray.length > 0 && currentHousehold !== undefined) {
+        const doneTasksOfLastMonth = getLastMonthDoneTasksByHousehold(doneTasksArray, currentHousehold);
 
-    const getLastMonthStartDate = () => {
-        const lastMonthStartDate = new Date();
-        lastMonthStartDate.setMonth(lastMonthStartDate.getMonth() - 1);
-        lastMonthStartDate.setDate(1);
-        lastMonthStartDate.setHours(0, 0, 0, 0);
-        return lastMonthStartDate;
-    };
-
-    const getLastMonthEndDate = () => {
-        const lastMonthEndDate = new Date();
-        lastMonthEndDate.setMonth(lastMonthEndDate.getMonth());
-        lastMonthEndDate.setDate(0);
-        lastMonthEndDate.setHours(23, 59, 59, 59);
-        return lastMonthEndDate;
-    };
-
-    const filterDoneTasksByDateInterval = (doneTasksArray: doneTask[], startDate: Date, endDate: Date) => {
-        //ta in Timestamp typ variabel, tilldela värdet av dateDone.
-        //konvertera till datum Date-typ.
-        //anvönd nedan.
-
-        
-
-
-
-        return doneTasksArray.filter((doneTask) => {
-            if (
-                doneTask.dateDone!.getTime() - endDate.getTime() <= 0 &&
-                doneTask.dateDone!.getTime() - startDate.getTime() > 0
-            )
-                return doneTask;
-        });
-    };
-
-    console.log("STARTDATUM ÄR   " + getLastMonthStartDate() + "\n"); //TEST
-    console.log("SLUTDATUM ÄR   " + getLastMonthEndDate() + "\n"); //TEST
-
-    //1. hämta householdId
-    //2. hämta doneTasks per householdId
-    // OBS sortera på id med
-    //3. sortera på datumintervall
+        if (doneTasksOfLastMonth.length === 0) {
+            fillerMessage = "No data found for the selected period.";
+        } else {
+            statisticsArray = createMemberStatistics(doneTasksOfLastMonth, currentHousehold);
+        }
+    }
 
     // const testTasksDone: doneTask[] = [
     //     {
@@ -164,9 +121,12 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
     //     },
     // ];
 
+    //i någon stack är det fel
     return (
         <SafeAreaView>
-            <ScrollView>{/* <StatisticsCharts data={dataArray} /> */}</ScrollView>
+            <ScrollView>
+                {statisticsArray ? <StatisticsCharts data={statisticsArray} /> : <Text>{fillerMessage}</Text>}
+            </ScrollView>
         </SafeAreaView>
     );
 };

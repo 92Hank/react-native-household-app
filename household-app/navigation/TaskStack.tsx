@@ -100,8 +100,8 @@ const TasksStack = () => (
             }}
         />
         <MainStack.Screen
-            name={MainRoutes.CurrentWeekScreen}
-            component={CurrentWeekScreen}
+            name={MainRoutes.LastMonthScreen}
+            component={LastMonthScreen}
             options={{
                 headerShown: false,
                 headerBackVisible: false,
@@ -130,7 +130,7 @@ const TaskStack = () => {
       <Tab.Screen name="Sign up" component={CreateStack} /> */}
             <Tab.Screen name="Idag" component={TaskScreenStack} />
             <Tab.Screen name="Förra veckan" component={LastWeekStack} />
-            <Tab.Screen name="Denna månad" component={LastMonthStack} />
+            <Tab.Screen name="Förra månaden" component={LastMonthStack} />
         </Tab.Navigator>
     );
 };
