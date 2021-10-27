@@ -278,6 +278,8 @@ export const memberLeaveHouseHold = (req: Request, res: Response): void => {
       .then((query) => {
         let data = query.data();
       data?.member.forEach((m: any) => {
+        console.log("input ", userId);
+        console.log("thos ", m.userId);
         if (m.userId === userId) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           query.ref
@@ -296,8 +298,6 @@ export const memberLeaveHouseHold = (req: Request, res: Response): void => {
               .catch(() => {
                 res.status(400).json("could not remove");
               });
-        } else {
-          res.status(400).json("member not found");
         }
       });
       })

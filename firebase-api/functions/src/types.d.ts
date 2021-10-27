@@ -47,4 +47,5 @@ interface DoneTask {
   userId: string;
   houseHoldId: string;
   dateDone: Date;
+  value: number;
 }

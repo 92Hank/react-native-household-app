@@ -149,6 +149,7 @@ function TaskModal(props: Props) {
                 taskId: props.task.id,
                 userId: user?.id,
                 houseHoldId: currentHousehold?.id,
+                value: props.task.value as valueType,
             };
             createDoneTask(markAsDone);
         }
