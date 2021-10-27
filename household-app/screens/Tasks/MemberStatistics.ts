@@ -26,14 +26,15 @@ export type MemberStatistics = {
 export const createMemberStatistics = (doneTasksArray: doneTask[], currentHousehold: household) => {
     const participantMembers = filterOutNonparticipantMembers(doneTasksArray, currentHousehold);
     const doneTasksPerMember = getDoneTasksPerParticipantMember(doneTasksArray, participantMembers);
+
     let indexValue = 0;
 
     return participantMembers.map((member) => {
         return {
-            key: indexValue++,
+            key: indexValue,
             userId: member.userId,
             emoji: convertToEmoji(member.emoji),
-            doneTasks: doneTasksPerMember[indexValue],
+            doneTasks: doneTasksPerMember[indexValue++],
             svg: {
                 fill: getColourCode(member.emoji),
             },
@@ -50,8 +51,10 @@ export const createMemberStatistics = (doneTasksArray: doneTask[], currentHouseh
  * @returns
  */
 const filterOutNonparticipantMembers = (doneTasksArray: doneTask[], currentHousehold: household) => {
+    const doneTaskUserIds = doneTasksArray.map((doneTask) => doneTask.userId);
+
     return currentHousehold.member.filter((householdMember) => {
-        doneTasksArray.some((doneTask) => householdMember.userId === doneTask.userId);
+        if (doneTaskUserIds.includes(householdMember.userId)) return householdMember;
     });
 };
 

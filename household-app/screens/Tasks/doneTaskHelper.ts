@@ -3,6 +3,7 @@ import { household } from "../../../Common/household";
 
 /**
  * doneTask objects are assigned a Timestamp object to doneDate property.
+ * Used for conversion, typing and calculation.
  */
 type Timestamp = {
     _seconds: number;
@@ -20,16 +21,8 @@ type Timestamp = {
  */
 export const getLastMonthDoneTasksByHousehold = (doneTasksArray: doneTask[], currentHousehold: household) => {
     const filteredArray = filterDoneTasksByHouseHold(doneTasksArray, currentHousehold.id);
-    console.log("LÄNGD AV FILTRERAD HUSHÅLLSARRAY:  " + filteredArray.length); //TEST
-
     const startTime = getLastMonthStartInSeconds();
     const endTime = getLastMonthEndInSeconds();
-
-    console.log(
-        "LÄNGD AV FILTRERAD HUSHÅLLSARRAY:  " +
-            filterDoneTasksBySecondsInterval(filteredArray, startTime, endTime).length,
-    ); //TEST
-
     return filterDoneTasksBySecondsInterval(filteredArray, startTime, endTime);
 };
 
