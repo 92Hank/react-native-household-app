@@ -5,6 +5,7 @@ import {
   editTask,
   deleteTask,
   archiveTask,
+  activateTask,
 } from "./task.controller";
 
 // eslint-disable-next-line new-cap
@@ -16,5 +17,6 @@ taskRouter.get("/tasks/:houseHoldId", getAllTaskOfHouseHold);
 taskRouter.put("/tasks/:id", editTask);
 taskRouter.patch("/tasks/:id", archiveTask);
 taskRouter.delete("/tasks/:id", deleteTask);
+taskRouter.patch("/tasks/activate/:id", activateTask);
 
 

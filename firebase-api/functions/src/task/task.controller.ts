@@ -145,3 +145,26 @@ export const archiveTask = (req: Request, res: Response) => {
       })
       .catch((error) => res.status(500).send(error));
 };
+
+export const activateTask = (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const taskRef = db.collection(taskCollection).doc(id);
+
+  taskRef
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          doc.ref.set(
+              {
+                archived: true,
+              },
+              {merge: true}
+          );
+          res.status(200).json("activate task item: " + id);
+        } else {
+          res.status(400).json("No such document: " + id);
+        }
+      })
+      .catch((error) => res.status(500).send(error));
+};
