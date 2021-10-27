@@ -1,6 +1,11 @@
 import { doneTask } from "../../../Common/doneTask";
 import { household } from "../../../Common/household";
 
+type Timestamp = {
+    _seconds: number;
+    _nanoseconds: number;
+};
+
 /**
  * Function takes an array of doneTask objects and household object, and based on them
  * returns a filtered array of doneTask objects created during the last month for the
@@ -19,7 +24,7 @@ export const getLastMonthDoneTasksByHousehold = (doneTasksArray: doneTask[], cur
 };
 
 const filterDoneTasksByHouseHold = (doneTasksArray: doneTask[], currentHouseholdId: string) => {
-    return doneTasksArray.filter((doneTask) => doneTask.householdId === currentHouseholdId);
+    return doneTasksArray.filter((doneTask) => doneTask.houseHoldId === currentHouseholdId);
 };
 
 const filterDoneTasksBySecondsInterval = (
@@ -28,7 +33,9 @@ const filterDoneTasksBySecondsInterval = (
     endDateInSeconds: number,
 ) => {
     return doneTasksArray.filter((doneTask) => {
-        const dateDoneInSeconds = doneTask.dateDone?.getTime() * 1000;
+        const timeStamp = doneTask.dateDone as unknown as Timestamp;
+
+        const dateDoneInSeconds = timeStamp._seconds * 1000;
         if (dateDoneInSeconds - endDateInSeconds <= 0 && dateDoneInSeconds - startDateInSeconds >= 0) return doneTask;
     });
 };
