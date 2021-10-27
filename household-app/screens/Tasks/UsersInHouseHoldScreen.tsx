@@ -16,6 +16,7 @@ import { useLeaveHouseholdMutation } from "../../Redux/Service/household/househo
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import ChangeHouseholdNameModal from "../../component/householdComponents/changeHouseholdNameModal/changeHouseholdNameModal";
 import { Surface } from "react-native-paper";
+import PendingMemberTaskCard from "../../component/householdComponents/pendingMemberCard/pendingMemberCard";
 import Button from "../../component/common/Button";
 // import { householdIdAndUserId } from "../../Redux/entity/household";
 
@@ -34,6 +35,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     const [rights, setRights] = useState(false);
     const [openChangeName, setOpenChangeName] = useState(false);
     const [members, setMembers] = useState<fullMemberInfo[]>();
+    const [pendingMembers, setPendingMembers] = useState<fullMemberInfo[]>();
 
     const clickOnMember = (item: fullMemberInfo) => {
         console.log("click");
@@ -79,11 +81,8 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
 
     useEffect(() => {
         if (currentHousehold) {
-            setMembers(
-                currentHousehold.member.filter(
-                    (m) => m.AcceptedStatus === "accepted" || m.AcceptedStatus === "pending",
-                ),
-            );
+            setMembers(currentHousehold.member.filter((m) => m.AcceptedStatus === "accepted"));
+            setPendingMembers(currentHousehold.member.filter((m) => m.AcceptedStatus === "pending"));
         }
     }, [currentHousehold]);
 
@@ -123,6 +122,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
                             <UserListComponent key={item.userId} member={item} onPress={() => clickOnMember(item)} />
                         )}
                     />
+                    {rights && pendingMembers && <PendingMemberTaskCard pendingMember={pendingMembers} />}
                 </View>
             </View>
             <ChangeMemberStatusModal
