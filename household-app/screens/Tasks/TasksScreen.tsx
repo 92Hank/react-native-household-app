@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useContext, useEffect, useState } from "react";
-import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Button from "../../component/common/Button";
 import TaskModal from "../../component/householdComponents/taskModal/taskModal";
 import ModalComponent from "../../component/modal/ModalComponent";
@@ -152,14 +152,17 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                 </View>
             )}
             {render && (
-                <View style={styles.listContainer}>
-                    <FlatList
+                <ScrollView style={styles.listContainer}>
+                    {/* <FlatList
                         data={tasks}
                         keyExtractor={(item: TaskNow) => item.id}
                         renderItem={({ item }) => (
                             <TaskCard key={item.id} task={item} onPress={() => clickOnTask(item)} />
                         )}
-                    />
+                    /> */}
+                    {tasks?.map((item, index) => {
+                        return <TaskCard key={index} task={item} onPress={() => clickOnTask(item)} />;
+                    })}
                     {rights && archivedTasks && <ArchivedTaskCard archivedTasks={archivedTasks} />}
                     <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} />
                     <TaskModal
@@ -167,7 +170,7 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                         handleModalClose={handleTaskClose}
                         task={taskInModal as TaskNow}
                     />
-                </View>
+                </ScrollView>
             )}
             <View style={rights ? styles.buttonsContainer : styles.buttonsContainerUser}>
                 {rights && (
@@ -216,7 +219,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     listContainer: {
-        maxHeight: deviceHeight - 170,
+        maxHeight: deviceHeight - 220,
     },
     container: {
         flex: 1,
