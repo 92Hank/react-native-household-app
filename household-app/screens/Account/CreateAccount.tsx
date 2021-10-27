@@ -1,11 +1,11 @@
-import React, { FC, useEffect } from "react";
-import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from "react-native";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { Formik } from "formik";
-import TextInput from "./textInput";
+import React, { FC, useEffect } from "react";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Yup from "yup";
 import { useCreateUserMutation } from "../../Redux/Service/user/userApi";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import TextInput from "./textInput";
+import Button from "../../component/common/Button";
 
 // import user from '../../../Common/src/Entity/user';
 
@@ -104,9 +104,14 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
                                     onChangeText={handleChange<keyof User>("userName")}
                                     helperText={errors.userName}
                                 />
-                                <TouchableOpacity onPress={handleSubmit as any} style={styles.submitButton}>
+                                <Button
+                                    iconType={{ type: "FontAwesome", icons: "user-plus" }}
+                                    onPress={handleSubmit}
+                                    text="Create account"
+                                ></Button>
+                                {/* <TouchableOpacity onPress={handleSubmit as any} style={styles.submitButton}>
                                     <Text style={styles.buttonText}>Create account</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                             </>
                         )}
                     </Formik>

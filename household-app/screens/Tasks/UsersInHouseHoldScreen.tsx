@@ -150,7 +150,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
                 )}
                 <Button
                     iconType={{ type: "MaterialIcons", icons: "delete-forever" }}
-                    onPress={changeNameModal}
+                    onPress={openLeaveModalClick}
                     text="Lämna hushåll"
                 ></Button>
 
