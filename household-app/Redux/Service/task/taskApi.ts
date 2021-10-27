@@ -16,7 +16,7 @@ export const taskApi = createApi({
                 responseHandler: "text",
                 body,
             }),
-            invalidatesTags: (result, error, arg) => [{ type: "Task" }],
+            invalidatesTags: () => [{ type: "Task" }],
         }),
 
         GetTaskByHouseholdId: builder.query<task[], string>({

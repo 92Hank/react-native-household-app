@@ -40,4 +40,8 @@ export const doneTaskApi = createApi({
     }),
 });
 
-export const { useCreateDoneTaskMutation, useGetDoneTasksWithHouseholdIdQuery } = doneTaskApi;
+export const {
+    useCreateDoneTaskMutation,
+    useGetDoneTasksWithHouseholdIdQuery,
+    useLazyGetDoneTasksWithHouseholdIdQuery,
+} = doneTaskApi;

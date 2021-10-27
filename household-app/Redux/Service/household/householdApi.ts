@@ -190,8 +190,11 @@ export const householdApi = createApi({
 
 export const {
     useGetHouseholdByIdQuery,
+    useLazyGetHouseholdByIdQuery,
     useGetHouseholdByUserIdQuery,
+    useLazyGetHouseholdByUserIdQuery,
     useGetHouseholdByInviteCodeQuery,
+    useLazyGetHouseholdByInviteCodeQuery,
     usePauseUserMutation,
     useCreateHouseholdMutation,
     useJoinHouseholdMutation,
