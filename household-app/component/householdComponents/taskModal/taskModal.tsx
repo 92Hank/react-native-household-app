@@ -2,7 +2,17 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+    FlatList,
+    KeyboardAvoidingView,
+    Modal,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
@@ -17,6 +27,7 @@ import { valueType } from "../../../../Common/value";
 import { task } from "../../../../Common/task";
 import { LocalIp } from "../../../Redux/Config";
 import { Card, TextInput } from "react-native-paper";
+import { Formik } from "formik";
 
 interface TaskNow {
     id?: string;
@@ -57,6 +68,16 @@ function TaskModal(props: Props) {
     const onChangeInputName = (name: string) => setName(name);
     const onChangeInputDescription = (description: string) => setDescription(description);
 
+    const defaultTask: task = {
+        description: props.task?.description as string,
+        archived: false,
+        name: props.task?.name as string,
+        repeated: props.task?.repeated as number,
+        value: props.task?.value as valueType,
+        houseHoldId: props.task?.householdId as string,
+        createdAt: new Date(),
+    };
+
     const [
         createDoneTask, // This is the mutation trigger
         { status, isSuccess, error, isLoading }, // This is the destructured mutation result
@@ -84,6 +105,22 @@ function TaskModal(props: Props) {
             setSnackbar("Syssla arkiverad", true);
         }
     }, [isArchived]);
+
+    useEffect(() => {
+        if (errorEdit) {
+            props.handleModalClose();
+            setSnackbar("error", true);
+            console.log(errorEdit);
+        }
+    }, [errorEdit]);
+
+    useEffect(() => {
+        if (successEdit) {
+            props.handleModalClose();
+            setSnackbar("success", true);
+            console.log(successEdit);
+        }
+    }, [successEdit]);
 
     useEffect(() => {
         if (archivedError) {
@@ -119,13 +156,36 @@ function TaskModal(props: Props) {
 
     const onEdit = () => {
         console.log("edit api");
+        if (name && description && repeated && value) {
+            const v = value as valueType;
+            const requestData: task = {
+                houseHoldId: currentHousehold?.id as string,
+                description: description,
+                name: name,
+                repeated: repeated,
+                value: v,
+                archived: false,
+            };
+            console.log("------- Edit Form -------");
+            console.log("repeated: " + repeated);
+            console.log("description: " + description);
+            console.log("name: " + name);
+            console.log("value: " + value);
+            console.log("household: " + currentHousehold?.id);
+            console.log("------- End of Edit Form -------");
+            editTask(requestData);
+        } else {
+            // alert("APAPAP! något gick fel!");
+        }
+        setIsClickedDays(false);
+        setIsClicked(false);
         setOpenEdit(false);
     };
 
     const handleEditClick = () => {
         console.log("open new modal for edit");
-        setOpenEdit(true);
         // props.handleModalClose();
+        setOpenEdit(true);
     };
 
     const handleDeleteClick = () => {
@@ -150,31 +210,6 @@ function TaskModal(props: Props) {
         setOpenDelete(false);
     };
 
-    const handleEditSubmitForm = async (editTaskItem: TaskNow) => {
-        if (name && description && repeated && value) {
-            const v = value as valueType;
-            const requestData: task = {
-                houseHoldId: currentHousehold?.id as string,
-                description: description,
-                name: name,
-                repeated: repeated,
-                value: v,
-                archived: false,
-            };
-            console.log("------- Edit Form -------");
-            console.log("repeated: " + repeated);
-            console.log("description: " + description);
-            console.log("name: " + name);
-            console.log("value: " + value);
-            console.log("household: " + currentHousehold?.id);
-            console.log("------- End of Edit Form -------");
-            editTask(requestData);
-        } else {
-            alert("APAPAP! något gick fel!");
-        }
-        console.log(editTaskItem);
-    };
-
     const onPress2 = (i: number) => {
         console.log("onPress works fine");
         setIsClicked(true);
@@ -183,36 +218,9 @@ function TaskModal(props: Props) {
     };
     const onPressRepeated = (i: number) => {
         console.log("onPress works fine");
-        setIsClicked(true);
+        setIsClickedDays(true);
         console.log(i);
         setRepeated(i as number);
-    };
-
-    const onSaveEdit = async () => {
-        if (name && description) {
-            const requestData = {
-                description: description,
-                name: name,
-                repeated: repeated,
-                value: value,
-                householdId: currentHousehold, // check the controller
-            };
-
-            const rawResponse = await fetch(LocalIp + "/react-native-household-app/us-central1/webApi/task", {
-                method: "POST",
-                body: JSON.stringify(requestData),
-                headers: {
-                    Accept: "application/json,text/plain",
-                    "Content-Type": "application/json",
-                },
-            });
-
-            if (rawResponse.status === 201) {
-                props.handleModalClose();
-            }
-        } else {
-            alert("APAPAP! Du måste ange en titel, beskrivning, värde och återkommande dagar!");
-        }
     };
 
     useEffect(() => {
@@ -222,6 +230,90 @@ function TaskModal(props: Props) {
             }
         });
     }, [rights]);
+
+    const repeatedInput = (
+        <Card style={styles.inputsCard}>
+            <Card.Content>
+                <View style={styles.clickedDay}>
+                    <View style={styles.buttonsCircleContainer}>
+                        <FlatList
+                            horizontal
+                            data={repeatedList}
+                            keyExtractor={(index) => "key" + index}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity
+                                    key={item}
+                                    style={styles.repeatedCircleButton}
+                                    onPress={() => onPressRepeated(item)}
+                                >
+                                    <Text style={styles.repeatedCircleBtnText}>{item}</Text>
+                                </TouchableOpacity>
+                            )}
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    </View>
+                </View>
+            </Card.Content>
+        </Card>
+    );
+
+    const repeatedValue = (
+        <Card style={styles.inputsCard}>
+            <Card.Content>
+                <View style={styles.clickedDay}>
+                    <View style={styles.clickedDayTitle}>
+                        <Text style={styles.buttonText}>Återkommer: </Text>
+                    </View>
+                    <View style={styles.clickedDayReturn}>
+                        <Text style={{ marginRight: 3 }}>Var</Text>
+                        <TouchableOpacity
+                            style={styles.circleButton}
+                            onPress={() => {
+                                setIsClickedDays(false);
+                            }}
+                        >
+                            <Text style={styles.circleBtnText}>{defaultTask.repeated}</Text>
+                        </TouchableOpacity>
+                        <Text style={{ marginLeft: 3 }}>dag</Text>
+                    </View>
+                </View>
+            </Card.Content>
+        </Card>
+    );
+
+    const valueInput = (
+        <Card style={styles.inputsCard2}>
+            <Card.Content>
+                <View style={styles.buttonsCircleContainer}>
+                    {buttonList.map((i) => (
+                        <TouchableOpacity key={i} style={styles.buttonsCircleButton} onPress={() => onPress2(i)}>
+                            <Text style={styles.buttonsCircleBtnText}>{i}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </Card.Content>
+        </Card>
+    );
+    const valueForTask = (
+        <Card style={styles.inputsCard2}>
+            <Card.Content>
+                <View style={styles.clickedDay}>
+                    <View style={styles.clickedDayTitle}>
+                        <Text style={styles.buttonText}>Värde: </Text>
+                        <Text style={styles.clickedDayTitleSub}>Hur energikrävande är sysslan?</Text>
+                    </View>
+                    <TouchableOpacity
+                        style={styles.circleButtonValue}
+                        onPress={() => {
+                            setIsClicked(false);
+                        }}
+                    >
+                        <Text style={styles.circleBtnTextValue}>{defaultTask.value}</Text>
+                    </TouchableOpacity>
+                </View>
+            </Card.Content>
+        </Card>
+    );
 
     return (
         <View style={styles.centeredView}>
@@ -255,6 +347,7 @@ function TaskModal(props: Props) {
                                     }}
                                 >
                                     <TextInput
+                                        defaultValue={defaultTask.name}
                                         theme={{ roundness: 10 }}
                                         outlineColor="white"
                                         mode="outlined"
@@ -265,6 +358,7 @@ function TaskModal(props: Props) {
                                     />
 
                                     <TextInput
+                                        defaultValue={defaultTask.description}
                                         theme={{ roundness: 10 }}
                                         outlineColor="white"
                                         mode="outlined"
@@ -274,44 +368,9 @@ function TaskModal(props: Props) {
                                         onChangeText={onChangeInputDescription}
                                     />
 
-                                    <Card style={styles.inputsCard}>
-                                        <Card.Content>
-                                            <View style={styles.clickedDay}>
-                                                <View style={styles.buttonsCircleContainer}>
-                                                    <FlatList
-                                                        horizontal
-                                                        data={repeatedList}
-                                                        keyExtractor={(index) => "key" + index}
-                                                        renderItem={({ item }) => (
-                                                            <TouchableOpacity
-                                                                key={item}
-                                                                style={styles.repeatedCircleButton}
-                                                                onPress={() => onPressRepeated(item)}
-                                                            >
-                                                                <Text style={styles.repeatedCircleBtnText}>{item}</Text>
-                                                            </TouchableOpacity>
-                                                        )}
-                                                        showsHorizontalScrollIndicator={false}
-                                                    />
-                                                </View>
-                                            </View>
-                                        </Card.Content>
-                                    </Card>
-                                    <Card style={styles.inputsCard2}>
-                                        <Card.Content>
-                                            <View style={styles.buttonsCircleContainer}>
-                                                {buttonList.map((i) => (
-                                                    <TouchableOpacity
-                                                        key={i}
-                                                        style={styles.buttonsCircleButton}
-                                                        onPress={() => onPress2(i)}
-                                                    >
-                                                        <Text style={styles.buttonsCircleBtnText}>{i}</Text>
-                                                    </TouchableOpacity>
-                                                ))}
-                                            </View>
-                                        </Card.Content>
-                                    </Card>
+                                    {!isClickedDays ? repeatedInput : repeatedValue}
+
+                                    {!isClicked ? valueInput : valueForTask}
                                 </View>
                                 <View style={styles.buttonsContainer}>
                                     <TouchableOpacity onPress={() => onEdit()} style={styles.saveButton}>
