@@ -16,6 +16,7 @@ export const householdApi = createApi({
         baseUrl: webUrl + "household",
     }),
     tagTypes: ["Household"],
+    refetchOnMountOrArgChange: true,
     endpoints: (builder) => ({
         createHousehold: builder.mutation<string, householdCreate>({
             query: (body) => ({
@@ -190,8 +191,11 @@ export const householdApi = createApi({
 
 export const {
     useGetHouseholdByIdQuery,
+    useLazyGetHouseholdByIdQuery,
     useGetHouseholdByUserIdQuery,
+    useLazyGetHouseholdByUserIdQuery,
     useGetHouseholdByInviteCodeQuery,
+    useLazyGetHouseholdByInviteCodeQuery,
     usePauseUserMutation,
     useCreateHouseholdMutation,
     useJoinHouseholdMutation,

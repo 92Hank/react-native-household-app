@@ -1,10 +1,32 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import {
+    FlatList,
+    KeyboardAvoidingView,
+    Modal,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { Feather } from "@expo/vector-icons";
+import { doneTask } from "../../../../Common/doneTask";
+import { useCreateDoneTaskMutation } from "../../../Redux/Service/doneTask/doneTaskApi";
+import { useDeleteTaskMutation, useEditTaskMutation } from "../../../Redux/Service/task/taskApi";
+import { useArchiveTaskMutation } from "../../../Redux/Service/task/taskApi";
+import { snackbarContext } from "../../../context/snackBarContext";
+import styles from "./styles";
+import { valueType } from "../../../../Common/value";
+import { task } from "../../../../Common/task";
+import { Card, TextInput } from "react-native-paper";
+import SnackbarComponent from "../../snackbar/snackbarComponent";
 
 interface TaskNow {
     id?: string;
@@ -23,27 +45,147 @@ interface Props {
     task: TaskNow;
 }
 
+const buttonList: number[] = [1, 2, 4, 6, 8];
+const repeatedList = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
+];
+
 function TaskModal(props: Props) {
     const user = useAppSelector(selectCurrentLoginUser);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [rights, setRights] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const { setSnackbar, isVisible, message } = useContext(snackbarContext);
+    const [name, setName] = useState<string>(props.task?.name as string);
+    const [description, setDescription] = useState<string>(props.task?.description as string);
+    const [repeated, setRepeated] = useState<number>(props.task?.repeated as number);
+    const [value, setValue] = useState<number>(props.task?.value as number);
+    const [isClicked, setIsClicked] = useState(true);
+    const [isClickedDays, setIsClickedDays] = useState(true);
+
+    const onChangeInputName = (name: string) => setName(name);
+    const onChangeInputDescription = (description: string) => setDescription(description);
+
+    const defaultTask: task = {
+        description: props.task?.description as string,
+        archived: false,
+        name: props.task?.name as string,
+        repeated: props.task?.repeated as number,
+        value: props.task?.value as valueType,
+        houseHoldId: props.task?.householdId as string,
+        createdAt: new Date(),
+    };
+
+    const [
+        createDoneTask, // This is the mutation trigger
+        { status, isSuccess, error, isLoading }, // This is the destructured mutation result
+    ] = useCreateDoneTaskMutation();
+
+    const [
+        editTask, // This is the mutation trigger
+
+        { isSuccess: successEdit, error: errorEdit }, // This is the destructured mutation result
+    ] = useEditTaskMutation();
+
+    const [deleteTask, { isSuccess: isDeleted, error: deleteError }] = useDeleteTaskMutation();
+    const [archiveTask, { isSuccess: isArchived, error: archivedError }] = useArchiveTaskMutation();
+
+    useEffect(() => {
+        if (isSuccess) {
+            props.handleModalClose();
+            setSnackbar("Bra jobbat!", true);
+        }
+    }, [isSuccess]);
+
+    useEffect(() => {
+        if (isArchived) {
+            props.handleModalClose();
+            setSnackbar("Syssla arkiverad", true);
+        }
+    }, [isArchived]);
+
+    useEffect(() => {
+        if (errorEdit) {
+            props.handleModalClose();
+            setSnackbar("error", true);
+            console.log("fel " + errorEdit);
+        }
+    }, [errorEdit]);
+
+    useEffect(() => {
+        if (successEdit) {
+            props.handleModalClose();
+            setSnackbar("success", true);
+            console.log("success" + successEdit);
+            setOpenEdit(false);
+        }
+    }, [successEdit]);
+
+    useEffect(() => {
+        if (archivedError) {
+            props.handleModalClose();
+            setSnackbar("ett oväntat fel dök upp", true);
+        }
+    }, [archivedError]);
+
+    useEffect(() => {
+        if (isDeleted) {
+            setSnackbar("Syssla raderad", true);
+            props.handleModalClose();
+        }
+    }, [isSuccess]);
+
+    useEffect(() => {
+        if (deleteError) {
+            setSnackbar("Ett oväntat fel dök upp", true);
+            props.handleModalClose();
+        }
+    }, [deleteError]);
 
     const onSave = () => {
-        console.log("mark task as done");
-        props.handleModalClose();
+        if (props.task.id && props.task.value && user?.id && currentHousehold?.id) {
+            const markAsDone: doneTask = {
+                taskId: props.task.id,
+                userId: user?.id,
+                houseHoldId: currentHousehold?.id,
+            };
+            createDoneTask(markAsDone);
+        }
     };
 
     const onEdit = () => {
         console.log("edit api");
-        setOpenEdit(false);
+        if (name && description && repeated && value) {
+            const v = value as valueType;
+            const requestData: task = {
+                houseHoldId: currentHousehold?.id as string,
+                description: description,
+                name: name,
+                repeated: repeated,
+                value: v,
+                archived: false,
+                id: props.task.id,
+            };
+            console.log("------- Edit Form -------");
+            console.log("repeated: " + repeated);
+            console.log("description: " + description);
+            console.log("name: " + name);
+            console.log("value: " + value);
+            console.log("household: " + currentHousehold?.id);
+            console.log("------- End of Edit Form -------");
+            editTask(requestData);
+        } else {
+            setSnackbar("Fyll i alla värden", true);
+        }
+        setIsClickedDays(false);
+        setIsClicked(false);
     };
 
     const handleEditClick = () => {
         console.log("open new modal for edit");
-        setOpenEdit(true);
         // props.handleModalClose();
+        setOpenEdit(true);
     };
 
     const handleDeleteClick = () => {
@@ -53,12 +195,32 @@ function TaskModal(props: Props) {
 
     const onDelete = () => {
         console.log("delete task api");
+        deleteTask(props.task?.id!);
         setOpenDelete(false);
     };
 
     const onArchive = () => {
         console.log("archive task api");
+        archiveTask(props.task?.id!);
         setOpenDelete(false);
+    };
+
+    const onClose = () => {
+        console.log("close");
+        setOpenDelete(false);
+    };
+
+    const onPress2 = (i: number) => {
+        console.log("onPress works fine");
+        setIsClicked(true);
+        console.log(i);
+        setValue(i as number);
+    };
+    const onPressRepeated = (i: number) => {
+        console.log("onPress works fine");
+        setIsClickedDays(true);
+        console.log(i);
+        setRepeated(i as number);
     };
 
     useEffect(() => {
@@ -68,6 +230,90 @@ function TaskModal(props: Props) {
             }
         });
     }, [rights]);
+
+    const repeatedInput = (
+        <Card style={styles.inputsCard}>
+            <Card.Content>
+                <View style={styles.clickedDay}>
+                    <View style={styles.buttonsCircleContainer}>
+                        <FlatList
+                            horizontal
+                            data={repeatedList}
+                            keyExtractor={(index) => "key" + index}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity
+                                    key={item}
+                                    style={styles.repeatedCircleButton}
+                                    onPress={() => onPressRepeated(item)}
+                                >
+                                    <Text style={styles.repeatedCircleBtnText}>{item}</Text>
+                                </TouchableOpacity>
+                            )}
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    </View>
+                </View>
+            </Card.Content>
+        </Card>
+    );
+
+    const repeatedValue = (
+        <Card style={styles.inputsCard}>
+            <Card.Content>
+                <View style={styles.clickedDay}>
+                    <View style={styles.clickedDayTitle}>
+                        <Text style={styles.buttonText}>Återkommer: </Text>
+                    </View>
+                    <View style={styles.clickedDayReturn}>
+                        <Text style={{ marginRight: 3 }}>Var</Text>
+                        <TouchableOpacity
+                            style={styles.circleButton}
+                            onPress={() => {
+                                setIsClickedDays(false);
+                            }}
+                        >
+                            <Text style={styles.circleBtnText}>{repeated}</Text>
+                        </TouchableOpacity>
+                        <Text style={{ marginLeft: 3 }}>dag</Text>
+                    </View>
+                </View>
+            </Card.Content>
+        </Card>
+    );
+
+    const valueInput = (
+        <Card style={styles.inputsCard2}>
+            <Card.Content>
+                <View style={styles.buttonsCircleContainer}>
+                    {buttonList.map((i) => (
+                        <TouchableOpacity key={i} style={styles.buttonsCircleButton} onPress={() => onPress2(i)}>
+                            <Text style={styles.buttonsCircleBtnText}>{i}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </Card.Content>
+        </Card>
+    );
+    const valueForTask = (
+        <Card style={styles.inputsCard2}>
+            <Card.Content>
+                <View style={styles.clickedDay}>
+                    <View style={styles.clickedDayTitle}>
+                        <Text style={styles.buttonText}>Värde: </Text>
+                        <Text style={styles.clickedDayTitleSub}>Hur energikrävande är sysslan?</Text>
+                    </View>
+                    <TouchableOpacity
+                        style={styles.circleButtonValue}
+                        onPress={() => {
+                            setIsClicked(false);
+                        }}
+                    >
+                        <Text style={styles.circleBtnTextValue}>{value}</Text>
+                    </TouchableOpacity>
+                </View>
+            </Card.Content>
+        </Card>
+    );
 
     return (
         <View style={styles.centeredView}>
@@ -90,7 +336,43 @@ function TaskModal(props: Props) {
                     >
                         <View style={[openEdit ? styles.centeredViewBlurred : styles.centeredView]}>
                             <View style={styles.modalView}>
-                                <Text>{"Här får henke använda samma gränsnitt som han gjort för create"}</Text>
+                                <SnackbarComponent isVisible={isVisible} message={message} />
+                                <View style={styles.modalTextView}>
+                                    <Text style={styles.modalText}>Ändra syssla</Text>
+                                </View>
+                                <View
+                                    style={{
+                                        position: "absolute",
+                                        alignItems: "center",
+                                        marginTop: 25,
+                                    }}
+                                >
+                                    <TextInput
+                                        defaultValue={defaultTask.name}
+                                        theme={{ roundness: 10 }}
+                                        outlineColor="white"
+                                        mode="outlined"
+                                        style={styles.input}
+                                        value={name}
+                                        label="Titel"
+                                        onChangeText={onChangeInputName}
+                                    />
+
+                                    <TextInput
+                                        defaultValue={defaultTask.description}
+                                        theme={{ roundness: 10 }}
+                                        outlineColor="white"
+                                        mode="outlined"
+                                        style={styles.input2}
+                                        value={description}
+                                        label="Beskrivning"
+                                        onChangeText={onChangeInputDescription}
+                                    />
+
+                                    {!isClickedDays ? repeatedInput : repeatedValue}
+
+                                    {!isClicked ? valueInput : valueForTask}
+                                </View>
                                 <View style={styles.buttonsContainer}>
                                     <TouchableOpacity onPress={() => onEdit()} style={styles.saveButton}>
                                         <MaterialIcons name="check-circle" size={30} color="black" />
@@ -113,32 +395,37 @@ function TaskModal(props: Props) {
                         }}
                     >
                         <View style={[openDelete ? styles.centeredViewBlurred : styles.centeredView]}>
-                            <View style={styles.modalView}>
+                            <View style={styles.modalViewDelete}>
                                 <Text style={styles.warningText}>
                                     Varning! arkivera sysslan om du vill ha kvar den i statistiken
                                 </Text>
                                 <View style={styles.buttonsContainer}>
-                                    <TouchableOpacity onPress={() => onDelete()} style={styles.saveButton}>
+                                    <TouchableOpacity onPress={() => onDelete()} style={styles.saveButtonDelete}>
                                         <MaterialIcons name="delete" size={30} color="black" />
                                         <Text style={styles.buttonText}>Radera</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => onArchive()} style={styles.closeButton}>
+                                    <TouchableOpacity onPress={() => onArchive()} style={styles.archiveButton}>
                                         <MaterialCommunityIcons name="archive" size={30} color="black" />
                                         <Text style={styles.buttonText}>Arkivera</Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity onPress={() => onClose()} style={styles.closeButtonDelete}>
+                                        <MaterialCommunityIcons name="close" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Stäng</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
                     </Modal>
                     <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>
+                        <View style={styles.modalView2}>
+                            <Text style={styles.modalText2}>
                                 Syssla:
-                                <Text style={styles.modalText}>{" " + props.task.name}</Text>
+                                <Text style={styles.modalText2}>{" " + props.task.name}</Text>
                             </Text>
-                            <Text style={styles.modalText}>
-                                Beskriving:
-                                <Text style={styles.modalText}>{" " + props.task.description}</Text>
+                            <Text style={styles.modalText2}>
+                                Beskrivning:
+                                <Text style={styles.modalText2}>{" " + props.task.description}</Text>
                             </Text>
                             {rights && (
                                 <View>
@@ -174,128 +461,3 @@ function TaskModal(props: Props) {
 }
 
 export default TaskModal;
-
-const styles = StyleSheet.create({
-    input: {
-        backgroundColor: "#ffff",
-        width: "100%",
-        marginBottom: 15,
-    },
-    householdButton: {
-        marginTop: 20,
-        margin: 5,
-        backgroundColor: "white",
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-        borderRadius: 100,
-        width: 140,
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
-    },
-    householdButtonText: {
-        color: "black",
-        fontSize: 18,
-        fontWeight: "bold",
-        marginLeft: 15,
-    },
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22,
-    },
-    centeredViewBlurred: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22,
-        backgroundColor: "rgba(0,0,0,0.5)",
-    },
-    modalView: {
-        // margin: 20,
-        width: 300,
-        height: 500,
-        backgroundColor: "#f2f2f2",
-        borderRadius: 20,
-        padding: 20,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center",
-        fontWeight: "bold",
-        fontSize: 20,
-    },
-    buttonsContainer: {
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignSelf: "flex-end",
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-    },
-    closeButton: {
-        backgroundColor: "white",
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-        width: "50%",
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
-        borderBottomRightRadius: 20,
-        borderStartWidth: 1,
-        borderStartColor: "gainsboro",
-    },
-    saveButton: {
-        backgroundColor: "white",
-        paddingVertical: 20,
-        paddingHorizontal: 20,
-        width: "50%",
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
-        borderBottomLeftRadius: 20,
-    },
-    buttonText: {
-        color: "black",
-        fontSize: 18,
-        fontWeight: "bold",
-        marginLeft: 15,
-    },
-    warningText: {
-        fontWeight: "bold",
-        textAlign: "center",
-        color: "red",
-    },
-});

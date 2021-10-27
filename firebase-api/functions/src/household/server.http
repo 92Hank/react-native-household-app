@@ -22,8 +22,8 @@ Content-Type: application/json
     "houseHoldId": "1J8rfrvRn6TUE8U9wJnv",
     "inviteCode": "2957",
     "member": {
-        "name": "robin2",
-        "userId": "userID som vill jiona2342",
+        "name": "robin233",
+        "userId": "userID som vill jiona2342333",
         "emoji": 1
     }
 }
@@ -140,8 +140,8 @@ PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/househ
 Content-Type: application/json
 
 {
-    "houseHoldId": "D66g4HdjydwhJSmDUsWm",
-    "userId": "hnYHoi3buysy7DeifSlf"
+    "houseHoldId": "1J8rfrvRn6TUE8U9wJnv",
+    "userId": "userID som vill jiona2342333"
 }
 
 ###

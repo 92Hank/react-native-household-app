@@ -8,6 +8,7 @@ export const userApi = createApi({
         baseUrl: webUrl + "users",
     }),
     tagTypes: ["User"],
+    refetchOnMountOrArgChange: true,
     endpoints: (builder) => ({
         createUser: builder.mutation<string, user>({
             query: (body) => ({
@@ -16,7 +17,7 @@ export const userApi = createApi({
                 responseHandler: "text",
                 body,
             }),
-            invalidatesTags: (result, error, arg) => [{ type: "User", id: arg.id }],
+            invalidatesTags: () => [{ type: "User" }],
         }),
 
         getAllUser: builder.query<user[], void>({
@@ -43,4 +44,10 @@ export const userApi = createApi({
     }),
 });
 
-export const { useGetAllUserQuery, useCreateUserMutation, useGetUserByIdQuery } = userApi;
+export const {
+    useGetAllUserQuery,
+    useLazyGetAllUserQuery,
+    useCreateUserMutation,
+    useGetUserByIdQuery,
+    useLazyGetUserByIdQuery,
+} = userApi;

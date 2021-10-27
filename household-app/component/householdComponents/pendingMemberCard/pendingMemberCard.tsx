@@ -1,0 +1,88 @@
+import React, { useState } from "react";
+import { Dimensions, FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { List, Surface } from "react-native-paper";
+import { fullMemberInfo } from "../../../../Common/household";
+import ChangeMemberStatusModal from "../changeMemberStatusModal/changeMemberStatusModal";
+
+interface Props {
+    pendingMember: fullMemberInfo[];
+}
+
+const PendingMemberTaskCard = (props: Props) => {
+    const [expanded, setExpanded] = useState(false);
+    const [memberModal, setMember] = useState<fullMemberInfo>();
+    const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
+
+    const clickOnMember = (member: fullMemberInfo) => {
+        setMember(member);
+        setIsClickedTaskOpen(true);
+        console.log("click on task,");
+    };
+    const handleTaskClose = () => {
+        setIsClickedTaskOpen(false);
+    };
+
+    const handlePress = () => setExpanded(!expanded);
+    const onPressMember = () => {
+        console.log("Få upp modalen för att redigera syssla och ta bort arkivering?");
+    };
+
+    return (
+        <View>
+            <List.Section>
+                <List.Accordion title="Ansökningar" expanded={expanded} onPress={handlePress} titleStyle={styles.title}>
+                    <FlatList
+                        data={props.pendingMember}
+                        keyExtractor={(item: fullMemberInfo) => item.userId}
+                        renderItem={({ item }) => (
+                            <Surface style={styles.listItem}>
+                                <TouchableOpacity onPress={onPressMember}>
+                                    {/* Falskt felmeddelande */}
+                                    <List.Item
+                                        titleStyle={styles.item}
+                                        title={item.name}
+                                        onPress={() => clickOnMember(item)}
+                                    />
+                                </TouchableOpacity>
+                            </Surface>
+                        )}
+                    />
+                </List.Accordion>
+            </List.Section>
+            <View>
+                <ChangeMemberStatusModal
+                    isOpen={isClickedTaskOpen}
+                    handleModalClose={handleTaskClose}
+                    member={memberModal as fullMemberInfo}
+                />
+            </View>
+        </View>
+    );
+};
+
+export default PendingMemberTaskCard;
+const deviceWidth = Math.round(Dimensions.get("window").width);
+const styles = StyleSheet.create({
+    item: {
+        fontWeight: "bold",
+        fontSize: 22,
+    },
+    listItem: {
+        width: deviceWidth - 20,
+        alignContent: "center",
+        alignSelf: "center",
+        borderRadius: 10,
+        marginVertical: 6,
+        elevation: 3,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 0.75,
+        shadowRadius: 5,
+    },
+    title: {
+        fontSize: 20,
+    },
+});

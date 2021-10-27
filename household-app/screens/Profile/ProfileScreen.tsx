@@ -1,6 +1,7 @@
 import React, { FC } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Switch, TouchableRipple } from "react-native-paper";
+import Button from "../../component/common/Button";
 import { PreferencesContext } from "../../context/PreferencesContext";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
@@ -29,9 +30,10 @@ const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => 
                     </View>
                 </View>
             </TouchableRipple>
-            <TouchableOpacity onPress={onPressTasks} style={styles.button}>
+            <Button iconType={{ type: "FontAwesome5", icons: "tasks" }} text="Tasks" onPress={onPressTasks}></Button>
+            {/* <TouchableOpacity onPress={onPressTasks} style={styles.button}>
                 <Text style={styles.buttonText}>Tasks</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <Text style={styles.text}>Profile</Text>
         </View>
     );

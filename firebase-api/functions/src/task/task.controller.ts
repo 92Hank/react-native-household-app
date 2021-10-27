@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {Request, Response} from "express";
 import {fb} from "../fb";
@@ -93,20 +94,34 @@ export const deleteTask = (req: Request, res: Response) => {
   const id = req.params.id;
 
   const taskRef = db.collection(taskCollection).doc(id);
+  // const doneTaskCol = db.collection("doneTask");
   // .delete();
 
   taskRef
       .get()
       .then(function(doc) {
         if (doc.exists) {
-          doc.ref.delete();
-          res.status(200).json("deleted task item: " + id);
+          const TaskId = doc.id;
+          doc.ref.delete()
+              .then(function() {
+                db.collection("doneTask").get().then((snap)=> {
+                  snap.forEach((s) => {
+                    const doneTask = s.data();
+                    if (doneTask.taskId === TaskId) {
+                      s.ref.delete();
+                    }
+                  });
+                });
+              }).then(function() {
+                res.status(200).json("deleted task item: " + id + ", and doneTask connected to it");
+              });
         } else {
           res.status(400).json("No such document: " + id);
         }
       })
       .catch((error) => res.status(500).send(error));
 };
+
 
 export const archiveTask = (req: Request, res: Response) => {
   const id = req.params.id;
@@ -124,6 +139,29 @@ export const archiveTask = (req: Request, res: Response) => {
               {merge: true}
           );
           res.status(200).json("archive task item: " + id);
+        } else {
+          res.status(400).json("No such document: " + id);
+        }
+      })
+      .catch((error) => res.status(500).send(error));
+};
+
+export const activateTask = (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const taskRef = db.collection(taskCollection).doc(id);
+
+  taskRef
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          doc.ref.set(
+              {
+                archived: true,
+              },
+              {merge: true}
+          );
+          res.status(200).json("activate task item: " + id);
         } else {
           res.status(400).json("No such document: " + id);
         }

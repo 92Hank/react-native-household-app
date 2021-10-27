@@ -8,6 +8,7 @@ export const taskApi = createApi({
         baseUrl: webUrl + "tasks",
     }),
     tagTypes: ["Task"],
+    refetchOnMountOrArgChange: true,
     endpoints: (builder) => ({
         createTask: builder.mutation<string, task>({
             query: (body) => ({
@@ -16,7 +17,7 @@ export const taskApi = createApi({
                 responseHandler: "text",
                 body,
             }),
-            invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg.id }],
+            invalidatesTags: () => [{ type: "Task" }],
         }),
 
         GetTaskByHouseholdId: builder.query<task[], string>({
@@ -55,6 +56,15 @@ export const taskApi = createApi({
             }),
             invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg }],
         }),
+        archiveTask: builder.mutation<string, string>({
+            query: (body) => ({
+                url: `/` + body,
+                method: "PATCH",
+                responseHandler: "text",
+                body,
+            }),
+            invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg }],
+        }),
     }),
 });
 
@@ -64,4 +74,5 @@ export const {
     useLazyGetTaskByHouseholdIdQuery,
     useEditTaskMutation,
     useDeleteTaskMutation,
+    useArchiveTaskMutation,
 } = taskApi;

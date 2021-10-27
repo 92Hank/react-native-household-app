@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Feather, MaterialIcons } from "@expo/vector-icons";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Button from "../../component/common/Button";
 import TaskModal from "../../component/householdComponents/taskModal/taskModal";
 import ModalComponent from "../../component/modal/ModalComponent";
 import TaskCard from "../../component/taskFolder/TaskCard";
@@ -12,23 +13,36 @@ import { useAppSelector } from "../../Redux/hooks";
 import { useGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
 import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
+import { snackbarContext } from "../../context/snackBarContext";
+import { List, Surface } from "react-native-paper";
+import ArchivedTaskCard from "../../component/taskFolder/ArchivedTaskCard";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 const deviceHeight = Math.round(Dimensions.get("window").height);
 
-//[TODO] add event difenitions to Props
+//[TODO] add event definitions to Props
 // eslint-disable-next-line prettier/prettier
-const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElement => {
+const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const [addModalOpen, setAddModalOpen] = useState(false);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [render, setRender] = useState(false);
     const [tasks, setTasks] = useState<TaskNow[]>();
+    const [archivedTasks, setArchivedTasks] = useState<TaskNow[]>();
     const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
     const [taskInModal, setTaskInModal] = useState<TaskNow>();
     const [rights, setRights] = useState(false);
     const user = useAppSelector(selectCurrentLoginUser);
+    const { message, isVisible } = useContext(snackbarContext);
 
-    const { data: tasksData } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
+    const {
+        data: tasksData,
+        isLoading,
+        isFetching,
+        isError,
+        error,
+    } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
     const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
 
     const isToday = (someDate: any): boolean => {
@@ -47,6 +61,12 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
     };
 
     useEffect(() => {
+        if (isLoading) {
+            console.log("laddar");
+        }
+    }, [isLoading]);
+
+    useEffect(() => {
         currentHousehold?.member.forEach((m) => {
             if (m.userId === user?.id && m.isOwner) {
                 setRights(true);
@@ -55,7 +75,8 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
     }, [rights]);
 
     useEffect(() => {
-        const allTasks: TaskNow[] = [];
+        const activeTasks: TaskNow[] = [];
+        const inactiveTasks: TaskNow[] = [];
         tasksData?.forEach((t) => {
             const taskItem: TaskNow = {
                 id: t.id as string,
@@ -65,30 +86,37 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                 repeated: t.repeated,
                 archived: t.archived,
                 value: t.value,
-                createdAt: t.createdAt,
+                createdAt: t.createdAt as Date,
                 emojiList: [],
             };
 
             if (t.createdAt) {
                 taskItem.createdAt = dateConvert(t.createdAt);
             }
-            allTasks.push(taskItem);
+            if (!taskItem.archived) {
+                activeTasks.push(taskItem);
+            } else {
+                inactiveTasks.push(taskItem);
+            }
 
             doneTasksData?.forEach((d) => {
                 const today: boolean = isToday(d.dateDone);
                 if (t.id === d.taskId && today) {
                     currentHousehold?.member.forEach((m) => {
                         if (d.userId === m.userId) {
-                            allTasks[allTasks.length - 1].emojiList.push(m.emoji);
+                            activeTasks[activeTasks.length - 1].emojiList.push(m.emoji);
                         } else {
-                            allTasks[allTasks.length - 1].dateDone = dateConvert(d.dateDone);
+                            activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
                         }
                     });
+                } else {
+                    activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
                 }
             });
         });
-        setTasks(allTasks);
-        if (allTasks.length > 0) {
+        setTasks(activeTasks);
+        setArchivedTasks(inactiveTasks);
+        if (activeTasks.length > 0) {
             setRender(true);
         }
     }, [tasksData, doneTasksData]);
@@ -117,6 +145,12 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
 
     return (
         <View style={styles.container}>
+            <SnackbarComponent isVisible={isVisible} message={message} />
+            {isLoading && (
+                <View style={{ marginTop: "50%" }}>
+                    <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
+                </View>
+            )}
             {render && (
                 <View style={styles.listContainer}>
                     <FlatList
@@ -126,7 +160,8 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
                             <TaskCard key={item.id} task={item} onPress={() => clickOnTask(item)} />
                         )}
                     />
-                    <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} event={event} />
+                    {rights && archivedTasks && <ArchivedTaskCard archivedTasks={archivedTasks} />}
+                    <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} />
                     <TaskModal
                         isOpen={isClickedTaskOpen}
                         handleModalClose={handleTaskClose}
@@ -136,18 +171,17 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
             )}
             <View style={rights ? styles.buttonsContainer : styles.buttonsContainerUser}>
                 {rights && (
-                    <TouchableOpacity onPress={handleAddClick} style={styles.householdButton}>
-                        <MaterialIcons name="add-circle-outline" size={30} color="black" />
-                        <Text style={styles.householdButtonText}>Lägg till</Text>
-                    </TouchableOpacity>
+                    <Button
+                        iconType={{ type: "MaterialIcons", icons: "add-circle-outline" }}
+                        text="Lägg till"
+                        onPress={handleAddClick}
+                    ></Button>
                 )}
-                <TouchableOpacity
+                <Button
+                    iconType={{ type: "MaterialIcons", icons: "person" }}
+                    text="Medlemmar"
                     onPress={onPressUsersInHousehold}
-                    style={rights ? styles.householdButton : styles.householdButtonUser}
-                >
-                    <Feather name="users" size={30} color="black" />
-                    <Text style={styles.householdButtonText}>Medlemmar</Text>
-                </TouchableOpacity>
+                ></Button>
             </View>
         </View>
     );
@@ -155,9 +189,34 @@ const TasksScreen: FC<Props> = ({ navigation, event }: Props): React.ReactElemen
 
 export default TasksScreen;
 
+const deviceWidth = Math.round(Dimensions.get("window").width);
 const styles = StyleSheet.create({
+    item: {
+        fontWeight: "bold",
+        fontSize: 22,
+        // marginHorizontal: 15,
+        // marginVertical: 12,
+    },
+    listItem: {
+        width: deviceWidth - 20,
+        alignContent: "center",
+        alignSelf: "center",
+        borderRadius: 10,
+        marginVertical: 6,
+        elevation: 3,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 0.75,
+        shadowRadius: 5,
+    },
+    title: {
+        fontSize: 20,
+    },
     listContainer: {
-        maxHeight: deviceHeight - 241,
+        maxHeight: deviceHeight - 170,
     },
     container: {
         flex: 1,
