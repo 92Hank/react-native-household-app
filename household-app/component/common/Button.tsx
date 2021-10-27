@@ -1,8 +1,12 @@
-import { FontAwesome5, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { FC } from "react";
-import { StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from "react-native";
+import { StyleSheet, Text, TextStyle, TouchableOpacity, useColorScheme, ViewStyle } from "react-native";
+import { PreferencesContext } from "../../context/PreferencesContext";
 
 type iconType =
+    | {
+          type: "None";
+      }
     | {
           type: "MaterialIcons";
           icons: keyof typeof MaterialIcons.glyphMap;
@@ -12,8 +16,8 @@ type iconType =
           icons: keyof typeof MaterialCommunityIcons.glyphMap;
       }
     | {
-          type: "FontAwesome5";
-          icons: keyof typeof FontAwesome5.glyphMap;
+          type: "FontAwesome";
+          icons: keyof typeof FontAwesome.glyphMap;
       };
 
 type Props = {
@@ -24,31 +28,46 @@ type Props = {
     buttonStyle?: ViewStyle;
     textStyle?: TextStyle;
 };
+type backgroundColor = {
+    backgroundColor: "white" | "dimgrey";
+};
+type color = {
+    color: "white" | "black";
+};
 
 const Button: FC<Props> = ({ text, iconType, onPress, buttonStyle, textStyle }: Props): React.ReactElement => {
+    const { theme } = React.useContext(PreferencesContext);
+    console.log("themer", theme);
+
+    const textColor: color = { color: theme === "light" ? "black" : "white" };
+    const buttonColor: backgroundColor = { backgroundColor: theme === "light" ? "white" : "dimgrey" };
+
     return (
-        <TouchableOpacity onPress={onPress} style={{ ...styles.ButtonStyle, ...buttonStyle }}>
-            {switchType(iconType)}
-            <Text style={{ ...styles.TextStyle, ...textStyle }}>{text}</Text>
+        <TouchableOpacity onPress={onPress} style={{ ...styles.ButtonStyle, ...buttonColor, ...buttonStyle }}>
+            {switchType(iconType, textColor.color)}
+            <Text style={{ ...styles.TextStyle, ...textColor, ...textStyle }}>{text}</Text>
         </TouchableOpacity>
     );
 };
 export default Button;
 
-function switchType(iconType: iconType) {
+function switchType(iconType: iconType, color: string) {
     switch (iconType.type) {
         case "MaterialIcons":
-            return <MaterialIcons name={iconType.icons} size={30} color="black" />;
+            return <MaterialIcons name={iconType.icons} size={30} color={color} />;
 
         case "MaterialCommunityIcons":
-            return <MaterialCommunityIcons name={iconType.icons} size={30} color="black" />;
+            return <MaterialCommunityIcons name={iconType.icons} size={30} color={color} />;
 
-        case "FontAwesome5":
-            return <FontAwesome5 name={iconType.icons} size={30} color="black" />;
+        case "FontAwesome":
+            return <FontAwesome name={iconType.icons} size={30} color={color} />;
+
+        case "None":
+            return <></>;
 
         default:
             never(iconType);
-            return <view />;
+            return <></>;
     }
 }
 
@@ -57,14 +76,13 @@ function never(params: never): void {}
 
 const styles = StyleSheet.create({
     ButtonStyle: {
-        backgroundColor: "white",
         paddingVertical: 15,
         paddingHorizontal: 15,
         width: "45%",
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
+        // shadowColor: "rgba(0, 0, 0, 0.1)",
         shadowOpacity: 0.8,
         elevation: 6,
         shadowRadius: 15,
@@ -76,7 +94,6 @@ const styles = StyleSheet.create({
         height: 55,
     },
     TextStyle: {
-        color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 10,
