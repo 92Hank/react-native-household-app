@@ -170,8 +170,18 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                 </View>
             )}
             <View style={rights ? styles.buttonsContainer : styles.buttonsContainerUser}>
-                {rights && <Button iconName="add-circle-outline" text="Lägg till" onPress={handleAddClick}></Button>}
-                <Button iconName="person" text="Medlemmar" onPress={onPressUsersInHousehold}></Button>
+                {rights && (
+                    <Button
+                        iconType={{ type: "MaterialIcons", icons: "add-circle-outline" }}
+                        text="Lägg till"
+                        onPress={handleAddClick}
+                    ></Button>
+                )}
+                <Button
+                    iconType={{ type: "MaterialIcons", icons: "person" }}
+                    text="Medlemmar"
+                    onPress={onPressUsersInHousehold}
+                ></Button>
             </View>
         </View>
     );

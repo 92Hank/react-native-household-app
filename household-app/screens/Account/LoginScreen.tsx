@@ -10,6 +10,7 @@ import {
     TextInput,
     Image,
 } from "react-native";
+import Button from "../../component/common/Button";
 import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
@@ -71,9 +72,14 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                             onChangeText={onChangeTextPassword}
                             value={password}
                         />
-                        <TouchableOpacity onPress={onPressLogin} style={styles.loginButton}>
+                        <Button
+                            iconType={{ type: "MaterialIcons", icons: "login" }}
+                            onPress={onPressLogin}
+                            text="Sign in"
+                        ></Button>
+                        {/* <TouchableOpacity onPress={onPressLogin} style={styles.loginButton}>
                             <Text style={styles.buttonText}>Sign in</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
