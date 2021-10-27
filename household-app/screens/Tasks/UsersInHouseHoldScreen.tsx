@@ -32,6 +32,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     const [leaveHouseHoldApi, { isSuccess, error }] = useLeaveHouseholdMutation();
     const [rights, setRights] = useState(false);
     const [openChangeName, setOpenChangeName] = useState(false);
+    const [members, setMembers] = useState<fullMemberInfo[]>();
 
     const clickOnMember = (item: fullMemberInfo) => {
         console.log("click");
@@ -76,6 +77,16 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     };
 
     useEffect(() => {
+        if (currentHousehold) {
+            setMembers(
+                currentHousehold.member.filter(
+                    (m) => m.AcceptedStatus === "accepted" || m.AcceptedStatus === "pending",
+                ),
+            );
+        }
+    }, [currentHousehold]);
+
+    useEffect(() => {
         if (isSuccess) {
             setSnackbar("Du har lämnat hushåll: " + currentHousehold?.name, true);
         }
@@ -105,7 +116,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
                 </Surface>
                 <View style={styles.listContainer}>
                     <FlatList
-                        data={currentHousehold?.member}
+                        data={members}
                         keyExtractor={(item: any) => item.userId}
                         renderItem={({ item }) => (
                             <UserListComponent key={item.userId} member={item} onPress={() => clickOnMember(item)} />
