@@ -26,8 +26,10 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
     };
 
     /**
-     * Function to loop through the MemberStatistics data array and remove from
-     * it all household members not having the taskId in their doneTasks[] parameter.
+     * Function to filter out from the MemberStatistics data array all members not
+     * included in a particular task, defined as not having the taskId in their
+     * doneTasks[] parameter.
+     *
      * The filtered data can be used to determine the amount of slices of a piechart.
      *
      * @param data

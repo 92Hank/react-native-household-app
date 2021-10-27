@@ -11,15 +11,15 @@ import { household } from "../../../Common/household";
  * @returns
  */
 export const getLastMonthDoneTasksByHousehold = (doneTasksArray: doneTask[], currentHousehold: household) => {
-    const filteredArray = filterDoneTasksByHouseHold(doneTasksArray, currentHousehold);
+    const filteredArray = filterDoneTasksByHouseHold(doneTasksArray, currentHousehold.id);
     const startTime = getLastMonthStartInSeconds();
     const endTime = getLastMonthEndInSeconds();
 
     return filterDoneTasksBySecondsInterval(filteredArray, startTime, endTime);
 };
 
-const filterDoneTasksByHouseHold = (doneTasksArray: doneTask[], currentHousehold: household) => {
-    return doneTasksArray.filter((doneTask) => doneTask.householdId === currentHousehold.id);
+const filterDoneTasksByHouseHold = (doneTasksArray: doneTask[], currentHouseholdId: string) => {
+    return doneTasksArray.filter((doneTask) => doneTask.householdId === currentHouseholdId);
 };
 
 const filterDoneTasksBySecondsInterval = (
@@ -29,7 +29,6 @@ const filterDoneTasksBySecondsInterval = (
 ) => {
     return doneTasksArray.filter((doneTask) => {
         const dateDoneInSeconds = doneTask.dateDone?.getTime() * 1000;
-
         if (dateDoneInSeconds - endDateInSeconds <= 0 && dateDoneInSeconds - startDateInSeconds >= 0) return doneTask;
     });
 };
