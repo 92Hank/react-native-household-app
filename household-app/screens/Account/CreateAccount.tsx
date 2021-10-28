@@ -67,7 +67,11 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
     };
 
     return (
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined} enabled>
+        <KeyboardAvoidingView
+            style={{ flexGrow: 1, height: "100%" }}
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            enabled
+        >
             <ScrollView
                 //  contentContainerStyle={{ flexGrow: 1 }}
                 {...(Platform.OS === "ios" ? "keyboardDismissMode='interactive'" : null)}
@@ -84,21 +88,21 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
                             <>
                                 <TextInput
                                     keyboardType="email-address"
-                                    label="Email"
+                                    label="E-mail"
                                     style={styles.input}
                                     value={values.email}
                                     onChangeText={handleChange<keyof User>("email")}
                                     helperText={errors.email}
                                 />
                                 <TextInput
-                                    label="Password"
+                                    label="Lösenord"
                                     style={styles.input}
                                     value={values.password}
                                     onChangeText={handleChange<keyof User>("password")}
                                     helperText={errors.password}
                                 />
                                 <TextInput
-                                    label="Username"
+                                    label="Användarnamn"
                                     value={values.userName}
                                     style={styles.input}
                                     onChangeText={handleChange<keyof User>("userName")}
@@ -108,7 +112,7 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
                                     <Button
                                         iconType={{ type: "FontAwesome", icons: "user-plus" }}
                                         onPress={handleSubmit}
-                                        text="Create account"
+                                        text="Skapa konto"
                                     ></Button>
                                 )}
                                 <View style={{ marginTop: 10 }}>
