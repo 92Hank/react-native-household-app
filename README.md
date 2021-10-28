@@ -37,11 +37,10 @@ med produktägare, godkännas och dokumenteras.
 namnet ska gå att ändra. \*
 - [x] Alla användare i ett hushåll ska kunna se vilka som tillhör ett hushåll.
 - [x] En ägare av ett hushåll ska kunna se förfrågningar om att gå med i hushållet.
-
-- [x] En ägare ska kunna acceptera eller neka förfrågningar. // byta isAccepted till accepted | pending | rejected .. ändra api
+- [x] En ägare ska kunna acceptera eller neka förfrågningar.
 - [x] En ägare ska kunna göra andra till ägare.
-- [ ] En ägare ska kunna pausa en användare och under pausade perioder ska användare inte
-tas med i statistiken. // göra api
+- [x] En ägare ska kunna pausa en användare och under pausade perioder ska användare inte
+tas med i statistiken. // göra i statistik
 - [ ] Om en använder har pausats under en del av en period i statistiken ska graferna
 normaliseras.
 
@@ -56,8 +55,8 @@ godkänna användaren.
 
 ### Profil (1/6)
 
-- [ ] En användare ska kunna ange sitt namn. _ ska man kunna ändra sitt member name? = göra api
-- [ ] En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista. _ göra Api
+- [x] En användare ska kunna ange sitt namn. // ändra och på profil sida
+- [x] En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista. // välja ny på profil sida
 - [x] Valda avatarer ska inte kunna väljas av andra användare i hushållet. _
 - [x] Avataren ska användas i appen för att visa vad användaren har gjort. _
 - [x] En användare ska kunna ställa in appens utseende (mörkt, ljust, auto).
@@ -79,7 +78,7 @@ också kommer att tas bort och få valet att arkivera sysslan istället. Senare.
 ### Dagsvyn (0/3)
 
 - [x] Alla sysslor ska listas i en dagsvy och ge en översikt kring vad som behöver göras. _
-- [ ] Utöver sysslans namn ska även vem/vilka som har gjort sysslan visas, hur många dagar
+- [x] Utöver sysslans namn ska även vem/vilka som har gjort sysslan visas, hur många dagar
 sedan sysslan gjordes senast samt om den är försenad. _
 - [x] När en användare väljer en syssla ska beskrivningen av sysslan visas och det ska även
 med ett enkelt tryck gå att markera sysslan som gjord. \*

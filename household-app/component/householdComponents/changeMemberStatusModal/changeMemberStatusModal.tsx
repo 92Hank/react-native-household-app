@@ -11,6 +11,7 @@ import {
     useAcceptUserMutation,
     useMakeUserToOwnerMutation,
     usePauseUserMutation,
+    useRejectUserMutation,
 } from "../../../Redux/Service/household/householdApi";
 
 const radioPropsOwner = [
@@ -24,8 +25,8 @@ const radioPropsPause = [
 ];
 
 const radioPropsAccept = [
-    { label: "Ja", value: 1 },
-    { label: "Nej", value: 0 },
+    { label: "Acceptera", value: 1 },
+    { label: "Avvisa", value: 0 },
 ];
 
 const radioPropsUnPause = [
@@ -53,6 +54,21 @@ function ChangeMemberStatusModal(props: Props) {
     const [makeUserToOwner, { error: makeToOwnerError, isSuccess: isMakeOwnerSuccess }] = useMakeUserToOwnerMutation();
     const [pauseUser, { error: pauseUserError, isSuccess: isPasuedSuccess }] = usePauseUserMutation();
     const [acceptUserApi, { error: acceptError, isSuccess: isAcceptSuccess }] = useAcceptUserMutation();
+    const [rejectUser, { error: rejectError, isSuccess: rejectSuccess }] = useRejectUserMutation();
+
+    useEffect(() => {
+        if (rejectError) {
+            setSnackbar("Ett oväntat fel dök upp", true);
+            props.handleModalClose();
+        }
+    }, [rejectError]);
+
+    useEffect(() => {
+        if (rejectSuccess) {
+            setSnackbar("Användare avvisad", true);
+            props.handleModalClose();
+        }
+    }, [rejectSuccess]);
 
     useEffect(() => {
         if (isAcceptSuccess) {
@@ -101,21 +117,6 @@ function ChangeMemberStatusModal(props: Props) {
 
         const { userId, isOwner, isPaused, AcceptedStatus } = props.member;
 
-        let rights = false;
-        if (currentHousehold?.member.find((m) => m.userId === user.id && m.isOwner)) {
-            rights = true;
-        }
-
-        if (!rights) {
-            setSnackbar("Du har ej rättigheter att ändra status", true);
-            setMakeOwner(0);
-            setPaused(0);
-            setPaused(0);
-            setUnPaused(0);
-            setAcceptUser(0);
-            props.handleModalClose();
-            return;
-        }
         if (makeOwner === 1 && paused === 1) {
             setSnackbar("kan ej både pausa och göra till ägare!", true);
             setMakeOwner(0);
@@ -170,8 +171,7 @@ function ChangeMemberStatusModal(props: Props) {
         }
         if (acceptUser === 0 && AcceptedStatus === "pending") {
             console.log("reject remove user");
-
-            //[TODO:Redux]reject user
+            rejectUser({ houseHoldId: currentHousehold.id, userId: userId });
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
@@ -180,6 +180,22 @@ function ChangeMemberStatusModal(props: Props) {
             props.handleModalClose();
             return;
         }
+        props.handleModalClose();
+        setSnackbar("Inget förändrades", true);
+        setMakeOwner(0);
+        setPaused(0);
+        setPaused(0);
+        setUnPaused(0);
+        setAcceptUser(0);
+    };
+
+    const close = () => {
+        setMakeOwner(0);
+        setPaused(0);
+        setPaused(0);
+        setUnPaused(0);
+        setAcceptUser(0);
+        props.handleModalClose();
     };
 
     return (
@@ -253,17 +269,12 @@ function ChangeMemberStatusModal(props: Props) {
                                         />
                                     </View>
                                 )}
-                                {props.member.isOwner === true && (
-                                    <View>
-                                        <Text style={styles.modalText}>En av ägarna i hushållet</Text>
-                                    </View>
-                                )}
                                 <View style={styles.buttonsContainer}>
                                     <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
                                         <MaterialIcons name="add-circle-outline" size={30} color="black" />
                                         <Text style={styles.buttonText}>Spara</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
+                                    <TouchableOpacity onPress={close} style={styles.closeButton}>
                                         <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
                                         <Text style={styles.buttonText}>Stäng</Text>
                                     </TouchableOpacity>

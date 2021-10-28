@@ -37,11 +37,16 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     const [members, setMembers] = useState<fullMemberInfo[]>();
     const [pendingMembers, setPendingMembers] = useState<fullMemberInfo[]>();
     const [isLoading, setIsLoading] = useState(false);
+
     const clickOnMember = (item: fullMemberInfo) => {
         console.log("click");
 
         if (!rights) {
             setSnackbar("Du har inte rättigheter att ändra medlemsstatus", true);
+            return;
+        }
+        if (item.isOwner) {
+            setSnackbar("En ägare kan man inte ändra status på", true);
             return;
         }
         setSetMember(item);
