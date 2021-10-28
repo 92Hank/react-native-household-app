@@ -1,16 +1,19 @@
-import { FontAwesome5, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import React, { FC, useContext, useState } from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { FontAwesome5 } from "@expo/vector-icons";
+import React, { FC, useContext, useEffect, useState } from "react";
+import { FlatList, TouchableOpacity, View } from "react-native";
 import { household } from "../../../Common/household";
 import Button from "../../component/common/Button";
 import AddHouseholdModal from "../../component/householdComponents/addHouseholdModal/addHouseholdModal.component";
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
 import JoinHouseholdModal from "../../component/householdComponents/joinHouseholdModal/joinHouseholdModal.component";
+import PendingHouseHoldCard from "../../component/householdComponents/peningHouseholdCard/pendingHouseholdCard";
+import RejectedCard from "../../component/householdComponents/rejectedCard/rejectedCard";
 import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { logout } from "../../Redux/features/loginUser/loginUserSlice";
-import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
+// import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
@@ -25,8 +28,11 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentLoginUser);
     const { isVisible, message, setSnackbar } = useContext(snackbarContext);
+    const [userHouseholds, setHouseholds] = useState<household[]>();
+    const [userRejectedHouseholds, setRejectedHouseholds] = useState<household[]>();
+    const [userPendingHouseholds, setPendingHouseholds] = useState<household[]>();
 
-    const currentHousehold = useAppSelector(selectSelectedHousehold);
+    // const currentHousehold = useAppSelector(selectSelectedHousehold);
 
     if (!user) {
         navigation.navigate(MainRoutes.LoginScreen);
@@ -36,14 +42,18 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     const { data, isLoading, isFetching, isError, error } = useGetHouseholdByUserIdQuery(user.id!);
 
     const clickOnHousehold = (item: household) => {
+        let rights = true;
         item.member.forEach((m) => {
-            if (m.userId === user.id && (m.AcceptedStatus === "pending" || m.AcceptedStatus === "rejected")) {
-                setSnackbar("Du har inte rättigheter att se detta hushåll än", true);
-                return;
+            if (m.userId === user.id && m.AcceptedStatus === "pending") {
+                rights = false;
             }
         });
         dispatch(setSelectedHousehold(item));
-        navigation.navigate(MainRoutes.TasksScreen);
+        if (!rights) {
+            setSnackbar("Du har inte rättigheter att se detta hushåll än", true);
+        } else {
+            navigation.navigate(MainRoutes.TasksScreen);
+        }
     };
 
     const onPressLogout = () => {
@@ -65,9 +75,9 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
         setJoinModalIsOpen(false);
     };
 
-    const onPressUsersInHousehold = () => {
-        navigation.navigate(MainRoutes.UsersInHouseHoldScreen);
-    };
+    // const onPressUsersInHousehold = () => {
+    //     navigation.navigate(MainRoutes.UsersInHouseHoldScreen);
+    // };
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -83,6 +93,43 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
         });
     }, [navigation]);
 
+    useEffect(() => {
+        if (data) {
+            const accepted: household[] = [];
+            data.forEach((h) => {
+                h.member.forEach((m) => {
+                    if (m.AcceptedStatus === "accepted" && m.userId === user.id) {
+                        accepted.push(h);
+                    }
+                });
+            });
+
+            setHouseholds(accepted);
+
+            const rej: household[] = [];
+            data.forEach((h) => {
+                h.member.forEach((m) => {
+                    if (m.AcceptedStatus === "rejected" && m.userId === user.id) {
+                        rej.push(h);
+                    }
+                });
+            });
+
+            setRejectedHouseholds(rej);
+
+            const pend: household[] = [];
+            data.forEach((h) => {
+                h.member.forEach((m) => {
+                    if (m.AcceptedStatus === "pending" && m.userId === user.id) {
+                        pend.push(h);
+                    }
+                });
+            });
+
+            setPendingHouseholds(pend);
+        }
+    }, [data]);
+
     return (
         <>
             <View style={styles.container}>
@@ -90,16 +137,20 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
                 <View>
                     <View style={styles.listContainer}>
                         <FlatList
-                            data={data}
+                            data={userHouseholds}
                             keyExtractor={(item: any) => item.id}
                             renderItem={({ item }) => (
-                                <HouseholdComponent
-                                    key={item.id}
-                                    household={item}
-                                    onPress={() => clickOnHousehold(item)}
-                                />
+                                <>
+                                    <HouseholdComponent
+                                        key={item.id}
+                                        household={item}
+                                        onPress={() => clickOnHousehold(item)}
+                                    />
+                                </>
                             )}
                         />
+                        <RejectedCard households={userRejectedHouseholds as household[]} />
+                        <PendingHouseHoldCard households={userPendingHouseholds as household[]} />
                     </View>
                 </View>
                 <AddHouseholdModal

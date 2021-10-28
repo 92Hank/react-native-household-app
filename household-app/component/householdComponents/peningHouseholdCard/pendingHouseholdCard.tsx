@@ -1,26 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Dimensions, FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { List, Surface } from "react-native-paper";
-import { fullMemberInfo } from "../../../../Common/household";
-import ChangeMemberStatusModal from "../changeMemberStatusModal/changeMemberStatusModal";
+import { household } from "../../../../Common/household";
+import { snackbarContext } from "../../../context/snackBarContext";
 
 interface Props {
-    pendingMember: fullMemberInfo[];
+    households: household[];
 }
 
-const PendingMemberTaskCard = (props: Props) => {
+const PendingHouseHoldCard = (props: Props) => {
     const [expanded, setExpanded] = useState(false);
-    const [memberModal, setMember] = useState<fullMemberInfo>();
-    const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
+    const { setSnackbar } = useContext(snackbarContext);
 
-    const clickOnMember = (member: fullMemberInfo) => {
-        setMember(member);
-        setIsClickedTaskOpen(true);
-        console.log("click on task,");
+    // const [memberModal, setMember] = useState<fullMemberInfo>();
+    // const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
+
+    const clickOnHousehold = () => {
+        // setMember(member);
+        // setIsClickedTaskOpen(true);
+        setSnackbar("Väntar på medlemskap", true);
     };
-    const handleTaskClose = () => {
-        setIsClickedTaskOpen(false);
-    };
+    // const handleTaskClose = () => {
+    //     setIsClickedTaskOpen(false);
+    // };
 
     const handlePress = () => setExpanded(!expanded);
     // const onPressMember = () => {
@@ -30,10 +32,15 @@ const PendingMemberTaskCard = (props: Props) => {
     return (
         <View>
             <List.Section>
-                <List.Accordion title="Ansökningar" expanded={expanded} onPress={handlePress} titleStyle={styles.title}>
+                <List.Accordion
+                    title="Väntande ansökningar"
+                    expanded={expanded}
+                    onPress={handlePress}
+                    titleStyle={styles.title}
+                >
                     <FlatList
-                        data={props.pendingMember}
-                        keyExtractor={(item: fullMemberInfo) => item.userId}
+                        data={props.households}
+                        keyExtractor={(item: household) => item.id}
                         renderItem={({ item }) => (
                             <Surface style={styles.listItem}>
                                 <TouchableOpacity>
@@ -41,7 +48,7 @@ const PendingMemberTaskCard = (props: Props) => {
                                     <List.Item
                                         titleStyle={styles.item}
                                         title={item.name}
-                                        onPress={() => clickOnMember(item)}
+                                        onPress={() => clickOnHousehold()}
                                     />
                                 </TouchableOpacity>
                             </Surface>
@@ -49,18 +56,12 @@ const PendingMemberTaskCard = (props: Props) => {
                     />
                 </List.Accordion>
             </List.Section>
-            <View>
-                <ChangeMemberStatusModal
-                    isOpen={isClickedTaskOpen}
-                    handleModalClose={handleTaskClose}
-                    member={memberModal as fullMemberInfo}
-                />
-            </View>
         </View>
     );
 };
 
-export default PendingMemberTaskCard;
+export default PendingHouseHoldCard;
+
 const deviceWidth = Math.round(Dimensions.get("window").width);
 const styles = StyleSheet.create({
     item: {

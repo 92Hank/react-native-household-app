@@ -27,7 +27,7 @@ import { valueType } from "../../../../Common/value";
 import { task } from "../../../../Common/task";
 import { Card, TextInput } from "react-native-paper";
 import SnackbarComponent from "../../snackbar/snackbarComponent";
-
+import { Surface } from "react-native-paper";
 interface TaskNow {
     id?: string;
     name: string;
@@ -149,6 +149,7 @@ function TaskModal(props: Props) {
                 taskId: props.task.id,
                 userId: user?.id,
                 houseHoldId: currentHousehold?.id,
+                value: props.task.value as valueType,
             };
             createDoneTask(markAsDone);
         }
@@ -178,8 +179,8 @@ function TaskModal(props: Props) {
         } else {
             setSnackbar("Fyll i alla värden", true);
         }
-        setIsClickedDays(false);
-        setIsClicked(false);
+        // setIsClickedDays(false);
+        // setIsClicked(false);
     };
 
     const handleEditClick = () => {
@@ -272,7 +273,7 @@ function TaskModal(props: Props) {
                                 setIsClickedDays(false);
                             }}
                         >
-                            <Text style={styles.circleBtnText}>{repeated}</Text>
+                            <Text style={styles.circleBtnText}>{repeated ? repeated : defaultTask.repeated}</Text>
                         </TouchableOpacity>
                         <Text style={{ marginLeft: 3 }}>dag</Text>
                     </View>
@@ -308,7 +309,7 @@ function TaskModal(props: Props) {
                             setIsClicked(false);
                         }}
                     >
-                        <Text style={styles.circleBtnTextValue}>{value}</Text>
+                        <Text style={styles.circleBtnTextValue}>{value ? value : defaultTask.value}</Text>
                     </TouchableOpacity>
                 </View>
             </Card.Content>
@@ -419,29 +420,57 @@ function TaskModal(props: Props) {
                     </Modal>
                     <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
                         <View style={styles.modalView2}>
-                            <Text style={styles.modalText2}>
-                                Syssla:
-                                <Text style={styles.modalText2}>{" " + props.task.name}</Text>
-                            </Text>
-                            <Text style={styles.modalText2}>
-                                Beskrivning:
-                                <Text style={styles.modalText2}>{" " + props.task.description}</Text>
-                            </Text>
+                            <View style={styles.modalTextView}>
+                                <Text style={styles.modalText}>Administrera</Text>
+                            </View>
+                            <View
+                                style={{
+                                    position: "absolute",
+                                    justifyContent: "center",
+                                    alignItems: "flex-start",
+                                    marginTop: 90,
+                                }}
+                            >
+                                <Text style={styles.modalText2}>
+                                    Syssla:
+                                    <Text style={styles.modalText2}>{" " + props.task.name}</Text>
+                                </Text>
+                                <Text style={styles.modalText2}>
+                                    Beskrivning:
+                                    <Text style={styles.modalText2}>{" " + props.task.description}</Text>
+                                </Text>
+                                <Text style={styles.modalText2}>
+                                    Återkommer:
+                                    <Text style={styles.modalText2}>{" var " + props.task.repeated + " dag"}</Text>
+                                </Text>
+                                <Text style={styles.modalText2}>
+                                    Värde:
+                                    <Text style={styles.modalText2}>{" " + props.task.value}</Text>
+                                </Text>
+                            </View>
                             {rights && (
-                                <View>
-                                    <View style={{ flexDirection: "row" }}>
-                                        <TouchableOpacity onPress={handleEditClick} style={styles.householdButton}>
-                                            <Feather name="edit-2" size={30} color="black" />
-                                            <Text style={styles.householdButtonText}>Ändra</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity onPress={handleDeleteClick} style={styles.householdButton}>
-                                            <MaterialIcons name="delete" size={30} color="black" />
-                                            <Text style={styles.householdButtonText}>Radera</Text>
-                                        </TouchableOpacity>
-                                    </View>
+                                <View
+                                    style={{
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        flexDirection: "row",
+                                        bottom: 70,
+                                        left: 0,
+                                        right: 0,
+                                        alignSelf: "flex-end",
+                                        position: "absolute",
+                                    }}
+                                >
+                                    <TouchableOpacity onPress={handleEditClick} style={styles.householdButton}>
+                                        <Feather name="edit-2" size={30} color="black" />
+                                        <Text style={styles.householdButtonText}>Ändra</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={handleDeleteClick} style={styles.householdButton2}>
+                                        <MaterialIcons name="delete" size={30} color="black" />
+                                        <Text style={styles.householdButtonText}>Radera</Text>
+                                    </TouchableOpacity>
                                 </View>
                             )}
-
                             <View style={styles.buttonsContainer}>
                                 <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
                                     <MaterialIcons name="check-circle" size={30} color="black" />
