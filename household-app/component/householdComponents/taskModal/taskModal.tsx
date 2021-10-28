@@ -16,6 +16,11 @@ import styles from "./styles";
 import { valueType } from "../../../../Common/value";
 import EditTaskInputModal from "./editTaskInputModal/editTaskInputModal";
 
+import { task } from "../../../../Common/task";
+import { Card, TextInput } from "react-native-paper";
+import SnackbarComponent from "../../snackbar/snackbarComponent";
+import { Surface } from "react-native-paper";
+import { ActivityIndicator, Colors } from "react-native-paper";
 interface TaskNow {
     id?: string;
     name: string;
@@ -245,10 +250,16 @@ function TaskModal(props: Props) {
                                 </View>
                             )}
                             <View style={styles.buttonsContainer}>
-                                <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
-                                    <MaterialIcons name="check-circle" size={30} color="black" />
-                                    <Text style={styles.buttonText}>Klar</Text>
-                                </TouchableOpacity>
+                                {!isLoading ? (
+                                    <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
+                                        <MaterialIcons name="check-circle" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Klar</Text>
+                                    </TouchableOpacity>
+                                ) : (
+                                    <TouchableOpacity style={styles.saveButton}>
+                                        <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
+                                    </TouchableOpacity>
+                                )}
                                 <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
                                     <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
                                     <Text style={styles.buttonText}>Stäng</Text>

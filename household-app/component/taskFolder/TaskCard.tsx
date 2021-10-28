@@ -44,7 +44,7 @@ const TaskCard = (props: Props) => {
     });
     // console.log("TASK CARD", props.task);
 
-    let difference;
+    let difference = 0;
     const today = new Date();
     let date = new Date();
     if (props.task.dateDone) {

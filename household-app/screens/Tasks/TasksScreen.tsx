@@ -43,7 +43,9 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
         isError,
         error,
     } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
-    const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
+    const { data: doneTasksData, isLoading: doneTaskLoading } = useGetDoneTasksWithHouseholdIdQuery(
+        currentHousehold?.id!,
+    );
     const isToday = (someDate: any): boolean => {
         const today = new Date();
         const value = new Date(someDate._seconds * 1000);
@@ -154,17 +156,12 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             )}
             {render && (
                 <ScrollView style={styles.listContainer}>
-                    {/* <FlatList
-                        data={tasks}
-                        keyExtractor={(item: TaskNow) => item.id}
-                        renderItem={({ item }) => (
-                            <TaskCard key={item.id} task={item} onPress={() => clickOnTask(item)} />
-                        )}
-                    /> */}
                     {tasks?.map((item, index) => {
                         return <TaskCard key={index} task={item} onPress={() => clickOnTask(item)} />;
                     })}
-                    {rights && archivedTasks && <ArchivedTaskCard archivedTasks={archivedTasks} />}
+                    {rights && archivedTasks && archivedTasks.length > 0 && (
+                        <ArchivedTaskCard archivedTasks={archivedTasks} />
+                    )}
                     <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} />
                     <TaskModal
                         isOpen={isClickedTaskOpen}

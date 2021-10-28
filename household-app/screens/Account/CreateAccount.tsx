@@ -1,20 +1,20 @@
 import { Formik } from "formik";
-import React, { FC, useEffect } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { FC, useContext, useEffect } from "react";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Colors } from "react-native-paper";
 import * as Yup from "yup";
+import Button from "../../component/common/Button";
 import { useCreateUserMutation } from "../../Redux/Service/user/userApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import TextInput from "./textInput";
-import Button from "../../component/common/Button";
 
+import { snackbarContext } from "../../context/snackBarContext";
 // import user from '../../../Common/src/Entity/user';
 
 interface User {
-    // id?: string;
     email: string;
     userName: string;
     password: string;
-    // salt?: string;
 }
 
 type PostSchemaType = Record<keyof User, Yup.AnySchema>;
@@ -25,9 +25,11 @@ const PostSchema = Yup.object().shape<PostSchemaType>({
     userName: Yup.string().required().trim(),
 });
 
-type Props = FeedStackScreenProps<MainRoutes.CreateAccountScreen>;
+type Props = FeedStackScreenProps<MainRoutes>;
 
 const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+    const { setSnackbar } = useContext(snackbarContext);
+
     const defaultUser: User = { userName: "", email: "", password: "" };
     const [
         CreateUser, // This is the mutation trigger
@@ -36,7 +38,11 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
     ] = useCreateUserMutation();
 
     useEffect(() => {
-        console.log("isSuccess", isSuccess);
+        if (isSuccess) {
+            console.log("isSuccess", isSuccess);
+            setSnackbar("Du har skapat ett konto!", true);
+            navigation.goBack();
+        }
     }, [isSuccess]);
 
     useEffect(() => {
@@ -49,25 +55,23 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
 
     useEffect(() => {
         if (error) {
+            setSnackbar("Ett oväntat fel dök upp", true);
             console.log("error", error);
         }
     }, [error]);
 
-    interface FetchArgs extends RequestInit {
-        url: string;
-        params?: Record<string, any>;
-        body?: any;
-        responseHandler?: "json" | "text" | ((response: Response) => Promise<any>);
-        validateStatus?: (response: Response, body: any) => boolean;
-    }
-
     const handleSubmitForm = async (createAccountUser: User) => {
         console.log(createAccountUser);
         CreateUser(createAccountUser);
+        navigation.navigate(MainRoutes.LoginScreen);
     };
 
     return (
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined} enabled>
+        <KeyboardAvoidingView
+            style={{ flexGrow: 1, height: "100%" }}
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            enabled
+        >
             <ScrollView
                 //  contentContainerStyle={{ flexGrow: 1 }}
                 {...(Platform.OS === "ios" ? "keyboardDismissMode='interactive'" : null)}
@@ -84,31 +88,37 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
                             <>
                                 <TextInput
                                     keyboardType="email-address"
-                                    label="Email"
+                                    label="E-mail"
                                     style={styles.input}
                                     value={values.email}
                                     onChangeText={handleChange<keyof User>("email")}
                                     helperText={errors.email}
                                 />
                                 <TextInput
-                                    label="Password"
+                                    label="Lösenord"
                                     style={styles.input}
                                     value={values.password}
                                     onChangeText={handleChange<keyof User>("password")}
                                     helperText={errors.password}
                                 />
                                 <TextInput
-                                    label="Username"
+                                    label="Användarnamn"
                                     value={values.userName}
                                     style={styles.input}
                                     onChangeText={handleChange<keyof User>("userName")}
                                     helperText={errors.userName}
                                 />
-                                <Button
-                                    iconType={{ type: "FontAwesome", icons: "user-plus" }}
-                                    onPress={handleSubmit}
-                                    text="Create account"
-                                ></Button>
+                                {!isLoading && (
+                                    <Button
+                                        iconType={{ type: "FontAwesome", icons: "user-plus" }}
+                                        onPress={handleSubmit}
+                                        text="Skapa konto"
+                                    ></Button>
+                                )}
+                                <View style={{ marginTop: 10 }}>
+                                    <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
+                                </View>
+
                                 {/* <TouchableOpacity onPress={handleSubmit as any} style={styles.submitButton}>
                                     <Text style={styles.buttonText}>Create account</Text>
                                 </TouchableOpacity> */}

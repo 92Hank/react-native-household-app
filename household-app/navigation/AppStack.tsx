@@ -46,12 +46,12 @@ const HouseholdStack = () => (
             component={HouseholdScreen}
             options={{
                 // headerShown: false,
-                title: "Households",
-                headerTitleAlign: "center",
-                headerTintColor: "grey",
-                headerTitleStyle: {
-                    fontWeight: "bold",
-                },
+                title: "",
+                // headerTitleAlign: "center",
+                // headerTintColor: "grey",
+                // headerTitleStyle: {
+                //     fontWeight: "bold",
+                // },
                 headerBackVisible: false,
                 // headerRight: () => (
                 //   <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
@@ -67,7 +67,7 @@ const CreateStack = () => (
             name={MainRoutes.CreateAccountScreen}
             component={CreateAccountScreen}
             options={{
-                // headerShown: false,
+                headerShown: false,
                 title: "Create your account",
                 headerTitleAlign: "center",
                 headerTintColor: "grey",
@@ -155,8 +155,8 @@ const AppStack = () => {
             }}
             // screenOptions={{lazy: true, tabBarStyle: {marginTop: insets.top}}}
         >
-            <Tab.Screen name="Households" component={HouseholdStack} />
-            <Tab.Screen name="Profile" component={ProfileStack} />
+            <Tab.Screen name="Hushåll" component={HouseholdStack} />
+            <Tab.Screen name="Profil" component={ProfileStack} />
         </Tab.Navigator>
     );
 };

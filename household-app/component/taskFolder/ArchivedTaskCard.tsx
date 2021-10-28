@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Dimensions, FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { List, Surface } from "react-native-paper";
-import { Item } from "react-native-paper/lib/typescript/components/List/List";
-import TaskModal from "../householdComponents/taskModal/taskModal";
+import ActivateModal from "../householdComponents/activateModal/activateModal";
 
 interface TaskNow {
     id: string;
@@ -49,39 +48,21 @@ const ArchivedTaskCard = (props: Props) => {
                     onPress={handlePress}
                     titleStyle={styles.title}
                 >
-                    {props.archivedTasks.map((task, index) => {
-                        console.log("JAPPS", task.name);
-                        return (
-                            <Surface style={styles.listItem} key={index}>
-                                <TouchableOpacity onPress={onPressTask}>
-                                    <List.Item
-                                        titleStyle={styles.item}
-                                        title={task.name}
-                                        onPress={() => clickOnTask(task)}
-                                    />
-                                </TouchableOpacity>
-                            </Surface>
-                        );
-                    })}
-                    {/* <FlatList
-                        data={props.archivedTasks}
-                        keyExtractor={(item: TaskNow) => item.id}
-                        renderItem={({ item }) => (
-                            <Surface style={styles.listItem}>
-                                <TouchableOpacity onPress={onPressTask}>
-                                    <List.Item
-                                        titleStyle={styles.item}
-                                        title={item.name}
-                                        onPress={() => clickOnTask(item)}
-                                    />
-                                </TouchableOpacity>
-                            </Surface>
-                        )}
-                    /> */}
+                    {props.archivedTasks.map((item) => (
+                        <Surface key={item.id} style={styles.listItem}>
+                            <TouchableOpacity onPress={onPressTask}>
+                                <List.Item
+                                    titleStyle={styles.item}
+                                    title={item.name}
+                                    onPress={() => clickOnTask(item)}
+                                />
+                            </TouchableOpacity>
+                        </Surface>
+                    ))}
                 </List.Accordion>
             </List.Section>
             <View>
-                <TaskModal
+                <ActivateModal
                     isOpen={isClickedTaskOpen}
                     handleModalClose={handleTaskClose}
                     task={taskInModal as TaskNow}
