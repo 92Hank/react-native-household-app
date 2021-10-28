@@ -28,6 +28,7 @@ import { task } from "../../../../Common/task";
 import { Card, TextInput } from "react-native-paper";
 import SnackbarComponent from "../../snackbar/snackbarComponent";
 import { Surface } from "react-native-paper";
+import { ActivityIndicator, Colors } from "react-native-paper";
 interface TaskNow {
     id?: string;
     name: string;
@@ -87,7 +88,7 @@ function TaskModal(props: Props) {
     const [
         editTask, // This is the mutation trigger
 
-        { isSuccess: successEdit, error: errorEdit }, // This is the destructured mutation result
+        { isSuccess: successEdit, error: errorEdit, isLoading: editLoading }, // This is the destructured mutation result
     ] = useEditTaskMutation();
 
     const [deleteTask, { isSuccess: isDeleted, error: deleteError }] = useDeleteTaskMutation();
@@ -387,10 +388,16 @@ function TaskModal(props: Props) {
                                     {!isClicked ? valueInput : valueForTask}
                                 </View>
                                 <View style={styles.buttonsContainer}>
-                                    <TouchableOpacity onPress={() => onEdit()} style={styles.saveButton}>
-                                        <MaterialIcons name="check-circle" size={30} color="black" />
-                                        <Text style={styles.buttonText}>Ändra</Text>
-                                    </TouchableOpacity>
+                                    {!editLoading ? (
+                                        <TouchableOpacity onPress={() => onEdit()} style={styles.saveButton}>
+                                            <MaterialIcons name="check-circle" size={30} color="black" />
+                                            <Text style={styles.buttonText}>Ändra</Text>
+                                        </TouchableOpacity>
+                                    ) : (
+                                        <TouchableOpacity style={styles.saveButton}>
+                                            <ActivityIndicator animating={editLoading} color={Colors.tealA200} />
+                                        </TouchableOpacity>
+                                    )}
                                     <TouchableOpacity onPress={() => setOpenEdit(false)} style={styles.closeButton}>
                                         <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
                                         <Text style={styles.buttonText}>Stäng</Text>
@@ -484,10 +491,16 @@ function TaskModal(props: Props) {
                                 </View>
                             )}
                             <View style={styles.buttonsContainer}>
-                                <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
-                                    <MaterialIcons name="check-circle" size={30} color="black" />
-                                    <Text style={styles.buttonText}>Klar</Text>
-                                </TouchableOpacity>
+                                {!isLoading ? (
+                                    <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
+                                        <MaterialIcons name="check-circle" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Klar</Text>
+                                    </TouchableOpacity>
+                                ) : (
+                                    <TouchableOpacity style={styles.saveButton}>
+                                        <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
+                                    </TouchableOpacity>
+                                )}
                                 <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
                                     <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
                                     <Text style={styles.buttonText}>Stäng</Text>
