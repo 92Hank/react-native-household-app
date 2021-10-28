@@ -59,10 +59,11 @@ function TaskModal(props: Props) {
     const { setSnackbar, isVisible, message } = useContext(snackbarContext);
     const [name, setName] = useState<string>(props.task?.name as string);
     const [description, setDescription] = useState<string>(props.task?.description as string);
-    const [repeated, setRepeated] = useState<number>(props.task?.repeated as number);
-    const [value, setValue] = useState<number>(props.task?.value as number);
+    const [repeated, setRepeated] = useState<number>();
+    const [value, setValue] = useState<number>();
     const [isClicked, setIsClicked] = useState(true);
     const [isClickedDays, setIsClickedDays] = useState(true);
+    const [isEditing, setIsEditing] = useState(false);
 
     const onChangeInputName = (name: string) => setName(name);
     const onChangeInputDescription = (description: string) => setDescription(description);
@@ -179,6 +180,7 @@ function TaskModal(props: Props) {
         } else {
             setSnackbar("Fyll i alla värden", true);
         }
+        setIsEditing(isEditing);
         // setIsClickedDays(false);
         // setIsClicked(false);
     };
@@ -354,20 +356,17 @@ function TaskModal(props: Props) {
                                         outlineColor="white"
                                         mode="outlined"
                                         style={styles.input}
-                                        value={name}
                                         label="Titel"
-                                        onChangeText={onChangeInputName}
+                                        onChangeText={(text) => onChangeInputName(text)}
                                     />
-
                                     <TextInput
                                         defaultValue={defaultTask.description}
                                         theme={{ roundness: 10 }}
                                         outlineColor="white"
                                         mode="outlined"
                                         style={styles.input2}
-                                        value={description}
                                         label="Beskrivning"
-                                        onChangeText={onChangeInputDescription}
+                                        onChangeText={(text) => onChangeInputDescription(text)}
                                     />
 
                                     {!isClickedDays ? repeatedInput : repeatedValue}
