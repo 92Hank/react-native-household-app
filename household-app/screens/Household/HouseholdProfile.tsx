@@ -1,30 +1,31 @@
 import React, { FC } from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { Switch, TouchableRipple } from "react-native-paper";
-import { PreferencesContext } from "../../context/PreferencesContext";
+import { StyleSheet, Text, View } from "react-native";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import ToggleDarkThemeSwitch from "../../component/common/ToggleDarkThemeSwitch";
+import EmojiSelector from "../../component/common/EmojiSelector";
+import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
+import { useAppSelector } from "../../Redux/hooks";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const HouseholdProfile: FC<Props> = ({ navigation }: Props): React.ReactElement => {
-    const { theme, toggleTheme } = React.useContext(PreferencesContext);
+    const household = useAppSelector(selectSelectedHousehold);
+    if (!household) return <></>;
+
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Profil för hushåll</Text>
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-ignore */}
-            <TouchableRipple onPress={toggleTheme}>
-                <View style={styles.preference}>
-                    <Text style={styles.text}>Dark Theme</Text>
-                    <View pointerEvents="none">
-                        <Switch
-                            ios_backgroundColor="salmon"
-                            value={theme === "dark"}
-                            trackColor={{ false: "black", true: "turquoise" }}
-                        />
-                    </View>
-                </View>
-            </TouchableRipple>
+            <Text style={styles.text}>hushåll</Text>
+            {/*eslint-disable-next-line @typescript-eslint/no-empty-function*/}
+            <EmojiSelector
+                Household={household!}
+                avatarSelect={(selected) => {
+                    console.log(selected);
+                }}
+                selected={0}
+            ></EmojiSelector>
+
+            <Text style={styles.text}>Global</Text>
+            <ToggleDarkThemeSwitch />
         </View>
     );
 };

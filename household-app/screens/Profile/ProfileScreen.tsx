@@ -30,7 +30,7 @@ const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => 
                     </View>
                 </View>
             </TouchableRipple>
-            <Button iconType={{ type: "FontAwesome5", icons: "tasks" }} text="Tasks" onPress={onPressTasks}></Button>
+            <Button iconType={{ type: "FontAwesome", icons: "tasks" }} text="Tasks" onPress={onPressTasks}></Button>
             {/* <TouchableOpacity onPress={onPressTasks} style={styles.button}>
                 <Text style={styles.buttonText}>Tasks</Text>
             </TouchableOpacity> */}
