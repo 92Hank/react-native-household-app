@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Avatars, household } from "../../../Common/household";
+import { household } from "../../../Common/household";
 
 type Props = {
     Household: household;
@@ -54,3 +54,14 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
     },
 });
+
+export declare enum Avatars {
+    "🦊" = 1,
+    "🐷" = 2,
+    "🐸" = 3,
+    "🐥" = 4,
+    "🐙" = 5,
+    "🐬" = 6,
+    "🦉" = 7,
+    "🦄" = 8,
+}

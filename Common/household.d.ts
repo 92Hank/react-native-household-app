@@ -55,14 +55,5 @@ export declare interface memberSend {
 }
 
 export declare type emoji = "🦊" | "🐷" | "🐸" | "🐥" | "🐙" | "🐬" | "🦉" | "🦄";
-export declare enum Avatars {
-    "🦊" = 1,
-    "🐷" = 2,
-    "🐸" = 3,
-    "🐥" = 4,
-    "🐙" = 5,
-    "🐬" = 6,
-    "🦉" = 7,
-    "🦄" = 8,
-}
+
 
