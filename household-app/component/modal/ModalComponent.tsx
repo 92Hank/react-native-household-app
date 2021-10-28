@@ -20,6 +20,7 @@ import { useAppSelector } from "../../Redux/hooks";
 import { useCreateTaskMutation } from "../../Redux/Service/task/taskApi";
 import SnackbarComponent from "../snackbar/snackbarComponent";
 import styles from "./styles";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
 interface Props {
     isOpen: boolean;
@@ -269,13 +270,19 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                             {!isClicked ? valueInput : valueForTask}
                                         </View>
                                         <View style={styles.buttonsContainer}>
-                                            <TouchableOpacity
-                                                onPress={() => handleSubmitForm()}
-                                                style={styles.saveButton}
-                                            >
-                                                <MaterialIcons name="add-circle-outline" size={30} color="black" />
-                                                <Text style={styles.householdButtonText}>Spara</Text>
-                                            </TouchableOpacity>
+                                            {!isLoading ? (
+                                                <TouchableOpacity
+                                                    onPress={() => handleSubmitForm()}
+                                                    style={styles.saveButton}
+                                                >
+                                                    <MaterialIcons name="add-circle-outline" size={30} color="black" />
+                                                    <Text style={styles.householdButtonText}>Spara</Text>
+                                                </TouchableOpacity>
+                                            ) : (
+                                                <TouchableOpacity style={styles.saveButton}>
+                                                    <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
+                                                </TouchableOpacity>
+                                            )}
                                             <TouchableOpacity onPress={handleAddClose} style={styles.closeButton}>
                                                 <MaterialCommunityIcons
                                                     name="close-circle-outline"
