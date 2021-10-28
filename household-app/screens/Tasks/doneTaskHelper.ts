@@ -1,5 +1,6 @@
 import { doneTask } from "../../../Common/doneTask";
 import { household } from "../../../Common/household";
+import { task } from "../../../Common/task";
 
 /**
  * doneTask objects are assigned a Timestamp object to doneDate property.
@@ -20,7 +21,8 @@ type Timestamp = {
  * @returns
  */
 export const getLastMonthDoneTasksByHousehold = (doneTasksArray: doneTask[], currentHousehold: household) => {
-    const filteredArray = filterDoneTasksByHouseHold(doneTasksArray, currentHousehold.id);
+    let filteredArray = filterDoneTasksByHouseHold(doneTasksArray, currentHousehold.id);
+    filteredArray = filterDoneTasksByValueProperty(doneTasksArray);
     const startTime = getLastMonthStartInSeconds();
     const endTime = getLastMonthEndInSeconds();
     return filterDoneTasksBySecondsInterval(filteredArray, startTime, endTime);
@@ -40,6 +42,10 @@ const filterDoneTasksBySecondsInterval = (
         const dateDoneInSeconds = timeStamp._seconds;
         if (endDateInSeconds - dateDoneInSeconds >= 0 && startDateInSeconds - dateDoneInSeconds <= 0) return doneTask;
     });
+};
+
+const filterDoneTasksByValueProperty = (doneTasksArray: doneTask[]) => {
+    return doneTasksArray.filter((doneTask) => doneTask.value);
 };
 
 const getLastMonthStartInSeconds = () => {
