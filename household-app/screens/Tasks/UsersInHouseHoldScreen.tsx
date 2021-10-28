@@ -18,7 +18,7 @@ import ChangeHouseholdNameModal from "../../component/householdComponents/change
 import { Surface } from "react-native-paper";
 import PendingMemberTaskCard from "../../component/householdComponents/pendingMemberCard/pendingMemberCard";
 import Button from "../../component/common/Button";
-// import { householdIdAndUserId } from "../../Redux/entity/household";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
 type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
 
@@ -36,7 +36,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     const [openChangeName, setOpenChangeName] = useState(false);
     const [members, setMembers] = useState<fullMemberInfo[]>();
     const [pendingMembers, setPendingMembers] = useState<fullMemberInfo[]>();
-
+    const [isLoading, setIsLoading] = useState(false);
     const clickOnMember = (item: fullMemberInfo) => {
         console.log("click");
 

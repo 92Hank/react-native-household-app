@@ -1,12 +1,22 @@
 import { Formik } from "formik";
+
 import React, { FC, useContext, useEffect } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
+
+import React, { FC, useEffect } from "react";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Colors } from "react-native-paper";
+
 import * as Yup from "yup";
+import Button from "../../component/common/Button";
 import { useCreateUserMutation } from "../../Redux/Service/user/userApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import TextInput from "./textInput";
+
 import Button from "../../component/common/Button";
 import { snackbarContext } from "../../context/snackBarContext";
+// import user from '../../../Common/src/Entity/user';
+
 
 interface User {
     email: string;
@@ -35,7 +45,6 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
     ] = useCreateUserMutation();
 
     useEffect(() => {
-        console.log("ÄR DEN INTE SANN? :", isSuccess);
         if (isSuccess) {
             console.log("isSuccess", isSuccess);
             setSnackbar("Du har skapat ett konto!", true);
@@ -102,11 +111,17 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
                                     onChangeText={handleChange<keyof User>("userName")}
                                     helperText={errors.userName}
                                 />
-                                <Button
-                                    iconType={{ type: "FontAwesome", icons: "user-plus" }}
-                                    onPress={handleSubmit}
-                                    text="Create account"
-                                ></Button>
+                                {!isLoading && (
+                                    <Button
+                                        iconType={{ type: "FontAwesome", icons: "user-plus" }}
+                                        onPress={handleSubmit}
+                                        text="Create account"
+                                    ></Button>
+                                )}
+                                <View style={{ marginTop: 10 }}>
+                                    <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
+                                </View>
+
                                 {/* <TouchableOpacity onPress={handleSubmit as any} style={styles.submitButton}>
                                     <Text style={styles.buttonText}>Create account</Text>
                                 </TouchableOpacity> */}

@@ -1,15 +1,5 @@
 import React, { FC, useContext, useEffect, useState } from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    TextInput,
-    Image,
-} from "react-native";
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import Button from "../../component/common/Button";
 import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
@@ -17,6 +7,7 @@ import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSele
 import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
 type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 
@@ -27,6 +18,7 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
 
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentLoginUser);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -34,9 +26,11 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             setSnackbar("inloggning lyckas för :" + user.userName, true);
             navigation.navigate(MainRoutes.HouseholdScreen);
         }
+        setIsLoading(false);
     }, [user]);
 
     const onPressLogin = () => {
+        setIsLoading(true);
         dispatch(LoginAsync({ email, password }));
     };
 
@@ -75,11 +69,16 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                             onChangeText={onChangeTextPassword}
                             value={password}
                         />
-                        <Button
-                            iconType={{ type: "MaterialIcons", icons: "login" }}
-                            onPress={onPressLogin}
-                            text="Sign in"
-                        ></Button>
+                        {!isLoading && (
+                            <Button
+                                iconType={{ type: "MaterialIcons", icons: "login" }}
+                                onPress={onPressLogin}
+                                text="Sign in"
+                            ></Button>
+                        )}
+                        <View style={{ marginTop: 10 }}>
+                            <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
+                        </View>
                         {/* <TouchableOpacity onPress={onPressLogin} style={styles.loginButton}>
                             <Text style={styles.buttonText}>Sign in</Text>
                         </TouchableOpacity> */}
