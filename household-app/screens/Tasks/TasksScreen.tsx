@@ -156,13 +156,6 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             )}
             {render && (
                 <ScrollView style={styles.listContainer}>
-                    {/* <FlatList
-                        data={tasks}
-                        keyExtractor={(item: TaskNow) => item.id}
-                        renderItem={({ item }) => (
-                            <TaskCard key={item.id} task={item} onPress={() => clickOnTask(item)} />
-                        )}
-                    /> */}
                     {tasks?.map((item, index) => {
                         return <TaskCard key={index} task={item} onPress={() => clickOnTask(item)} />;
                     })}
