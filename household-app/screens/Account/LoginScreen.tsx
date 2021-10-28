@@ -19,27 +19,27 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentLoginUser);
     const [isLoading, setIsLoading] = useState(false);
-    const [loginReady, setLoginReady] = useState(false);
 
     useEffect(() => {
-        if (user && loginReady) {
+        if (user) {
             console.log("user", user);
             setSnackbar("inloggning lyckas för :" + user.userName, true);
             navigation.navigate(MainRoutes.HouseholdScreen);
+            const timer = setTimeout(() => {
+                setIsLoading(false);
+            }, 500);
+            return () => clearTimeout(timer);
         }
-        setIsLoading(false);
-    }, [user, loginReady]);
+    }, [user]);
 
     const onPressLogin = () => {
         setIsLoading(true);
 
         dispatch(LoginAsync({ email, password })).then((s) => {
             if (s.type === "loginUser/LoginAsync/fulfilled") {
-                setLoginReady(true);
             }
             if (s.type === "loginUser/LoginAsync/rejected") {
                 setSnackbar("Mail eller lösenord fel...", true);
-                setLoginReady(false);
                 setIsLoading(false);
             }
         });
