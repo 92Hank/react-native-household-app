@@ -9,6 +9,7 @@ import { useAppSelector } from "../../../Redux/hooks";
 import { useJoinHouseholdMutation } from "../../../Redux/Service/household/householdApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 import { snackbarContext } from "../../../context/snackBarContext";
+import { string } from "yup/lib/locale";
 
 interface DefaultProps {
     isOpen: boolean;
@@ -40,6 +41,7 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     const [avatarIndex, setAvatarIndex] = useState<number>();
     const [household, setHousehold] = useState<household>();
     const [emojis, setAvatars] = useState<string[]>();
+    const [renderAvatar, setRenderAvatar] = useState(false);
     const { setSnackbar } = useContext(snackbarContext);
 
     const user = useAppSelector(selectCurrentLoginUser);
@@ -63,6 +65,8 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
         if (isSuccess) {
             setSnackbar("Ansökan om att gå med i hushåll skickad", true);
             props.handleModalClose();
+            setCodeSubmitted(false);
+            setRenderAvatar(false);
         }
     }, [isSuccess]);
 
@@ -85,6 +89,7 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
         setAvatarIndex(index);
         const selectedAvatar = Avatars[index];
         setAvatar(selectedAvatar);
+        setRenderAvatar(true);
         console.log(index);
     };
 
@@ -98,8 +103,6 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                 },
             });
             if (rawResponse.status === 200) {
-                setCodeSubmitted(true);
-
                 const foundHousehold: household = await rawResponse.json();
                 console.log(foundHousehold);
                 foundHousehold.member.forEach((element) => {
@@ -109,12 +112,18 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                 avatars = avatars.filter((val) => !existingAvatars.includes(Number(val)));
                 setAvatars(avatars);
 
-                setHousehold(foundHousehold);
+                const alreadyMember = foundHousehold.member.find((m) => m.userId === user.id);
+                if (alreadyMember) {
+                    setSnackbar("Du är redan medlem i det här hushållet eller väntar på svar", true);
+                } else {
+                    setCodeSubmitted(true);
+                    setHousehold(foundHousehold);
+                }
             } else {
-                alert("Inget hushåll hittat");
+                setSnackbar("Inget hushåll hittat på denna kod", true);
             }
         } else {
-            alert("APAPAP! Du måste ange en kod");
+            setSnackbar("APAPAP! Du måste ange en kod", true);
         }
     };
 
@@ -184,7 +193,6 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                         <View style={styles.modalRequestView}>
                             <Text style={styles.modalText}>{code}</Text>
                             <Text style={styles.modalHeader}>{household?.name}</Text>
-                            <Text style={styles.modalText}>{household?.id}</Text>
                             <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
                             <View style={styles.avatars}>
                                 {emojis?.map(function (name, index) {
@@ -196,7 +204,7 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                                 })}
                             </View>
                             <View>
-                                {avatar && (
+                                {avatar && renderAvatar && (
                                     <Text style={{ marginTop: 40, fontSize: 20 }}>
                                         Vald avatar:
                                         <Text style={styles.avatar}> {avatar} </Text>
@@ -264,7 +272,7 @@ const styles = StyleSheet.create({
     },
     modalRequestView: {
         width: windowWidth - 20,
-        height: windowHeight - 100,
+        height: windowHeight - 200,
         backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
