@@ -48,22 +48,17 @@ const ArchivedTaskCard = (props: Props) => {
                     onPress={handlePress}
                     titleStyle={styles.title}
                 >
-                    <FlatList
-                        data={props.archivedTasks}
-                        keyExtractor={(item: TaskNow) => item.id}
-                        renderItem={({ item }) => (
-                            <Surface style={styles.listItem}>
-                                <TouchableOpacity onPress={onPressTask}>
-                                    {/* Falskt felmeddelande */}
-                                    <List.Item
-                                        titleStyle={styles.item}
-                                        title={item.name}
-                                        onPress={() => clickOnTask(item)}
-                                    />
-                                </TouchableOpacity>
-                            </Surface>
-                        )}
-                    />
+                    {props.archivedTasks.map((item) => (
+                        <Surface key={item.id} style={styles.listItem}>
+                            <TouchableOpacity onPress={onPressTask}>
+                                <List.Item
+                                    titleStyle={styles.item}
+                                    title={item.name}
+                                    onPress={() => clickOnTask(item)}
+                                />
+                            </TouchableOpacity>
+                        </Surface>
+                    ))}
                 </List.Accordion>
             </List.Section>
             <View>
