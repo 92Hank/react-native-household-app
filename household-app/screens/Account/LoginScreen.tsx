@@ -7,7 +7,7 @@ import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSele
 import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { ActivityIndicator, Colors, Snackbar } from "react-native-paper";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
 type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 

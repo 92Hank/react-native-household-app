@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Feather, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useContext, useEffect, useState } from "react";
-import { Dimensions, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
 import Button from "../../component/common/Button";
 import TaskModal from "../../component/householdComponents/taskModal/taskModal";
 import ModalComponent from "../../component/modal/ModalComponent";
@@ -15,7 +14,6 @@ import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
-import { List, Surface } from "react-native-paper";
 import ArchivedTaskCard from "../../component/taskFolder/ArchivedTaskCard";
 import { ActivityIndicator, Colors } from "react-native-paper";
 
@@ -36,16 +34,8 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const user = useAppSelector(selectCurrentLoginUser);
     const { message, isVisible } = useContext(snackbarContext);
 
-    const {
-        data: tasksData,
-        isLoading,
-        isFetching,
-        isError,
-        error,
-    } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
-    const { data: doneTasksData, isLoading: doneTaskLoading } = useGetDoneTasksWithHouseholdIdQuery(
-        currentHousehold?.id!,
-    );
+    const { data: tasksData, isLoading } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
+    const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
     const isToday = (someDate: any): boolean => {
         const today = new Date();
         const value = new Date(someDate._seconds * 1000);

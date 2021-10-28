@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Dimensions, FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import { List, Surface } from "react-native-paper";
 import ActivateModal from "../householdComponents/activateModal/activateModal";
 

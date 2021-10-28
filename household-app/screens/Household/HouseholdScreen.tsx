@@ -40,7 +40,7 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
         return <View></View>;
     }
 
-    const { data, isLoading, isFetching, isError, error } = useGetHouseholdByUserIdQuery(user.id!);
+    const { data } = useGetHouseholdByUserIdQuery(user.id!);
 
     const clickOnHousehold = (item: household) => {
         let rights = true;

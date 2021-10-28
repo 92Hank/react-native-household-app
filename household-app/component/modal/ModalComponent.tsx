@@ -253,6 +253,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                                 value={name}
                                                 label="Titel"
                                                 onChangeText={onChangeInputName}
+                                                textAlign={undefined}
                                             />
 
                                             <TextInput
@@ -263,6 +264,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                                 value={description}
                                                 label="Beskrivning"
                                                 onChangeText={onChangeInputDescription}
+                                                textAlign={undefined}
                                             />
 
                                             {!isClickedDays ? repeatedInput : repeatedValue}
