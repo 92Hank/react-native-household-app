@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Dimensions, FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { List, Surface } from "react-native-paper";
+import { Item } from "react-native-paper/lib/typescript/components/List/List";
 import TaskModal from "../householdComponents/taskModal/taskModal";
 
 interface TaskNow {
@@ -48,13 +49,26 @@ const ArchivedTaskCard = (props: Props) => {
                     onPress={handlePress}
                     titleStyle={styles.title}
                 >
-                    <FlatList
+                    {props.archivedTasks.map((task, index) => {
+                        console.log("JAPPS", task.name);
+                        return (
+                            <Surface style={styles.listItem} key={index}>
+                                <TouchableOpacity onPress={onPressTask}>
+                                    <List.Item
+                                        titleStyle={styles.item}
+                                        title={task.name}
+                                        onPress={() => clickOnTask(task)}
+                                    />
+                                </TouchableOpacity>
+                            </Surface>
+                        );
+                    })}
+                    {/* <FlatList
                         data={props.archivedTasks}
                         keyExtractor={(item: TaskNow) => item.id}
                         renderItem={({ item }) => (
                             <Surface style={styles.listItem}>
                                 <TouchableOpacity onPress={onPressTask}>
-                                    {/* Falskt felmeddelande */}
                                     <List.Item
                                         titleStyle={styles.item}
                                         title={item.name}
@@ -63,7 +77,7 @@ const ArchivedTaskCard = (props: Props) => {
                                 </TouchableOpacity>
                             </Surface>
                         )}
-                    />
+                    /> */}
                 </List.Accordion>
             </List.Section>
             <View>

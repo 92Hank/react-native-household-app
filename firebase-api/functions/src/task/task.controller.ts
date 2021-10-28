@@ -79,11 +79,12 @@ export const editTask = (req: Request, res: Response) => {
     description: req.body["description"],
     value: req.body["value"],
     name: req.body["name"],
+    // createdAt: new Date(req.body["createdAt"]),
   };
 
   db.collection(taskCollection)
       .doc(id)
-      .set(task)
+      .set(task, {merge: true})
       .then(() => {
         res.status(200).json("Updated task item: " + id);
       })
@@ -102,18 +103,26 @@ export const deleteTask = (req: Request, res: Response) => {
       .then(function(doc) {
         if (doc.exists) {
           const TaskId = doc.id;
-          doc.ref.delete()
+          doc.ref
+              .delete()
               .then(function() {
-                db.collection("doneTask").get().then((snap)=> {
-                  snap.forEach((s) => {
-                    const doneTask = s.data();
-                    if (doneTask.taskId === TaskId) {
-                      s.ref.delete();
-                    }
-                  });
-                });
-              }).then(function() {
-                res.status(200).json("deleted task item: " + id + ", and doneTask connected to it");
+                db.collection("doneTask")
+                    .get()
+                    .then((snap) => {
+                      snap.forEach((s) => {
+                        const doneTask = s.data();
+                        if (doneTask.taskId === TaskId) {
+                          s.ref.delete();
+                        }
+                      });
+                    });
+              })
+              .then(function() {
+                res
+                    .status(200)
+                    .json(
+                        "deleted task item: " + id + ", and doneTask connected to it"
+                    );
               });
         } else {
           res.status(400).json("No such document: " + id);
@@ -121,7 +130,6 @@ export const deleteTask = (req: Request, res: Response) => {
       })
       .catch((error) => res.status(500).send(error));
 };
-
 
 export const archiveTask = (req: Request, res: Response) => {
   const id = req.params.id;

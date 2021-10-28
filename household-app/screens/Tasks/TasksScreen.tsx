@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useContext, useEffect, useState } from "react";
-import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Button from "../../component/common/Button";
 import TaskModal from "../../component/householdComponents/taskModal/taskModal";
 import ModalComponent from "../../component/modal/ModalComponent";
@@ -44,7 +44,6 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
         error,
     } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
     const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
-
     const isToday = (someDate: any): boolean => {
         const today = new Date();
         const value = new Date(someDate._seconds * 1000);
@@ -98,33 +97,35 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             } else {
                 inactiveTasks.push(taskItem);
             }
-
             doneTasksData?.forEach((d) => {
                 const today: boolean = isToday(d.dateDone);
-                if (t.id === d.taskId && today) {
-                    currentHousehold?.member.forEach((m) => {
-                        if (d.userId === m.userId) {
-                            activeTasks[activeTasks.length - 1].emojiList.push(m.emoji);
-                        } else {
-                            activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
-                        }
-                    });
-                } else {
+                if (t.id === d.taskId) {
                     activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
+                    if (today) {
+                        currentHousehold?.member.forEach((m) => {
+                            if (d.userId === m.userId) {
+                                activeTasks[activeTasks.length - 1].emojiList.push(m.emoji);
+                            }
+                        });
+                    }
                 }
+                // else {
+                //     activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
+                // }
             });
         });
         setTasks(activeTasks);
         setArchivedTasks(inactiveTasks);
-        if (activeTasks.length > 0) {
-            setRender(true);
-        }
+
+        // if (activeTasks.length > 0) {
+        setRender(true);
+        // }
     }, [tasksData, doneTasksData]);
 
     const clickOnTask = (task: TaskNow) => {
         setTaskInModal(task);
         setIsClickedTaskOpen(true);
-        console.log("click on task,");
+        console.log("click on task,", task);
     };
     const handleTaskClose = () => {
         setIsClickedTaskOpen(false);
@@ -152,14 +153,17 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                 </View>
             )}
             {render && (
-                <View style={styles.listContainer}>
-                    <FlatList
+                <ScrollView style={styles.listContainer}>
+                    {/* <FlatList
                         data={tasks}
                         keyExtractor={(item: TaskNow) => item.id}
                         renderItem={({ item }) => (
                             <TaskCard key={item.id} task={item} onPress={() => clickOnTask(item)} />
                         )}
-                    />
+                    /> */}
+                    {tasks?.map((item, index) => {
+                        return <TaskCard key={index} task={item} onPress={() => clickOnTask(item)} />;
+                    })}
                     {rights && archivedTasks && <ArchivedTaskCard archivedTasks={archivedTasks} />}
                     <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} />
                     <TaskModal
@@ -167,7 +171,7 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                         handleModalClose={handleTaskClose}
                         task={taskInModal as TaskNow}
                     />
-                </View>
+                </ScrollView>
             )}
             <View style={rights ? styles.buttonsContainer : styles.buttonsContainerUser}>
                 {rights && (
@@ -216,7 +220,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     listContainer: {
-        maxHeight: deviceHeight - 170,
+        maxHeight: deviceHeight - 210,
     },
     container: {
         flex: 1,
