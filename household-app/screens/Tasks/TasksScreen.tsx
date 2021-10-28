@@ -43,7 +43,9 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
         isError,
         error,
     } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
-    const { data: doneTasksData, isLoading: doneTaskLoading } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
+    const { data: doneTasksData, isLoading: doneTaskLoading } = useGetDoneTasksWithHouseholdIdQuery(
+        currentHousehold?.id!,
+    );
     const isToday = (someDate: any): boolean => {
         const today = new Date();
         const value = new Date(someDate._seconds * 1000);
