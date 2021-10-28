@@ -53,7 +53,7 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     const existingAvatars: Avatars[] = [];
 
     const [
-        JoinHousehold, // This is the mutation trigger
+        JoinHousehold, // This is the mutation trigge
 
         { status, isSuccess, error, isLoading }, // This is the destructured mutation result
     ] = useJoinHouseholdMutation();
