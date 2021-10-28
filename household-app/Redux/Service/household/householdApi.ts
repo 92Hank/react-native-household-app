@@ -141,7 +141,7 @@ export const householdApi = createApi({
                 body,
             }),
 
-            invalidatesTags: (result, error, arg) => [{ type: "Household", id: arg.houseHoldId }],
+            invalidatesTags: (result, error, arg) => [{ type: "Household", member: arg.member }],
         }),
         leaveHousehold: builder.mutation<string, householdIdAndUserId>({
             query: (body) => ({
