@@ -101,8 +101,8 @@ DELETE http://localhost:5000/react-native-household-app/us-central1/webApi/house
 Content-Type: application/json
 
 {
-    "houseHoldId": "XkAaM4qUwBjBC1hUDiqv",
-    "userId": "WrHSQTb8vsVQMVRVO14z"
+    "houseHoldId": "1J8rfrvRn6TUE8U9wJnv",
+    "userId": "zGrQHoz7zwiXEUMORnV5"
     
 }
 

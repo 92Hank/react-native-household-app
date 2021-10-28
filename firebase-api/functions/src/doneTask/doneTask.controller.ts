@@ -12,6 +12,7 @@ export const postDoneTask = async (req: Request, res: Response) => {
     const doneTask: DoneTask = {
       taskId: req.body["taskId"],
       userId: req.body["userId"],
+      value: req.body["value"],
       dateDone: new Date(),
       houseHoldId: req.body["houseHoldId"],
     };

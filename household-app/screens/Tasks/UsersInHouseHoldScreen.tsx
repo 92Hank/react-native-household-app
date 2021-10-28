@@ -40,12 +40,10 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     const clickOnMember = (item: fullMemberInfo) => {
         console.log("click");
 
-        currentHousehold?.member.forEach((m) => {
-            if (m.userId === user.id && (m.AcceptedStatus === "pending" || m.AcceptedStatus === "rejected")) {
-                setSnackbar("Du har inte rättigheter att ändra medlemsstatus", true);
-                return;
-            }
-        });
+        if (!rights) {
+            setSnackbar("Du har inte rättigheter att ändra medlemsstatus", true);
+            return;
+        }
         setSetMember(item);
         setModalOpen(true);
         console.log("open");
