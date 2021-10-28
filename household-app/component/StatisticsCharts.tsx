@@ -17,6 +17,7 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
         data.forEach((member) => {
             member.doneTasks.forEach((doneTask) => {
                 uniqueIds.push(doneTask.id!);
+                console.log(member.emoji + "task value:" + (doneTask.value as number)) //TEST
             });
         });
 

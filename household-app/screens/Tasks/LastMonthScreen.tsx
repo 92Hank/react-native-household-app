@@ -19,9 +19,11 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const currentuser = useAppSelector(selectCurrentLoginUser); //TEST
     console.log("HOUSEHOLD ID ÄR:   " + currentHousehold!.id!); //TEST
-    console.log("user ID ÄR:   " + currentuser!.id!); //TEST
+    // console.log("user ID ÄR:   " + currentuser!.id!); //TEST
 
     const { data: doneTasksArray, isSuccess, error } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
+
+    // console.log("LÄNGD AV DONETASK ARRAY:  " + doneTasksArray!.length) //TEST
 
     let statisticsArray: MemberStatistics[] | undefined = undefined;
     let fillerMessage = "No done tasks found for this household.";
@@ -32,47 +34,19 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
         if (doneTasksOfLastMonth.length === 0) {
             fillerMessage = "No data found for the selected period.";
         } else {
+            console.log("check, doneTaskOfLastMonth array length: " + doneTasksOfLastMonth.length)//TEST
             statisticsArray = createMemberStatistics(doneTasksOfLastMonth, currentHousehold);
+            console.log("statisticsArray after creation run: " + statisticsArray.length) //TEST
+            console.log("statistic 0 doneTask length after creation run: " + statisticsArray[0].doneTasks.length) //TEST
+            console.log("statistic 1 doneTask length after creation run: " + statisticsArray[1].doneTasks.length) //TEST
         }
     }
 
-    // const testTasksDone: doneTask[] = [
-    //     {
-    //         id: "1",
-    //         taskId: "1",
-    //         memberId: [1, 2, 3],
-    //         dateDone: dagensDatum,
-    //         value: 2,
-    //     },
-    //     {
-    //         id: "2",
-    //         taskId: "2",
-    //         memberId: [2, 3],
-    //         dateDone: dagensDatum,
-    //         value: 2,
-    //     },
-    //     {
-    //         id: "3",
-    //         taskId: "3",
-    //         memberId: [2, 3],
-    //         dateDone: dagensDatum,
-    //         value: 2,
-    //     },
-    //     {
-    //         id: "4",
-    //         taskId: "4",
-    //         memberId: [4],
-    //         dateDone: dagensDatum,
-    //         value: 10,
-    //     },
-    //     {
-    //         id: "5",
-    //         taskId: "5",
-    //         memberId: [4, 1],
-    //         dateDone: dagensDatum,
-    //         value: 10,
-    //     },
-    // ];
+    //TEST
+    let indexI = 0;
+    statisticsArray?.forEach((member) => {
+        console.log("member" + indexI++ + "doneTask length:   ___ " + member.doneTasks.length)
+    });
 
     // const dataArray: MemberStatistics[] = [
     //     {
@@ -120,8 +94,6 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
     //         },
     //     },
     // ];
-
-    //i någon stack är det fel
     return (
         <SafeAreaView>
             <ScrollView>

@@ -13,7 +13,7 @@ type Timestamp = {
 /**
  * Function takes an array of doneTask objects and household object, and based on them
  * returns a filtered array of doneTask objects created during the last month for the
- * same household.
+ * same household. If doneTask.value is undefined, it is set to the correct value.
  *
  * @param doneTasksArray
  * @param currentHousehold
@@ -57,3 +57,11 @@ const getLastMonthEndInSeconds = () => {
     lastMonthEndDate.setHours(23, 59, 59, 999);
     return Math.floor(lastMonthEndDate.getTime() / 1000);
 };
+
+// const setCorrectTaskValue = (doneTasksArray: doneTask[]) => { //OM VALUE SÄTTS OBLIGATORISKT PÅ ANNAT SÄTT, KASTA DETTA.
+//     for (let i = 0; i < doneTasksArray.length; i++) {
+//         if (doneTasksArray[i].value === undefined) {
+//             // const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
+//         }
+//     }
+// };
