@@ -7,7 +7,7 @@ import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSele
 import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { ActivityIndicator, Colors } from "react-native-paper";
+import { ActivityIndicator, Colors, Snackbar } from "react-native-paper";
 
 type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 
@@ -19,19 +19,30 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentLoginUser);
     const [isLoading, setIsLoading] = useState(false);
+    const [loginReady, setLoginReady] = useState(false);
 
     useEffect(() => {
-        if (user) {
+        if (user && loginReady) {
             console.log("user", user);
             setSnackbar("inloggning lyckas för :" + user.userName, true);
             navigation.navigate(MainRoutes.HouseholdScreen);
         }
         setIsLoading(false);
-    }, [user]);
+    }, [user, loginReady]);
 
     const onPressLogin = () => {
         setIsLoading(true);
-        dispatch(LoginAsync({ email, password }));
+
+        dispatch(LoginAsync({ email, password })).then((s) => {
+            if (s.type === "loginUser/LoginAsync/fulfilled") {
+                setLoginReady(true);
+            }
+            if (s.type === "loginUser/LoginAsync/rejected") {
+                setSnackbar("Mail eller lösenord fel...", true);
+                setLoginReady(false);
+                setIsLoading(false);
+            }
+        });
     };
 
     const onChangeTextEmail = (email: string) => {
