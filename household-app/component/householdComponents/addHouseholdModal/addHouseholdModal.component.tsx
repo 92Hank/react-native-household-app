@@ -134,7 +134,7 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                             {avatar && (
                                 <Text style={{ marginTop: 40, fontSize: 20 }}>
                                     Vald avatar:
-                                    <Text style={styles.avatar}> {avatars[Number(avatar)]} </Text>
+                                    <Text style={styles.avatar}> {avatars[Number(avatar) - 1]} </Text>
                                 </Text>
                             )}
                         </View>

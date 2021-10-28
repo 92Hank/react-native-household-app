@@ -196,6 +196,11 @@ function TaskModal(props: Props) {
     const handleEditClick = () => {
         console.log("open new modal for edit");
         // props.handleModalClose();
+        setDescription(defaultTask.description);
+        setName(defaultTask.name);
+        setValue(defaultTask.value);
+        setRepeated(defaultTask.repeated);
+
         setOpenEdit(true);
     };
 
