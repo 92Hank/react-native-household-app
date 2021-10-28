@@ -166,7 +166,9 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                     {tasks?.map((item, index) => {
                         return <TaskCard key={index} task={item} onPress={() => clickOnTask(item)} />;
                     })}
-                    {rights && archivedTasks && <ArchivedTaskCard archivedTasks={archivedTasks} />}
+                    {rights && archivedTasks && archivedTasks.length > 0 && (
+                        <ArchivedTaskCard archivedTasks={archivedTasks} />
+                    )}
                     <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} />
                     <TaskModal
                         isOpen={isClickedTaskOpen}

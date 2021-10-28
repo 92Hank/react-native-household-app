@@ -66,14 +66,14 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                         <SnackbarComponent isVisible={isVisible} message={message} />
 
                         <Image source={require("../../assets/logotypeBlack/logoBL.png")} style={styles.logo} />
-                        <Text style={styles.title}>Email:</Text>
+                        <Text style={styles.title}>E-mail:</Text>
                         <TextInput
                             keyboardType="email-address"
                             style={styles.input}
                             onChangeText={onChangeTextEmail}
                             value={email}
                         />
-                        <Text style={styles.title}>Password:</Text>
+                        <Text style={styles.title}>Lösenord:</Text>
                         <TextInput
                             secureTextEntry={true}
                             style={styles.input}
@@ -84,7 +84,7 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                             <Button
                                 iconType={{ type: "MaterialIcons", icons: "login" }}
                                 onPress={onPressLogin}
-                                text="Sign in"
+                                text="Logga in"
                             ></Button>
                         )}
                         <View style={{ marginTop: 10 }}>

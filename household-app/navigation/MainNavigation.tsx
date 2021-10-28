@@ -38,7 +38,7 @@ const MainNavigation = (): React.ReactElement => {
                     name={MainRoutes.TasksScreen}
                     component={TaskStack}
                     options={{
-                        title: "Tasks",
+                        title: "Sysslor",
                         headerTitleStyle: { fontSize: 24 },
                     }}
                 />
@@ -46,7 +46,7 @@ const MainNavigation = (): React.ReactElement => {
                     name={MainRoutes.UsersInHouseHoldScreen}
                     component={UsersStack}
                     options={{
-                        title: "Users",
+                        title: "",
                         headerTitleStyle: { fontSize: 24 },
                     }}
                 />
