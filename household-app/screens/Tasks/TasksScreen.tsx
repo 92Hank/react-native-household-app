@@ -44,7 +44,6 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
         error,
     } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
     const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
-
     const isToday = (someDate: any): boolean => {
         const today = new Date();
         const value = new Date(someDate._seconds * 1000);
@@ -54,7 +53,8 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             value.getFullYear() === today.getFullYear()
         );
     };
-
+    console.log("ALLA KLARA TASKAR", doneTasksData);
+    console.log("ALLA TASKAR", tasks);
     const dateConvert = (date: any): Date => {
         const dateCompare = new Date(date._seconds * 1000);
         return dateCompare;
@@ -98,33 +98,35 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             } else {
                 inactiveTasks.push(taskItem);
             }
-
             doneTasksData?.forEach((d) => {
                 const today: boolean = isToday(d.dateDone);
-                if (t.id === d.taskId && today) {
-                    currentHousehold?.member.forEach((m) => {
-                        if (d.userId === m.userId) {
-                            activeTasks[activeTasks.length - 1].emojiList.push(m.emoji);
-                        } else {
-                            activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
-                        }
-                    });
-                } else {
+                if (t.id === d.taskId) {
                     activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
+                    if (today) {
+                        currentHousehold?.member.forEach((m) => {
+                            if (d.userId === m.userId) {
+                                activeTasks[activeTasks.length - 1].emojiList.push(m.emoji);
+                            }
+                        });
+                    }
                 }
+                // else {
+                //     activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
+                // }
             });
         });
         setTasks(activeTasks);
         setArchivedTasks(inactiveTasks);
-        if (activeTasks.length > 0) {
-            setRender(true);
-        }
+
+        // if (activeTasks.length > 0) {
+        setRender(true);
+        // }
     }, [tasksData, doneTasksData]);
 
     const clickOnTask = (task: TaskNow) => {
         setTaskInModal(task);
         setIsClickedTaskOpen(true);
-        console.log("click on task,");
+        console.log("click on task,", task);
     };
     const handleTaskClose = () => {
         setIsClickedTaskOpen(false);

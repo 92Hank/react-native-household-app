@@ -85,6 +85,7 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
         setAvatarIndex(index);
         const selectedAvatar = Avatars[index];
         setAvatar(selectedAvatar);
+        console.log(index);
     };
 
     const onSubmit = async () => {

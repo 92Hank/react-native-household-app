@@ -37,6 +37,7 @@ interface TaskNow {
     archived?: boolean;
     value?: number;
     emojiList?: number[];
+    createdAt: Date;
 }
 
 interface Props {
@@ -97,6 +98,13 @@ function TaskModal(props: Props) {
             setSnackbar("Bra jobbat!", true);
         }
     }, [isSuccess]);
+
+    useEffect(() => {
+        setDescription(defaultTask.description);
+        setName(defaultTask.name);
+        setValue(defaultTask.value);
+        setRepeated(defaultTask.repeated);
+    }, []);
 
     useEffect(() => {
         if (isArchived) {
