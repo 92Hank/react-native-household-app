@@ -97,6 +97,15 @@ function TaskModal(props: Props) {
         }
     };
 
+    const closeEditModal = () => {
+        setOpenEdit(false);
+        props.handleModalClose();
+    };
+
+    const closeEdit = () => {
+        setOpenEdit(false);
+    };
+
     const handleEditClick = () => {
         console.log("open new modal for edit");
         // props.handleModalClose();
@@ -147,9 +156,9 @@ function TaskModal(props: Props) {
                 >
                     <EditTaskInputModal
                         openEdit={openEdit}
-                        handleModalClose={props.handleModalClose}
-                        setOpenEdit={setOpenEdit}
+                        handleModalClose={closeEditModal}
                         task={props.task}
+                        handleClose={closeEdit}
                     />
                     <Modal
                         animationType="slide"

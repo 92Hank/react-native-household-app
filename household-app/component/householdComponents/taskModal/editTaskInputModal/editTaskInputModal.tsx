@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState, VoidFunctionComponent } from "react";
 import { TouchableOpacity, View, Text, Modal, FlatList } from "react-native";
 import { Card, TextInput } from "react-native-paper";
 import { task } from "../../../../../Common/task";
@@ -26,8 +26,8 @@ interface TaskNow {
 interface Props {
     openEdit: boolean;
     handleModalClose: () => void;
-    setOpenEdit?: Dispatch<SetStateAction<boolean>>;
     task: TaskNow;
+    handleClose: () => void;
 }
 
 const buttonList: number[] = [1, 2, 4, 6, 8];
@@ -257,7 +257,7 @@ const EditTaskInputModal = (props: Props) => {
                             <MaterialIcons name="check-circle" size={30} color="black" />
                             <Text style={styles.buttonText}>Ändra</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => props.setOpenEdit} style={styles.closeButton}>
+                        <TouchableOpacity onPress={props.handleClose} style={styles.closeButton}>
                             <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
                             <Text style={styles.buttonText}>Stäng</Text>
                         </TouchableOpacity>
