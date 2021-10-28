@@ -35,6 +35,19 @@ const LoginStack = () => (
                 // ),
             }}
         />
+        <MainStack.Screen
+            name={MainRoutes.CreateAccountScreen}
+            component={CreateAccountScreen}
+            options={{
+                // headerShown: false,
+                title: "Create your account",
+                headerTitleAlign: "center",
+                headerTintColor: "grey",
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                },
+            }}
+        />
     </MainStack.Navigator>
 );
 

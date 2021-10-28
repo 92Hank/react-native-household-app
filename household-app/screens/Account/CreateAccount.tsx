@@ -1,20 +1,17 @@
 import { Formik } from "formik";
-import React, { FC, useEffect } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { FC, useContext, useEffect } from "react";
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
 import * as Yup from "yup";
 import { useCreateUserMutation } from "../../Redux/Service/user/userApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import TextInput from "./textInput";
 import Button from "../../component/common/Button";
-
-// import user from '../../../Common/src/Entity/user';
+import { snackbarContext } from "../../context/snackBarContext";
 
 interface User {
-    // id?: string;
     email: string;
     userName: string;
     password: string;
-    // salt?: string;
 }
 
 type PostSchemaType = Record<keyof User, Yup.AnySchema>;
@@ -25,9 +22,11 @@ const PostSchema = Yup.object().shape<PostSchemaType>({
     userName: Yup.string().required().trim(),
 });
 
-type Props = FeedStackScreenProps<MainRoutes.CreateAccountScreen>;
+type Props = FeedStackScreenProps<MainRoutes>;
 
 const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+    const { setSnackbar } = useContext(snackbarContext);
+
     const defaultUser: User = { userName: "", email: "", password: "" };
     const [
         CreateUser, // This is the mutation trigger
@@ -36,7 +35,12 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
     ] = useCreateUserMutation();
 
     useEffect(() => {
-        console.log("isSuccess", isSuccess);
+        console.log("ÄR DEN INTE SANN? :", isSuccess);
+        if (isSuccess) {
+            console.log("isSuccess", isSuccess);
+            setSnackbar("Du har skapat ett konto!", true);
+            navigation.goBack();
+        }
     }, [isSuccess]);
 
     useEffect(() => {
@@ -49,21 +53,15 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
 
     useEffect(() => {
         if (error) {
+            setSnackbar("Ett oväntat fel dök upp", true);
             console.log("error", error);
         }
     }, [error]);
 
-    interface FetchArgs extends RequestInit {
-        url: string;
-        params?: Record<string, any>;
-        body?: any;
-        responseHandler?: "json" | "text" | ((response: Response) => Promise<any>);
-        validateStatus?: (response: Response, body: any) => boolean;
-    }
-
     const handleSubmitForm = async (createAccountUser: User) => {
         console.log(createAccountUser);
         CreateUser(createAccountUser);
+        navigation.navigate(MainRoutes.LoginScreen);
     };
 
     return (

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { FontAwesome5 } from "@expo/vector-icons";
 import React, { FC, useContext, useEffect, useState } from "react";
@@ -149,8 +150,12 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
                                 </>
                             )}
                         />
-                        <RejectedCard households={userRejectedHouseholds as household[]} />
-                        <PendingHouseHoldCard households={userPendingHouseholds as household[]} />
+                        {userRejectedHouseholds?.length! >= 1 && (
+                            <RejectedCard households={userRejectedHouseholds as household[]} />
+                        )}
+                        {userPendingHouseholds?.length! >= 1 && (
+                            <PendingHouseHoldCard households={userPendingHouseholds as household[]} />
+                        )}
                     </View>
                 </View>
                 <AddHouseholdModal
@@ -191,8 +196,3 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
 };
 
 export default HouseholdScreen;
-
-// let households: Household[] = [
-//   { name: "Hemma", JoinCode: 1234, id: "1" },
-//   { name: "Stugan", JoinCode: 1337, id: "2" },
-// ];

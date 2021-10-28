@@ -11,6 +11,7 @@ import {
     Image,
 } from "react-native";
 import Button from "../../component/common/Button";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
@@ -22,7 +23,7 @@ type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const [email, setEmail] = useState<string>("foo@foo.com");
     const [password, setPassword] = useState<string>("fobar");
-    const { setSnackbar } = useContext(snackbarContext);
+    const { setSnackbar, isVisible, message } = useContext(snackbarContext);
 
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentLoginUser);
@@ -57,6 +58,8 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                     keyboardShouldPersistTaps={"handled"}
                 >
                     <View style={styles.container}>
+                        <SnackbarComponent isVisible={isVisible} message={message} />
+
                         <Image source={require("../../assets/logotypeBlack/logoBL.png")} style={styles.logo} />
                         <Text style={styles.title}>Email:</Text>
                         <TextInput
