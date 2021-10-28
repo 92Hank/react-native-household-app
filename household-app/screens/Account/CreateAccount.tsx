@@ -1,22 +1,15 @@
 import { Formik } from "formik";
-
 import React, { FC, useContext, useEffect } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
-
-import React, { FC, useEffect } from "react";
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native";
 import { ActivityIndicator, Colors } from "react-native-paper";
-
 import * as Yup from "yup";
 import Button from "../../component/common/Button";
 import { useCreateUserMutation } from "../../Redux/Service/user/userApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import TextInput from "./textInput";
 
-import Button from "../../component/common/Button";
 import { snackbarContext } from "../../context/snackBarContext";
 // import user from '../../../Common/src/Entity/user';
-
 
 interface User {
     email: string;
