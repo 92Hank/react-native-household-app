@@ -9,20 +9,14 @@ interface Props {
 }
 
 const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
-    let allDoneTaskIdsArray: string[] = [];
+    const allDoneTaskIdsArray: string[] = [];
 
     const getUniqueDoneTaskIds = () => {
-        const uniqueIds: string[] = [];
-
         data.forEach((member) => {
             member.doneTasks.forEach((doneTask) => {
-                uniqueIds.push(doneTask.id!);
+                if (!allDoneTaskIdsArray.includes(doneTask.taskId)) allDoneTaskIdsArray.push(doneTask.taskId);
                 console.log(member.emoji + "task value:" + (doneTask.value as number)) //TEST
             });
-        });
-
-        allDoneTaskIdsArray = uniqueIds.filter((taskId, index, self) => {
-            if (self.indexOf(taskId) === index) return self[index];
         });
     };
 
@@ -39,13 +33,17 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
      */
     const filterOutNonparticipantMembers = (data: MemberStatistics[], taskId: string) => {
         const filteredMembers: MemberStatistics[] = [];
-
         data.forEach((member) => {
-            member.doneTasks.filter((doneTask, index) => {
-                if (member.doneTasks[index].taskId == taskId) filteredMembers.push(member);
+            member.doneTasks.forEach((doneTask) => {
+                if (!filteredMembers.includes(member) && doneTask.taskId === taskId) {
+                    filteredMembers.push(member);
+                    console.log("Added user " + member.userId) //TEST
+                    console.log("Added user has MemberStatistics[] key" + member.key) //TEST HÄR LIGGER FELET, DUBBELT TILLAGDA!!
+                    return;
+                }
             });
         });
-
+        console.log("------- ABOVE SENT TO ONE SMALL PIE") //ETST
         return filteredMembers;
     };
 
@@ -58,6 +56,8 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
      */
     const generateSmallPieCharts = () => {
         return allDoneTaskIdsArray.map((taskId, index) => {
+            console.log("taskID small piechart: " + taskId) //TEST
+            console.log("index of smallpicechart: " + index)
             return (
                 <SmallPieChart
                     data={filterOutNonparticipantMembers(data, taskId)}

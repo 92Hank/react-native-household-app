@@ -57,11 +57,3 @@ const getLastMonthEndInSeconds = () => {
     lastMonthEndDate.setHours(23, 59, 59, 999);
     return Math.floor(lastMonthEndDate.getTime() / 1000);
 };
-
-// const setCorrectTaskValue = (doneTasksArray: doneTask[]) => { //OM VALUE SÄTTS OBLIGATORISKT PÅ ANNAT SÄTT, KASTA DETTA.
-//     for (let i = 0; i < doneTasksArray.length; i++) {
-//         if (doneTasksArray[i].value === undefined) {
-//             // const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
-//         }
-//     }
-// };
