@@ -53,8 +53,7 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             value.getFullYear() === today.getFullYear()
         );
     };
-    console.log("ALLA KLARA TASKAR", doneTasksData);
-    console.log("ALLA TASKAR", tasks);
+
     const dateConvert = (date: any): Date => {
         const dateCompare = new Date(date._seconds * 1000);
         return dateCompare;
@@ -221,7 +220,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     listContainer: {
-        maxHeight: deviceHeight - 220,
+        maxHeight: deviceHeight - 210,
     },
     container: {
         flex: 1,
