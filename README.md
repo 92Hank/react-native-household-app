@@ -33,13 +33,13 @@ med produktägare, godkännas och dokumenteras.
 
 ### Hushåll (0/7)
 
-- [ ] Ett hushåll ska ha ett namn och en genererad (enkel) kod så andra kan gå med i hushållet,
+- [x] Ett hushåll ska ha ett namn och en genererad (enkel) kod så andra kan gå med i hushållet,
 namnet ska gå att ändra. \*
-- [ ] Alla användare i ett hushåll ska kunna se vilka som tillhör ett hushåll.
-- [ ] En ägare av ett hushåll ska kunna se förfrågningar om att gå med i hushållet.
+- [x] Alla användare i ett hushåll ska kunna se vilka som tillhör ett hushåll.
+- [x] En ägare av ett hushåll ska kunna se förfrågningar om att gå med i hushållet.
 
-- [ ] En ägare ska kunna acceptera eller neka förfrågningar. // byta isAccepted till accepted | pending | rejected .. ändra api
-- [ ] En ägare ska kunna göra andra till ägare.
+- [x] En ägare ska kunna acceptera eller neka förfrågningar. // byta isAccepted till accepted | pending | rejected .. ändra api
+- [x] En ägare ska kunna göra andra till ägare.
 - [ ] En ägare ska kunna pausa en användare och under pausade perioder ska användare inte
 tas med i statistiken. // göra api
 - [ ] Om en använder har pausats under en del av en period i statistiken ska graferna
@@ -49,19 +49,19 @@ normaliseras.
 
 - [x] En användare ska kunna logga in sig.
 - [x] En användare ska kunna skapa ett nytt hushåll.
-- [ ] En användare ska kunna gå med i ett hushåll genom att ange hushållets kod. \*
-- [ ] När en användare har valt att gå med i ett hushåll behöver en ägare av hushållet först
+- [x] En användare ska kunna gå med i ett hushåll genom att ange hushållets kod. \*
+- [x] När en användare har valt att gå med i ett hushåll behöver en ägare av hushållet först
 godkänna användaren.
-- [ ] En användare ska kunna lämna ett hushåll. //göra api för
+- [x] En användare ska kunna lämna ett hushåll. //göra api för
 
 ### Profil (1/6)
 
 - [ ] En användare ska kunna ange sitt namn. _ ska man kunna ändra sitt member name? = göra api
 - [ ] En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista. _ göra Api
-- [ ] Valda avatarer ska inte kunna väljas av andra användare i hushållet. _
-- [ ] Avataren ska användas i appen för att visa vad användaren har gjort. _
+- [x] Valda avatarer ska inte kunna väljas av andra användare i hushållet. _
+- [x] Avataren ska användas i appen för att visa vad användaren har gjort. _
 - [x] En användare ska kunna ställa in appens utseende (mörkt, ljust, auto).
-- [ ] Om en användare tillhör två eller fler hushåll ska denne kunna välja att byta mellan de
+- [x] Om en användare tillhör två eller fler hushåll ska denne kunna välja att byta mellan de
 olika hushållen. Strax
 
 ### Sysslor (2/6)
@@ -71,17 +71,17 @@ olika hushållen. Strax
 vikt som beskriver hur energikrävande den är.
 - [ ] En användare ska kunna lägga till en ljudinspelning och en bild för att beskriva sysslan
 ytterligare. Senare...
-- [ ] En ägare ska kunna redigera en syssla. _ Api
-- [ ] En ägare ska kunna ta bort en syssla. _ Api
-- [ ] När en syssla tas bort ska användaren få en varning om att all statistik gällande sysslan
+- [x] En ägare ska kunna redigera en syssla. _ Api
+- [x] En ägare ska kunna ta bort en syssla. _ Api
+- [x] När en syssla tas bort ska användaren få en varning om att all statistik gällande sysslan
 också kommer att tas bort och få valet att arkivera sysslan istället. Senare..
 
 ### Dagsvyn (0/3)
 
-- [ ] Alla sysslor ska listas i en dagsvy och ge en översikt kring vad som behöver göras. _
+- [x] Alla sysslor ska listas i en dagsvy och ge en översikt kring vad som behöver göras. _
 - [ ] Utöver sysslans namn ska även vem/vilka som har gjort sysslan visas, hur många dagar
 sedan sysslan gjordes senast samt om den är försenad. _
-- [ ] När en användare väljer en syssla ska beskrivningen av sysslan visas och det ska även
+- [x] När en användare väljer en syssla ska beskrivningen av sysslan visas och det ska även
 med ett enkelt tryck gå att markera sysslan som gjord. \*
 
 ### Statistik (0/6)
