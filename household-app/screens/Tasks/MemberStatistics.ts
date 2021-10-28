@@ -27,14 +27,12 @@ export const createMemberStatistics = (doneTasksArray: doneTask[], currentHouseh
     const participantMembers = filterOutNonparticipantMembers(doneTasksArray, currentHousehold);
     const doneTasksPerMember = getDoneTasksPerParticipantMember(doneTasksArray, participantMembers);
 
-    let indexValue = 0;
-
-    return participantMembers.map((member) => {
+    return participantMembers.map((member, index) => {
         return {
-            key: indexValue,
+            key: index,
             userId: member.userId,
             emoji: convertToEmoji(member.emoji),
-            doneTasks: doneTasksPerMember[indexValue++],
+            doneTasks: doneTasksPerMember[index],
             svg: {
                 fill: getColourCode(member.emoji),
             },
