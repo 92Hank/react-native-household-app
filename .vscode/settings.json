@@ -4,6 +4,7 @@
         "ägare",
         "ägarna",
         "Aktivera",
+        "aktiverat",
         "Ändra",
         "ändrad",
         "Ansökan",
@@ -26,6 +27,7 @@
         "hushåll",
         "hushållet",
         "hushållsnamn",
+        "igen",
         "inte",
         "invitecode",
         "kanske",
@@ -53,8 +55,10 @@
         "skrev",
         "Stäng",
         "statistiken",
+        "sysslan",
         "Väntande",
         "Väntar",
-        "Varning"
+        "Varning",
+        "Vill"
     ]
 }
