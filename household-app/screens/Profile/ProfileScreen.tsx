@@ -52,14 +52,17 @@ const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => 
                 </View>
             </View>
             <Surface style={styles.container}>
-                <Text style={styles.text}>UserName</Text>
-                <Divider style={styles.divider} />
-
-                <Text style={styles.text}>NickName</Text>
-                <Divider style={styles.divider} />
-
-                <Text style={styles.text}>Password</Text>
-                <Divider style={styles.divider} />
+            <Text style={styles.labelText}>User Name</Text>
+          <Text style={styles.text}>Lilo24</Text>
+          <Divider style={styles.divider} />
+          
+          <Text style={styles.labelText}>Nick Name</Text>
+          <Text style={styles.text}>StitchGoesCrazy</Text>
+          <Divider style={styles.divider} />
+          
+          <Text style={styles.labelText}>Password</Text>
+          <Text style={styles.text}>***********</Text>
+          <Divider style={styles.divider} />
             </Surface>
         </>
     );
