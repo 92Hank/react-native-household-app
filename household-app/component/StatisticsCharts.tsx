@@ -15,7 +15,6 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
         data.forEach((member) => {
             member.doneTasks.forEach((doneTask) => {
                 if (!allDoneTaskIdsArray.includes(doneTask.taskId)) allDoneTaskIdsArray.push(doneTask.taskId);
-                console.log(member.emoji + "task value:" + (doneTask.value as number)) //TEST
             });
         });
     };
@@ -37,13 +36,10 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
             member.doneTasks.forEach((doneTask) => {
                 if (!filteredMembers.includes(member) && doneTask.taskId === taskId) {
                     filteredMembers.push(member);
-                    console.log("Added user " + member.userId) //TEST
-                    console.log("Added user has MemberStatistics[] key" + member.key) //TEST HÄR LIGGER FELET, DUBBELT TILLAGDA!!
                     return;
                 }
             });
         });
-        console.log("------- ABOVE SENT TO ONE SMALL PIE") //ETST
         return filteredMembers;
     };
 
@@ -56,8 +52,6 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
      */
     const generateSmallPieCharts = () => {
         return allDoneTaskIdsArray.map((taskId, index) => {
-            console.log("taskID small piechart: " + taskId) //TEST
-            console.log("index of smallpicechart: " + index)
             return (
                 <SmallPieChart
                     data={filterOutNonparticipantMembers(data, taskId)}
