@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Avatar, Card, Divider, Surface, Switch, TouchableRipple } from "react-native-paper";
 import { PreferencesContext } from "../../context/PreferencesContext";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
@@ -12,14 +12,10 @@ const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => 
     const [isEnabled, setIsEnabled] = useState(false);
     const [switchValue, setSwitchValue] = useState(false);
 
+    //To handle switch toggle
     const toggleSwitch = () => {
-        //To handle switch toggle
         setSwitchValue(true);
     };
-
-    /*const onPressTasks = () => {
-      navigation.navigate(MainRoutes.TasksScreen);
-    };*/
 
     return (
         <>
@@ -52,17 +48,17 @@ const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => 
                 </View>
             </View>
             <Surface style={styles.container}>
-            <Text style={styles.labelText}>User Name</Text>
-          <Text style={styles.text}>Lilo24</Text>
-          <Divider style={styles.divider} />
+                <Text style={styles.labelText}>User Name</Text>
+                <Text style={styles.text}>Lilo24</Text>
+                <Divider style={styles.divider} />
           
-          <Text style={styles.labelText}>Nick Name</Text>
-          <Text style={styles.text}>StitchGoesCrazy</Text>
-          <Divider style={styles.divider} />
+                <Text style={styles.labelText}>Nick Name</Text>
+                <Text style={styles.text}>StitchGoesCrazy</Text>
+                <Divider style={styles.divider} />
           
-          <Text style={styles.labelText}>Password</Text>
-          <Text style={styles.text}>***********</Text>
-          <Divider style={styles.divider} />
+                <Text style={styles.labelText}>Password</Text>
+                <Text style={styles.text}>***********</Text>
+                <Divider style={styles.divider} />
             </Surface>
         </>
     );
@@ -112,6 +108,10 @@ const styles = StyleSheet.create({
         alignItems: "flex-start",
         justifyContent: "flex-start",
         marginHorizontal: 16,
+    },
+    labelText: {
+        color: "grey",
+        fontSize: 16,
     },
     text: {
         color: "grey",
