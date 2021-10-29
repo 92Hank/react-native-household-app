@@ -232,7 +232,7 @@ function ChangeMemberStatusModal(props: Props) {
 
                                                     <RadioForm
                                                         radio_props={radioPropsOwner}
-                                                        initial={1}
+                                                        initial={-1}
                                                         onPress={(value: number) => {
                                                             setMakeOwner(value as number);
                                                         }}
@@ -250,7 +250,7 @@ function ChangeMemberStatusModal(props: Props) {
                                                     <Text style={styles.modalText}>Pausa användare:</Text>
                                                     <RadioForm
                                                         radio_props={radioPropsPause}
-                                                        initial={1}
+                                                        initial={-1}
                                                         onPress={(value: number) => {
                                                             setPaused(value as number);
                                                         }}
@@ -274,7 +274,7 @@ function ChangeMemberStatusModal(props: Props) {
                                                 <Text style={styles.modalText}>Aktivera användare:</Text>
                                                 <RadioForm
                                                     radio_props={radioPropsUnPause}
-                                                    initial={1}
+                                                    initial={-1}
                                                     onPress={(value: number) => {
                                                         setUnPaused(value as number);
                                                     }}
@@ -297,7 +297,7 @@ function ChangeMemberStatusModal(props: Props) {
                                             <View style={styles.pendingRow}>
                                                 <RadioForm
                                                     formHorizontal={true}
-                                                    initial={1}
+                                                    initial={-1}
                                                     labelStyle={{ marginRight: 10 }}
                                                     radio_props={radioPropsAccept}
                                                     onPress={(value: number) => {
