@@ -9,11 +9,13 @@ const taskCollection = "doneTask";
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const postDoneTask = async (req: Request, res: Response) => {
   try {
+    const dateDone = new Date();
+    dateDone.setHours(0, 0, 0, 0);
     const doneTask: DoneTask = {
       taskId: req.body["taskId"],
       userId: req.body["userId"],
       value: req.body["value"],
-      dateDone: new Date(),
+      dateDone: dateDone,
       houseHoldId: req.body["houseHoldId"],
     };
 
@@ -26,7 +28,6 @@ export const postDoneTask = async (req: Request, res: Response) => {
     );
   }
 };
-
 
 export const getAllDoneTaskOfHouseHold = (req: Request, res: Response) => {
   const houseHoldId = req.params.houseHoldId;
