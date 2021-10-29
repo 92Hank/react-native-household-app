@@ -14,6 +14,8 @@ import { createMemberStatistics, MemberStatistics } from "./MemberStatistics";
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+    console.log("------------------NEW RENDITION -------------------") //TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST
+
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const { data: doneTasksArray, error: doneTaskError } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
 
@@ -23,7 +25,7 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
     if (doneTasksArray !== undefined && doneTasksArray.length > 0 && currentHousehold !== undefined) {
         const doneTasksOfLastMonth = getLastMonthDoneTasksByHousehold(doneTasksArray, currentHousehold);
 
-        console.log("ALLA ODNETASKS OF LAST MONTH") //TEST
+        console.log("ALLA DONETASKS OF LAST MONTH") //TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST
         console.log(doneTasksOfLastMonth)
 
         if (doneTasksOfLastMonth.length === 0) {
@@ -34,6 +36,10 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
             console.log("statisticsArray after creation run: " + statisticsArray.length); //TEST
         }
     }
+
+
+        //RUBRIKER UNDER VARJE DIAGRAM!!!!!!!!!!!
+        // RUBRIKER UNDER VARJE DIAGRAM ÄVEN DET STORA DIAGRAMMET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     return (
         <SafeAreaView>

@@ -36,6 +36,7 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
             member.doneTasks.forEach((doneTask) => {
                 if (!filteredMembers.includes(member) && doneTask.taskId === taskId) {
                     filteredMembers.push(member);
+                    console.log("ADDED PARTICIPANT MEMBER: " + member.userId) //TEEEEEEEEEEEEST
                     return;
                 }
             });
