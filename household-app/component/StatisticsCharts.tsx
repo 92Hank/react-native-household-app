@@ -1,22 +1,52 @@
 import React, { FC } from "react";
 import { View, StyleSheet } from "react-native";
+import { task } from "../../Common/task";
 import PieChart from "../component/PieChart";
 import { MemberStatistics } from "../screens/Tasks/memberStatistics";
 import SmallPieChart from "./SmallPieChart";
 
 interface Props {
     data: MemberStatistics[];
+    tasks: task[];
 }
 
-const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
-    const allDoneTaskIdsArray: string[] = [];
+const StatisticsCharts: FC<Props> = ({ data, tasks }): React.ReactElement => {
+    const allDoneTaskIds: string[] = [];
+    const allDoneTaskNames: string[] = [];
+
+    tasks ? console.log("tasksData exists3") : console.log("Not exist3")
+
 
     const getUniqueDoneTaskIds = () => {
         data.forEach((member) => {
             member.doneTasks.forEach((doneTask) => {
-                if (!allDoneTaskIdsArray.includes(doneTask.taskId)) allDoneTaskIdsArray.push(doneTask.taskId);
+                let taskName: string;
+                if (!allDoneTaskIds.includes(doneTask.taskId)) {
+                    allDoneTaskIds.push(doneTask.taskId);
+
+                    getUniqueDoneTaskName(doneTask.taskId)
+
+                    // if (getUniqueDoneTaskName(doneTask.taskId) !== undefined) {
+                    //     allDoneTaskNames.push(getUniqueDoneTaskName(doneTask.taskId)!.name);
+                    // } else {
+                    //     allDoneTaskNames.push("Unnamed task");
+                    // }
+                }
             });
         });
+    };
+
+    const getUniqueDoneTaskName = (taskId: string) => {
+        for (let i = 0; i < tasks.length; i++) {
+            if(tasks[i] === undefined) console.log("UNDEEFINED TAKS")
+            else console.log("TASK EXISTS: " + tasks[i].id)
+        }
+
+        // tasks.forEach((task) => {
+        //     if (task.id) console.log("JA PÅ:" + taskId)
+        //     else console.log("NEJ PÅ " + taskId)
+            // task.id === taskId
+        // })
     };
 
     /**
@@ -52,13 +82,14 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
      * @returns {JSX.Element[]}
      */
     const generateSmallPieCharts = () => {
-        return allDoneTaskIdsArray.map((taskId, index) => {
+        return allDoneTaskIds.map((taskId, index) => {
             return (
                 <SmallPieChart
                     data={filterOutNonparticipantMembers(data, taskId)}
                     specificTaskId={taskId}
                     key={index}
                     style={[styles.smallChartSize]}
+                    taskName="abc"
                 />
             );
         });
@@ -67,7 +98,7 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
     getUniqueDoneTaskIds();
     return (
         <>
-            <PieChart data={data} />
+            <PieChart data={data} taskName="Totalt" />
             <View style={[styles.smallChartView]}>{generateSmallPieCharts()}</View>
         </>
     );
