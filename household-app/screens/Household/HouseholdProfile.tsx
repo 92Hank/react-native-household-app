@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import MemberEmojiSelector from "../../component/common/MemberEmojiSelector";
 import ToggleDarkThemeSwitch from "../../component/common/ToggleDarkThemeSwitch";
-import EmojiSelector from "../../component/common/EmojiSelector";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
+import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
@@ -16,14 +16,7 @@ const HouseholdProfile: FC<Props> = ({ navigation }: Props): React.ReactElement 
         <View style={styles.container}>
             <Text style={styles.text}>hushåll</Text>
             {/*eslint-disable-next-line @typescript-eslint/no-empty-function*/}
-            <EmojiSelector
-                Household={household!}
-                avatarSelect={(selected) => {
-                    console.log(selected);
-                }}
-                selected={0}
-            ></EmojiSelector>
-
+            <MemberEmojiSelector household={household} />
             <Text style={styles.text}>Global</Text>
             <ToggleDarkThemeSwitch />
         </View>
