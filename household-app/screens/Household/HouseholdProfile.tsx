@@ -4,6 +4,7 @@ import { Surface } from "react-native-paper";
 import { fullMemberInfo } from "../../../Common/household";
 import Button from "../../component/common/Button";
 import { Avatars } from "../../component/common/EmojiSelector";
+import ToggleDarkThemeSwitch from "../../component/common/ToggleDarkThemeSwitch";
 import ProfileEmojiSelector from "../../component/profile/ProfileEmojiSelector";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
@@ -51,8 +52,8 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
                     <Text>Loading...</Text>
                 </Surface>
             )}
-            {/* <Text style={styles.text}>Global</Text>
-            <ToggleDarkThemeSwitch /> */}
+            <Text style={styles.text}>Global</Text>
+            <ToggleDarkThemeSwitch />
         </Surface>
     );
 };
