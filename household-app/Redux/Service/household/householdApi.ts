@@ -167,7 +167,7 @@ export const householdApi = createApi({
 
         rejectUser: builder.mutation<string, householdIdAndUserId>({
             query: (body) => ({
-                url: `/accept`,
+                url: `/reject`,
                 method: "PATCH",
                 responseHandler: "text",
                 body,
