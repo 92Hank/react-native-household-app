@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { View, Pressable, StyleSheet, Text, Dimensions } from "react-native";
-import ItemSeparator from "../itemSeparator/itemSeparator.component";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../Redux/hooks";
 import { Surface } from "react-native-paper";

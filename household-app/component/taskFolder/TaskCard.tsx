@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Badge, Surface } from "react-native-paper";
@@ -42,16 +43,23 @@ const TaskCard = (props: Props) => {
     avatarsList?.forEach((x) => {
         actualAvatars.push(avatars[x - 1]);
     });
-    console.log("TASK CARD", props.task);
+    // console.log("TASK CARD", props.task);
 
     let difference = 0;
     const today = new Date();
-    const date = props.task.dateDone || props.task.createdAt;
+    let date = new Date();
+    if (props.task.dateDone) {
+        date = props.task.dateDone;
+    } else if (props.task.createdAt) {
+        date = props.task.createdAt;
+    }
+
     console.log("HEJ", props.task.dateDone);
+    console.log("HEJ2", props.task.createdAt);
     if (today && date) {
         const diff = Math.abs(today.getTime() - date.getTime());
         // eslint-disable-next-line prettier/prettier
-        difference = Math.ceil(diff / (1000 * 3600 * 24)) - 1;
+        difference = Math.ceil(diff / (1000 * 3600 * 24) - 1);
         console.log("SKILLNADEN", difference);
     }
 

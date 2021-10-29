@@ -14,6 +14,7 @@ const UserStack = () => (
             options={{
                 // headerShown: false,
                 title: "Medlemmar",
+                headerShown: false,
                 headerTitleAlign: "center",
                 headerTintColor: "grey",
                 headerTitleStyle: {

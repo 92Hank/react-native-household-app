@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Feather, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useContext, useEffect, useState } from "react";
-import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
 import Button from "../../component/common/Button";
 import TaskModal from "../../component/householdComponents/taskModal/taskModal";
 import ModalComponent from "../../component/modal/ModalComponent";
@@ -15,7 +14,6 @@ import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
-import { List, Surface } from "react-native-paper";
 import ArchivedTaskCard from "../../component/taskFolder/ArchivedTaskCard";
 import { ActivityIndicator, Colors } from "react-native-paper";
 
@@ -36,15 +34,8 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const user = useAppSelector(selectCurrentLoginUser);
     const { message, isVisible } = useContext(snackbarContext);
 
-    const {
-        data: tasksData,
-        isLoading,
-        isFetching,
-        isError,
-        error,
-    } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
+    const { data: tasksData, isLoading } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
     const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
-
     const isToday = (someDate: any): boolean => {
         const today = new Date();
         const value = new Date(someDate._seconds * 1000);
@@ -98,33 +89,35 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             } else {
                 inactiveTasks.push(taskItem);
             }
-
             doneTasksData?.forEach((d) => {
                 const today: boolean = isToday(d.dateDone);
-                if (t.id === d.taskId && today) {
-                    currentHousehold?.member.forEach((m) => {
-                        if (d.userId === m.userId) {
-                            activeTasks[activeTasks.length - 1].emojiList.push(m.emoji);
-                        } else {
-                            activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
-                        }
-                    });
-                } else {
+                if (t.id === d.taskId) {
                     activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
+                    if (today) {
+                        currentHousehold?.member.forEach((m) => {
+                            if (d.userId === m.userId) {
+                                activeTasks[activeTasks.length - 1].emojiList.push(m.emoji);
+                            }
+                        });
+                    }
                 }
+                // else {
+                //     activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
+                // }
             });
         });
         setTasks(activeTasks);
         setArchivedTasks(inactiveTasks);
-        if (activeTasks.length > 0) {
-            setRender(true);
-        }
+
+        // if (activeTasks.length > 0) {
+        setRender(true);
+        // }
     }, [tasksData, doneTasksData]);
 
     const clickOnTask = (task: TaskNow) => {
         setTaskInModal(task);
         setIsClickedTaskOpen(true);
-        console.log("click on task,");
+        console.log("click on task,", task);
     };
     const handleTaskClose = () => {
         setIsClickedTaskOpen(false);
@@ -152,22 +145,20 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                 </View>
             )}
             {render && (
-                <View style={styles.listContainer}>
-                    <FlatList
-                        data={tasks}
-                        keyExtractor={(item: TaskNow) => item.id}
-                        renderItem={({ item }) => (
-                            <TaskCard key={item.id} task={item} onPress={() => clickOnTask(item)} />
-                        )}
-                    />
-                    {rights && archivedTasks && <ArchivedTaskCard archivedTasks={archivedTasks} />}
+                <ScrollView style={styles.listContainer}>
+                    {tasks?.map((item, index) => {
+                        return <TaskCard key={index} task={item} onPress={() => clickOnTask(item)} />;
+                    })}
+                    {rights && archivedTasks && archivedTasks.length > 0 && (
+                        <ArchivedTaskCard archivedTasks={archivedTasks} />
+                    )}
                     <ModalComponent isOpen={addModalOpen} handleAddClose={handleAddClose} />
                     <TaskModal
                         isOpen={isClickedTaskOpen}
                         handleModalClose={handleTaskClose}
                         task={taskInModal as TaskNow}
                     />
-                </View>
+                </ScrollView>
             )}
             <View style={rights ? styles.buttonsContainer : styles.buttonsContainerUser}>
                 {rights && (
@@ -216,7 +207,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     listContainer: {
-        maxHeight: deviceHeight - 170,
+        maxHeight: deviceHeight - 210,
     },
     container: {
         flex: 1,

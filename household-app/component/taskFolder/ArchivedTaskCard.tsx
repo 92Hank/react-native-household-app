@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Dimensions, FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import { List, Surface } from "react-native-paper";
-import TaskModal from "../householdComponents/taskModal/taskModal";
+import ActivateModal from "../householdComponents/activateModal/activateModal";
 
 interface TaskNow {
     id: string;
@@ -48,26 +48,21 @@ const ArchivedTaskCard = (props: Props) => {
                     onPress={handlePress}
                     titleStyle={styles.title}
                 >
-                    <FlatList
-                        data={props.archivedTasks}
-                        keyExtractor={(item: TaskNow) => item.id}
-                        renderItem={({ item }) => (
-                            <Surface style={styles.listItem}>
-                                <TouchableOpacity onPress={onPressTask}>
-                                    {/* Falskt felmeddelande */}
-                                    <List.Item
-                                        titleStyle={styles.item}
-                                        title={item.name}
-                                        onPress={() => clickOnTask(item)}
-                                    />
-                                </TouchableOpacity>
-                            </Surface>
-                        )}
-                    />
+                    {props.archivedTasks.map((item) => (
+                        <Surface key={item.id} style={styles.listItem}>
+                            <TouchableOpacity onPress={onPressTask}>
+                                <List.Item
+                                    titleStyle={styles.item}
+                                    title={item.name}
+                                    onPress={() => clickOnTask(item)}
+                                />
+                            </TouchableOpacity>
+                        </Surface>
+                    ))}
                 </List.Accordion>
             </List.Section>
             <View>
-                <TaskModal
+                <ActivateModal
                     isOpen={isClickedTaskOpen}
                     handleModalClose={handleTaskClose}
                     task={taskInModal as TaskNow}

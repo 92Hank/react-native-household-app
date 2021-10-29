@@ -56,9 +56,20 @@ export const taskApi = createApi({
             }),
             invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg }],
         }),
+
         archiveTask: builder.mutation<string, string>({
             query: (body) => ({
                 url: `/` + body,
+                method: "PATCH",
+                responseHandler: "text",
+                body,
+            }),
+            invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg }],
+        }),
+
+        activateTask: builder.mutation<string, string>({
+            query: (body) => ({
+                url: `/activate/` + body,
                 method: "PATCH",
                 responseHandler: "text",
                 body,
@@ -75,4 +86,5 @@ export const {
     useEditTaskMutation,
     useDeleteTaskMutation,
     useArchiveTaskMutation,
+    useActivateTaskMutation,
 } = taskApi;

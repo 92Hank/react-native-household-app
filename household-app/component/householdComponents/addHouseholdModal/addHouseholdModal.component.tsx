@@ -76,6 +76,7 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
 
     const avatarSelect = (index: number) => {
         setAvatar(index.toString());
+        console.log(index);
     };
 
     const onSave = async () => {
@@ -122,7 +123,7 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                             <View style={styles.avatars}>
                                 {avatars.map(function (name, index) {
                                     return (
-                                        <TouchableOpacity onPress={() => avatarSelect(index)} key={index}>
+                                        <TouchableOpacity onPress={() => avatarSelect(Number(index + 1))} key={index}>
                                             <Text style={styles.avatar}>{name}</Text>
                                         </TouchableOpacity>
                                     );
@@ -133,7 +134,7 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                             {avatar && (
                                 <Text style={{ marginTop: 40, fontSize: 20 }}>
                                     Vald avatar:
-                                    <Text style={styles.avatar}> {avatars[Number(avatar)]} </Text>
+                                    <Text style={styles.avatar}> {avatars[Number(avatar) - 1]} </Text>
                                 </Text>
                             )}
                         </View>
