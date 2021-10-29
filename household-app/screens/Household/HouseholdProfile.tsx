@@ -1,25 +1,59 @@
-import React, { FC } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import MemberEmojiSelector from "../../component/common/MemberEmojiSelector";
-import ToggleDarkThemeSwitch from "../../component/common/ToggleDarkThemeSwitch";
+import React, { FC, useEffect, useState } from "react";
+import { StyleSheet, Text } from "react-native";
+import { Surface } from "react-native-paper";
+import { fullMemberInfo } from "../../../Common/household";
+import Button from "../../component/common/Button";
+import { Avatars } from "../../component/common/EmojiSelector";
+import ProfileEmojiSelector from "../../component/profile/ProfileEmojiSelector";
+import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
-const HouseholdProfile: FC<Props> = ({ navigation }: Props): React.ReactElement => {
+const HouseholdProfile: FC<Props> = (): React.ReactElement => {
+    const [editMember, setEditMember] = useState<fullMemberInfo>();
+    const user = useAppSelector(selectCurrentLoginUser);
     const household = useAppSelector(selectSelectedHousehold);
-    if (!household) return <></>;
+    if (!household || !user) return <></>;
+
+    const member = household.member.find((m) => m.userId === user.id);
+    useEffect(() => {
+        if (member) setEditMember(member);
+    }, []);
+
+    const save = () => {
+        if (member?.emoji !== editMember?.emoji) {
+            //Save emoji
+        }
+    };
 
     return (
-        <View style={styles.container}>
+        <Surface style={styles.container}>
             <Text style={styles.text}>hushåll</Text>
-            {/*eslint-disable-next-line @typescript-eslint/no-empty-function*/}
-            <MemberEmojiSelector household={household} />
-            <Text style={styles.text}>Global</Text>
-            <ToggleDarkThemeSwitch />
-        </View>
+            {editMember && (
+                <Surface>
+                    <ProfileEmojiSelector
+                        household={household}
+                        avatar={editMember.emoji}
+                        newSelected={(avatar: Avatars) => {
+                            setEditMember({ ...editMember, emoji: avatar });
+                            console.log(avatar);
+                        }}
+                        currentAvatar={member?.emoji}
+                    />
+                    <Button iconType={{ type: "None" }} onPress={save} text="Save" />
+                </Surface>
+            )}
+            {!editMember && (
+                <Surface>
+                    <Text>Loading...</Text>
+                </Surface>
+            )}
+            {/* <Text style={styles.text}>Global</Text>
+            <ToggleDarkThemeSwitch /> */}
+        </Surface>
     );
 };
 

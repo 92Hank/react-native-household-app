@@ -1,29 +1,35 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
-    selectedIndex?: number;
+    selectedAvatars?: Avatars;
     avatarList: string[];
-    avatarSelect: (selectedIndex: number) => void;
+    avatarSelect: (Avatars: Avatars) => void;
 };
 
-const EmojiSelector: FC<Props> = ({ selectedIndex, avatarList, avatarSelect }: Props): React.ReactElement => {
+const EmojiSelector: FC<Props> = ({ selectedAvatars, avatarList, avatarSelect }: Props): React.ReactElement => {
     return (
         <View>
             <View style={styles.avatars}>
                 {avatarList.map(function (name, index) {
                     return (
-                        <TouchableOpacity onPress={() => avatarSelect(index)} key={index}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                avatarSelect(Number(avatarList[index]));
+                                console.log("click", Number(avatarList[index]), Avatars[Number(avatarList[index])]);
+                            }}
+                            key={index}
+                        >
                             <Text style={styles.avatar}>{Avatars[Number(name)]}</Text>
                         </TouchableOpacity>
                     );
                 })}
             </View>
             <View>
-                {selectedIndex && (
+                {selectedAvatars && (
                     <Text style={{ marginTop: 40, fontSize: 20 }}>
                         Vald avatar:
-                        <Text style={styles.avatar}> {Avatars[Number(avatarList[selectedIndex])]} </Text>
+                        <Text style={styles.avatar}> {Avatars[selectedAvatars]} </Text>
                     </Text>
                 )}
             </View>
