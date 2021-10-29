@@ -9,17 +9,12 @@ import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/S
 import { Feather } from "@expo/vector-icons";
 import { doneTask } from "../../../../Common/doneTask";
 import { useCreateDoneTaskMutation } from "../../../Redux/Service/doneTask/doneTaskApi";
-import { useDeleteTaskMutation, useEditTaskMutation } from "../../../Redux/Service/task/taskApi";
+import { useDeleteTaskMutation } from "../../../Redux/Service/task/taskApi";
 import { useArchiveTaskMutation } from "../../../Redux/Service/task/taskApi";
 import { snackbarContext } from "../../../context/snackBarContext";
 import styles from "./styles";
 import { valueType } from "../../../../Common/value";
 import EditTaskInputModal from "./editTaskInputModal/editTaskInputModal";
-
-import { task } from "../../../../Common/task";
-import { Card, TextInput } from "react-native-paper";
-import SnackbarComponent from "../../snackbar/snackbarComponent";
-import { Surface } from "react-native-paper";
 import { ActivityIndicator, Colors } from "react-native-paper";
 interface TaskNow {
     id?: string;
@@ -45,7 +40,7 @@ function TaskModal(props: Props) {
     const [rights, setRights] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
-    const { setSnackbar, isVisible, message } = useContext(snackbarContext);
+    const { setSnackbar } = useContext(snackbarContext);
 
     const [
         createDoneTask, // This is the mutation trigger
