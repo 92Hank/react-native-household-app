@@ -9,25 +9,21 @@ interface Props {
 }
 
 const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
-    let allDoneTaskIdsArray: string[] = [];
+    const allDoneTaskIdsArray: string[] = [];
 
     const getUniqueDoneTaskIds = () => {
-        const uniqueIds: string[] = [];
-
         data.forEach((member) => {
             member.doneTasks.forEach((doneTask) => {
-                uniqueIds.push(doneTask.id!);
+                if (!allDoneTaskIdsArray.includes(doneTask.taskId)) allDoneTaskIdsArray.push(doneTask.taskId);
             });
-        });
-
-        allDoneTaskIdsArray = uniqueIds.filter((taskId, index, self) => {
-            if (self.indexOf(taskId) === index) return self[index];
         });
     };
 
     /**
-     * Function to loop through the MemberStatistics data array and remove from
-     * it all household members not having the taskId in their doneTasks[] parameter.
+     * Function to filter out from the MemberStatistics data array all members not
+     * included in a particular task, defined as not having the taskId in their
+     * doneTasks[] parameter.
+     *
      * The filtered data can be used to determine the amount of slices of a piechart.
      *
      * @param data
@@ -36,13 +32,15 @@ const StatisticsCharts: FC<Props> = ({ data }): React.ReactElement => {
      */
     const filterOutNonparticipantMembers = (data: MemberStatistics[], taskId: string) => {
         const filteredMembers: MemberStatistics[] = [];
-
         data.forEach((member) => {
-            member.doneTasks.filter((doneTask, index) => {
-                if (member.doneTasks[index].taskId == taskId) filteredMembers.push(member);
+            member.doneTasks.forEach((doneTask) => {
+                if (!filteredMembers.includes(member) && doneTask.taskId === taskId) {
+                    filteredMembers.push(member);
+                    console.log("ADDED PARTICIPANT MEMBER: " + member.userId); //TEEEEEEEEEEEEST
+                    return;
+                }
             });
         });
-
         return filteredMembers;
     };
 
