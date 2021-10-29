@@ -1,52 +1,51 @@
-import React, { FC } from "react";
-import { View, StyleSheet } from "react-native";
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+import React, { FC, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import { doneTask } from "../../Common/doneTask";
+import { household } from "../../Common/household";
 import { task } from "../../Common/task";
 import PieChart from "../component/PieChart";
+import { useGetTaskByHouseholdIdQuery } from "../Redux/Service/task/taskApi";
 import { MemberStatistics } from "../screens/Tasks/memberStatistics";
 import SmallPieChart from "./SmallPieChart";
 
 interface Props {
     data: MemberStatistics[];
-    tasks: task[];
+    currentHousehold: household;
 }
 
-const StatisticsCharts: FC<Props> = ({ data, tasks }): React.ReactElement => {
-    const allDoneTaskIds: string[] = [];
-    const allDoneTaskNames: string[] = [];
+const StatisticsCharts: FC<Props> = ({ data, currentHousehold }): React.ReactElement => {
+    const relevantTaskIds: string[] = [];
+    const relevantTaskNames: string[] = [];
+    const filteredTaskArray: task[] = [];
+    const { data: tasksData, isLoading, isSuccess } = useGetTaskByHouseholdIdQuery(currentHousehold?.id);
 
-    tasks ? console.log("tasksData exists3") : console.log("Not exist3")
+    useEffect(() => {
+        if (tasksData && isSuccess) {
+            tasksData.forEach((task) => {
+                if (task.houseHoldId === currentHousehold.id) filteredTaskArray.push(task);
+            });
+        }
+    }, [tasksData]);
 
-
+    /**
+     * Function loops through every submitted MemberStatistic and adds only
+     * ids of unique tasks and corresponding task.Name values to a tuple array.
+     */
     const getUniqueDoneTaskIds = () => {
         data.forEach((member) => {
             member.doneTasks.forEach((doneTask) => {
-                let taskName: string;
-                if (!allDoneTaskIds.includes(doneTask.taskId)) {
-                    allDoneTaskIds.push(doneTask.taskId);
-
-                    getUniqueDoneTaskName(doneTask.taskId)
-
-                    // if (getUniqueDoneTaskName(doneTask.taskId) !== undefined) {
-                    //     allDoneTaskNames.push(getUniqueDoneTaskName(doneTask.taskId)!.name);
-                    // } else {
-                    //     allDoneTaskNames.push("Unnamed task");
-                    // }
-                }
+                if (relevantTaskIds.includes(doneTask.taskId)) return;
+                else pushNewIdAndName(doneTask);
             });
         });
     };
 
-    const getUniqueDoneTaskName = (taskId: string) => {
-        for (let i = 0; i < tasks.length; i++) {
-            if(tasks[i] === undefined) console.log("UNDEEFINED TAKS")
-            else console.log("TASK EXISTS: " + tasks[i].id)
-        }
-
-        // tasks.forEach((task) => {
-        //     if (task.id) console.log("JA PÅ:" + taskId)
-        //     else console.log("NEJ PÅ " + taskId)
-            // task.id === taskId
-        // })
+    const pushNewIdAndName = (doneTask: doneTask) => {
+        let taskName = tasksData?.find((task) => task.id === doneTask.taskId)?.name;
+        if (taskName === undefined) taskName = "Unnamed task";
+        relevantTaskIds.push(doneTask.taskId);
+        relevantTaskNames.push(taskName);
     };
 
     /**
@@ -66,7 +65,6 @@ const StatisticsCharts: FC<Props> = ({ data, tasks }): React.ReactElement => {
             member.doneTasks.forEach((doneTask) => {
                 if (!filteredMembers.includes(member) && doneTask.taskId === taskId) {
                     filteredMembers.push(member);
-                    console.log("ADDED PARTICIPANT MEMBER: " + member.userId); //TEEEEEEEEEEEEST
                     return;
                 }
             });
@@ -82,14 +80,14 @@ const StatisticsCharts: FC<Props> = ({ data, tasks }): React.ReactElement => {
      * @returns {JSX.Element[]}
      */
     const generateSmallPieCharts = () => {
-        return allDoneTaskIds.map((taskId, index) => {
+        return relevantTaskIds.map((taskId, index) => {
             return (
                 <SmallPieChart
                     data={filterOutNonparticipantMembers(data, taskId)}
                     specificTaskId={taskId}
                     key={index}
                     style={[styles.smallChartSize]}
-                    taskName="abc"
+                    taskName={relevantTaskNames[index]}
                 />
             );
         });
