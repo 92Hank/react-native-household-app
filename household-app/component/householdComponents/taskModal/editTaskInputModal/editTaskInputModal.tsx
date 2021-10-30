@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext, useEffect, useState, VoidFunctionComponent } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TouchableOpacity, View, Text, Modal, FlatList } from "react-native";
 import { Card, TextInput } from "react-native-paper";
 import { task } from "../../../../../Common/task";

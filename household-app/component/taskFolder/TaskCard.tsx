@@ -115,11 +115,11 @@ const styles = StyleSheet.create({
         elevation: 3,
         shadowColor: "#000",
         shadowOffset: {
-            width: 5,
-            height: 5,
+            width: 2,
+            height: 2,
         },
-        shadowOpacity: 0.75,
-        shadowRadius: 5,
+        shadowOpacity: 0.25,
+        shadowRadius: 2,
     },
 
     secondContainer: {
@@ -141,11 +141,11 @@ const styles = StyleSheet.create({
         borderRadius: radius,
         shadowColor: "#000",
         shadowOffset: {
-            width: 5,
-            height: 5,
+            width: 2,
+            height: 2,
         },
-        shadowOpacity: 0.75,
-        shadowRadius: 5,
+        shadowOpacity: 0.25,
+        shadowRadius: 2,
         elevation: 3,
     },
     title: {

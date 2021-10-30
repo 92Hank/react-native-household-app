@@ -11,6 +11,8 @@ const taskCollection = "tasks";
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const postTask = async (req: Request, res: Response) => {
   try {
+    const dateDone = new Date();
+    dateDone.setHours(0, 0, 0, 0);
     const task: Task = {
       houseHoldId: req.body["houseHoldId"],
       repeated: req.body["repeated"],
@@ -18,7 +20,7 @@ export const postTask = async (req: Request, res: Response) => {
       description: req.body["description"],
       value: req.body["value"],
       name: req.body["name"],
-      createdAt: new Date(),
+      createdAt: dateDone,
     };
 
     const newDoc = await db.collection(taskCollection).add(task);
@@ -30,7 +32,6 @@ export const postTask = async (req: Request, res: Response) => {
     );
   }
 };
-
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getAllTaskOfHouseHold = (req: Request, res: Response) => {
