@@ -90,9 +90,7 @@ const LastWeekScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =>
 
     return (
         <SafeAreaView>
-            <ScrollView>
-                {/* <StatisticsCharts data={data} /> */}
-            </ScrollView>
+            <ScrollView>{/* <StatisticsCharts data={data} /> */}</ScrollView>
         </SafeAreaView>
     );
 };
