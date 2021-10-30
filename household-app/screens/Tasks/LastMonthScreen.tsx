@@ -14,7 +14,6 @@ import { createMemberStatistics, MemberStatistics } from "./MemberStatistics";
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
-    console.log("------------------NEW RENDITION -------------------"); //TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const { data: doneTasksArray, error: doneTaskError } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
 
@@ -23,20 +22,12 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
 
     if (doneTasksArray !== undefined && doneTasksArray.length > 0 && currentHousehold !== undefined) {
         const doneTasksOfLastMonth = getLastMonthDoneTasksByHousehold(doneTasksArray, currentHousehold);
-
-        console.log("ALLA DONETASKS OF LAST MONTH"); //TEEEEEEEEEEEEEEEEEEEEEEEEEEEEST
-        console.log(doneTasksOfLastMonth); //TEST
-
         if (doneTasksOfLastMonth.length === 0) {
             fillerMessage = "No data found for the selected period.";
         } else {
             statisticsArray = createMemberStatistics(doneTasksOfLastMonth, currentHousehold);
         }
     }
-
-    //RUBRIKER UNDER VARJE DIAGRAM!!!!!!!!!!!
-    // RUBRIKER UNDER VARJE DIAGRAM ÄVEN DET STORA DIAGRAMMET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // tasksData ? console.log("tasksData exists2") : console.log("Not exist2")
 
     return (
         <SafeAreaView>
