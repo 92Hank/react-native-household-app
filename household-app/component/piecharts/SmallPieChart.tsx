@@ -40,6 +40,8 @@ const styles = StyleSheet.create({
     smallChartSingleViewStyle: {
         display: "flex",
         flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
         flexBasis: "30%",
     },
 });
