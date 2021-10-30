@@ -128,6 +128,11 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     };
 
     function onApply(): void {
+        if (!renderAvatar) {
+            setSnackbar("APAPAP! Du måste ange en kod", true);
+            return;
+        }
+        console.log("API");
         if (household && avatarIndex && user) {
             const requestData: householdJoin = {
                 houseHoldId: household.id,
@@ -165,6 +170,7 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                                 value={code}
                                 label="Hushållskod"
                                 onChangeText={onChangeInput}
+                                textAlign={undefined}
                             />
 
                             <View style={styles.buttonsContainer}>
