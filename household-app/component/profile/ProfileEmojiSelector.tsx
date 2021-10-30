@@ -23,20 +23,26 @@ const ProfileEmojiSelector: FC<Props> = ({
     return (
         <Surface>
             {!change && (
-                <TouchableOpacity onPress={() => setChange(true)}>
-                    <Text style={styles.avatar}> {Avatars[avatar]} </Text>
-                </TouchableOpacity>
+                <Surface style={styles.root}>
+                    <Text>Vald avatar</Text>
+                    <TouchableOpacity onPress={() => setChange(true)}>
+                        <Text style={styles.avatar}> {Avatars[avatar]} </Text>
+                    </TouchableOpacity>
+                </Surface>
             )}
 
             {change && (
-                <MemberEmojiSelector
-                    household={household}
-                    newSelected={(avatar) => {
-                        setChange(false);
-                        newSelected(avatar);
-                    }}
-                    currentAvatar={currentAvatar}
-                />
+                <Surface style={styles.rootSelect}>
+                    <Text>Välj avatar</Text>
+                    <MemberEmojiSelector
+                        household={household}
+                        newSelected={(avatar) => {
+                            setChange(false);
+                            newSelected(avatar);
+                        }}
+                        currentAvatar={currentAvatar}
+                    />
+                </Surface>
             )}
         </Surface>
     );
@@ -45,6 +51,18 @@ const ProfileEmojiSelector: FC<Props> = ({
 export default ProfileEmojiSelector;
 
 const styles = StyleSheet.create({
+    root: {
+        flexDirection: "row",
+        // flex: 1,
+        alignItems: "center",
+        justifyContent: "flex-start",
+    },
+    rootSelect: {
+        flexDirection: "column",
+        // flex: 1,
+        alignItems: "center",
+        justifyContent: "flex-start",
+    },
     avatar: {
         fontSize: 45,
         margin: 10,

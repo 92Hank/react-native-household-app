@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { StyleSheet, Text } from "react-native";
-import { Surface } from "react-native-paper";
+import { Surface, TextInput } from "react-native-paper";
 import { fullMemberInfo } from "../../../Common/household";
 import Button from "../../component/common/Button";
 import { Avatars } from "../../component/common/EmojiSelector";
@@ -8,47 +8,70 @@ import ToggleDarkThemeSwitch from "../../component/common/ToggleDarkThemeSwitch"
 import ProfileEmojiSelector from "../../component/profile/ProfileEmojiSelector";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
-import { useAppSelector } from "../../Redux/hooks";
-import {
-    useChangeEmojiMutation,
-    useChangeNameMutation,
-    useLazyGetHouseholdByIdQuery,
-} from "../../Redux/Service/household/householdApi";
+import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
+import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
+import { useChangeEmojiMutation, useChangeNameMutation } from "../../Redux/Service/household/householdApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const HouseholdProfile: FC<Props> = (): React.ReactElement => {
-    const [isSaving, setisSaving] = useState(false);
+    const dispatch = useAppDispatch();
+
+    const [isSaving, setIsSaving] = useState(false);
     const [originalMember, setOriginalMember] = useState<fullMemberInfo>();
     const [editMember, setEditMember] = useState<fullMemberInfo>();
     const user = useAppSelector(selectCurrentLoginUser);
     const household = useAppSelector(selectSelectedHousehold);
 
-    const [getDbHousehold, dbHousehold] = useLazyGetHouseholdByIdQuery();
+    // const [getDbHousehold, dbHousehold] = useLazyGetHouseholdByIdQuery();
     const [updateEmoji, { isLoading: isUpdatingEmoji }] = useChangeEmojiMutation();
     const [updateName, { isLoading: isUpdatingName }] = useChangeNameMutation();
 
     if (!household || !user) return <></>;
 
-    getDbHousehold(household.id);
+    // useEffect(() => {
+    //     getDbHousehold(household.id);
+    // }, []);
 
+    // console.log("dbHousehold.status", dbHousehold.error);
     useEffect(() => {
-        if (!dbHousehold.data) return;
+        // if (!dbHousehold.data) return;
 
-        const member = dbHousehold.data.member.find((m) => m.userId === user.id);
+        const member = household.member.find((m) => m.userId === user.id);
         if (member) {
             setOriginalMember(member);
             setEditMember(member);
         }
-    }, [dbHousehold.data]);
+    }, [household]);
+
+    useEffect(() => {
+        setIsSaving(isUpdatingEmoji || isUpdatingName);
+    }, [isUpdatingEmoji, isUpdatingName]);
 
     const save = () => {
-        if (!editMember || !originalMember || !dbHousehold.data || !user.id) return;
-
+        if (!editMember || !originalMember /*|| !dbHousehold.data*/ || !user.id) return;
         if (originalMember.emoji !== editMember.emoji) {
-            updateEmoji({ emoji: editMember.emoji, houseHoldId: dbHousehold.data.id, userId: user.id });
+            updateEmoji({ emoji: editMember.emoji, houseHoldId: household.id, userId: user.id });
         }
+
+        if (originalMember.name !== editMember.name) {
+            updateName({ houseHoldId: household.id, name: editMember.name });
+        }
+
+        const copyMember = [...household.member];
+        const index = copyMember.findIndex((m) => m.userId === user.id);
+        if (~index) {
+            copyMember[index] = editMember;
+
+            dispatch(setSelectedHousehold({ ...household, member: [...copyMember] }));
+        }
+    };
+
+    const onChangeName = (name: string) => {
+        if (!editMember) return;
+
+        setEditMember({ ...editMember, name: name });
     };
 
     return (
@@ -56,6 +79,9 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
             <Text style={styles.text}>hushåll</Text>
             {editMember && (
                 <Surface>
+                    <Surface>
+                        <TextInput label="Namn i hushållet" value={editMember.name} onChangeText={onChangeName} />
+                    </Surface>
                     <ProfileEmojiSelector
                         household={household}
                         avatar={editMember.emoji}
@@ -84,8 +110,8 @@ export default HouseholdProfile;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
+        // alignItems: "center",
+        // justifyContent: "center",
     },
     text: {
         color: "grey",
