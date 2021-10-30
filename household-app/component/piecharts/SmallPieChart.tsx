@@ -1,5 +1,5 @@
-import React, { Children, FC } from "react";
-import { StyleProp, StyleSheet, ViewStyle, Text, View } from "react-native";
+import React, { FC } from "react";
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import { PieChart as ImportedPieChart } from "react-native-svg-charts";
 import { MemberStatistics } from "../../screens/Tasks/MemberStatistics";
 
@@ -7,7 +7,6 @@ interface Props {
     data: MemberStatistics[];
     specificTaskId: string;
     style: StyleProp<ViewStyle>[];
-    taskName: string;
 }
 
 const SmallPieChart: FC<Props> = ({ data, specificTaskId, style, children }): React.ReactElement => {

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import React, { FC, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { doneTask } from "../../../Common/doneTask";
 import { household } from "../../../Common/household";
 import { task } from "../../../Common/task";
-import PieChart from "./PieChart";
 import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
 import { MemberStatistics } from "../../screens/Tasks/memberStatistics";
+import PieChart from "./PieChart";
 import SmallPieChart from "./SmallPieChart";
 
 interface Props {
@@ -18,7 +18,7 @@ const StatisticsCharts: FC<Props> = ({ data, currentHousehold }): React.ReactEle
     const relevantTaskIds: string[] = [];
     const relevantTaskNames: string[] = [];
     const relevantTasks: task[] = [];
-    const { data: tasksData, isLoading, isSuccess } = useGetTaskByHouseholdIdQuery(currentHousehold?.id);
+    const { data: tasksData, isSuccess } = useGetTaskByHouseholdIdQuery(currentHousehold?.id);
 
     useEffect(() => {
         if (tasksData && isSuccess) {
@@ -87,9 +87,10 @@ const StatisticsCharts: FC<Props> = ({ data, currentHousehold }): React.ReactEle
                     specificTaskId={taskId}
                     key={index}
                     style={[styles.smallChartSize]}
-                    taskName={relevantTaskNames[index]}
                 >
-                    <Text style={styles.smallChartTextStyle}>{relevantTaskNames[index]}</Text>
+                    <Text style={styles.chartTextStyle} numberOfLines={2}>
+                        {relevantTaskNames[index]}
+                    </Text>
                 </SmallPieChart>
             );
         });
@@ -98,7 +99,11 @@ const StatisticsCharts: FC<Props> = ({ data, currentHousehold }): React.ReactEle
     getUniqueDoneTaskIds();
     return (
         <>
-            <PieChart data={data} taskName="Totalt" />
+            <PieChart data={data} taskName="Totalt">
+                <Text style={styles.chartTextStyle} numberOfLines={2}>
+                    {"Totalt"}
+                </Text>
+            </PieChart>
             <View style={[styles.smallChartsEncompassingStyle]}>{generateSmallPieCharts()}</View>
         </>
     );
@@ -127,9 +132,10 @@ const styles = StyleSheet.create({
         margin: 0,
         padding: 0,
     },
-    smallChartTextStyle: {
+    chartTextStyle: {
         display: "flex",
         flex: 2,
+        fontSize: 15,
         fontWeight: "bold",
         color: "black",
         justifyContent: "center",

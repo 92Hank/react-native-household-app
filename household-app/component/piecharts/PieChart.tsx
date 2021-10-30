@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Text } from "react-native";
+import { View } from "react-native";
 import { PieChart as ImportedPieChart } from "react-native-svg-charts";
 import { MemberStatistics } from "../../screens/Tasks/memberStatistics";
 import PieChartLabels from "./PieChartLabels";
@@ -9,9 +9,9 @@ interface Props {
     taskName: string;
 }
 
-const PieChart: FC<Props> = ({ data, taskName }): React.ReactElement => {
+const PieChart: FC<Props> = ({ data, children }): React.ReactElement => {
     return (
-        <>
+        <View>
             <ImportedPieChart
                 style={{ height: 240 }}
                 data={data}
@@ -29,8 +29,8 @@ const PieChart: FC<Props> = ({ data, taskName }): React.ReactElement => {
             >
                 <PieChartLabels />
             </ImportedPieChart>
-            <Text>{taskName}</Text>
-        </>
+            {children}
+        </View>
     );
 };
 
