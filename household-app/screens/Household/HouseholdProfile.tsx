@@ -9,24 +9,45 @@ import ProfileEmojiSelector from "../../component/profile/ProfileEmojiSelector";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
+import {
+    useChangeEmojiMutation,
+    useChangeNameMutation,
+    useLazyGetHouseholdByIdQuery,
+} from "../../Redux/Service/household/householdApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
 const HouseholdProfile: FC<Props> = (): React.ReactElement => {
+    const [isSaving, setisSaving] = useState(false);
+    const [originalMember, setOriginalMember] = useState<fullMemberInfo>();
     const [editMember, setEditMember] = useState<fullMemberInfo>();
     const user = useAppSelector(selectCurrentLoginUser);
     const household = useAppSelector(selectSelectedHousehold);
+
+    const [getDbHousehold, dbHousehold] = useLazyGetHouseholdByIdQuery();
+    const [updateEmoji, { isLoading: isUpdatingEmoji }] = useChangeEmojiMutation();
+    const [updateName, { isLoading: isUpdatingName }] = useChangeNameMutation();
+
     if (!household || !user) return <></>;
 
-    const member = household.member.find((m) => m.userId === user.id);
+    getDbHousehold(household.id);
+
     useEffect(() => {
-        if (member) setEditMember(member);
-    }, []);
+        if (!dbHousehold.data) return;
+
+        const member = dbHousehold.data.member.find((m) => m.userId === user.id);
+        if (member) {
+            setOriginalMember(member);
+            setEditMember(member);
+        }
+    }, [dbHousehold.data]);
 
     const save = () => {
-        if (member?.emoji !== editMember?.emoji) {
-            //Save emoji
+        if (!editMember || !originalMember || !dbHousehold.data || !user.id) return;
+
+        if (originalMember.emoji !== editMember.emoji) {
+            updateEmoji({ emoji: editMember.emoji, houseHoldId: dbHousehold.data.id, userId: user.id });
         }
     };
 
@@ -42,7 +63,7 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
                             setEditMember({ ...editMember, emoji: avatar });
                             console.log(avatar);
                         }}
-                        currentAvatar={member?.emoji}
+                        currentAvatar={originalMember?.emoji}
                     />
                     <Button iconType={{ type: "None" }} onPress={save} text="Save" />
                 </Surface>
