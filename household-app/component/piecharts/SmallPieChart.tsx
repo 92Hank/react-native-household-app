@@ -1,20 +1,20 @@
-import React, { FC } from "react";
-import { StyleProp, ViewStyle, Text } from "react-native";
+import React, { Children, FC } from "react";
+import { StyleProp, StyleSheet, ViewStyle, Text, View } from "react-native";
 import { PieChart as ImportedPieChart } from "react-native-svg-charts";
-import { MemberStatistics } from "../screens/Tasks/memberStatistics";
+import { MemberStatistics } from "../../screens/Tasks/MemberStatistics";
 
 interface Props {
     data: MemberStatistics[];
     specificTaskId: string;
-    style: StyleProp<ViewStyle>;
+    style: StyleProp<ViewStyle>[];
     taskName: string;
 }
 
-const SmallPieChart: FC<Props> = ({ data, specificTaskId, style, taskName }): React.ReactElement => {
+const SmallPieChart: FC<Props> = ({ data, specificTaskId, style, children }): React.ReactElement => {
     return (
-        <>
+        <View style={styles.smallChartSingleViewStyle}>
             <ImportedPieChart
-                style={style}
+                style={style[0]}
                 data={data}
                 outerRadius={"92%"}
                 innerRadius={"0%"}
@@ -29,9 +29,17 @@ const SmallPieChart: FC<Props> = ({ data, specificTaskId, style, taskName }): Re
                     return totalValue;
                 }}
             />
-            <Text>{taskName}</Text>
-        </>
+            {children}
+        </View>
     );
 };
 
 export default SmallPieChart;
+
+const styles = StyleSheet.create({
+    smallChartSingleViewStyle: {
+        display: "flex",
+        flex: 1,
+        flexBasis: "30%",
+    },
+});

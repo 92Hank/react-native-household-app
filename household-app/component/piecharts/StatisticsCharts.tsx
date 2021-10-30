@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import React, { FC, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
-import { doneTask } from "../../Common/doneTask";
-import { household } from "../../Common/household";
-import { task } from "../../Common/task";
-import PieChart from "../component/PieChart";
-import { useGetTaskByHouseholdIdQuery } from "../Redux/Service/task/taskApi";
-import { MemberStatistics } from "../screens/Tasks/memberStatistics";
+import { StyleSheet, View, Text } from "react-native";
+import { doneTask } from "../../../Common/doneTask";
+import { household } from "../../../Common/household";
+import { task } from "../../../Common/task";
+import PieChart from "./PieChart";
+import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
+import { MemberStatistics } from "../../screens/Tasks/memberStatistics";
 import SmallPieChart from "./SmallPieChart";
 
 interface Props {
@@ -17,20 +17,20 @@ interface Props {
 const StatisticsCharts: FC<Props> = ({ data, currentHousehold }): React.ReactElement => {
     const relevantTaskIds: string[] = [];
     const relevantTaskNames: string[] = [];
-    const filteredTaskArray: task[] = [];
+    const relevantTasks: task[] = [];
     const { data: tasksData, isLoading, isSuccess } = useGetTaskByHouseholdIdQuery(currentHousehold?.id);
 
     useEffect(() => {
         if (tasksData && isSuccess) {
             tasksData.forEach((task) => {
-                if (task.houseHoldId === currentHousehold.id) filteredTaskArray.push(task);
+                if (task.houseHoldId === currentHousehold.id) relevantTasks.push(task);
             });
         }
     }, [tasksData]);
 
     /**
      * Function loops through every submitted MemberStatistic and adds only
-     * ids of unique tasks and corresponding task.Name values to a tuple array.
+     * ids of unique tasks and corresponding task.Name values to arrays.
      */
     const getUniqueDoneTaskIds = () => {
         data.forEach((member) => {
@@ -88,7 +88,9 @@ const StatisticsCharts: FC<Props> = ({ data, currentHousehold }): React.ReactEle
                     key={index}
                     style={[styles.smallChartSize]}
                     taskName={relevantTaskNames[index]}
-                />
+                >
+                    <Text style={styles.smallChartTextStyle}>{relevantTaskNames[index]}</Text>
+                </SmallPieChart>
             );
         });
     };
@@ -97,7 +99,7 @@ const StatisticsCharts: FC<Props> = ({ data, currentHousehold }): React.ReactEle
     return (
         <>
             <PieChart data={data} taskName="Totalt" />
-            <View style={[styles.smallChartView]}>{generateSmallPieCharts()}</View>
+            <View style={[styles.smallChartsEncompassingStyle]}>{generateSmallPieCharts()}</View>
         </>
     );
 };
@@ -105,7 +107,7 @@ const StatisticsCharts: FC<Props> = ({ data, currentHousehold }): React.ReactEle
 export default StatisticsCharts;
 
 const styles = StyleSheet.create({
-    smallChartView: {
+    smallChartsEncompassingStyle: {
         display: "flex",
         flexGrow: 1,
         flexShrink: 0,
@@ -113,6 +115,10 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
         alignContent: "flex-start",
         justifyContent: "space-evenly",
+        marginTop: 2,
+        marginBottom: 10,
+        marginLeft: 7,
+        marginRight: 7,
     },
     smallChartSize: {
         display: "flex",
@@ -121,5 +127,13 @@ const styles = StyleSheet.create({
         flexBasis: "30%",
         margin: 0,
         padding: 0,
+    },
+    smallChartTextStyle: {
+        display: "flex",
+        fontStyle: "italic",
+        color: "red",
+        alignContent: "flex-start",
+        flexWrap: "wrap",
+        justifyContent: "space-evenly",
     },
 });

@@ -3,7 +3,7 @@
 
 import React, { FC } from "react";
 import { SafeAreaView, ScrollView, Text } from "react-native";
-import StatisticsCharts from "../../component/StatisticsCharts";
+import StatisticsCharts from "../../component/piecharts/StatisticsCharts";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
 import { useGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
