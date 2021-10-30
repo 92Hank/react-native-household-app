@@ -66,6 +66,13 @@ const EditTaskInputModal = (props: Props) => {
     };
 
     useEffect(() => {
+        setDescription(defaultTask.description);
+        setName(defaultTask.name);
+        setValue(defaultTask.value);
+        setRepeated(defaultTask.repeated);
+    }, []);
+
+    useEffect(() => {
         if (errorEdit) {
             props.handleModalClose();
             setSnackbar("error", true);
