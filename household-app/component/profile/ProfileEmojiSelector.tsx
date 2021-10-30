@@ -2,8 +2,7 @@ import React, { FC, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Surface } from "react-native-paper";
 import { household } from "../../../Common/household";
-import { Avatars } from "../common/EmojiSelector";
-import MemberEmojiSelector from "./MemberEmojiSelector";
+import EmojiSelector, { Avatars } from "../common/EmojiSelector";
 
 type Props = {
     household: household;
@@ -20,6 +19,26 @@ const ProfileEmojiSelector: FC<Props> = ({
 }: Props): React.ReactElement => {
     const [change, setChange] = useState(false);
 
+    const [avatarState, setAvatar] = useState<Avatars>();
+
+    const existingAvatars: number[] = [];
+    let avatars = Object.keys(Avatars).filter((key) => !isNaN(Number(key)));
+
+    household.member.forEach((element) => {
+        existingAvatars.push(element.emoji);
+    });
+    avatars = avatars.filter((val) => !existingAvatars.includes(Number(val)));
+
+    if (currentAvatar) {
+        avatars = [...avatars, String(currentAvatar)];
+        console.log("avatars", avatars);
+    }
+
+    const avatarSelect = (avatar: Avatars) => {
+        setAvatar(avatar);
+        newSelected(avatar);
+    };
+
     return (
         <Surface>
             {!change && (
@@ -34,14 +53,7 @@ const ProfileEmojiSelector: FC<Props> = ({
             {change && (
                 <Surface style={styles.rootSelect}>
                     <Text>Välj avatar</Text>
-                    <MemberEmojiSelector
-                        household={household}
-                        newSelected={(avatar) => {
-                            setChange(false);
-                            newSelected(avatar);
-                        }}
-                        currentAvatar={currentAvatar}
-                    />
+                    <EmojiSelector selectedAvatars={avatarState} avatarList={avatars} avatarSelect={avatarSelect} />
                 </Surface>
             )}
         </Surface>
