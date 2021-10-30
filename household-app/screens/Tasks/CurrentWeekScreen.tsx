@@ -1,110 +1,18 @@
 import React, { FC } from "react";
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
-import { doneTask } from "../../../Common/doneTask";
-import StatisticsCharts from "../../component/StatisticsCharts";
+import { View, Text, StyleSheet } from "react-native";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { MemberStatistics } from "./memberStatistics";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
-const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
-    const dagensDatum = new Date(1995, 11, 17);
-
-    const testTasksDone: doneTask[] = [
-        {
-            id: "1",
-            taskId: "1",
-            memberId: "1",
-            dateDone: dagensDatum,
-            value: 2,
-        },
-        {
-            id: "2",
-            taskId: "2",
-            memberId: "2",
-            dateDone: dagensDatum,
-            value: 2,
-        },
-        {
-            id: "3",
-            taskId: "3",
-            memberId: "3",
-            dateDone: dagensDatum,
-            value: 2,
-        },
-        {
-            id: "4",
-            taskId: "4",
-            memberId: "4",
-            dateDone: dagensDatum,
-            value: 8,
-        },
-        {
-            id: "5",
-            taskId: "5",
-            memberId: "5",
-            dateDone: dagensDatum,
-            value: 8,
-        },
-    ];
-
-    const data: MemberStatistics[] = [
-        {
-            //DETTA ÄR EN USER
-            key: 1,
-            userId: "1",
-            emoji: "🐙",
-            doneTasks: [testTasksDone[0]], //0
-            svg: {
-                fill: "#600080",
-                onPress: () => console.log("USER1"),
-            },
-        },
-        {
-            //DETTA ÄR EN USER
-            key: 2,
-            userId: "2",
-            emoji: "🦊",
-            doneTasks: [testTasksDone[1], testTasksDone[2], testTasksDone[4]], //2+2=4
-            svg: {
-                fill: "green",
-                onPress: () => console.log("USER2"),
-            },
-        },
-        {
-            //DETTA ÄR EN USER
-            key: 3,
-            userId: "3",
-            emoji: "🐸",
-            doneTasks: [testTasksDone[1], testTasksDone[2]], //2+2=4
-            svg: {
-                fill: "blue",
-                onPress: () => console.log("USER3"),
-            },
-        },
-        {
-            //DETTA ÄR EN USER
-            key: 4,
-            userId: "999", //4
-            emoji: "🦄",
-            doneTasks: [testTasksDone[3], testTasksDone[4]],
-            svg: {
-                fill: "red",
-                onPress: () => console.log("USER4"),
-            },
-        },
-    ];
-
+const CurrentWeekScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     return (
-        <SafeAreaView>
-            <ScrollView>
-                <StatisticsCharts data={data} />
-            </ScrollView>
-        </SafeAreaView>
+        <View style={styles.container}>
+            <Text style={styles.text}>Nuvarande vecka</Text>
+        </View>
     );
 };
 
-export default LastMonthScreen;
+export default CurrentWeekScreen;
 
 const styles = StyleSheet.create({
     container: {

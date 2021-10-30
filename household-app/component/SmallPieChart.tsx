@@ -20,7 +20,9 @@ const SmallPieChart: FC<Props> = ({ data, specificTaskId, style }): React.ReactE
             valueAccessor={({ item }) => {
                 let totalValue = 0;
                 for (let i = 0; i < item.doneTasks.length; i++) {
-                    if (item.doneTasks[i].taskId == specificTaskId) totalValue += item.doneTasks[i].value!;
+                    if (item.doneTasks[i].taskId === specificTaskId && item.doneTasks[i].value) {
+                        totalValue += item.doneTasks[i].value as number;
+                    }
                 }
                 return totalValue;
             }}

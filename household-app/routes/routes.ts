@@ -6,6 +6,7 @@ export enum MainRoutes {
     ProfileScreen = "ProfileScreen",
     TasksScreen = "TasksScreen",
     LastWeekScreen = "LastWeekScreen",
+    LastMonthScreen = "LastMonthScreen",
     CurrentWeekScreen = "CurrentWeekScreen",
     HouseholdScreen = "HouseholdScreen",
     StatisticsScreen = "StatisticsScreen",
@@ -19,6 +20,7 @@ export type MainStackParamList = {
     [MainRoutes.ProfileScreen]: undefined;
     [MainRoutes.TasksScreen]: undefined;
     [MainRoutes.LastWeekScreen]: undefined;
+    [MainRoutes.LastMonthScreen]: undefined;
     [MainRoutes.CurrentWeekScreen]: undefined;
     [MainRoutes.HouseholdScreen]: undefined;
     [MainRoutes.StatisticsScreen]: undefined;

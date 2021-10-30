@@ -11,6 +11,8 @@ const taskCollection = "tasks";
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const postTask = async (req: Request, res: Response) => {
   try {
+    const dateDone = new Date();
+    dateDone.setHours(0, 0, 0, 0);
     const task: Task = {
       houseHoldId: req.body["houseHoldId"],
       repeated: req.body["repeated"],
@@ -18,7 +20,7 @@ export const postTask = async (req: Request, res: Response) => {
       description: req.body["description"],
       value: req.body["value"],
       name: req.body["name"],
-      createdAt: new Date(),
+      createdAt: dateDone,
     };
 
     const newDoc = await db.collection(taskCollection).add(task);
@@ -30,20 +32,6 @@ export const postTask = async (req: Request, res: Response) => {
     );
   }
 };
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-// export const getTask = (req: Request, res: Response) => {
-//   const userId = req.params.id;
-//   console.log(userId);
-//   db.collection(taskCollection)
-//       .doc(userId)
-//       .get()
-//       .then((user) => {
-//         if (!user.exists) throw new Error("Task not found");
-//         res.status(200).json({id: user.id, data: user.data()});
-//       })
-//       .catch((error) => res.status(500).send(error));
-// };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getAllTaskOfHouseHold = (req: Request, res: Response) => {
@@ -165,7 +153,7 @@ export const activateTask = (req: Request, res: Response) => {
         if (doc.exists) {
           doc.ref.set(
               {
-                archived: true,
+                archived: false,
               },
               {merge: true}
           );

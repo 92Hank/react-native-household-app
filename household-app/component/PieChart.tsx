@@ -18,9 +18,9 @@ const PieChart: FC<Props> = ({ data }): React.ReactElement => {
             valueAccessor={({ item }) => {
                 //Piechart slice calculation.
                 let totalValue = 0;
-
-                for (let i = 0; i < item.doneTasks.length; i++) totalValue += item.doneTasks[i].value;
-
+                for (let i = 0; i < item.doneTasks.length; i++) {
+                    if (item.doneTasks[i].value) totalValue += item.doneTasks[i].value as number;
+                }
                 return totalValue;
             }}
         >

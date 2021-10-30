@@ -1,8 +1,9 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Divider } from "react-native-paper";
 // import { RadioButton } from "react-native-paper";
-import RadioForm from "react-native-simple-radio-button";
+import RadioForm, { RadioButton } from "react-native-simple-radio-button";
 import { snackbarContext } from "../../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
@@ -11,6 +12,7 @@ import {
     useAcceptUserMutation,
     useMakeUserToOwnerMutation,
     usePauseUserMutation,
+    useRejectUserMutation,
 } from "../../../Redux/Service/household/householdApi";
 
 const radioPropsOwner = [
@@ -24,8 +26,8 @@ const radioPropsPause = [
 ];
 
 const radioPropsAccept = [
-    { label: "Ja", value: 1 },
-    { label: "Nej", value: 0 },
+    { label: "Acceptera", value: 1 },
+    { label: "Avvisa", value: 0 },
 ];
 
 const radioPropsUnPause = [
@@ -53,6 +55,21 @@ function ChangeMemberStatusModal(props: Props) {
     const [makeUserToOwner, { error: makeToOwnerError, isSuccess: isMakeOwnerSuccess }] = useMakeUserToOwnerMutation();
     const [pauseUser, { error: pauseUserError, isSuccess: isPasuedSuccess }] = usePauseUserMutation();
     const [acceptUserApi, { error: acceptError, isSuccess: isAcceptSuccess }] = useAcceptUserMutation();
+    const [rejectUser, { error: rejectError, isSuccess: rejectSuccess }] = useRejectUserMutation();
+
+    useEffect(() => {
+        if (rejectError) {
+            setSnackbar("Ett oväntat fel dök upp", true);
+            props.handleModalClose();
+        }
+    }, [rejectError]);
+
+    useEffect(() => {
+        if (rejectSuccess) {
+            setSnackbar("Användare avvisad", true);
+            props.handleModalClose();
+        }
+    }, [rejectSuccess]);
 
     useEffect(() => {
         if (isAcceptSuccess) {
@@ -101,21 +118,6 @@ function ChangeMemberStatusModal(props: Props) {
 
         const { userId, isOwner, isPaused, AcceptedStatus } = props.member;
 
-        let rights = false;
-        if (currentHousehold?.member.find((m) => m.userId === user.id && m.isOwner)) {
-            rights = true;
-        }
-
-        if (!rights) {
-            setSnackbar("Du har ej rättigheter att ändra status", true);
-            setMakeOwner(0);
-            setPaused(0);
-            setPaused(0);
-            setUnPaused(0);
-            setAcceptUser(0);
-            props.handleModalClose();
-            return;
-        }
         if (makeOwner === 1 && paused === 1) {
             setSnackbar("kan ej både pausa och göra till ägare!", true);
             setMakeOwner(0);
@@ -170,8 +172,7 @@ function ChangeMemberStatusModal(props: Props) {
         }
         if (acceptUser === 0 && AcceptedStatus === "pending") {
             console.log("reject remove user");
-
-            //[TODO:Redux]reject user
+            rejectUser({ houseHoldId: currentHousehold.id, userId: userId });
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
@@ -180,6 +181,22 @@ function ChangeMemberStatusModal(props: Props) {
             props.handleModalClose();
             return;
         }
+        props.handleModalClose();
+        setSnackbar("Inget förändrades", true);
+        setMakeOwner(0);
+        setPaused(0);
+        setPaused(0);
+        setUnPaused(0);
+        setAcceptUser(0);
+    };
+
+    const close = () => {
+        setMakeOwner(0);
+        setPaused(0);
+        setPaused(0);
+        setUnPaused(0);
+        setAcceptUser(0);
+        props.handleModalClose();
     };
 
     return (
@@ -196,14 +213,20 @@ function ChangeMemberStatusModal(props: Props) {
                     >
                         <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
                             <View style={styles.modalView}>
-                                <Text style={styles.modalText}>
-                                    Namn:
-                                    <Text style={styles.modalText}>{" " + props.member.name}</Text>
-                                </Text>
+                                <View style={styles.modalTextView}>
+                                    <Text style={styles.modalText}>{"Namn: " + props.member.name}</Text>
+                                </View>
                                 {props.member.AcceptedStatus === "accepted" && (
-                                    <View>
+                                    <View
+                                        style={{
+                                            position: "absolute",
+                                            justifyContent: "center",
+                                            alignItems: "flex-start",
+                                            marginTop: 90,
+                                        }}
+                                    >
                                         {props.member.isOwner === false && props.member.isPaused === false && (
-                                            <View>
+                                            <View style={styles.container}>
                                                 <View style={styles.row}>
                                                     <Text style={styles.modalText}>Gör till ägare:</Text>
 
@@ -215,6 +238,14 @@ function ChangeMemberStatusModal(props: Props) {
                                                         }}
                                                     />
                                                 </View>
+                                                <Divider
+                                                    style={{
+                                                        borderColor: "black",
+                                                        borderBottomWidth: 2,
+                                                        marginTop: 10,
+                                                        marginBottom: 10,
+                                                    }}
+                                                />
                                                 <View style={styles.row}>
                                                     <Text style={styles.modalText}>Pausa användare:</Text>
                                                     <RadioForm
@@ -230,32 +261,51 @@ function ChangeMemberStatusModal(props: Props) {
                                     </View>
                                 )}
                                 {props.member.isPaused === true && (
-                                    <View style={styles.row}>
-                                        <Text style={styles.modalText}>Aktivera pausad användare:</Text>
-                                        <RadioForm
-                                            radio_props={radioPropsUnPause}
-                                            initial={1}
-                                            onPress={(value: number) => {
-                                                setUnPaused(value as number);
-                                            }}
-                                        />
+                                    <View
+                                        style={{
+                                            position: "absolute",
+                                            justifyContent: "center",
+                                            alignItems: "flex-start",
+                                            marginTop: 130,
+                                        }}
+                                    >
+                                        <View style={styles.container}>
+                                            <View style={styles.row}>
+                                                <Text style={styles.modalText}>Aktivera användare:</Text>
+                                                <RadioForm
+                                                    radio_props={radioPropsUnPause}
+                                                    initial={1}
+                                                    onPress={(value: number) => {
+                                                        setUnPaused(value as number);
+                                                    }}
+                                                />
+                                            </View>
+                                        </View>
                                     </View>
                                 )}
                                 {props.member.AcceptedStatus === "pending" && (
-                                    <View>
-                                        <Text style={styles.modalText}>Ansöker om att gå med</Text>
-                                        <RadioForm
-                                            radio_props={radioPropsAccept}
-                                            initial={1}
-                                            onPress={(value: number) => {
-                                                setAcceptUser(value as number);
-                                            }}
-                                        />
-                                    </View>
-                                )}
-                                {props.member.isOwner === true && (
-                                    <View>
-                                        <Text style={styles.modalText}>En av ägarna i hushållet</Text>
+                                    <View
+                                        style={{
+                                            position: "absolute",
+                                            justifyContent: "center",
+                                            alignItems: "flex-start",
+                                            marginTop: 110,
+                                        }}
+                                    >
+                                        <View style={styles.container}>
+                                            <Text style={styles.modalText}>Ansöker om att gå med</Text>
+                                            <View style={styles.pendingRow}>
+                                                <RadioForm
+                                                    formHorizontal={true}
+                                                    initial={1}
+                                                    labelStyle={{ marginRight: 10 }}
+                                                    radio_props={radioPropsAccept}
+                                                    onPress={(value: number) => {
+                                                        setAcceptUser(value as number);
+                                                    }}
+                                                ></RadioForm>
+                                            </View>
+                                        </View>
                                     </View>
                                 )}
                                 <View style={styles.buttonsContainer}>
@@ -263,7 +313,7 @@ function ChangeMemberStatusModal(props: Props) {
                                         <MaterialIcons name="add-circle-outline" size={30} color="black" />
                                         <Text style={styles.buttonText}>Spara</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
+                                    <TouchableOpacity onPress={close} style={styles.closeButton}>
                                         <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
                                         <Text style={styles.buttonText}>Stäng</Text>
                                     </TouchableOpacity>
@@ -289,13 +339,24 @@ interface fullMemberInfo {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        minWidth: "100%",
+    },
     input: {
         backgroundColor: "#ffff",
         width: "100%",
         marginBottom: 15,
     },
     row: {
+        alignItems: "center",
         flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    pendingRow: {
+        marginTop: 10,
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
     },
     centeredView: {
         flex: 1,
@@ -313,7 +374,7 @@ const styles = StyleSheet.create({
     modalView: {
         // margin: 20,
         width: 300,
-        height: 300,
+        height: 340,
         backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
@@ -333,7 +394,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     modalText: {
-        marginBottom: 15,
         textAlign: "center",
         fontWeight: "bold",
         fontSize: 20,
@@ -385,5 +445,18 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
+    },
+    modalTextView: {
+        alignItems: "flex-start",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        minWidth: "100%",
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        backgroundColor: "white",
     },
 });

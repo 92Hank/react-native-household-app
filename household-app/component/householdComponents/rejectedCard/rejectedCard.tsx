@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
     },
     listItem: {
+        backgroundColor: "#FFB6C1",
         width: deviceWidth - 20,
         alignContent: "center",
         alignSelf: "center",
@@ -92,11 +93,11 @@ const styles = StyleSheet.create({
         elevation: 3,
         shadowColor: "#000",
         shadowOffset: {
-            width: 5,
-            height: 5,
+            width: 2,
+            height: 2,
         },
-        shadowOpacity: 0.75,
-        shadowRadius: 5,
+        shadowOpacity: 0.25,
+        shadowRadius: 2,
     },
     title: {
         fontSize: 20,

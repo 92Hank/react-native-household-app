@@ -1,42 +1,48 @@
 import React, { FC, useContext, useEffect, useState } from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    TextInput,
-    Image,
-} from "react-native";
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import Button from "../../component/common/Button";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import { ActivityIndicator, Colors } from "react-native-paper";
 
 type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 
 const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const [email, setEmail] = useState<string>("foo@foo.com");
     const [password, setPassword] = useState<string>("fobar");
-    const { setSnackbar } = useContext(snackbarContext);
+    const { setSnackbar, isVisible, message } = useContext(snackbarContext);
 
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentLoginUser);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (user) {
             console.log("user", user);
             setSnackbar("inloggning lyckas för :" + user.userName, true);
             navigation.navigate(MainRoutes.HouseholdScreen);
+            const timer = setTimeout(() => {
+                setIsLoading(false);
+            }, 500);
+            return () => clearTimeout(timer);
         }
     }, [user]);
 
     const onPressLogin = () => {
-        dispatch(LoginAsync({ email, password }));
+        setIsLoading(true);
+
+        dispatch(LoginAsync({ email, password })).then((s) => {
+            if (s.type === "loginUser/LoginAsync/fulfilled") {
+            }
+            if (s.type === "loginUser/LoginAsync/rejected") {
+                setSnackbar("Mail eller lösenord fel...", true);
+                setIsLoading(false);
+            }
+        });
     };
 
     const onChangeTextEmail = (email: string) => {
@@ -57,26 +63,33 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                     keyboardShouldPersistTaps={"handled"}
                 >
                     <View style={styles.container}>
+                        <SnackbarComponent isVisible={isVisible} message={message} />
+
                         <Image source={require("../../assets/logotypeBlack/logoBL.png")} style={styles.logo} />
-                        <Text style={styles.title}>Email:</Text>
+                        <Text style={styles.title}>E-mail:</Text>
                         <TextInput
                             keyboardType="email-address"
                             style={styles.input}
                             onChangeText={onChangeTextEmail}
                             value={email}
                         />
-                        <Text style={styles.title}>Password:</Text>
+                        <Text style={styles.title}>Lösenord:</Text>
                         <TextInput
                             secureTextEntry={true}
                             style={styles.input}
                             onChangeText={onChangeTextPassword}
                             value={password}
                         />
-                        <Button
-                            iconType={{ type: "MaterialIcons", icons: "login" }}
-                            onPress={onPressLogin}
-                            text="Sign in"
-                        ></Button>
+                        {!isLoading && (
+                            <Button
+                                iconType={{ type: "MaterialIcons", icons: "login" }}
+                                onPress={onPressLogin}
+                                text="Logga in"
+                            ></Button>
+                        )}
+                        <View style={{ marginTop: 10 }}>
+                            <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
+                        </View>
                         {/* <TouchableOpacity onPress={onPressLogin} style={styles.loginButton}>
                             <Text style={styles.buttonText}>Sign in</Text>
                         </TouchableOpacity> */}

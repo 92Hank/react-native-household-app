@@ -10,7 +10,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Button, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LastWeekScreen from "../screens/Tasks/LastWeekScreen";
-import CurrentWeekScreen from "../screens/Tasks/CurrentWeekScreen";
+import LastMonthScreen from "../screens/Tasks/LastMonthScreen";
 import HouseholdScreen from "../screens/Household/HouseholdScreen";
 import Constants from "expo-constants";
 
@@ -35,6 +35,19 @@ const LoginStack = () => (
                 // ),
             }}
         />
+        <MainStack.Screen
+            name={MainRoutes.CreateAccountScreen}
+            component={CreateAccountScreen}
+            options={{
+                // headerShown: false,
+                title: "Create your account",
+                headerTitleAlign: "center",
+                headerTintColor: "grey",
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                },
+            }}
+        />
     </MainStack.Navigator>
 );
 
@@ -44,7 +57,7 @@ const CreateStack = () => (
             name={MainRoutes.CreateAccountScreen}
             component={CreateAccountScreen}
             options={{
-                // headerShown: false,
+                headerShown: false,
                 title: "Create your account",
                 headerTitleAlign: "center",
                 headerTintColor: "grey",
@@ -69,8 +82,8 @@ const AuthStack = () => {
         >
             {/* <Tab.Screen name="Sign in" component={LoginStack} />
       <Tab.Screen name="Sign up" component={CreateStack} /> */}
-            <Tab.Screen name="Sign in" component={LoginStack} />
-            <Tab.Screen name="Sign up" component={CreateStack} />
+            <Tab.Screen name="Logga in" component={LoginStack} />
+            <Tab.Screen name="Skapa konto" component={CreateStack} />
         </Tab.Navigator>
     );
 };

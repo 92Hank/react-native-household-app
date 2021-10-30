@@ -291,6 +291,18 @@ export const memberLeaveHouseHold = (req: Request, res: Response): void => {
                     .update({
                       userIds: FieldValue.arrayRemove(userId),
                     })
+                    .then(function() {
+                      db.collection("doneTask")
+                          .get()
+                          .then((snap) => {
+                            snap.forEach((s) => {
+                              const doneTask = s.data();
+                              if (doneTask.userId === userId) {
+                                s.ref.delete();
+                              }
+                            });
+                          });
+                    })
                     .then(() => {
                       res.status(200).json("member left houseHold");
                     });
@@ -303,6 +315,29 @@ export const memberLeaveHouseHold = (req: Request, res: Response): void => {
       })
       .catch((error) => res.status(500).send(error.message));
 };
+
+// if (doc.exists) {
+//   const TaskId = doc.id;
+//   doc.ref
+//     .delete()
+//     .then(function () {
+//       db.collection("doneTask")
+//         .get()
+//         .then((snap) => {
+//           snap.forEach((s) => {
+//             const doneTask = s.data();
+//             if (doneTask.taskId === TaskId) {
+//               s.ref.delete();
+//             }
+//           });
+//         });
+//     })
+//     .then(function () {
+//       res
+//         .status(200)
+//         .json("deleted task item: " + id + ", and doneTask connected to it");
+//     });
+// }
 
 export const memberChangeName = (req: Request, res: Response): void => {
   const houseHoldId = req.body["houseHoldId"];

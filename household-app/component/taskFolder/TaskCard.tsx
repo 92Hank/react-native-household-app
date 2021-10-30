@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Badge, Surface } from "react-native-paper";
@@ -44,7 +45,7 @@ const TaskCard = (props: Props) => {
     });
     // console.log("TASK CARD", props.task);
 
-    let difference;
+    let difference = 0;
     const today = new Date();
     let date = new Date();
     if (props.task.dateDone) {
@@ -114,11 +115,11 @@ const styles = StyleSheet.create({
         elevation: 3,
         shadowColor: "#000",
         shadowOffset: {
-            width: 5,
-            height: 5,
+            width: 2,
+            height: 2,
         },
-        shadowOpacity: 0.75,
-        shadowRadius: 5,
+        shadowOpacity: 0.25,
+        shadowRadius: 2,
     },
 
     secondContainer: {
@@ -140,11 +141,11 @@ const styles = StyleSheet.create({
         borderRadius: radius,
         shadowColor: "#000",
         shadowOffset: {
-            width: 5,
-            height: 5,
+            width: 2,
+            height: 2,
         },
-        shadowOpacity: 0.75,
-        shadowRadius: 5,
+        shadowOpacity: 0.25,
+        shadowRadius: 2,
         elevation: 3,
     },
     title: {

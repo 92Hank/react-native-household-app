@@ -1,19 +1,11 @@
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "../screens/Account/LoginScreen";
-import ProfileScreen from "../screens/Profile/ProfileScreen";
 import TasksScreen from "../screens/Tasks/TasksScreen";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { MainRoutes, MainStack } from "../routes/routes";
-import CreateAccountScreen from "../screens/Account/CreateAccount";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Button, Pressable } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import LastWeekScreen from "../screens/Tasks/LastWeekScreen";
+import LastMonthScreen from "../screens/Tasks/LastMonthScreen";
 import CurrentWeekScreen from "../screens/Tasks/CurrentWeekScreen";
-import HouseholdScreen from "../screens/Household/HouseholdScreen";
 
-const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 const TaskScreenStack = () => (
     <MainStack.Navigator>
@@ -51,11 +43,29 @@ const LastWeekStack = () => (
     </MainStack.Navigator>
 );
 
-const LastMonthStack = () => (
+const CurrentWeekStack = () => (
     <MainStack.Navigator>
         <MainStack.Screen
             name={MainRoutes.CurrentWeekScreen}
             component={CurrentWeekScreen}
+            options={{
+                headerShown: false,
+                title: "Current Week",
+                headerTitleAlign: "center",
+                headerTintColor: "grey",
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                },
+            }}
+        />
+    </MainStack.Navigator>
+);
+
+const LastMonthStack = () => (
+    <MainStack.Navigator>
+        <MainStack.Screen
+            name={MainRoutes.LastMonthScreen}
+            component={LastMonthScreen}
             options={{
                 headerShown: false,
                 headerBackVisible: false,
@@ -113,6 +123,20 @@ const TasksStack = () => (
                 },
             }}
         />
+        <MainStack.Screen
+            name={MainRoutes.LastMonthScreen}
+            component={LastMonthScreen}
+            options={{
+                headerShown: false,
+                headerBackVisible: false,
+                title: "Current Week",
+                headerTitleAlign: "center",
+                headerTintColor: "grey",
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                },
+            }}
+        />
     </MainStack.Navigator>
 );
 
@@ -129,8 +153,9 @@ const TaskStack = () => {
             {/* <Tab.Screen name="Sign in" component={LoginStack} />
       <Tab.Screen name="Sign up" component={CreateStack} /> */}
             <Tab.Screen name="Idag" component={TaskScreenStack} />
+            <Tab.Screen name="Denna vecka" component={CurrentWeekStack} />
             <Tab.Screen name="Förra veckan" component={LastWeekStack} />
-            <Tab.Screen name="Denna månad" component={LastMonthStack} />
+            <Tab.Screen name="Förra månaden" component={LastMonthStack} />
         </Tab.Navigator>
     );
 };
