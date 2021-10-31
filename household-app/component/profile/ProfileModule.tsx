@@ -66,6 +66,7 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
             dispatch(setSelectedHousehold({ ...household, member: [...copyMember] }));
         }
         setSnackbar("Saved", true);
+        handleModalClose();
     };
 
     const onChangeName = (name: string) => {
