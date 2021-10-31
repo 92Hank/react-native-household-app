@@ -286,8 +286,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     circleButton: {
-        width: 35,
-        height: 35,
+        width: 36,
+        height: 36,
         justifyContent: "center",
         alignItems: "center",
         padding: 10,
