@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import React, { FC } from "react";
-import { SafeAreaView, ScrollView, Text } from "react-native";
+import { SafeAreaView, ScrollView, Text, StyleSheet, View } from "react-native";
 import StatisticsCharts from "../../component/piecharts/StatisticsCharts";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
@@ -35,7 +35,9 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
                 {statisticsArray && currentHousehold ? (
                     <StatisticsCharts data={statisticsArray} currentHousehold={currentHousehold} />
                 ) : (
-                    <Text>{fillerMessage}</Text>
+                    <View style={styles.container}>
+                        <Text style={styles.text}>{fillerMessage}</Text>
+                    </View>
                 )}
             </ScrollView>
         </SafeAreaView>
@@ -43,3 +45,14 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
 };
 
 export default LastMonthScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    text: {
+        color: "grey",
+    },
+});

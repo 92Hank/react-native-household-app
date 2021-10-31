@@ -104,7 +104,7 @@ const StatisticsCharts: FC<Props> = ({ data, currentHousehold }): React.ReactEle
                     {"Totalt"}
                 </Text>
             </PieChart>
-            <View style={[styles.smallChartsEncompassingStyle]}>{generateSmallPieCharts()}</View>
+            <View style={styles.smallChartsEncompassingStyle}>{generateSmallPieCharts()}</View>
         </>
     );
 };
