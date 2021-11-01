@@ -46,14 +46,14 @@ const EditTaskInputModal = (props: Props) => {
     const [isClickedDays, setIsClickedDays] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
 
-    const onChangeInputName = (name: string) => setName(name);
-    const onChangeInputDescription = (description: string) => setDescription(description);
-
     const [
         editTask, // This is the mutation trigger
 
         { isSuccess: successEdit, error: errorEdit }, // This is the destructured mutation result
     ] = useEditTaskMutation();
+
+    const onChangeInputName = (name: string) => setName(name);
+    const onChangeInputDescription = (description: string) => setDescription(description);
 
     const defaultTask: task = {
         description: props.task?.description as string,

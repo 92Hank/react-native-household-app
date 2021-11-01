@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Text, View, Pressable } from "react-native";
-import { Card, Avatar } from "react-native-paper";
-import Task from "../../../Common/src/Entity/Task";
-import DoneTask from "../../../Common/src/Entity/doneTask";
+import React, { useState } from "react";
+import { Pressable, View } from "react-native";
+import { Avatar, Card } from "react-native-paper";
+import { task } from "../../../Common/task";
 
 interface Props {
-    task: Task;
+    task: task;
     onPress: () => void;
     // doneTask: DoneTask[];
 }

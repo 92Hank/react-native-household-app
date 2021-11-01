@@ -4,14 +4,17 @@ import { Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from "rea
 import { Surface, TextInput } from "react-native-paper";
 import { fullMemberInfo } from "../../../Common/household";
 import { Avatars } from "../../component/common/EmojiSelector";
-import ToggleDarkThemeSwitch from "../../component/common/ToggleDarkThemeSwitch";
 import ProfileEmojiSelector from "../../component/profile/ProfileEmojiSelector";
 import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
-import { useChangeEmojiMutation, useChangeNameMutation } from "../../Redux/Service/household/householdApi";
+import {
+    useChangeEmojiMutation,
+    useChangeNameMutation,
+    useLazyGetHouseholdByIdQuery,
+} from "../../Redux/Service/household/householdApi";
 
 interface Props {
     isOpen: boolean;
@@ -28,28 +31,33 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
     const user = useAppSelector(selectCurrentLoginUser);
     const household = useAppSelector(selectSelectedHousehold);
 
-    // const [getDbHousehold, dbHousehold] = useLazyGetHouseholdByIdQuery();
+    const [getDbHousehold, dbHousehold] = useLazyGetHouseholdByIdQuery();
+
     const [updateEmoji, { isLoading: isUpdatingEmoji }] = useChangeEmojiMutation();
     const [updateName, { isLoading: isUpdatingName }] = useChangeNameMutation();
 
-    if (!household || !user) return <></>;
-
     useEffect(() => {
-        // if (!dbHousehold.data) return;
+        if (!household || !user) return;
+        getDbHousehold(household.id);
+    }, []);
+    useEffect(() => {
+        if (!dbHousehold.data || !household || !user) return;
 
-        const member = household.member.find((m) => m.userId === user.id);
+        const member = dbHousehold.data.member.find((m) => m.userId === user.id);
         if (member) {
             setOriginalMember(member);
             setEditMember(member);
         }
-    }, [household]);
+    }, [dbHousehold.data]);
 
     useEffect(() => {
         setIsSaving(isUpdatingEmoji || isUpdatingName);
     }, [isUpdatingEmoji, isUpdatingName]);
 
+    if (!household || !user) return <></>;
+
     const save = () => {
-        if (!editMember || !originalMember /*|| !dbHousehold.data*/ || !user.id) return;
+        if (!editMember || !originalMember || !dbHousehold.data || !user.id) return;
         if (originalMember.emoji !== editMember.emoji) {
             updateEmoji({ emoji: editMember.emoji, houseHoldId: household.id, userId: user.id });
         }
@@ -97,6 +105,7 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                                 label="Namn i hushållet"
                                 value={editMember.name}
                                 onChangeText={onChangeName}
+                                textAlign={undefined}
                             />
 
                             <ProfileEmojiSelector

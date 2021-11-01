@@ -35,15 +35,17 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
 
     // const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [loadData, result] = useLazyGetHouseholdByUserIdQuery();
+    const { data } = result;
+
+    useEffect(() => {
+        if (!user) return;
+        loadData(user.id!);
+    }, []);
 
     if (!user) {
         navigation.navigate(MainRoutes.LoginScreen);
         return <View></View>;
     }
-    useEffect(() => {
-        loadData(user.id!);
-    }, []);
-
     const clickOnHousehold = (item: household) => {
         let rights = true;
         item.member.forEach((m) => {
@@ -97,8 +99,8 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     }, [navigation]);
 
     useEffect(() => {
-        const { data } = result;
         if (data) {
+            console.log("data", data);
             const accepted: household[] = [];
             data.forEach((h) => {
                 h.member.forEach((m) => {

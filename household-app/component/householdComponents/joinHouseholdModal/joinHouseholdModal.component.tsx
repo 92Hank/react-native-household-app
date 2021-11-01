@@ -45,20 +45,10 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     const { setSnackbar } = useContext(snackbarContext);
 
     const user = useAppSelector(selectCurrentLoginUser);
-
-    if (!user) {
-        props.navigation.navigate(MainRoutes.LoginScreen);
-        return <View></View>;
-    }
+    const [JoinHousehold, { status, isSuccess, error, isLoading }] = useJoinHouseholdMutation();
 
     let avatars = Object.keys(Avatars).filter((key) => !isNaN(Number(key)));
     const existingAvatars: Avatars[] = [];
-
-    const [
-        JoinHousehold, // This is the mutation trigge
-
-        { status, isSuccess, error, isLoading }, // This is the destructured mutation result
-    ] = useJoinHouseholdMutation();
 
     useEffect(() => {
         console.log("isSuccess", isSuccess);
@@ -84,6 +74,11 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
             console.log("error", error);
         }
     }, [error]);
+
+    if (!user) {
+        props.navigation.navigate(MainRoutes.LoginScreen);
+        return <View></View>;
+    }
 
     const avatarSelect = (index: number) => {
         setAvatarIndex(index);
