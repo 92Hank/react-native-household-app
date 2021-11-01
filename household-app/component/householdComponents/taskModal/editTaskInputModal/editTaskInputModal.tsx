@@ -106,14 +106,15 @@ const EditTaskInputModal = (props: Props) => {
         }
     }, [successEdit]);
 
-    const onEdit = () => {
+    const onEdit = (task: testTask) => {
         console.log("edit api");
+        console.log(task);
         if (name && description && repeated && value) {
             const v = value as valueType;
             const requestData: task = {
                 houseHoldId: currentHousehold?.id as string,
-                description: description,
-                name: name,
+                description: task.description as string,
+                name: task.name,
                 repeated: repeated,
                 value: v,
                 archived: false,
@@ -269,7 +270,7 @@ const EditTaskInputModal = (props: Props) => {
                                         mode="outlined"
                                         style={styles.input}
                                         label="Titel"
-                                        onChangeText={handleChange<keyof testTask>()}
+                                        onChangeText={handleChange<keyof testTask>("name")}
                                         textAlign={"center"}
                                     />
                                     {errors.name && touched.name && (
@@ -282,7 +283,7 @@ const EditTaskInputModal = (props: Props) => {
                                         mode="outlined"
                                         style={styles.input2}
                                         label="Beskrivning"
-                                        onChangeText={handleChange(onChangeInputDescription)}
+                                        onChangeText={handleChange<keyof testTask>("description")}
                                         textAlign={"center"}
                                     />
                                     {errors.description && touched.description && (
@@ -293,7 +294,7 @@ const EditTaskInputModal = (props: Props) => {
                                     {!isClicked ? valueInput : valueForTask}
                                 </View>
                                 <View style={styles.buttonsContainer}>
-                                    <TouchableOpacity onPress={() => onEdit()} style={styles.saveButton}>
+                                    <TouchableOpacity onPress={handleSubmit} style={styles.saveButton}>
                                         <MaterialIcons name="check-circle" size={30} color="black" />
                                         <Text style={styles.buttonText}>Ändra</Text>
                                     </TouchableOpacity>
