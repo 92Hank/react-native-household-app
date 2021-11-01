@@ -223,7 +223,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined} enabled>
             <ScrollView
-                //  contentContainerStyle={{ flexGrow: 1 }}
+                //  contentContainerStyle={{ flexGrow: 1 }}sss
                 {...(Platform.OS === "ios" ? "keyboardDismissMode='interactive'" : null)}
                 keyboardShouldPersistTaps={"handled"}
             >
