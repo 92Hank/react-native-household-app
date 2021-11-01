@@ -99,12 +99,12 @@ const StatisticsCharts: FC<Props> = ({ data, currentHousehold }): React.ReactEle
     getUniqueDoneTaskIds();
     return (
         <>
-            <PieChart data={data} taskName="Totalt">
+            <PieChart data={data}>
                 <Text style={styles.chartTextStyle} numberOfLines={2}>
                     {"Totalt"}
                 </Text>
             </PieChart>
-            <View style={[styles.smallChartsEncompassingStyle]}>{generateSmallPieCharts()}</View>
+            <View style={styles.smallChartsEncompassingStyle}>{generateSmallPieCharts()}</View>
         </>
     );
 };
