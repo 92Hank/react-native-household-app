@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import React, { FC, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 import { doneTask } from "../../../Common/doneTask";
 import { household } from "../../../Common/household";
 import { task } from "../../../Common/task";
@@ -137,7 +138,6 @@ const styles = StyleSheet.create({
         flex: 2,
         fontSize: 15,
         fontWeight: "bold",
-        color: "black",
         justifyContent: "center",
         textAlign: "center",
     },
