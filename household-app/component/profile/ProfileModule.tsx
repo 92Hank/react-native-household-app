@@ -96,7 +96,7 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                 >
                     <View style={[isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
                         <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Profile: </Text>
+                            <Text style={styles.modalText}>Profile </Text>
                             <TextInput
                                 theme={{ roundness: 10 }}
                                 outlineColor="white"
@@ -121,7 +121,7 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                             <View style={styles.buttonsContainer}>
                                 <TouchableOpacity onPress={save} style={styles.saveButton}>
                                     <MaterialIcons name="add-circle-outline" size={30} color="black" />
-                                    <Text style={styles.buttonText}>Save</Text>
+                                    <Text style={styles.buttonText}>Spara</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={handleModalClose} style={styles.closeButton}>
                                     <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     modalView: {
         // margin: 20,
         width: 300,
-        height: 370,
+        height: 400,
         backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
