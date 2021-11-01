@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from "@react-navigation/native";
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
@@ -16,6 +17,16 @@ import MainNavigation from "./navigation/MainNavigation";
 import { store } from "./Redux/store";
 import { Provider as ReduxProvider } from "react-redux";
 import SnackbarProvider from "./context/snackBarContext";
+
+declare global {
+    namespace ReactNativePaper {
+        interface ThemeColors {
+            contrastColor: string;
+            blackWhiteToggle: string;
+            whiteBlackToggle: string;
+        }
+    }
+}
 
 // const Stack = createNativeStackNavigator();
 
@@ -65,11 +76,23 @@ export default function App() {
                             theme === "light"
                                 ? {
                                       ...CombinedDefaultTheme,
-                                      colors: { ...CombinedDefaultTheme.colors, primary: "#1ba1f2" },
+                                      colors: {
+                                          ...CombinedDefaultTheme.colors,
+                                          primary: "#1ba1f2",
+                                          contrastColor: "#f2f2f2",
+                                          blackWhiteToggle: "white",
+                                          whiteBlackToggle: "black",
+                                      },
                                   }
                                 : {
                                       ...CombinedDarkTheme,
-                                      colors: { ...DarkTheme.colors, primary: "#1ba1f2" },
+                                      colors: {
+                                          ...DarkTheme.colors,
+                                          primary: "#1ba1f2",
+                                          contrastColor: "#484848",
+                                          blackWhiteToggle: "#373737",
+                                          whiteBlackToggle: "white",
+                                      },
                                   }
                         }
                     >

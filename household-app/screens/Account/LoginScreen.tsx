@@ -13,7 +13,7 @@ type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 
 const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const [email, setEmail] = useState<string>("foo@foo.com");
-    const [password, setPassword] = useState<string>("fobar");
+    const [password, setPassword] = useState<string>("foobar");
     const { setSnackbar, isVisible, message } = useContext(snackbarContext);
 
     const dispatch = useAppDispatch();

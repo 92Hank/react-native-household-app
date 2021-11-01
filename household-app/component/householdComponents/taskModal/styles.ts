@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         margin: 4,
     },
     buttonsCircleBtnText: {
-        color: "black",
+        // color: "black",
         fontSize: 20,
         justifyContent: "center",
         textAlign: "center",
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
     },
     repeatedCircleBtnText: {
-        color: "black",
+        // color: "black",
         fontSize: 20,
         justifyContent: "center",
         textAlign: "center",
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     textStyle: {
-        color: "white",
+        // color: "white",
         fontWeight: "bold",
         textAlign: "center",
     },
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        backgroundColor: "white",
+        // backgroundColor: "white",
     },
     modalText: {
         textAlign: "center",
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     titleContent2: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         height: 166,
     },
     textinputTitleRight: {
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     titleContent: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
     },
     buttonsContainer: {
         alignItems: "center",
@@ -165,13 +165,13 @@ const styles = StyleSheet.create({
         right: 0,
     },
     closeButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
         alignItems: "center",
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "space-evenly",
         shadowColor: "rgba(0, 0, 0, 0.1)",
         shadowOpacity: 0.8,
         elevation: 6,
@@ -182,13 +182,13 @@ const styles = StyleSheet.create({
         borderStartColor: "gainsboro",
     },
     saveButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
         alignItems: "center",
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "space-evenly",
         shadowColor: "rgba(0, 0, 0, 0.1)",
         shadowOpacity: 0.8,
         elevation: 6,
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     householdButtonText: {
-        color: "black",
+        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
@@ -281,8 +281,8 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     buttonText: {
-        color: "black",
-        fontSize: 16,
+        // color: "black",
+        fontSize: 18,
         fontWeight: "bold",
     },
     circleButton: {
@@ -306,19 +306,19 @@ const styles = StyleSheet.create({
         margin: 2,
     },
     circleBtnText: {
-        color: "white",
+        // color: "white",
         fontSize: 14,
         justifyContent: "center",
         textAlign: "center",
     },
     circleBtnTextValue: {
-        color: "black",
+        // color: "black",
         fontSize: 14,
         justifyContent: "center",
         textAlign: "center",
     },
     householdButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 10,
         paddingHorizontal: 10,
         width: "50%",
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
         borderBottomColor: "gainsboro",
     },
     householdButton2: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 10,
         paddingHorizontal: 10,
         width: "50%",
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
         // margin: 20,
         width: 300,
         height: 500,
-        backgroundColor: "#f2f2f2",
+        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
         // margin: 20,
         width: 400,
         height: 200,
-        backgroundColor: "#f2f2f2",
+        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -385,14 +385,18 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
     },
+    taskText: {
+        fontSize: 16,
+        marginBottom: 10,
+    },
     modalText2: {
-        marginBottom: 15,
-        textAlign: "center",
+        // marginBottom: 15,
+        // textAlign: "center",
         fontWeight: "bold",
-        fontSize: 20,
+        fontSize: 18,
     },
     saveButtonDelete: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "33.3%",
@@ -407,7 +411,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     archiveButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "33.3%",
@@ -421,7 +425,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 1, height: 13 },
     },
     closeButtonDelete: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "33.3%",
