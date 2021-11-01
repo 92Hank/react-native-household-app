@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-undef */
 import React, { FC, useContext, useEffect, useState } from "react";
-import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
-import { Surface } from "react-native-paper";
+import { Dimensions, FlatList, StyleSheet, View } from "react-native";
+import { Surface, Text } from "react-native-paper";
 import Button from "../../component/common/Button";
 import ChangeHouseholdNameModal from "../../component/householdComponents/changeHouseholdNameModal/changeHouseholdNameModal";
 import ChangeMemberStatusModal from "../../component/householdComponents/changeMemberStatusModal/changeMemberStatusModal";
@@ -17,7 +17,6 @@ import { useLazyGetHouseholdByIdQuery, useLeaveHouseholdMutation } from "../../R
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
-
 const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const user = useAppSelector(selectCurrentLoginUser);
 
@@ -31,7 +30,6 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     const [openChangeName, setOpenChangeName] = useState(false);
     const [members, setMembers] = useState<fullMemberInfo[]>();
     const [pendingMembers, setPendingMembers] = useState<fullMemberInfo[]>();
-    const [isLoading, setIsLoading] = useState(false);
     const [loadData, result] = useLazyGetHouseholdByIdQuery();
 
     useEffect(() => {
@@ -114,6 +112,8 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
             }
         });
     }, [rights]);
+
+    if (!user) return <view></view>;
 
     return (
         <View style={styles.container}>
