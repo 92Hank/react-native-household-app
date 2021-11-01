@@ -25,7 +25,7 @@ interface TaskNow {
     createdAt: Date;
 }
 
-interface testTask {
+interface inputTask {
     description?: string;
     name: string;
 }
@@ -42,7 +42,7 @@ const repeatedList = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
 ];
 
-type PostSchemaType = Record<keyof testTask, Yup.AnySchema>;
+type PostSchemaType = Record<keyof inputTask, Yup.AnySchema>;
 
 const validationSchema = Yup.object().shape<PostSchemaType>({
     name: Yup.string()
@@ -63,9 +63,6 @@ const EditTaskInputModal = (props: Props) => {
     const [isClicked, setIsClicked] = useState(true);
     const [isClickedDays, setIsClickedDays] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
-
-    const onChangeInputName = (name: string) => setName(name);
-    const onChangeInputDescription = (description: string) => setDescription(description);
 
     const [
         editTask, // This is the mutation trigger
@@ -106,7 +103,7 @@ const EditTaskInputModal = (props: Props) => {
         }
     }, [successEdit]);
 
-    const onEdit = (task: testTask) => {
+    const onEdit = (task: inputTask) => {
         console.log("edit api");
         console.log(task);
         if (name && description && repeated && value) {
@@ -270,7 +267,7 @@ const EditTaskInputModal = (props: Props) => {
                                         mode="outlined"
                                         style={styles.input}
                                         label="Titel"
-                                        onChangeText={handleChange<keyof testTask>("name")}
+                                        onChangeText={handleChange<keyof inputTask>("name")}
                                         textAlign={"center"}
                                     />
                                     {errors.name && touched.name && (
@@ -283,7 +280,7 @@ const EditTaskInputModal = (props: Props) => {
                                         mode="outlined"
                                         style={styles.input2}
                                         label="Beskrivning"
-                                        onChangeText={handleChange<keyof testTask>("description")}
+                                        onChangeText={handleChange<keyof inputTask>("description")}
                                         textAlign={"center"}
                                     />
                                     {errors.description && touched.description && (
