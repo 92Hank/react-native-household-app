@@ -2,12 +2,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
-import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useChangeNameMutation } from "../../../Redux/Service/household/householdApi";
 import { snackbarContext } from "../../../context/snackBarContext";
+import { Surface, Text, TextInput } from "react-native-paper";
 
 interface Props {
     isOpen: boolean;
@@ -65,13 +66,18 @@ function ChangeHouseholdNameModal(props: Props) {
                         props.isOpen;
                     }}
                 >
-                    <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <View style={styles.modalView}>
+                    <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
+                        <Surface style={styles.modalView}>
                             <Text style={styles.modalText}>Byt hushållsnamn</Text>
-                            <TextInput style={styles.input} onChangeText={onChangeTextName} value={name} />
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={onChangeTextName}
+                                value={name}
+                                textAlign={undefined}
+                            />
                             <View style={styles.buttonsContainer}>
                                 <TouchableOpacity onPress={handleChangeName} style={styles.saveButton}>
-                                    <MaterialIcons name="delete-forever" size={30} color="black" />
+                                    <MaterialIcons name="save" size={30} color="black" />
                                     <Text style={styles.buttonText}>Ja</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
@@ -79,8 +85,8 @@ function ChangeHouseholdNameModal(props: Props) {
                                     <Text style={styles.buttonText}>Nej</Text>
                                 </TouchableOpacity>
                             </View>
-                        </View>
-                    </View>
+                        </Surface>
+                    </Surface>
                 </Modal>
             )}
         </View>
@@ -91,7 +97,7 @@ export default ChangeHouseholdNameModal;
 
 const styles = StyleSheet.create({
     input: {
-        borderColor: "gray",
+        // borderColor: "gray",
         width: "100%",
         borderWidth: 1,
         borderRadius: 10,
@@ -100,7 +106,7 @@ const styles = StyleSheet.create({
     householdButton: {
         marginTop: 20,
         margin: 5,
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         borderRadius: 100,
@@ -135,8 +141,8 @@ const styles = StyleSheet.create({
     },
     modalView: {
         width: 300,
-        height: 200,
-        backgroundColor: "#f2f2f2",
+        height: 230,
+        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -150,7 +156,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     textStyle: {
-        color: "white",
+        // color: "white",
         fontWeight: "bold",
         textAlign: "center",
     },
@@ -171,7 +177,7 @@ const styles = StyleSheet.create({
         right: 0,
     },
     closeButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -188,7 +194,7 @@ const styles = StyleSheet.create({
         borderStartColor: "gainsboro",
     },
     saveButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -203,7 +209,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     buttonText: {
-        color: "black",
+        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
