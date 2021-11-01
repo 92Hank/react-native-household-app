@@ -267,7 +267,7 @@ const EditTaskInputModal = (props: Props) => {
                                         theme={{ roundness: 10 }}
                                         outlineColor="white"
                                         mode="outlined"
-                                        style={styles.input}
+                                        style={{ ...styles.input, backgroundColor: colors.inputColor }}
                                         label="Titel"
                                         onChangeText={handleChange<keyof inputTask>("name")}
                                         textAlign={"center"}
@@ -280,7 +280,7 @@ const EditTaskInputModal = (props: Props) => {
                                         theme={{ roundness: 10 }}
                                         outlineColor="white"
                                         mode="outlined"
-                                        style={styles.input2}
+                                        style={{ ...styles.input2, backgroundColor: colors.inputColor }}
                                         label="Beskrivning"
                                         onChangeText={handleChange<keyof inputTask>("description")}
                                         textAlign={"center"}
@@ -292,7 +292,7 @@ const EditTaskInputModal = (props: Props) => {
 
                                     {!isClicked ? valueInput : valueForTask}
                                 </View>
-                                <Surface style={styles.buttonsContainer}>
+                                <View style={styles.buttonsContainer}>
                                     <TouchableOpacity
                                         onPress={handleSubmit}
                                         style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
@@ -314,7 +314,7 @@ const EditTaskInputModal = (props: Props) => {
                                         />
                                         <Text style={styles.buttonText}>Stäng</Text>
                                     </TouchableOpacity>
-                                </Surface>
+                                </View>
                             </Surface>
                         </Surface>
                     )}

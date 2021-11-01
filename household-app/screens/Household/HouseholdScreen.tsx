@@ -3,6 +3,7 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import React, { FC, useContext, useEffect, useState } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
+import { useTheme } from "react-native-paper";
 import { household } from "../../../Common/household";
 import Button from "../../component/common/Button";
 import AddHouseholdModal from "../../component/householdComponents/addHouseholdModal/addHouseholdModal.component";
@@ -32,6 +33,7 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     const [userHouseholds, setHouseholds] = useState<household[]>();
     const [userRejectedHouseholds, setRejectedHouseholds] = useState<household[]>();
     const [userPendingHouseholds, setPendingHouseholds] = useState<household[]>();
+    const { colors } = useTheme();
 
     // const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [loadData, result] = useLazyGetHouseholdByUserIdQuery();
@@ -91,7 +93,7 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
                     onPress={onPressLogout}
                     // style={styles.householdButton}
                 >
-                    <FontAwesome5 name="sign-out-alt" size={24} color="black" />
+                    <FontAwesome5 name="sign-out-alt" size={24} color={colors.whiteBlackToggle} />
                     {/* <Text style={styles.householdButtonText}>Medlemmar</Text> */}
                 </TouchableOpacity>
             ),

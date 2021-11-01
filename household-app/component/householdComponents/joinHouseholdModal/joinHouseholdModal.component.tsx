@@ -156,13 +156,13 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                     }}
                 >
                     <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <Surface style={styles.modalView}>
+                        <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
                             <Text style={styles.modalText}>Ange hushållskod: </Text>
                             <TextInput
                                 theme={{ roundness: 10 }}
                                 outlineColor="white"
                                 mode="outlined"
-                                style={styles.input}
+                                style={{ ...styles.input, backgroundColor: colors.inputColor }}
                                 value={code}
                                 label="Hushållskod"
                                 onChangeText={onChangeInput}
@@ -170,7 +170,10 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                             />
 
                             <View style={styles.buttonsContainer}>
-                                <TouchableOpacity onPress={() => onSubmit()} style={styles.saveButton}>
+                                <TouchableOpacity
+                                    onPress={() => onSubmit()}
+                                    style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                >
                                     <MaterialIcons
                                         name="add-circle-outline"
                                         size={30}
@@ -178,7 +181,10 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                                     />
                                     <Text style={styles.buttonText}>Sök</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
+                                <TouchableOpacity
+                                    onPress={props.handleModalClose}
+                                    style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
+                                >
                                     <MaterialCommunityIcons
                                         name="close-circle-outline"
                                         size={30}
@@ -200,8 +206,7 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                     }}
                 >
                     <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <Surface style={styles.modalRequestView}>
-                            <Text style={styles.modalText}>{code}</Text>
+                        <Surface style={{ ...styles.modalRequestView, backgroundColor: colors.contrastColor }}>
                             <Text style={styles.modalHeader}>{household?.name}</Text>
                             <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
                             <View style={styles.avatars}>
@@ -222,8 +227,15 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                                 )}
                             </View>
                             <View style={styles.buttonsContainer}>
-                                <TouchableOpacity onPress={() => onApply()} style={styles.saveButton}>
-                                    <MaterialIcons name="add-circle-outline" size={30} color="black" />
+                                <TouchableOpacity
+                                    onPress={() => onApply()}
+                                    style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                >
+                                    <MaterialIcons
+                                        name="add-circle-outline"
+                                        size={30}
+                                        color={colors.whiteBlackToggle}
+                                    />
                                     <Text style={styles.buttonText}>Ansök</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
@@ -232,9 +244,13 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                                         setCodeSubmitted(false);
                                         setCode("");
                                     }}
-                                    style={styles.closeButton}
+                                    style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
                                 >
-                                    <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
+                                    <MaterialCommunityIcons
+                                        name="close-circle-outline"
+                                        size={30}
+                                        color={colors.whiteBlackToggle}
+                                    />
                                     <Text style={styles.buttonText}>Avbryt</Text>
                                 </TouchableOpacity>
                             </View>
@@ -343,11 +359,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
+        // shadowColor: "rgba(0, 0, 0, 0.1)",
+        // shadowOpacity: 0.8,
+        // elevation: 6,
+        // shadowRadius: 15,
+        // shadowOffset: { width: 1, height: 13 },
         borderBottomRightRadius: 20,
         borderStartWidth: 1,
         borderStartColor: "gainsboro",
@@ -360,11 +376,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
+        // shadowColor: "rgba(0, 0, 0, 0.1)",
+        // shadowOpacity: 0.8,
+        // elevation: 6,
+        // shadowRadius: 15,
+        // shadowOffset: { width: 1, height: 13 },
         borderBottomLeftRadius: 20,
     },
     buttonText: {

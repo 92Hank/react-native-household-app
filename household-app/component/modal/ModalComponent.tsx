@@ -279,7 +279,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
 
                                             {!isClicked ? valueInput : valueForTask}
                                         </View>
-                                        <Surface style={styles.buttonsContainer}>
+                                        <View style={styles.buttonsContainer}>
                                             {!isLoading ? (
                                                 <TouchableOpacity
                                                     onPress={handleSubmit}
@@ -319,7 +319,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                                 />
                                                 <Text style={styles.householdButtonText}>Stäng</Text>
                                             </TouchableOpacity>
-                                        </Surface>
+                                        </View>
                                     </Surface>
                                 </Surface>
                             </Modal>
