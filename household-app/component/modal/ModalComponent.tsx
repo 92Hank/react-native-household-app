@@ -12,6 +12,7 @@ import { useCreateTaskMutation } from "../../Redux/Service/task/taskApi";
 import SnackbarComponent from "../snackbar/snackbarComponent";
 import styles from "./styles";
 import { ActivityIndicator, Colors } from "react-native-paper";
+import * as Yup from "yup";
 import { useTheme } from "react-native-paper";
 
 interface Props {
@@ -19,14 +20,21 @@ interface Props {
     handleAddClose: () => void;
 }
 
-// interface Task {
-//     id: string;
-//     description: string;
-//     value?: number;
-//     householdId?: number;
-//     repeated?: number;
-//     archived?: boolean;
-// }
+interface inputTask {
+    description?: string;
+    name: string;
+}
+
+type PostSchemaType = Record<keyof inputTask, Yup.AnySchema>;
+
+const validationSchema = Yup.object().shape<PostSchemaType>({
+    name: Yup.string()
+        .max(20, ({ max }) => `max ${max} bokstäver!`)
+        .required("Titel måste fyllas i!"),
+    description: Yup.string()
+        .max(50, ({ max }) => `max ${max} bokstäver!`)
+        .required("Beskrivning måste fyllas i!"),
+});
 
 const buttonList: number[] = [1, 2, 4, 6, 8];
 const repeatedList = [
@@ -41,8 +49,6 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     const [isClicked, setIsClicked] = useState(true);
     const [isClickedDays, setIsClickedDays] = useState(true);
     const { setSnackbar, isVisible, message } = useContext(snackbarContext);
-    const onChangeInputName = (name: string) => setName(name);
-    const onChangeInputDescription = (description: string) => setDescription(description);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const { colors } = useTheme();
 
@@ -53,9 +59,9 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     ] = useCreateTaskMutation();
 
     const defaultTask: task = {
-        description: "Make food",
+        description: "",
         archived: false,
-        name: "cook",
+        name: "",
         repeated: 0,
         value: 1,
         houseHoldId: "houseHoldId1",
@@ -89,27 +95,23 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
         }
     }, [error]);
 
-    const handleSubmitForm = () => {
-        if (name && description && repeated && value) {
+    const handleSubmitForm = (task: inputTask) => {
+        console.log("create api");
+        console.log(task);
+        if (task.name && task.description && repeated && value) {
             const v = value as valueType;
             const requestData: task = {
                 houseHoldId: currentHousehold?.id as string,
-                description: description,
-                name: name,
+                description: task.description as string,
+                name: task.name,
                 repeated: repeated,
                 value: v,
                 archived: false,
             };
-            console.log("------- Submit Form -------");
-            console.log("repeated: " + repeated);
-            console.log("description: " + description);
-            console.log("name: " + name);
-            console.log("value: " + value);
-            console.log("household: " + currentHousehold?.id);
-            console.log("------- End of Submit Form -------");
             CreateTask(requestData);
+            task.name = "";
+            task.description = "";
         } else {
-            // alert("APAPAP! Du måste ange ett namn, beskrivning, värde, återkommande!");
             setSnackbar("Fyll i alla värden", true);
         }
     };
@@ -210,12 +212,17 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined} enabled>
             <ScrollView
-                //  contentContainerStyle={{ flexGrow: 1 }}
+                //  contentContainerStyle={{ flexGrow: 1 }}sss
                 {...(Platform.OS === "ios" ? "keyboardDismissMode='interactive'" : null)}
                 keyboardShouldPersistTaps={"handled"}
             >
-                <Formik initialValues={defaultTask} onSubmit={handleSubmitForm}>
-                    {({ errors, values, handleChange, handleSubmit }) => (
+                <Formik
+                    validationSchema={validationSchema}
+                    initialValues={defaultTask}
+                    onSubmit={handleSubmitForm}
+                    validateOnChange={false}
+                >
+                    {({ errors, values, handleChange, handleSubmit, touched }) => (
                         <Surface style={styles.centeredView}>
                             <Modal
                                 animationType="slide"
@@ -241,27 +248,33 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                             }
                                         >
                                             <TextInput
+                                                defaultValue={""}
                                                 theme={{ roundness: 10 }}
                                                 outlineColor={colors.blackWhiteToggle}
                                                 mode="outlined"
                                                 style={{ ...styles.input, backgroundColor: colors.inputColor }}
-                                                value={name}
                                                 label="Titel"
-                                                onChangeText={onChangeInputName}
-                                                textAlign={undefined}
+                                                value={values.name}
+                                                onChangeText={handleChange<keyof inputTask>("name")}
+                                                textAlign={"center"}
                                             />
-
+                                            {errors.name && touched.name && (
+                                                <Text style={{ fontSize: 10, color: "red" }}>{errors.name}</Text>
+                                            )}
                                             <TextInput
+                                                defaultValue={""}
                                                 theme={{ roundness: 10 }}
                                                 outlineColor={colors.blackWhiteToggle}
                                                 mode="outlined"
                                                 style={{ ...styles.input2, backgroundColor: colors.inputColor }}
-                                                value={description}
                                                 label="Beskrivning"
-                                                onChangeText={onChangeInputDescription}
-                                                textAlign={undefined}
+                                                value={values.description}
+                                                onChangeText={handleChange<keyof inputTask>("description")}
+                                                textAlign={"center"}
                                             />
-
+                                            {errors.description && touched.description && (
+                                                <Text style={{ fontSize: 10, color: "red" }}>{errors.description}</Text>
+                                            )}
                                             {!isClickedDays ? repeatedInput : repeatedValue}
 
                                             {!isClicked ? valueInput : valueForTask}
@@ -269,7 +282,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                         <Surface style={styles.buttonsContainer}>
                                             {!isLoading ? (
                                                 <TouchableOpacity
-                                                    onPress={() => handleSubmitForm()}
+                                                    onPress={handleSubmit}
                                                     style={{
                                                         ...styles.saveButton,
                                                         backgroundColor: colors.blackWhiteToggle,

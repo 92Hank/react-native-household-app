@@ -10,6 +10,8 @@ import { useEditTaskMutation } from "../../../../Redux/Service/task/taskApi";
 import styles from "../styles";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import SnackbarComponent from "../../../snackbar/snackbarComponent";
+import * as Yup from "yup";
+import { Formik } from "formik";
 import { useTheme } from "react-native-paper";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -25,6 +27,11 @@ interface TaskNow {
     createdAt: Date;
 }
 
+interface inputTask {
+    description?: string;
+    name: string;
+}
+
 interface Props {
     openEdit: boolean;
     handleModalClose: () => void;
@@ -36,6 +43,17 @@ const buttonList: number[] = [1, 2, 4, 6, 8];
 const repeatedList = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
 ];
+
+type PostSchemaType = Record<keyof inputTask, Yup.AnySchema>;
+
+const validationSchema = Yup.object().shape<PostSchemaType>({
+    name: Yup.string()
+        .max(20, ({ max }) => `max ${max} bokstäver!`)
+        .required("Titel måste fyllas i!"),
+    description: Yup.string()
+        .max(50, ({ max }) => `max ${max} bokstäver!`)
+        .required("Beskrivning måste fyllas i!"),
+});
 
 const EditTaskInputModal = (props: Props) => {
     const currentHousehold = useAppSelector(selectSelectedHousehold);
@@ -91,14 +109,15 @@ const EditTaskInputModal = (props: Props) => {
         }
     }, [successEdit]);
 
-    const onEdit = () => {
+    const onEdit = (task: inputTask) => {
         console.log("edit api");
+        console.log(task);
         if (name && description && repeated && value) {
             const v = value as valueType;
             const requestData: task = {
                 houseHoldId: currentHousehold?.id as string,
-                description: description,
-                name: name,
+                description: task.description as string,
+                name: task.name,
                 repeated: repeated,
                 value: v,
                 archived: false,
@@ -212,7 +231,7 @@ const EditTaskInputModal = (props: Props) => {
             </Surface>
         </Surface>
     );
-
+    console.log("defaultTask: =>", defaultTask);
     return (
         <Modal
             animationType="slide"
@@ -222,69 +241,85 @@ const EditTaskInputModal = (props: Props) => {
                 props.openEdit;
             }}
         >
-            <Surface style={[props.openEdit ? styles.centeredViewBlurred : styles.centeredView]}>
-                <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
-                    <SnackbarComponent isVisible={isVisible} message={message} />
-                    <Surface style={styles.modalTextView}>
-                        <Text style={styles.modalText}>Ändra syssla</Text>
-                    </Surface>
-                    <View
-                        style={
-                            {
-                                // position: "absolute",
-                                // alignItems: "center",
-                                // marginTop: 25,
-                            }
-                        }
-                    >
-                        <TextInput
-                            defaultValue={defaultTask.name}
-                            theme={{ roundness: 10 }}
-                            outlineColor={colors.blackWhiteToggle}
-                            mode="outlined"
-                            style={{ ...styles.input, backgroundColor: colors.inputColor }}
-                            label="Titel"
-                            onChangeText={(text) => onChangeInputName(text)}
-                            textAlign={undefined}
-                        />
-                        <TextInput
-                            defaultValue={defaultTask.description}
-                            theme={{ roundness: 10 }}
-                            outlineColor={colors.blackWhiteToggle}
-                            mode="outlined"
-                            style={{ ...styles.input2, backgroundColor: colors.inputColor }}
-                            label="Beskrivning"
-                            onChangeText={(text) => onChangeInputDescription(text)}
-                            textAlign={undefined}
-                        />
-                        {!isClickedDays ? repeatedInput : repeatedValue}
-                        {!isClicked ? valueInput : valueForTask}
-                    </View>
-                    <Surface style={styles.buttonsContainer}>
-                        <TouchableOpacity
-                            onPress={() => onEdit()}
-                            style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
-                        >
-                            <MaterialIcons name="check-circle" size={30} color={colors.whiteBlackToggle} />
-                            <Text style={styles.buttonText}>Ändra</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={props.handleClose}
-                            style={{
-                                ...styles.closeButton,
-                                backgroundColor: colors.blackWhiteToggle,
-                            }}
-                        >
-                            <MaterialCommunityIcons
-                                name="close-circle-outline"
-                                size={30}
-                                color={colors.whiteBlackToggle}
-                            />
-                            <Text style={styles.buttonText}>Stäng</Text>
-                        </TouchableOpacity>
-                    </Surface>
-                </Surface>
-            </Surface>
+            {defaultTask && (
+                <Formik
+                    validationSchema={validationSchema}
+                    initialValues={defaultTask}
+                    onSubmit={onEdit}
+                    validateOnChange={false}
+                >
+                    {({ errors, handleChange, handleSubmit, touched }) => (
+                        <Surface style={[props.openEdit ? styles.centeredViewBlurred : styles.centeredView]}>
+                            <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
+                                <SnackbarComponent isVisible={isVisible} message={message} />
+                                <Surface style={styles.modalTextView}>
+                                    <Text style={styles.modalText}>Ändra syssla</Text>
+                                </Surface>
+                                <View
+                                    style={{
+                                        position: "absolute",
+                                        alignItems: "center",
+                                        marginTop: 25,
+                                    }}
+                                >
+                                    <TextInput
+                                        defaultValue={defaultTask.name || "Pelle"}
+                                        theme={{ roundness: 10 }}
+                                        outlineColor="white"
+                                        mode="outlined"
+                                        style={styles.input}
+                                        label="Titel"
+                                        onChangeText={handleChange<keyof inputTask>("name")}
+                                        textAlign={"center"}
+                                    />
+                                    {errors.name && touched.name && (
+                                        <Text style={{ fontSize: 10, color: "red" }}>{errors.name}</Text>
+                                    )}
+                                    <TextInput
+                                        defaultValue={defaultTask.description || "Pelle"}
+                                        theme={{ roundness: 10 }}
+                                        outlineColor="white"
+                                        mode="outlined"
+                                        style={styles.input2}
+                                        label="Beskrivning"
+                                        onChangeText={handleChange<keyof inputTask>("description")}
+                                        textAlign={"center"}
+                                    />
+                                    {errors.description && touched.description && (
+                                        <Text style={{ fontSize: 10, color: "red" }}>{errors.description}</Text>
+                                    )}
+                                    {!isClickedDays ? repeatedInput : repeatedValue}
+
+                                    {!isClicked ? valueInput : valueForTask}
+                                </View>
+                                <Surface style={styles.buttonsContainer}>
+                                    <TouchableOpacity
+                                        onPress={handleSubmit}
+                                        style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <MaterialIcons name="check-circle" size={30} color={colors.whiteBlackToggle} />
+                                        <Text style={styles.buttonText}>Ändra</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={props.handleClose}
+                                        style={{
+                                            ...styles.closeButton,
+                                            backgroundColor: colors.blackWhiteToggle,
+                                        }}
+                                    >
+                                        <MaterialCommunityIcons
+                                            name="close-circle-outline"
+                                            size={30}
+                                            color={colors.whiteBlackToggle}
+                                        />
+                                        <Text style={styles.buttonText}>Stäng</Text>
+                                    </TouchableOpacity>
+                                </Surface>
+                            </Surface>
+                        </Surface>
+                    )}
+                </Formik>
+            )}
         </Modal>
     );
 };
