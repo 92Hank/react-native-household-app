@@ -24,7 +24,6 @@ type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
 
 const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const user = useAppSelector(selectCurrentLoginUser);
-    if (!user) return <view></view>;
 
     const [modalOpen, setModalOpen] = useState(false);
     const [openLeaveModal, setOpenLeaveModal] = useState(false);
@@ -36,6 +35,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     const [openChangeName, setOpenChangeName] = useState(false);
     const [members, setMembers] = useState<fullMemberInfo[]>();
     const [pendingMembers, setPendingMembers] = useState<fullMemberInfo[]>();
+    if (!user) return <view></view>;
     const [isLoading, setIsLoading] = useState(false);
 
     const clickOnMember = (item: fullMemberInfo) => {

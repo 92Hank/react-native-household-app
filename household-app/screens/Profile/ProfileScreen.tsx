@@ -1,7 +1,6 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Switch, TouchableRipple } from "react-native-paper";
-import Button from "../../component/common/Button";
+import { Avatar, Card, Divider, Surface, Switch, TouchableRipple } from "react-native-paper";
 import { PreferencesContext } from "../../context/PreferencesContext";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
@@ -10,64 +9,117 @@ type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const { theme, toggleTheme } = React.useContext(PreferencesContext);
 
-    const onPressTasks = () => {
-        navigation.navigate(MainRoutes.TasksScreen);
+    const [isEnabled, setIsEnabled] = useState(false);
+    const [switchValue, setSwitchValue] = useState(false);
+
+    //To handle switch toggle
+    const toggleSwitch = () => {
+        setSwitchValue(true);
     };
 
     return (
-        <View style={styles.container}>
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-            {/* @ts-ignore */}
-            <TouchableRipple onPress={toggleTheme}>
-                <View style={styles.preference}>
-                    <Text style={styles.text}>Dark Theme</Text>
-                    <View pointerEvents="none">
-                        <Switch
-                            ios_backgroundColor="salmon"
-                            value={theme === "dark"}
-                            trackColor={{ false: "black", true: "turquoise" }}
-                        />
-                    </View>
+        <>
+            <View style={styles.topBar}>
+                <View style={styles.leftSide}>
+                    <Text style={styles.themeText}>Test</Text>
                 </View>
-            </TouchableRipple>
-            <Button iconType={{ type: "FontAwesome5", icons: "tasks" }} text="Tasks" onPress={onPressTasks}></Button>
-            {/* <TouchableOpacity onPress={onPressTasks} style={styles.button}>
-                <Text style={styles.buttonText}>Tasks</Text>
-            </TouchableOpacity> */}
-            <Text style={styles.text}>Profile</Text>
-        </View>
+                <View style={styles.avatarImage}>
+                    <Avatar.Image
+                        size={120}
+                        source={require("../../assets/logotypeBlack/logoBS.png")}
+                        style={styles.profileImage}
+                    />
+                </View>
+                <View style={styles.darkThemeButton}>
+                    <TouchableRipple onPress={toggleTheme} hasTVPreferredFocus={false} tvParallaxProperties={{}}>
+                        <View style={styles.preference}>
+                            <Text style={styles.themeText}>{switchValue ? "☀️" : "🌙"}</Text>
+                            <View pointerEvents="none">
+                                <Switch
+                                    ios_backgroundColor="salmon"
+                                    value={theme === "dark"}
+                                    trackColor={{ false: "grey", true: "white" }}
+                                    thumbColor={theme === "dark" ? "grey" : "white"}
+                                    onValueChange={toggleSwitch}
+                                />
+                            </View>
+                        </View>
+                    </TouchableRipple>
+                </View>
+            </View>
+            <Surface style={styles.container}>
+                <Text style={styles.labelText}>User Name</Text>
+                <Text style={styles.text}>Lilo24</Text>
+                <Divider style={styles.divider} />
+
+                <Text style={styles.labelText}>Nick Name</Text>
+                <Text style={styles.text}>StitchGoesCrazy</Text>
+                <Divider style={styles.divider} />
+
+                <Text style={styles.labelText}>Password</Text>
+                <Text style={styles.text}>***********</Text>
+                <Divider style={styles.divider} />
+            </Surface>
+        </>
     );
 };
 
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
+    topBar: {
+        flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
+        paddingVertical: 24,
+    },
+    leftSide: {
+        flex: 1,
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        marginLeft: 16,
+    },
+    avatarImage: {
+        justifyContent: "center",
+        alignItems: "center",
+        flex: 3,
+    },
+    profileImage: {
+        backgroundColor: "white",
+        resizeMode: "contain",
+    },
+    darkThemeButton: {
+        paddingRight: 24,
+        justifyContent: "flex-end",
+    },
+    preference: {
+        alignItems: "flex-end",
+        flexDirection: "row",
+    },
+    themeText: {
+        color: "grey",
+        lineHeight: 50,
+    },
+    container: {
+        flex: 1,
+        marginTop: 20,
+    },
+    content: {
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
+        marginHorizontal: 16,
+    },
+    labelText: {
+        color: "grey",
+        fontSize: 16,
     },
     text: {
         color: "grey",
+        fontSize: 24,
+        marginBottom: 16,
     },
-    buttonText: {
-        color: "black",
-        fontSize: 16,
-    },
-    button: {
-        margin: 15,
-        backgroundColor: "#D8D8D8",
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-        borderRadius: 100,
-        width: 100,
-        alignItems: "center",
-    },
-    preference: {
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        paddingVertical: 12,
-        paddingHorizontal: 16,
+    divider: {
+        color: "grey",
+        maxWidth: "100%",
     },
 });
