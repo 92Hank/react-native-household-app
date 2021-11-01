@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
@@ -16,7 +16,6 @@ const EmojiSelector: FC<Props> = ({ selectedAvatars, avatarList, avatarSelect }:
                         <TouchableOpacity
                             onPress={() => {
                                 avatarSelect(Number(avatarList[index]));
-                                console.log("click", Number(avatarList[index]), Avatars[Number(avatarList[index])]);
                             }}
                             key={index}
                         >

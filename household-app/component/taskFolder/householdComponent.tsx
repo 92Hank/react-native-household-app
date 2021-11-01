@@ -38,7 +38,6 @@ export default function HouseholdComponent(props: Props) {
         const memberAvatar = props.member.emoji;
         let avatars = Object.keys(Avatars);
         avatars = avatars.filter((x) => isNaN(Number(x)));
-        console.log(avatars);
         for (let index = 0; index < avatars.length; index++) {
             if (index === memberAvatar - 1) {
                 setAvatar(avatars[index]);

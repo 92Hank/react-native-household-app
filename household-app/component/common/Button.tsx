@@ -1,6 +1,6 @@
 import { FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { FC } from "react";
-import { StyleSheet, Text, TextStyle, TouchableOpacity, useColorScheme, ViewStyle } from "react-native";
+import { StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from "react-native";
 import { PreferencesContext } from "../../context/PreferencesContext";
 
 type iconType =
@@ -37,7 +37,6 @@ type color = {
 
 const Button: FC<Props> = ({ text, iconType, onPress, buttonStyle, textStyle }: Props): React.ReactElement => {
     const { theme } = React.useContext(PreferencesContext);
-    console.log("themer", theme);
 
     const textColor: color = { color: theme === "light" ? "black" : "white" };
     const buttonColor: backgroundColor = { backgroundColor: theme === "light" ? "white" : "dimgrey" };
