@@ -8,6 +8,8 @@ export const userApi = createApi({
         baseUrl: webUrl + "users",
     }),
     tagTypes: ["User"],
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
     refetchOnMountOrArgChange: true,
     endpoints: (builder) => ({
         createUser: builder.mutation<string, user>({

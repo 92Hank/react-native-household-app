@@ -8,6 +8,8 @@ export const doneTaskApi = createApi({
         baseUrl: webUrl + "donetask",
     }),
     tagTypes: ["Task"],
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
     refetchOnMountOrArgChange: true,
 
     endpoints: (builder) => ({
