@@ -244,6 +244,7 @@ const EditTaskInputModal = (props: Props) => {
                             style={styles.input}
                             label="Titel"
                             onChangeText={(text) => onChangeInputName(text)}
+                            textAlign={undefined}
                         />
                         <TextInput
                             defaultValue={defaultTask.description}
@@ -253,6 +254,7 @@ const EditTaskInputModal = (props: Props) => {
                             style={styles.input2}
                             label="Beskrivning"
                             onChangeText={(text) => onChangeInputDescription(text)}
+                            textAlign={undefined}
                         />
 
                         {!isClickedDays ? repeatedInput : repeatedValue}

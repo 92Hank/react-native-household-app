@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
-import { Modal, Text, TouchableOpacity, View } from "react-native";
+import { Modal, TouchableOpacity, View } from "react-native";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
@@ -15,7 +15,9 @@ import { snackbarContext } from "../../../context/snackBarContext";
 import styles from "./styles";
 import { valueType } from "../../../../Common/value";
 import EditTaskInputModal from "./editTaskInputModal/editTaskInputModal";
-import { ActivityIndicator, Colors } from "react-native-paper";
+import { ActivityIndicator, Colors, Surface, Text } from "react-native-paper";
+import { useTheme } from "react-native-paper";
+
 interface TaskNow {
     id?: string;
     name: string;
@@ -41,6 +43,7 @@ function TaskModal(props: Props) {
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const { setSnackbar } = useContext(snackbarContext);
+    const { colors } = useTheme();
 
     const [
         createDoneTask, // This is the mutation trigger
@@ -144,7 +147,7 @@ function TaskModal(props: Props) {
     }, [rights]);
 
     return (
-        <View style={styles.centeredView}>
+        <Surface style={styles.centeredView}>
             {props.task && (
                 <Modal
                     animationType="slide"
@@ -168,12 +171,12 @@ function TaskModal(props: Props) {
                             openDelete;
                         }}
                     >
-                        <View style={[openDelete ? styles.centeredViewBlurred : styles.centeredView]}>
-                            <View style={styles.modalViewDelete}>
+                        <Surface style={[openDelete ? styles.centeredViewBlurred : styles.centeredView]}>
+                            <Surface style={{ ...styles.modalViewDelete, backgroundColor: colors.contrastColor }}>
                                 <Text style={styles.warningText}>
                                     Varning! arkivera sysslan om du vill ha kvar den i statistiken
                                 </Text>
-                                <View style={styles.buttonsContainer}>
+                                <Surface style={styles.buttonsContainer}>
                                     <TouchableOpacity onPress={() => onDelete()} style={styles.saveButtonDelete}>
                                         <MaterialIcons name="delete" size={30} color="black" />
                                         <Text style={styles.buttonText}>Radera</Text>
@@ -187,42 +190,43 @@ function TaskModal(props: Props) {
                                         <MaterialCommunityIcons name="close" size={30} color="black" />
                                         <Text style={styles.buttonText}>Stäng</Text>
                                     </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
+                                </Surface>
+                            </Surface>
+                        </Surface>
                     </Modal>
-                    <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <View style={styles.modalView2}>
-                            <View style={styles.modalTextView}>
-                                <Text style={styles.modalText}>Administrera</Text>
-                            </View>
-                            <View
+                    <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
+                        <Surface style={{ ...styles.modalView2, backgroundColor: colors.contrastColor }}>
+                            <Surface style={styles.modalTextView}>
+                                <Text style={styles.modalText}>{props.task.name}</Text>
+                            </Surface>
+                            <Surface
                                 style={{
-                                    position: "absolute",
-                                    justifyContent: "center",
+                                    // position: "absolute",
+                                    // justifyContent: "center",
                                     alignItems: "flex-start",
                                     marginTop: 90,
+                                    width: "100%",
+                                    padding: 20,
+                                    // backgroundColor: colors.myOwnColor,
                                 }}
                             >
-                                <Text style={styles.modalText2}>
+                                {/* <Text style={styles.modalText2}>
                                     Syssla:
                                     <Text style={styles.modalText2}>{" " + props.task.name}</Text>
-                                </Text>
-                                <Text style={styles.modalText2}>
-                                    Beskrivning:
-                                    <Text style={styles.modalText2}>{" " + props.task.description}</Text>
-                                </Text>
-                                <Text style={styles.modalText2}>
-                                    Återkommer:
-                                    <Text style={styles.modalText2}>{" var " + props.task.repeated + " dag"}</Text>
-                                </Text>
-                                <Text style={styles.modalText2}>
-                                    Värde:
-                                    <Text style={styles.modalText2}>{" " + props.task.value}</Text>
-                                </Text>
-                            </View>
+                                </Text> */}
+                                <Text style={styles.modalText2}>Beskrivning:</Text>
+                                <Text style={styles.taskText}>{props.task.description}</Text>
+                                <Text style={styles.modalText2}>Återkommer:</Text>
+                                {props.task.repeated === 1 ? (
+                                    <Text style={styles.taskText}>{"Varje dag"}</Text>
+                                ) : (
+                                    <Text style={styles.taskText}>{"Var " + props.task.repeated + " dag"}</Text>
+                                )}
+                                <Text style={styles.modalText2}>Värde:</Text>
+                                <Text style={styles.taskText}>{props.task.value}</Text>
+                            </Surface>
                             {rights && (
-                                <View
+                                <Surface
                                     style={{
                                         alignItems: "center",
                                         justifyContent: "center",
@@ -234,37 +238,55 @@ function TaskModal(props: Props) {
                                         position: "absolute",
                                     }}
                                 >
-                                    <TouchableOpacity onPress={handleEditClick} style={styles.householdButton}>
-                                        <Feather name="edit-2" size={30} color="black" />
+                                    <TouchableOpacity
+                                        onPress={handleEditClick}
+                                        style={{ ...styles.householdButton, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <Feather name="edit-2" size={30} color={colors.whiteBlackToggle} />
                                         <Text style={styles.householdButtonText}>Ändra</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={handleDeleteClick} style={styles.householdButton2}>
-                                        <MaterialIcons name="delete" size={30} color="black" />
+                                    <TouchableOpacity
+                                        onPress={handleDeleteClick}
+                                        style={{ ...styles.householdButton2, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <MaterialIcons name="delete" size={30} color={colors.whiteBlackToggle} />
                                         <Text style={styles.householdButtonText}>Radera</Text>
                                     </TouchableOpacity>
-                                </View>
+                                </Surface>
                             )}
-                            <View style={styles.buttonsContainer}>
+                            <Surface style={styles.buttonsContainer}>
                                 {!isLoading ? (
-                                    <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
-                                        <MaterialIcons name="check-circle" size={30} color="black" />
+                                    <TouchableOpacity
+                                        onPress={() => onSave()}
+                                        style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <MaterialIcons name="check-circle" size={30} color={colors.whiteBlackToggle} />
                                         <Text style={styles.buttonText}>Klar</Text>
                                     </TouchableOpacity>
                                 ) : (
-                                    <TouchableOpacity style={styles.saveButton}>
+                                    <TouchableOpacity
+                                        style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                    >
                                         <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
                                     </TouchableOpacity>
                                 )}
-                                <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
-                                    <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
+                                <TouchableOpacity
+                                    onPress={props.handleModalClose}
+                                    style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
+                                >
+                                    <MaterialCommunityIcons
+                                        name="close-circle-outline"
+                                        size={30}
+                                        color={colors.whiteBlackToggle}
+                                    />
                                     <Text style={styles.buttonText}>Stäng</Text>
                                 </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
+                            </Surface>
+                        </Surface>
+                    </Surface>
                 </Modal>
             )}
-        </View>
+        </Surface>
     );
 }
 

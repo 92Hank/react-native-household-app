@@ -73,6 +73,10 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
         console.log("isSuccess", isSuccess);
         if (isSuccess) {
             setSnackbar("success", true);
+            setName("");
+            setDescription("");
+            setValue(undefined);
+            setRepeated(undefined);
             handleAddClose();
         }
     }, [isSuccess]);
