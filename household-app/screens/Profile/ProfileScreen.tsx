@@ -33,7 +33,7 @@ const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => 
                 <View style={styles.darkThemeButton}>
                     <TouchableRipple onPress={toggleTheme} hasTVPreferredFocus={false} tvParallaxProperties={{}}>
                         <View style={styles.preference}>
-                            <Text style={styles.themeText}>{switchValue ? "☀️" : "🌙"}</Text>
+                            <Text style={styles.themeText}>{theme === "dark" ? "☀️" : "🌙"}</Text>
                             <View pointerEvents="none">
                                 <Switch
                                     ios_backgroundColor="salmon"
