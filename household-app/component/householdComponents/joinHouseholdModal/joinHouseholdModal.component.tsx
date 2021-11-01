@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useContext, useEffect, useState } from "react";
 import { Dimensions, Modal, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Surface, TextInput, Text } from "react-native-paper";
+import { Surface, TextInput, Text, useTheme } from "react-native-paper";
 import { webUrl } from "../../../Redux/Config";
 import { household, householdJoin } from "../../../../Common/household";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
@@ -9,7 +9,7 @@ import { useAppSelector } from "../../../Redux/hooks";
 import { useJoinHouseholdMutation } from "../../../Redux/Service/household/householdApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 import { snackbarContext } from "../../../context/snackBarContext";
-import { string } from "yup/lib/locale";
+// import { string } from "yup/lib/locale";
 
 interface DefaultProps {
     isOpen: boolean;
@@ -43,22 +43,13 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     const [emojis, setAvatars] = useState<string[]>();
     const [renderAvatar, setRenderAvatar] = useState(false);
     const { setSnackbar } = useContext(snackbarContext);
+    const { colors } = useTheme();
 
     const user = useAppSelector(selectCurrentLoginUser);
-
-    if (!user) {
-        props.navigation.navigate(MainRoutes.LoginScreen);
-        return <View></View>;
-    }
+    const [JoinHousehold, { status, isSuccess, error, isLoading }] = useJoinHouseholdMutation();
 
     let avatars = Object.keys(Avatars).filter((key) => !isNaN(Number(key)));
     const existingAvatars: Avatars[] = [];
-
-    const [
-        JoinHousehold, // This is the mutation trigge
-
-        { status, isSuccess, error, isLoading }, // This is the destructured mutation result
-    ] = useJoinHouseholdMutation();
 
     useEffect(() => {
         console.log("isSuccess", isSuccess);
@@ -84,6 +75,11 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
             console.log("error", error);
         }
     }, [error]);
+
+    if (!user) {
+        props.navigation.navigate(MainRoutes.LoginScreen);
+        return <View></View>;
+    }
 
     const avatarSelect = (index: number) => {
         setAvatarIndex(index);
@@ -175,11 +171,19 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
 
                             <View style={styles.buttonsContainer}>
                                 <TouchableOpacity onPress={() => onSubmit()} style={styles.saveButton}>
-                                    <MaterialIcons name="add-circle-outline" size={30} color="black" />
+                                    <MaterialIcons
+                                        name="add-circle-outline"
+                                        size={30}
+                                        color={colors.whiteBlackToggle}
+                                    />
                                     <Text style={styles.buttonText}>Sök</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
-                                    <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
+                                    <MaterialCommunityIcons
+                                        name="close-circle-outline"
+                                        size={30}
+                                        color={colors.whiteBlackToggle}
+                                    />
                                     <Text style={styles.buttonText}>Stäng</Text>
                                 </TouchableOpacity>
                             </View>

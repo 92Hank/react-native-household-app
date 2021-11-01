@@ -2,20 +2,20 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { FC, useContext, useEffect, useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Colors } from "react-native-paper";
 import Button from "../../component/common/Button";
 import TaskModal from "../../component/householdComponents/taskModal/taskModal";
 import ModalComponent from "../../component/modal/ModalComponent";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
+import ArchivedTaskCard from "../../component/taskFolder/ArchivedTaskCard";
 import TaskCard from "../../component/taskFolder/TaskCard";
+import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
-import { useGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
-import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
+import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
+import { useLazyGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import SnackbarComponent from "../../component/snackbar/snackbarComponent";
-import { snackbarContext } from "../../context/snackBarContext";
-import ArchivedTaskCard from "../../component/taskFolder/ArchivedTaskCard";
-import { ActivityIndicator, Colors } from "react-native-paper";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 const deviceHeight = Math.round(Dimensions.get("window").height);
@@ -34,8 +34,23 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const user = useAppSelector(selectCurrentLoginUser);
     const { message, isVisible } = useContext(snackbarContext);
 
-    const { data: tasksData, isLoading } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
-    const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
+    const [loadHouseholdData, householdResult] = useLazyGetTaskByHouseholdIdQuery();
+    const { data: tasksData, isLoading } = householdResult;
+
+    const [loadDoneTaskData, doneTaskResult] = useLazyGetDoneTasksWithHouseholdIdQuery();
+    const { data: doneTasksData } = doneTaskResult;
+
+    useEffect(() => {
+        if (!user || !currentHousehold) return;
+        loadHouseholdData(currentHousehold.id);
+        loadDoneTaskData(currentHousehold.id);
+    }, []);
+
+    if (!user || !currentHousehold) return <View></View>;
+
+    // const { data: tasksData, isLoading } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
+    // const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
+
     const isToday = (someDate: any): boolean => {
         const today = new Date();
         const value = new Date(someDate._seconds * 1000);

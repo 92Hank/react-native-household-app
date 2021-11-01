@@ -45,8 +45,11 @@ export const getHousehold = (req: Request, res: Response): void => {
       .doc(householdId)
       .get()
       .then((household) => {
-        if (!household.exists) throw new Error("Household not found");
-        res.status(200).json({id: household.id, data: household.data()});
+        if (!household.exists) res.status(404).send("Household not found");
+
+        let data = household.data();
+        data!.id = household.id;
+        res.status(200).json(data);
       })
       .catch((error) => res.status(500).send(error));
 };

@@ -1,27 +1,22 @@
 /* eslint-disable react/jsx-no-undef */
 import React, { FC, useContext, useEffect, useState } from "react";
-import { View, TouchableOpacity, FlatList, StyleSheet, Text, Dimensions } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
-import UserListComponent from "../../component/taskFolder/householdComponent";
-import ChangeMemberStatusModal from "../../component/householdComponents/changeMemberStatusModal/changeMemberStatusModal";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { defineAnimation } from "react-native-reanimated";
-import { useAppSelector } from "../../Redux/hooks";
-import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
-import SnackbarComponent from "../../component/snackbar/snackbarComponent";
-import { snackbarContext } from "../../context/snackBarContext";
-import LeaveModal from "../../component/householdComponents/leaveModal/leaveModal";
-import { useLeaveHouseholdMutation } from "../../Redux/Service/household/householdApi";
-import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
-import ChangeHouseholdNameModal from "../../component/householdComponents/changeHouseholdNameModal/changeHouseholdNameModal";
-import { Surface } from "react-native-paper";
-import PendingMemberTaskCard from "../../component/householdComponents/pendingMemberCard/pendingMemberCard";
+import { Dimensions, FlatList, StyleSheet, View } from "react-native";
+import { Surface, Text } from "react-native-paper";
 import Button from "../../component/common/Button";
-import { ActivityIndicator, Colors } from "react-native-paper";
+import ChangeHouseholdNameModal from "../../component/householdComponents/changeHouseholdNameModal/changeHouseholdNameModal";
+import ChangeMemberStatusModal from "../../component/householdComponents/changeMemberStatusModal/changeMemberStatusModal";
+import LeaveModal from "../../component/householdComponents/leaveModal/leaveModal";
+import PendingMemberTaskCard from "../../component/householdComponents/pendingMemberCard/pendingMemberCard";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
+import UserListComponent from "../../component/taskFolder/householdComponent";
+import { snackbarContext } from "../../context/snackBarContext";
+import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
+import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
+import { useAppSelector } from "../../Redux/hooks";
+import { useLazyGetHouseholdByIdQuery, useLeaveHouseholdMutation } from "../../Redux/Service/household/householdApi";
+import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
-
 const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const user = useAppSelector(selectCurrentLoginUser);
 
@@ -35,8 +30,13 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     const [openChangeName, setOpenChangeName] = useState(false);
     const [members, setMembers] = useState<fullMemberInfo[]>();
     const [pendingMembers, setPendingMembers] = useState<fullMemberInfo[]>();
-    if (!user) return <view></view>;
-    const [isLoading, setIsLoading] = useState(false);
+    const [loadData, result] = useLazyGetHouseholdByIdQuery();
+
+    useEffect(() => {
+        if (!user || !currentHousehold) return;
+        loadData(currentHousehold.id);
+    }, []);
+    if (!user || !currentHousehold) return <view></view>;
 
     const clickOnMember = (item: fullMemberInfo) => {
         console.log("click");
@@ -62,7 +62,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     const closeNameModal = () => setOpenChangeName(false);
 
     const handleLeaveClick = () => {
-        leaveHouseHoldApi({ houseHoldId: currentHousehold?.id as string, userId: user.id as string });
+        leaveHouseHoldApi({ houseHoldId: result.data?.id as string, userId: user.id as string });
         console.log("leave api");
         setOpenLeaveModal(false);
     };
@@ -83,15 +83,16 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     };
 
     useEffect(() => {
-        if (currentHousehold) {
-            setMembers(currentHousehold.member.filter((m) => m.AcceptedStatus === "accepted"));
-            setPendingMembers(currentHousehold.member.filter((m) => m.AcceptedStatus === "pending"));
+        const { data } = result;
+        if (data?.member) {
+            setMembers(data.member.filter((m) => m.AcceptedStatus === "accepted"));
+            setPendingMembers(data.member.filter((m) => m.AcceptedStatus === "pending"));
         }
-    }, [currentHousehold]);
+    }, [result.data]);
 
     useEffect(() => {
         if (isSuccess) {
-            setSnackbar("Du har lämnat hushåll: " + currentHousehold?.name, true);
+            setSnackbar("Du har lämnat hushåll: " + result.data?.name, true);
             navigation.navigate(MainRoutes.HouseholdScreen);
         }
     }, [isSuccess]);
@@ -104,19 +105,22 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     }, [error]);
 
     useEffect(() => {
-        currentHousehold?.member.forEach((m) => {
+        const { data } = result;
+        data?.member.forEach((m) => {
             if (m.userId === user?.id && m.isOwner) {
                 setRights(true);
             }
         });
     }, [rights]);
 
+    if (!user) return <view></view>;
+
     return (
         <View style={styles.container}>
             <SnackbarComponent isVisible={isVisible} message={message} />
             <View>
                 <Surface>
-                    <Text style={styles.inviteCode}>Hushållskod: {currentHousehold?.inviteCode}</Text>
+                    <Text style={styles.inviteCode}>Hushållskod: {result.data?.inviteCode}</Text>
                 </Surface>
                 <View style={styles.listContainer}>
                     <FlatList

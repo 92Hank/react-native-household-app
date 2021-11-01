@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useContext, useEffect, useState } from "react";
 import { Dimensions, Modal, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Surface, TextInput, Text } from "react-native-paper";
+import { Surface, TextInput, Text, useTheme } from "react-native-paper";
 import { householdCreate } from "../../../../Common/household";
 import { snackbarContext } from "../../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
@@ -40,17 +40,9 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     const [avatar, setAvatar] = useState<string>();
     const avatars = Object.keys(Avatars).filter((key) => isNaN(Number(key)));
     const { setSnackbar, isVisible, message } = useContext(snackbarContext);
+    const { colors } = useTheme();
 
-    if (!user) {
-        props.navigation.navigate(MainRoutes.LoginScreen);
-        return <View></View>;
-    }
-
-    const [
-        CreateHousehold, // This is the mutation trigger
-
-        { status, isSuccess, error, isLoading }, // This is the destructured mutation result
-    ] = useCreateHouseholdMutation();
+    const [CreateHousehold, { status, isSuccess, error, isLoading }] = useCreateHouseholdMutation();
 
     useEffect(() => {
         console.log("isSuccess", isSuccess);
@@ -74,6 +66,11 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
             console.log("error", error);
         }
     }, [error]);
+
+    if (!user) {
+        props.navigation.navigate(MainRoutes.LoginScreen);
+        return <View></View>;
+    }
 
     const avatarSelect = (index: number) => {
         setAvatar(index.toString());
@@ -144,11 +141,15 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                         </View>
                         <View style={styles.buttonsContainer}>
                             <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
-                                <MaterialIcons name="add-circle-outline" size={30} color="black" />
+                                <MaterialIcons name="add-circle-outline" size={30} color={colors.whiteBlackToggle} />
                                 <Text style={styles.buttonText}>Spara</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
-                                <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
+                                <MaterialCommunityIcons
+                                    name="close-circle-outline"
+                                    size={30}
+                                    color={colors.whiteBlackToggle}
+                                />
                                 <Text style={styles.buttonText}>Stäng</Text>
                             </TouchableOpacity>
                         </View>

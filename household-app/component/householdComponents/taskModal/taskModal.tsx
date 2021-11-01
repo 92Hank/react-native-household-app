@@ -174,20 +174,40 @@ function TaskModal(props: Props) {
                         <Surface style={[openDelete ? styles.centeredViewBlurred : styles.centeredView]}>
                             <Surface style={{ ...styles.modalViewDelete, backgroundColor: colors.contrastColor }}>
                                 <Text style={styles.warningText}>
-                                    Varning! arkivera sysslan om du vill ha kvar den i statistiken
+                                    Varning! Arkivera sysslan om du vill ha kvar den i statistiken
                                 </Text>
                                 <Surface style={styles.buttonsContainer}>
-                                    <TouchableOpacity onPress={() => onDelete()} style={styles.saveButtonDelete}>
-                                        <MaterialIcons name="delete" size={30} color="black" />
+                                    <TouchableOpacity
+                                        onPress={() => onDelete()}
+                                        style={{ ...styles.saveButtonDelete, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <MaterialIcons name="delete" size={30} color={colors.whiteBlackToggle} />
                                         <Text style={styles.buttonText}>Radera</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => onArchive()} style={styles.archiveButton}>
-                                        <MaterialCommunityIcons name="archive" size={30} color="black" />
+                                    <TouchableOpacity
+                                        onPress={() => onArchive()}
+                                        style={{ ...styles.archiveButton, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <MaterialCommunityIcons
+                                            name="archive"
+                                            size={30}
+                                            color={colors.whiteBlackToggle}
+                                        />
                                         <Text style={styles.buttonText}>Arkivera</Text>
                                     </TouchableOpacity>
 
-                                    <TouchableOpacity onPress={() => onClose()} style={styles.closeButtonDelete}>
-                                        <MaterialCommunityIcons name="close" size={30} color="black" />
+                                    <TouchableOpacity
+                                        onPress={() => onClose()}
+                                        style={{
+                                            ...styles.closeButtonDelete,
+                                            backgroundColor: colors.blackWhiteToggle,
+                                        }}
+                                    >
+                                        <MaterialCommunityIcons
+                                            name="close"
+                                            size={30}
+                                            color={colors.whiteBlackToggle}
+                                        />
                                         <Text style={styles.buttonText}>Stäng</Text>
                                     </TouchableOpacity>
                                 </Surface>

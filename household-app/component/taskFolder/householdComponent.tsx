@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Pressable, StyleSheet, Text, Dimensions } from "react-native";
+import { View, Pressable, StyleSheet, Dimensions } from "react-native";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../Redux/hooks";
-import { Surface } from "react-native-paper";
+import { Surface, Text } from "react-native-paper";
 
 interface fullMemberInfo {
     name: string;
@@ -32,19 +32,18 @@ interface Props {
 export default function HouseholdComponent(props: Props) {
     const [avatar, setAvatar] = useState<string>();
 
+    const user = useAppSelector(selectCurrentLoginUser);
+
     useEffect(() => {
         const memberAvatar = props.member.emoji;
         let avatars = Object.keys(Avatars);
         avatars = avatars.filter((x) => isNaN(Number(x)));
-        console.log(avatars);
         for (let index = 0; index < avatars.length; index++) {
             if (index === memberAvatar - 1) {
                 setAvatar(avatars[index]);
             }
         }
     }, []);
-
-    const user = useAppSelector(selectCurrentLoginUser);
 
     return (
         <View>

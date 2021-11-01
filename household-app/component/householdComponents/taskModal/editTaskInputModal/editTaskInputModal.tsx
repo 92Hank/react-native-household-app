@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { TouchableOpacity, View, Text, Modal, FlatList } from "react-native";
-import { Card, TextInput } from "react-native-paper";
+import { TouchableOpacity, Modal, FlatList, View, KeyboardAvoidingView, Platform } from "react-native";
+import { Card, TextInput, Surface, Text } from "react-native-paper";
 import { task } from "../../../../../Common/task";
 import { valueType } from "../../../../../Common/value";
 import { snackbarContext } from "../../../../context/snackBarContext";
@@ -12,6 +12,8 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import SnackbarComponent from "../../../snackbar/snackbarComponent";
 import * as Yup from "yup";
 import { Formik } from "formik";
+import { useTheme } from "react-native-paper";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface TaskNow {
     id?: string;
@@ -63,12 +65,17 @@ const EditTaskInputModal = (props: Props) => {
     const [isClicked, setIsClicked] = useState(true);
     const [isClickedDays, setIsClickedDays] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
+    const { colors } = useTheme();
+
 
     const [
         editTask, // This is the mutation trigger
 
         { isSuccess: successEdit, error: errorEdit }, // This is the destructured mutation result
     ] = useEditTaskMutation();
+
+    const onChangeInputName = (name: string) => setName(name);
+    const onChangeInputDescription = (description: string) => setDescription(description);
 
     const defaultTask: task = {
         description: props.task?.description as string,
@@ -147,87 +154,83 @@ const EditTaskInputModal = (props: Props) => {
     };
 
     const repeatedInput = (
-        <Card style={styles.inputsCard}>
-            <Card.Content>
-                <View style={styles.clickedDay}>
-                    <View style={styles.buttonsCircleContainer}>
-                        <FlatList
-                            horizontal
-                            data={repeatedList}
-                            keyExtractor={(index) => "key" + index}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    key={item}
-                                    style={styles.repeatedCircleButton}
-                                    onPress={() => onPressRepeated(item)}
-                                >
-                                    <Text style={styles.repeatedCircleBtnText}>{item}</Text>
-                                </TouchableOpacity>
-                            )}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>
-                </View>
-            </Card.Content>
-        </Card>
+        <Surface style={styles.inputsCard}>
+            <Surface style={styles.clickedDay}>
+                <Surface style={styles.buttonsCircleContainer}>
+                    <FlatList
+                        horizontal
+                        data={repeatedList}
+                        keyExtractor={(index) => "key" + index}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                key={item}
+                                style={styles.repeatedCircleButton}
+                                onPress={() => onPressRepeated(item)}
+                            >
+                                <Text style={styles.repeatedCircleBtnText}>{item}</Text>
+                            </TouchableOpacity>
+                        )}
+                        showsHorizontalScrollIndicator={false}
+                    />
+                </Surface>
+            </Surface>
+        </Surface>
     );
 
     const repeatedValue = (
-        <Card style={styles.inputsCard}>
-            <Card.Content>
-                <View style={styles.clickedDay}>
-                    <View style={styles.clickedDayTitle}>
-                        <Text style={styles.buttonText}>Återkommer: </Text>
-                    </View>
-                    <View style={styles.clickedDayReturn}>
-                        <Text style={{ marginRight: 3 }}>Var</Text>
-                        <TouchableOpacity
-                            style={styles.circleButton}
-                            onPress={() => {
-                                setIsClickedDays(false);
-                            }}
-                        >
-                            <Text style={styles.circleBtnText}>{repeated ? repeated : defaultTask.repeated}</Text>
-                        </TouchableOpacity>
-                        <Text style={{ marginLeft: 3 }}>dag</Text>
-                    </View>
-                </View>
-            </Card.Content>
-        </Card>
+        <Surface style={styles.inputsCard}>
+            <Surface style={styles.clickedDay}>
+                <Surface style={styles.clickedDayTitle}>
+                    <Text style={styles.buttonText}>Återkommer: </Text>
+                </Surface>
+                <Surface style={styles.clickedDayReturn}>
+                    <Text style={{ marginRight: 3 }}>Var</Text>
+                    <TouchableOpacity
+                        style={styles.circleButton}
+                        onPress={() => {
+                            setIsClickedDays(false);
+                        }}
+                    >
+                        <Text style={styles.circleBtnText}>{repeated ? repeated : defaultTask.repeated}</Text>
+                    </TouchableOpacity>
+                    <Text style={{ marginLeft: 3 }}>dag</Text>
+                </Surface>
+            </Surface>
+        </Surface>
     );
 
     const valueInput = (
-        <Card style={styles.inputsCard2}>
-            <Card.Content>
-                <View style={styles.buttonsCircleContainer}>
-                    {buttonList.map((i) => (
-                        <TouchableOpacity key={i} style={styles.buttonsCircleButton} onPress={() => onPress2(i)}>
-                            <Text style={styles.buttonsCircleBtnText}>{i}</Text>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-            </Card.Content>
-        </Card>
+        <Surface style={styles.inputsCard2}>
+            <Surface style={styles.buttonsCircleContainer}>
+                {buttonList.map((i) => (
+                    <TouchableOpacity
+                        key={i}
+                        style={{ ...styles.buttonsCircleButton, backgroundColor: colors.contrastColor }}
+                        onPress={() => onPress2(i)}
+                    >
+                        <Text style={styles.buttonsCircleBtnText}>{i}</Text>
+                    </TouchableOpacity>
+                ))}
+            </Surface>
+        </Surface>
     );
     const valueForTask = (
-        <Card style={styles.inputsCard2}>
-            <Card.Content>
-                <View style={styles.clickedDay}>
-                    <View style={styles.clickedDayTitle}>
-                        <Text style={styles.buttonText}>Värde: </Text>
-                        <Text style={styles.clickedDayTitleSub}>Hur energikrävande är sysslan?</Text>
-                    </View>
-                    <TouchableOpacity
-                        style={styles.circleButtonValue}
-                        onPress={() => {
-                            setIsClicked(false);
-                        }}
-                    >
-                        <Text style={styles.circleBtnTextValue}>{value ? value : defaultTask.value}</Text>
-                    </TouchableOpacity>
-                </View>
-            </Card.Content>
-        </Card>
+        <Surface style={styles.inputsCard2}>
+            <Surface style={styles.clickedDay}>
+                <Surface style={styles.clickedDayTitle}>
+                    <Text style={styles.buttonText}>Värde: </Text>
+                    <Text style={styles.clickedDayTitleSub}>Hur energikrävande är sysslan?</Text>
+                </Surface>
+                <TouchableOpacity
+                    style={{ ...styles.circleButtonValue, backgroundColor: colors.contrastColor }}
+                    onPress={() => {
+                        setIsClicked(false);
+                    }}
+                >
+                    <Text style={styles.circleBtnTextValue}>{value ? value : defaultTask.value}</Text>
+                </TouchableOpacity>
+            </Surface>
+        </Surface>
     );
     console.log("defaultTask: =>", defaultTask);
     return (
@@ -247,12 +250,12 @@ const EditTaskInputModal = (props: Props) => {
                     validateOnChange={false}
                 >
                     {({ errors, handleChange, handleSubmit, touched }) => (
-                        <View style={[props.openEdit ? styles.centeredViewBlurred : styles.centeredView]}>
-                            <View style={styles.modalView}>
+                        <Surface style={[props.openEdit ? styles.centeredViewBlurred : styles.centeredView]}>
+                            <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
                                 <SnackbarComponent isVisible={isVisible} message={message} />
-                                <View style={styles.modalTextView}>
+                                <Surface style={styles.modalTextView}>
                                     <Text style={styles.modalText}>Ändra syssla</Text>
-                                </View>
+                                </Surface>
                                 <View
                                     style={{
                                         position: "absolute",
@@ -290,18 +293,31 @@ const EditTaskInputModal = (props: Props) => {
 
                                     {!isClicked ? valueInput : valueForTask}
                                 </View>
-                                <View style={styles.buttonsContainer}>
-                                    <TouchableOpacity onPress={handleSubmit} style={styles.saveButton}>
-                                        <MaterialIcons name="check-circle" size={30} color="black" />
+                                <Surface style={styles.buttonsContainer}>
+                                    <TouchableOpacity 
+                                        onPress={handleSubmit} 
+                                        style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                     >
+                                        <MaterialIcons name="check-circle" size={30} color={colors.whiteBlackToggle} />
                                         <Text style={styles.buttonText}>Ändra</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={props.handleClose} style={styles.closeButton}>
-                                        <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
+                                    <TouchableOpacity
+                                        onPress={props.handleClose}
+                                        style={{
+                                            ...styles.closeButton,
+                                            backgroundColor: colors.blackWhiteToggle,
+                                        }}
+                                     >
+                                        <MaterialCommunityIcons
+                                            name="close-circle-outline"
+                                            size={30}
+                                            color={colors.whiteBlackToggle}
+                                        />
                                         <Text style={styles.buttonText}>Stäng</Text>
                                     </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
+                                </Surface>
+                          </Surface>
+                    </Surface>
                     )}
                 </Formik>
             )}
