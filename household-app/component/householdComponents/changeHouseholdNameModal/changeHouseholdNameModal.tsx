@@ -68,20 +68,26 @@ function ChangeHouseholdNameModal(props: Props) {
                     }}
                 >
                     <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <Surface style={styles.modalView}>
+                        <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
                             <Text style={styles.modalText}>Byt hushållsnamn</Text>
                             <TextInput
-                                style={styles.input}
+                                style={{ ...styles.input, backgroundColor: colors.inputColor }}
                                 onChangeText={onChangeTextName}
                                 value={name}
                                 textAlign={undefined}
                             />
                             <View style={styles.buttonsContainer}>
-                                <TouchableOpacity onPress={handleChangeName} style={styles.saveButton}>
+                                <TouchableOpacity
+                                    onPress={handleChangeName}
+                                    style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                >
                                     <MaterialIcons name="save" size={30} color={colors.whiteBlackToggle} />
                                     <Text style={styles.buttonText}>Ja</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
+                                <TouchableOpacity
+                                    onPress={props.handleModalClose}
+                                    style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
+                                >
                                     <MaterialCommunityIcons
                                         name="arrow-left-bold"
                                         size={30}
@@ -105,7 +111,7 @@ const styles = StyleSheet.create({
         // borderColor: "gray",
         width: "100%",
         borderWidth: 1,
-        borderRadius: 10,
+        // borderRadius: 10,
         padding: 10,
     },
     householdButton: {
