@@ -176,7 +176,7 @@ function TaskModal(props: Props) {
                                 <Text style={styles.warningText}>
                                     Varning! Arkivera sysslan om du vill ha kvar den i statistiken
                                 </Text>
-                                <Surface style={styles.buttonsContainer}>
+                                <View style={styles.buttonsContainer}>
                                     <TouchableOpacity
                                         onPress={() => onDelete()}
                                         style={{ ...styles.saveButtonDelete, backgroundColor: colors.blackWhiteToggle }}
@@ -210,7 +210,7 @@ function TaskModal(props: Props) {
                                         />
                                         <Text style={styles.buttonText}>Stäng</Text>
                                     </TouchableOpacity>
-                                </Surface>
+                                </View>
                             </Surface>
                         </Surface>
                     </Modal>
@@ -274,7 +274,7 @@ function TaskModal(props: Props) {
                                     </TouchableOpacity>
                                 </Surface>
                             )}
-                            <Surface style={styles.buttonsContainer}>
+                            <View style={styles.buttonsContainer}>
                                 {!isLoading ? (
                                     <TouchableOpacity
                                         onPress={() => onSave()}
@@ -301,7 +301,7 @@ function TaskModal(props: Props) {
                                     />
                                     <Text style={styles.buttonText}>Stäng</Text>
                                 </TouchableOpacity>
-                            </Surface>
+                            </View>
                         </Surface>
                     </Surface>
                 </Modal>
