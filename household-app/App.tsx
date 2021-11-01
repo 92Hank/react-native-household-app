@@ -24,6 +24,7 @@ declare global {
             contrastColor: string;
             blackWhiteToggle: string;
             whiteBlackToggle: string;
+            inputColor: string;
         }
     }
 }
@@ -82,6 +83,7 @@ export default function App() {
                                           contrastColor: "#f2f2f2",
                                           blackWhiteToggle: "white",
                                           whiteBlackToggle: "black",
+                                          inputColor: "white",
                                       },
                                   }
                                 : {
@@ -92,6 +94,7 @@ export default function App() {
                                           contrastColor: "#484848",
                                           blackWhiteToggle: "#373737",
                                           whiteBlackToggle: "white",
+                                          inputColor: "#1d1d1d",
                                       },
                                   }
                         }
