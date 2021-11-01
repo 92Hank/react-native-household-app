@@ -20,15 +20,8 @@ const LastWeekScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =>
     let statisticsArray: MemberStatistics[] | undefined = undefined;
     let fillerMessage = "No done tasks found for this household.";
 
-    // console.log("DONETASKARRAY ANTAL: " + doneTasksArray.length) //TEST
-
     if (doneTasksArray !== undefined && doneTasksArray.length > 0 && currentHousehold !== undefined) {
         const doneTasksOfLastWeek = getCalendarWeekDoneTasksByHousehold(doneTasksArray, currentHousehold, 1);
-        console.log("DONETASKARRAY ANTAL: " + doneTasksOfLastWeek.length) //TEST
-        // const x = 4; //TEST
-        // console.log("MÅNDAG FÖR " + x + " VECKA SEN VAR " + getCalendarWeekStartInSeconds(x))
-        // console.log("SÖNDAG FÖR " + x + " VECKA SEN VAR " + getCalendarWeekEndInSeconds(x))
-
         if (doneTasksOfLastWeek.length === 0) {
             fillerMessage = "No data found for the selected period.";
         } else {

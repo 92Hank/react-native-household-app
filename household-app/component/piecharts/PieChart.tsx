@@ -6,7 +6,6 @@ import PieChartLabels from "./PieChartLabels";
 
 interface Props {
     data: MemberStatistics[];
-    taskName: string;
 }
 
 const PieChart: FC<Props> = ({ data, children }): React.ReactElement => {
