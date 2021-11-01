@@ -8,7 +8,7 @@ import { useAppSelector } from "../../../Redux/hooks";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useChangeNameMutation } from "../../../Redux/Service/household/householdApi";
 import { snackbarContext } from "../../../context/snackBarContext";
-import { Surface, Text, TextInput } from "react-native-paper";
+import { Surface, Text, TextInput, useTheme } from "react-native-paper";
 
 interface Props {
     isOpen: boolean;
@@ -22,6 +22,7 @@ function ChangeHouseholdNameModal(props: Props) {
     const [name, setName] = useState<string>(currentHousehold?.name!);
     const [changeHouseholdName, { isSuccess, error }] = useChangeNameMutation();
     const { setSnackbar } = useContext(snackbarContext);
+    const { colors } = useTheme();
 
     useEffect(() => {
         currentHousehold?.member.forEach((m) => {
@@ -77,11 +78,15 @@ function ChangeHouseholdNameModal(props: Props) {
                             />
                             <View style={styles.buttonsContainer}>
                                 <TouchableOpacity onPress={handleChangeName} style={styles.saveButton}>
-                                    <MaterialIcons name="save" size={30} color="black" />
+                                    <MaterialIcons name="save" size={30} color={colors.whiteBlackToggle} />
                                     <Text style={styles.buttonText}>Ja</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
-                                    <MaterialCommunityIcons name="arrow-left-bold" size={30} color="black" />
+                                    <MaterialCommunityIcons
+                                        name="arrow-left-bold"
+                                        size={30}
+                                        color={colors.whiteBlackToggle}
+                                    />
                                     <Text style={styles.buttonText}>Nej</Text>
                                 </TouchableOpacity>
                             </View>

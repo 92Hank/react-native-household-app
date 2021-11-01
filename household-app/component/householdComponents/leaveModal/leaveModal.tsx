@@ -4,7 +4,7 @@ import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
-import { Surface, Text } from "react-native-paper";
+import { Surface, Text, useTheme } from "react-native-paper";
 
 interface Props {
     isOpen: boolean;
@@ -16,6 +16,7 @@ function LeaveModal(props: Props) {
     const user = useAppSelector(selectCurrentLoginUser);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [rights, setRights] = useState(false);
+    const { colors } = useTheme();
 
     useEffect(() => {
         currentHousehold?.member.forEach((m) => {
@@ -41,11 +42,15 @@ function LeaveModal(props: Props) {
                             <Text style={styles.modalText}>Är du säker du vill lämna hushållet?</Text>
                             <View style={styles.buttonsContainer}>
                                 <TouchableOpacity onPress={props.handleLeave} style={styles.saveButton}>
-                                    <MaterialIcons name="delete-forever" size={30} />
+                                    <MaterialIcons name="delete-forever" size={30} color={colors.whiteBlackToggle} />
                                     <Text style={styles.buttonText}>Ja</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
-                                    <MaterialCommunityIcons name="arrow-left-bold" size={30} />
+                                    <MaterialCommunityIcons
+                                        name="arrow-left-bold"
+                                        size={30}
+                                        color={colors.whiteBlackToggle}
+                                    />
                                     <Text style={styles.buttonText}>Nej</Text>
                                 </TouchableOpacity>
                             </View>

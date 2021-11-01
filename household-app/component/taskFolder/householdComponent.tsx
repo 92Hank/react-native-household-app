@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { View, Pressable, StyleSheet, Text, Dimensions } from "react-native";
+import { View, Pressable, StyleSheet, Dimensions } from "react-native";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../Redux/hooks";
-import { Surface } from "react-native-paper";
+import { Surface, Text } from "react-native-paper";
 
 interface fullMemberInfo {
     name: string;
