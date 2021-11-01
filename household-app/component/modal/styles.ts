@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
     },
     repeatedCircleBtnText: {
-        color: "black",
+        // color: "black",
         fontSize: 20,
         justifyContent: "center",
         textAlign: "center",
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     modalTextView: {
+        flex: 1,
         alignItems: "flex-start",
         position: "absolute",
         top: 0,
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        backgroundColor: "white",
+        // backgroundColor: "white",
     },
     modalText: {
         textAlign: "center",
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
         right: 0,
     },
     closeButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -182,13 +183,13 @@ const styles = StyleSheet.create({
         borderStartColor: "gainsboro",
     },
     saveButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
         alignItems: "center",
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "space-evenly",
         shadowColor: "rgba(0, 0, 0, 0.1)",
         shadowOpacity: 0.8,
         elevation: 6,
@@ -197,13 +198,14 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     householdButtonText: {
-        color: "black",
+        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
     },
     inputsCard: {
-        backgroundColor: "white",
+        // flex: 1,
+        // backgroundColor: "white",
         width: windowWidth - 50,
         marginTop: 15,
         shadowColor: "#000",
@@ -216,7 +218,8 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     inputsCard2: {
-        backgroundColor: "white",
+        // flex: 1,
+        // backgroundColor: "white",
         width: windowWidth - 50,
         marginTop: 15,
         marginBottom: 50,
@@ -230,7 +233,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     input: {
-        backgroundColor: "#ffff",
+        // backgroundColor: "#ffff",
         width: windowWidth - 50,
         marginTop: 50,
         shadowColor: "#000",
@@ -243,7 +246,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     input2: {
-        backgroundColor: "#ffff",
+        // backgroundColor: "#ffff",
         width: windowWidth - 50,
         height: windowHeight / 7.2,
         marginTop: 10,
@@ -268,11 +271,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
+        marginRight: 10,
     },
     clickedDayTitle: {
         alignItems: "flex-start",
         justifyContent: "flex-start",
         flexDirection: "column",
+        // paddingTop: 25,
+        // paddingBottom: 27,
+        padding: 15,
     },
     clickedDayTitleSub: {
         color: "gray",
@@ -281,8 +288,8 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     buttonText: {
-        color: "black",
-        fontSize: 16,
+        // color: "black",
+        fontSize: 18,
         fontWeight: "bold",
     },
     circleButton: {
@@ -302,8 +309,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 10,
         borderRadius: 100,
-        backgroundColor: "#f2f2f2",
+        // backgroundColor: "#f2f2f2",
         margin: 2,
+        marginRight: 10,
     },
     circleBtnText: {
         color: "white",
