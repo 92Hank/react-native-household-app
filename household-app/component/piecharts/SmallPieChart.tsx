@@ -28,9 +28,9 @@ const SmallPieChart: FC<Props> = ({ data, specificTaskId, style, children }): Re
                             counter.push(item.doneTasks[i]); //TEST
                         }
                     }
-                    console.log(item.emoji + "TOTAL VALUE" + totalValue + " for " + specificTaskId)//TEST YTEEEEEST
-                    console.log("SPECIFIC DONETASKS: ") //TEST
-                    console.log(counter)
+                    console.log(item.emoji + "TOTAL VALUE" + totalValue + " for " + specificTaskId); //TEST YTEEEEEST
+                    console.log("SPECIFIC DONETASKS: "); //TEST
+                    console.log(counter);
 
                     return totalValue;
                 }}
