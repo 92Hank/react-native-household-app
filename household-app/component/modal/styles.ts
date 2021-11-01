@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
         width: "50%",
         alignItems: "center",
         flexDirection: "row",
-        justifyContent: "space-evenly",
+        justifyContent: "center",
         shadowColor: "rgba(0, 0, 0, 0.1)",
         shadowOpacity: 0.8,
         elevation: 6,

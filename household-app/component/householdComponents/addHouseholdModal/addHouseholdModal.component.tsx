@@ -105,7 +105,7 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                 }}
             >
                 <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                    <Surface style={styles.modalView}>
+                    <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
                         <SnackbarComponent isVisible={isVisible} message={message} />
 
                         <Text style={styles.modalText}>Namnge hushåll: </Text>
@@ -113,7 +113,7 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                             theme={{ roundness: 10 }}
                             outlineColor="white"
                             mode="outlined"
-                            style={styles.input}
+                            style={{ ...styles.input, backgroundColor: colors.inputColor }}
                             value={name}
                             label="Namn på hushållet"
                             onChangeText={onChangeInput}
@@ -140,11 +140,17 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                             )}
                         </View>
                         <View style={styles.buttonsContainer}>
-                            <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
+                            <TouchableOpacity
+                                onPress={() => onSave()}
+                                style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                            >
                                 <MaterialIcons name="add-circle-outline" size={30} color={colors.whiteBlackToggle} />
                                 <Text style={styles.buttonText}>Spara</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
+                            <TouchableOpacity
+                                onPress={props.handleModalClose}
+                                style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
+                            >
                                 <MaterialCommunityIcons
                                     name="close-circle-outline"
                                     size={30}
@@ -238,11 +244,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
+        // shadowColor: "rgba(0, 0, 0, 0.1)",
+        // shadowOpacity: 0.8,
+        // elevation: 3,
+        // shadowRadius: 15,
+        // shadowOffset: { width: 1, height: 13 },
         borderBottomRightRadius: 20,
         borderStartWidth: 1,
         borderStartColor: "gainsboro",
@@ -255,11 +261,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
+        // shadowColor: "rgba(0, 0, 0, 0.1)",
+        // shadowOpacity: 0.8,
+        // elevation: 6,
+        // shadowRadius: 15,
+        // shadowOffset: { width: 1, height: 13 },
         borderBottomLeftRadius: 20,
     },
     buttonText: {
