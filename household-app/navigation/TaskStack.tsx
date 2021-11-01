@@ -1,10 +1,10 @@
 import React from "react";
-import TasksScreen from "../screens/Tasks/TasksScreen";
+import TasksScreen from "../screens/Tasks/tasksScreen/TasksScreen";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { MainRoutes, MainStack } from "../routes/routes";
-import LastWeekScreen from "../screens/Tasks/LastWeekScreen";
-import LastMonthScreen from "../screens/Tasks/LastMonthScreen";
-import CurrentWeekScreen from "../screens/Tasks/CurrentWeekScreen";
+import LastWeekScreen from "../screens/Tasks/lastWeekScreen/LastWeekScreen";
+import LastMonthScreen from "../screens/Tasks/lastMonthScreen/LastMonthScreen";
+import CurrentWeekScreen from "../screens/Tasks/currentWeekScreen/CurrentWeekScreen";
 
 const Tab = createMaterialTopTabNavigator();
 const TaskScreenStack = () => (

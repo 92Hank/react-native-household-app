@@ -2,14 +2,14 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import { FlatList, KeyboardAvoidingView, Modal, Platform, ScrollView, TouchableOpacity, View } from "react-native";
-import { Card, TextInput, Text, Surface } from "react-native-paper";
-import { task } from "../../../Common/task";
-import { valueType } from "../../../Common/value";
-import { snackbarContext } from "../../context/snackBarContext";
-import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
-import { useAppSelector } from "../../Redux/hooks";
-import { useCreateTaskMutation } from "../../Redux/Service/task/taskApi";
-import SnackbarComponent from "../snackbar/snackbarComponent";
+import { TextInput, Text, Surface } from "react-native-paper";
+import { task } from "../../../../Common/task";
+import { valueType } from "../../../../Common/value";
+import { snackbarContext } from "../../../context/snackBarContext";
+import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
+import { useAppSelector } from "../../../Redux/hooks";
+import { useCreateTaskMutation } from "../../../Redux/Service/task/taskApi";
+import SnackbarComponent from "../../snackbar/snackbarComponent";
 import styles from "./styles";
 import { ActivityIndicator, Colors } from "react-native-paper";
 import * as Yup from "yup";
@@ -41,7 +41,7 @@ const repeatedList = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
 ];
 
-const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
+const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     const [name, setName] = useState<string>();
     const [description, setDescription] = useState<string>();
     const [repeated, setRepeated] = useState<number>();
@@ -293,7 +293,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                                         size={30}
                                                         color={colors.whiteBlackToggle}
                                                     />
-                                                    <Text style={styles.householdButtonText}>Spara</Text>
+                                                    <Text style={styles.taskButtonText}>Spara</Text>
                                                 </TouchableOpacity>
                                             ) : (
                                                 <TouchableOpacity
@@ -317,7 +317,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                                     size={30}
                                                     color={colors.whiteBlackToggle}
                                                 />
-                                                <Text style={styles.householdButtonText}>Stäng</Text>
+                                                <Text style={styles.taskButtonText}>Stäng</Text>
                                             </TouchableOpacity>
                                         </View>
                                     </Surface>
@@ -331,4 +331,4 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     );
 };
 
-export default ModalComponent;
+export default AddTaskModal;

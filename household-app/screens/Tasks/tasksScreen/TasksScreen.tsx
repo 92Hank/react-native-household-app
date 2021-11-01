@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { FC, useContext, useEffect, useState } from "react";
-import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { ActivityIndicator, Colors } from "react-native-paper";
-import Button from "../../component/common/Button";
-import TaskModal from "../../component/householdComponents/taskModal/taskModal";
-import ModalComponent from "../../component/modal/ModalComponent";
-import SnackbarComponent from "../../component/snackbar/snackbarComponent";
-import ArchivedTaskCard from "../../component/taskFolder/ArchivedTaskCard";
-import TaskCard from "../../component/taskFolder/TaskCard";
-import { snackbarContext } from "../../context/snackBarContext";
-import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
-import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
-import { useAppSelector } from "../../Redux/hooks";
-import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
-import { useLazyGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import Button from "../../../component/common/Button";
+import TaskModal from "../../../component/taskModal/taskModal";
+import ModalComponent from "../../../component/taskModal/addTaskModal/addTaskModal";
+import SnackbarComponent from "../../../component/snackbar/snackbarComponent";
+import ArchivedTaskCard from "../../../component/taskFolder/ArchivedTaskCard";
+import TaskCard from "../../../component/taskFolder/TaskCard";
+import { snackbarContext } from "../../../context/snackBarContext";
+import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
+import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
+import { useAppSelector } from "../../../Redux/hooks";
+import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../../../Redux/Service/doneTask/doneTaskApi";
+import { useLazyGetTaskByHouseholdIdQuery } from "../../../Redux/Service/task/taskApi";
+import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
+import styles from "./styles";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
-const deviceHeight = Math.round(Dimensions.get("window").height);
 
 //[TODO] add event definitions to Props
 // eslint-disable-next-line prettier/prettier
@@ -194,120 +194,6 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
 };
 
 export default TasksScreen;
-
-const deviceWidth = Math.round(Dimensions.get("window").width);
-const styles = StyleSheet.create({
-    item: {
-        fontWeight: "bold",
-        fontSize: 22,
-        // marginHorizontal: 15,
-        // marginVertical: 12,
-    },
-    listItem: {
-        width: deviceWidth - 20,
-        alignContent: "center",
-        alignSelf: "center",
-        borderRadius: 10,
-        marginVertical: 6,
-        elevation: 3,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 5,
-            height: 5,
-        },
-        shadowOpacity: 0.75,
-        shadowRadius: 5,
-    },
-    title: {
-        fontSize: 20,
-    },
-    listContainer: {
-        maxHeight: deviceHeight - 210,
-    },
-    container: {
-        flex: 1,
-    },
-    text: {
-        color: "grey",
-    },
-    card: {
-        flexDirection: "row",
-        shadowOffset: { width: 5, height: 5 },
-        width: "90%",
-        borderRadius: 12,
-        alignSelf: "center",
-        marginTop: 5,
-        marginBottom: 5,
-    },
-    householdButton: {
-        backgroundColor: "white",
-        paddingVertical: 15,
-        paddingHorizontal: 15,
-        width: "45%",
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
-        borderRadius: 20,
-        marginBottom: 15,
-        marginLeft: 10,
-        marginRight: 10,
-        height: 55,
-    },
-    householdButtonUser: {
-        backgroundColor: "white",
-        paddingVertical: 15,
-        paddingHorizontal: 15,
-        width: "45%",
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        shadowColor: "rgba(0, 0, 0, 0.1)",
-        shadowOpacity: 0.8,
-        elevation: 6,
-        shadowRadius: 15,
-        shadowOffset: { width: 1, height: 13 },
-        borderRadius: 20,
-        marginBottom: 15,
-        marginLeft: 10,
-        marginRight: 10,
-        height: 55,
-    },
-    buttonText: {
-        color: "grey",
-        fontSize: 16,
-    },
-    householdButtonText: {
-        color: "black",
-        fontSize: 18,
-        fontWeight: "bold",
-        marginLeft: 10,
-    },
-    buttonsContainer: {
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignSelf: "flex-end",
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-    },
-    buttonsContainerUser: {
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignSelf: "flex-end",
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-    },
-});
 
 interface TaskNow {
     id: string;

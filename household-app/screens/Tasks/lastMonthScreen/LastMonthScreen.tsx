@@ -2,14 +2,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import React, { FC, useEffect } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
-import StatisticsCharts from "../../component/piecharts/StatisticsCharts";
-import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
-import { useAppSelector } from "../../Redux/hooks";
-import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../../Redux/Service/doneTask/doneTaskApi";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { getLastMonthDoneTasksByHousehold } from "./doneTaskHelper";
-import { createMemberStatistics, MemberStatistics } from "./MemberStatistics";
+import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import StatisticsCharts from "../../../component/piecharts/StatisticsCharts";
+import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
+import { useAppSelector } from "../../../Redux/hooks";
+import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../../../Redux/Service/doneTask/doneTaskApi";
+import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
+import { getLastMonthDoneTasksByHousehold } from "../helpers/doneTaskHelper";
+import { createMemberStatistics, MemberStatistics } from "../helpers/MemberStatistics";
+import styles from "./styles";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
@@ -53,14 +54,3 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
 };
 
 export default LastMonthScreen;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    text: {
-        flex: 1,
-    },
-});
