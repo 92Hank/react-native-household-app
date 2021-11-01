@@ -1,4 +1,5 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import loginUserSliceReducer, { loginUserSlice } from "./features/loginUser/loginUserSlice";
 import SelectedStateReducer, { SelectedStateSlice } from "./features/SelectedState/SelectedStateSlice";
 import { doneTaskApi } from "./Service/doneTask/doneTaskApi";
@@ -23,6 +24,9 @@ export const store = configureStore({
             .concat(taskApi.middleware)
             .concat(doneTaskApi.middleware),
 });
+
+// enable listener behavior for the store
+setupListeners(store.dispatch);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
