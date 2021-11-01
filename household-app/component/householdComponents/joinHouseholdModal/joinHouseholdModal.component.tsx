@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useContext, useEffect, useState } from "react";
-import { Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { TextInput } from "react-native-paper";
+import { Dimensions, Modal, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Surface, TextInput, Text } from "react-native-paper";
 import { webUrl } from "../../../Redux/Config";
 import { household, householdJoin } from "../../../../Common/household";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
@@ -159,8 +159,8 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                         props.isOpen;
                     }}
                 >
-                    <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <View style={styles.modalView}>
+                    <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
+                        <Surface style={styles.modalView}>
                             <Text style={styles.modalText}>Ange hushållskod: </Text>
                             <TextInput
                                 theme={{ roundness: 10 }}
@@ -183,8 +183,8 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                                     <Text style={styles.buttonText}>Stäng</Text>
                                 </TouchableOpacity>
                             </View>
-                        </View>
-                    </View>
+                        </Surface>
+                    </Surface>
                 </Modal>
             ) : (
                 <Modal
@@ -195,8 +195,8 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                         props.isOpen;
                     }}
                 >
-                    <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <View style={styles.modalRequestView}>
+                    <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
+                        <Surface style={styles.modalRequestView}>
                             <Text style={styles.modalText}>{code}</Text>
                             <Text style={styles.modalHeader}>{household?.name}</Text>
                             <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
@@ -234,8 +234,8 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                                     <Text style={styles.buttonText}>Avbryt</Text>
                                 </TouchableOpacity>
                             </View>
-                        </View>
-                    </View>
+                        </Surface>
+                    </Surface>
                 </Modal>
             )}
         </View>
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
     },
     input: {
-        backgroundColor: "#ffff",
+        // backgroundColor: "#ffff",
         width: "100%",
     },
     centeredView: {
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     modalRequestView: {
         width: windowWidth - 20,
         height: windowHeight - 200,
-        backgroundColor: "#f2f2f2",
+        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
         // margin: 20,
         width: 300,
         height: 300,
-        backgroundColor: "#f2f2f2",
+        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     textStyle: {
-        color: "white",
+        // color: "white",
         fontWeight: "bold",
         textAlign: "center",
     },
@@ -332,7 +332,7 @@ const styles = StyleSheet.create({
         right: 0,
     },
     closeButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
         borderStartColor: "gainsboro",
     },
     saveButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     buttonText: {
-        color: "black",
+        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
