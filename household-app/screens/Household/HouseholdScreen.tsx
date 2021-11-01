@@ -17,7 +17,7 @@ import { logout } from "../../Redux/features/loginUser/loginUserSlice";
 // import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
-import { useGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
+import { useLazyGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import styles from "./styles";
 
@@ -34,13 +34,15 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     const [userPendingHouseholds, setPendingHouseholds] = useState<household[]>();
 
     // const currentHousehold = useAppSelector(selectSelectedHousehold);
+    const [loadData, result] = useLazyGetHouseholdByUserIdQuery();
 
     if (!user) {
         navigation.navigate(MainRoutes.LoginScreen);
         return <View></View>;
     }
-
-    const { data } = useGetHouseholdByUserIdQuery(user.id!);
+    useEffect(() => {
+        loadData(user.id!);
+    }, []);
 
     const clickOnHousehold = (item: household) => {
         let rights = true;
@@ -95,6 +97,7 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     }, [navigation]);
 
     useEffect(() => {
+        const { data } = result;
         if (data) {
             const accepted: household[] = [];
             data.forEach((h) => {
@@ -129,7 +132,7 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
 
             setPendingHouseholds(pend);
         }
-    }, [data]);
+    }, [result.data]);
 
     return (
         <>
