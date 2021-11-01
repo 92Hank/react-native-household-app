@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import React, { FC } from "react";
-import { SafeAreaView, ScrollView, Text, StyleSheet, View } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 import StatisticsCharts from "../../component/piecharts/StatisticsCharts";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
@@ -53,6 +54,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     text: {
-        color: "grey",
+        flex: 1,
     },
 });
