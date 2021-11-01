@@ -79,7 +79,7 @@ function TaskModal(props: Props) {
             setSnackbar("Syssla raderad", true);
             props.handleModalClose();
         }
-    }, [isSuccess]);
+    }, [isDeleted]);
 
     useEffect(() => {
         if (deleteError) {
