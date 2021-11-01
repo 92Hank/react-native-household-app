@@ -21,20 +21,21 @@ import { useCreateTaskMutation } from "../../Redux/Service/task/taskApi";
 import SnackbarComponent from "../snackbar/snackbarComponent";
 import styles from "./styles";
 import { ActivityIndicator, Colors } from "react-native-paper";
+import * as Yup from "yup";
 
 interface Props {
     isOpen: boolean;
     handleAddClose: () => void;
 }
 
-// interface Task {
-//     id: string;
-//     description: string;
-//     value?: number;
-//     householdId?: number;
-//     repeated?: number;
-//     archived?: boolean;
-// }
+const validationSchema = Yup.object().shape({
+    name: Yup.string()
+        .max(20, ({ max }) => `max ${max} bokstäver!`)
+        .required("Titel måste fyllas i!"),
+    description: Yup.string()
+        .max(50, ({ max }) => `max ${max} bokstäver!`)
+        .required("Beskrivning måste fyllas i!"),
+});
 
 const buttonList: number[] = [1, 2, 4, 6, 8];
 const repeatedList = [
@@ -54,9 +55,9 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     const currentHousehold = useAppSelector(selectSelectedHousehold);
 
     const defaultTask: task = {
-        description: "Make food",
+        description: "",
         archived: false,
-        name: "cook",
+        name: "",
         repeated: 0,
         value: 1,
         houseHoldId: "houseHoldId1",
@@ -225,7 +226,7 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                 {...(Platform.OS === "ios" ? "keyboardDismissMode='interactive'" : null)}
                 keyboardShouldPersistTaps={"handled"}
             >
-                <Formik initialValues={defaultTask} onSubmit={handleSubmitForm}>
+                <Formik validationSchema={validationSchema} initialValues={defaultTask} onSubmit={handleSubmitForm}>
                     {({ errors, values, handleChange, handleSubmit }) => (
                         <View style={styles.centeredView}>
                             <Modal

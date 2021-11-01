@@ -10,6 +10,8 @@ import { useEditTaskMutation } from "../../../../Redux/Service/task/taskApi";
 import styles from "../styles";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import SnackbarComponent from "../../../snackbar/snackbarComponent";
+import * as Yup from "yup";
+import { Formik } from "formik";
 
 interface TaskNow {
     id?: string;
@@ -23,6 +25,11 @@ interface TaskNow {
     createdAt: Date;
 }
 
+interface testTask {
+    description?: string;
+    name: string;
+}
+
 interface Props {
     openEdit: boolean;
     handleModalClose: () => void;
@@ -34,6 +41,17 @@ const buttonList: number[] = [1, 2, 4, 6, 8];
 const repeatedList = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
 ];
+
+type PostSchemaType = Record<keyof testTask, Yup.AnySchema>;
+
+const validationSchema = Yup.object().shape<PostSchemaType>({
+    name: Yup.string()
+        .max(20, ({ max }) => `max ${max} bokstäver!`)
+        .required("Titel måste fyllas i!"),
+    description: Yup.string()
+        .max(50, ({ max }) => `max ${max} bokstäver!`)
+        .required("Beskrivning måste fyllas i!"),
+});
 
 const EditTaskInputModal = (props: Props) => {
     const currentHousehold = useAppSelector(selectSelectedHousehold);
@@ -213,7 +231,7 @@ const EditTaskInputModal = (props: Props) => {
             </Card.Content>
         </Card>
     );
-
+    console.log("defaultTask: =>", defaultTask);
     return (
         <Modal
             animationType="slide"
@@ -223,56 +241,72 @@ const EditTaskInputModal = (props: Props) => {
                 props.openEdit;
             }}
         >
-            <View style={[props.openEdit ? styles.centeredViewBlurred : styles.centeredView]}>
-                <View style={styles.modalView}>
-                    <SnackbarComponent isVisible={isVisible} message={message} />
-                    <View style={styles.modalTextView}>
-                        <Text style={styles.modalText}>Ändra syssla</Text>
-                    </View>
-                    <View
-                        style={{
-                            position: "absolute",
-                            alignItems: "center",
-                            marginTop: 25,
-                        }}
-                    >
-                        <TextInput
-                            defaultValue={defaultTask.name}
-                            theme={{ roundness: 10 }}
-                            outlineColor="white"
-                            mode="outlined"
-                            style={styles.input}
-                            label="Titel"
-                            onChangeText={(text) => onChangeInputName(text)}
-                            textAlign={undefined}
-                        />
-                        <TextInput
-                            defaultValue={defaultTask.description}
-                            theme={{ roundness: 10 }}
-                            outlineColor="white"
-                            mode="outlined"
-                            style={styles.input2}
-                            label="Beskrivning"
-                            onChangeText={(text) => onChangeInputDescription(text)}
-                            textAlign={undefined}
-                        />
+            {defaultTask && (
+                <Formik
+                    validationSchema={validationSchema}
+                    initialValues={defaultTask}
+                    onSubmit={onEdit}
+                    validateOnChange={false}
+                >
+                    {({ errors, handleChange, handleSubmit, touched }) => (
+                        <View style={[props.openEdit ? styles.centeredViewBlurred : styles.centeredView]}>
+                            <View style={styles.modalView}>
+                                <SnackbarComponent isVisible={isVisible} message={message} />
+                                <View style={styles.modalTextView}>
+                                    <Text style={styles.modalText}>Ändra syssla</Text>
+                                </View>
+                                <View
+                                    style={{
+                                        position: "absolute",
+                                        alignItems: "center",
+                                        marginTop: 25,
+                                    }}
+                                >
+                                    <TextInput
+                                        defaultValue={defaultTask.name || "Pelle"}
+                                        theme={{ roundness: 10 }}
+                                        outlineColor="white"
+                                        mode="outlined"
+                                        style={styles.input}
+                                        label="Titel"
+                                        onChangeText={handleChange<keyof testTask>()}
+                                        textAlign={"center"}
+                                    />
+                                    {errors.name && touched.name && (
+                                        <Text style={{ fontSize: 10, color: "red" }}>{errors.name}</Text>
+                                    )}
+                                    <TextInput
+                                        defaultValue={defaultTask.description || "Pelle"}
+                                        theme={{ roundness: 10 }}
+                                        outlineColor="white"
+                                        mode="outlined"
+                                        style={styles.input2}
+                                        label="Beskrivning"
+                                        onChangeText={handleChange(onChangeInputDescription)}
+                                        textAlign={"center"}
+                                    />
+                                    {errors.description && touched.description && (
+                                        <Text style={{ fontSize: 10, color: "red" }}>{errors.description}</Text>
+                                    )}
+                                    {!isClickedDays ? repeatedInput : repeatedValue}
 
-                        {!isClickedDays ? repeatedInput : repeatedValue}
-
-                        {!isClicked ? valueInput : valueForTask}
-                    </View>
-                    <View style={styles.buttonsContainer}>
-                        <TouchableOpacity onPress={() => onEdit()} style={styles.saveButton}>
-                            <MaterialIcons name="check-circle" size={30} color="black" />
-                            <Text style={styles.buttonText}>Ändra</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={props.handleClose} style={styles.closeButton}>
-                            <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
-                            <Text style={styles.buttonText}>Stäng</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </View>
+                                    {!isClicked ? valueInput : valueForTask}
+                                </View>
+                                <View style={styles.buttonsContainer}>
+                                    <TouchableOpacity onPress={() => onEdit()} style={styles.saveButton}>
+                                        <MaterialIcons name="check-circle" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Ändra</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={props.handleClose} style={styles.closeButton}>
+                                        <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
+                                        <Text style={styles.buttonText}>Stäng</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    )}
+                </Formik>
+            )}
         </Modal>
     );
 };
