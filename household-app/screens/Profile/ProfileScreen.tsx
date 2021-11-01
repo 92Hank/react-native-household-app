@@ -21,7 +21,7 @@ const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => 
         <>
             <View style={styles.topBar}>
                 <View style={styles.leftSide}>
-                    <Text style={styles.themeText}>Test</Text>
+                    
                 </View>
                 <View style={styles.avatarImage}>
                     <Avatar.Image
