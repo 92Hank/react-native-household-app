@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         margin: 4,
     },
     buttonsCircleBtnText: {
-        color: "black",
+        // color: "black",
         fontSize: 20,
         justifyContent: "center",
         textAlign: "center",
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     circleBtnTextValue: {
-        color: "black",
+        // color: "black",
         fontSize: 14,
         justifyContent: "center",
         textAlign: "center",
