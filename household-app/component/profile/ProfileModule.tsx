@@ -97,17 +97,18 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                     <View style={[isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
                         <View style={styles.modalView}>
                             <Text style={styles.modalText}>Profile </Text>
+                            <Text style={styles.labelName}>Namn i hushållet</Text>
                             <TextInput
                                 theme={{ roundness: 10 }}
                                 outlineColor="white"
                                 mode="outlined"
                                 style={styles.input}
-                                label="Namn i hushållet"
                                 value={editMember.name}
                                 onChangeText={onChangeName}
                                 textAlign={undefined}
                             />
 
+                            <Text style={styles.avatarName}>Avatar i hushållet</Text>
                             <ProfileEmojiSelector
                                 household={household}
                                 avatar={editMember.emoji}
@@ -205,6 +206,15 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         flexWrap: "wrap",
     },
+    labelName: {
+        alignSelf: "flex-start",
+        fontSize: 12,
+    },
+    avatarName: {
+        alignSelf: "flex-start",
+        fontSize: 12,
+        marginBottom: 6,
+    },
     input: {
         marginBottom: 16,
         backgroundColor: "#ffff",
@@ -243,7 +253,7 @@ const styles = StyleSheet.create({
     modalView: {
         // margin: 20,
         width: 300,
-        height: 400,
+        height: 500,
         backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,

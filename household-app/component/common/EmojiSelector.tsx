@@ -26,7 +26,7 @@ const EmojiSelector: FC<Props> = ({ selectedAvatars, avatarList, avatarSelect }:
             </View>
             <View>
                 {selectedAvatars && (
-                    <Text style={{ marginTop: 40, fontSize: 20 }}>
+                    <Text style={{ marginTop: 40, fontSize: 16, marginLeft: 10 }}>
                         Vald avatar:
                         <Text style={styles.avatar}> {Avatars[selectedAvatars]} </Text>
                     </Text>
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         flexWrap: "wrap",
+        width: 270,
     },
 });
 export enum Avatars {

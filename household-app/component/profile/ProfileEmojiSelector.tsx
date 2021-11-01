@@ -65,9 +65,13 @@ export default ProfileEmojiSelector;
 const styles = StyleSheet.create({
     root: {
         flexDirection: "row",
-        // flex: 1,
+        //flex: 1,
         alignItems: "center",
         justifyContent: "flex-start",
+        width: 260,
+        borderRadius: 20,
+        paddingHorizontal: 10,
+
     },
     rootSelect: {
         flexDirection: "column",
@@ -75,10 +79,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-start",
         maxWidth: "100%",
+        marginVertical: 10,
     },
     avatar: {
         fontSize: 45,
         margin: 10,
         flexWrap: "wrap",
+        width: "100%",
     },
 });
