@@ -53,6 +53,12 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     const onChangeInputDescription = (description: string) => setDescription(description);
     const currentHousehold = useAppSelector(selectSelectedHousehold);
 
+    const [
+        CreateTask, // This is the mutation trigger
+
+        { status, isSuccess, error, isLoading }, // This is the destructured mutation result
+    ] = useCreateTaskMutation();
+
     const defaultTask: task = {
         description: "Make food",
         archived: false,
@@ -62,12 +68,6 @@ const ModalComponent: React.FC<Props> = ({ isOpen, handleAddClose }) => {
         houseHoldId: "houseHoldId1",
         createdAt: new Date(),
     };
-
-    const [
-        CreateTask, // This is the mutation trigger
-
-        { status, isSuccess, error, isLoading }, // This is the destructured mutation result
-    ] = useCreateTaskMutation();
 
     useEffect(() => {
         console.log("isSuccess", isSuccess);

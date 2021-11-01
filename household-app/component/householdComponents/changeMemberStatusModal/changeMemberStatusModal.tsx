@@ -42,9 +42,6 @@ interface Props {
 }
 
 function ChangeMemberStatusModal(props: Props) {
-    const user = useAppSelector(selectCurrentLoginUser);
-    if (!user) return <view></view>;
-
     const [makeOwner, setMakeOwner] = useState<number>(0);
     const [paused, setPaused] = useState<number>(0);
     const [unPaused, setUnPaused] = useState<number>(0);
@@ -56,6 +53,7 @@ function ChangeMemberStatusModal(props: Props) {
     const [pauseUser, { error: pauseUserError, isSuccess: isPasuedSuccess }] = usePauseUserMutation();
     const [acceptUserApi, { error: acceptError, isSuccess: isAcceptSuccess }] = useAcceptUserMutation();
     const [rejectUser, { error: rejectError, isSuccess: rejectSuccess }] = useRejectUserMutation();
+    const user = useAppSelector(selectCurrentLoginUser);
 
     useEffect(() => {
         if (rejectError) {
@@ -112,6 +110,8 @@ function ChangeMemberStatusModal(props: Props) {
             console.log("error", acceptError);
         }
     }, [acceptError]);
+
+    if (!user) return <view></view>;
 
     const onSave = () => {
         if (!currentHousehold) return;

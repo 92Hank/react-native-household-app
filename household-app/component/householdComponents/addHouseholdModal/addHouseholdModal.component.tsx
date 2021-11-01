@@ -42,16 +42,7 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     const { setSnackbar, isVisible, message } = useContext(snackbarContext);
     const { colors } = useTheme();
 
-    if (!user) {
-        props.navigation.navigate(MainRoutes.LoginScreen);
-        return <View></View>;
-    }
-
-    const [
-        CreateHousehold, // This is the mutation trigger
-
-        { status, isSuccess, error, isLoading }, // This is the destructured mutation result
-    ] = useCreateHouseholdMutation();
+    const [CreateHousehold, { status, isSuccess, error, isLoading }] = useCreateHouseholdMutation();
 
     useEffect(() => {
         console.log("isSuccess", isSuccess);
@@ -75,6 +66,11 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
             console.log("error", error);
         }
     }, [error]);
+
+    if (!user) {
+        props.navigation.navigate(MainRoutes.LoginScreen);
+        return <View></View>;
+    }
 
     const avatarSelect = (index: number) => {
         setAvatar(index.toString());

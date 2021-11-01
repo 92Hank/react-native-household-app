@@ -32,6 +32,8 @@ interface Props {
 export default function HouseholdComponent(props: Props) {
     const [avatar, setAvatar] = useState<string>();
 
+    const user = useAppSelector(selectCurrentLoginUser);
+
     useEffect(() => {
         const memberAvatar = props.member.emoji;
         let avatars = Object.keys(Avatars);
@@ -43,8 +45,6 @@ export default function HouseholdComponent(props: Props) {
             }
         }
     }, []);
-
-    const user = useAppSelector(selectCurrentLoginUser);
 
     return (
         <View>

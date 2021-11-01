@@ -26,6 +26,7 @@
         "no-multiple-empty-lines": ["error", { "max": 3 }],
         "eqeqeq": "warn",
         "no-alert": "warn",
+        "no-console": "warn",
         "no-eq-null": "warn",
         "no-label-var": "error"
     }
