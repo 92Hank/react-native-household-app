@@ -29,10 +29,8 @@ export const doneTaskApi = createApi({
                 method: "GET",
                 responseHandler: (response) => {
                     if (response.status !== 200) {
-                        console.log(response.text());
                         return response.text();
                     } else {
-                        console.log("foo");
                         return response.json();
                     }
                 },

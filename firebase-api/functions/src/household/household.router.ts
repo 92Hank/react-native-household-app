@@ -14,13 +14,14 @@ import {
   memberChangeName,
   memberChangeEmoji,
   rejectMember,
+  getHousehold,
 } from "./household.controller";
 
 // eslint-disable-next-line new-cap
 export const householdRouter = express.Router();
 
 householdRouter.post("/household", post);
-// householdRouter.get("/household/:id", getHousehold);
+householdRouter.get("/household/:id", getHousehold);
 householdRouter.get("/household/userId/:userId", getUsersHouseholdsOnUserId);
 householdRouter.get(
     "/household/invitecode/:inviteCode",

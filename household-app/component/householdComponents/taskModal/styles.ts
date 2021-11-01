@@ -55,10 +55,11 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0,0,0,0.5)",
     },
     modalView: {
+        display: "flex",
         marginLeft: 20,
         marginRight: 20,
         marginBottom: 20,
-        backgroundColor: "#f2f2f2",
+        // backgroundColor: "#f2f2f2",
         height: "80%",
         width: "95%",
         borderRadius: 20,
@@ -85,6 +86,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     modalTextView: {
+        flex: 1,
         alignItems: "flex-start",
         position: "absolute",
         top: 0,
@@ -203,7 +205,8 @@ const styles = StyleSheet.create({
         marginLeft: 15,
     },
     inputsCard: {
-        backgroundColor: "white",
+        // flex: 1,
+        // backgroundColor: "white",
         width: windowWidth - 50,
         marginTop: 15,
         shadowColor: "#000",
@@ -216,7 +219,8 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     inputsCard2: {
-        backgroundColor: "white",
+        // flex: 1,
+        // backgroundColor: "white",
         width: windowWidth - 50,
         marginTop: 15,
         marginBottom: 50,
@@ -230,7 +234,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     input: {
-        backgroundColor: "#ffff",
+        // backgroundColor: "#ffff",
         width: windowWidth - 50,
         marginTop: 50,
         shadowColor: "#000",
@@ -243,7 +247,7 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
     input2: {
-        backgroundColor: "#ffff",
+        // backgroundColor: "#ffff",
         width: windowWidth - 50,
         height: windowHeight / 7.2,
         marginTop: 10,
@@ -268,11 +272,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
+        marginRight: 10,
     },
     clickedDayTitle: {
         alignItems: "flex-start",
         justifyContent: "flex-start",
         flexDirection: "column",
+        // paddingTop: 25,
+        // paddingBottom: 27,
+        padding: 15,
     },
     clickedDayTitleSub: {
         color: "gray",
@@ -284,6 +292,7 @@ const styles = StyleSheet.create({
         // color: "black",
         fontSize: 18,
         fontWeight: "bold",
+        // padding: 12,
     },
     circleButton: {
         width: 36,
@@ -302,11 +311,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 10,
         borderRadius: 100,
-        backgroundColor: "#f2f2f2",
+        // backgroundColor: "#f2f2f2",
         margin: 2,
+        marginRight: 10,
     },
     circleBtnText: {
-        // color: "white",
+        color: "white",
         fontSize: 14,
         justifyContent: "center",
         textAlign: "center",
@@ -423,6 +433,8 @@ const styles = StyleSheet.create({
         elevation: 6,
         shadowRadius: 15,
         shadowOffset: { width: 1, height: 13 },
+        borderStartWidth: 1,
+        borderStartColor: "gainsboro",
     },
     closeButtonDelete: {
         // backgroundColor: "white",
