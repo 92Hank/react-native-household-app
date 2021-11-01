@@ -1,6 +1,6 @@
 import React from "react";
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Surface } from "react-native-paper";
+import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Surface, Text } from "react-native-paper";
 import { household } from "../../../../Common/household";
 
 interface Props {

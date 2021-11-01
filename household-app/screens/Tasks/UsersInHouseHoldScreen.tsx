@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-undef */
 import React, { FC, useContext, useEffect, useState } from "react";
-import { View, TouchableOpacity, FlatList, StyleSheet, Text, Dimensions } from "react-native";
+import { View, TouchableOpacity, FlatList, StyleSheet, Dimensions } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import HouseholdComponent from "../../component/householdComponents/household.component/household.component";
 import UserListComponent from "../../component/taskFolder/householdComponent";
@@ -18,7 +18,7 @@ import ChangeHouseholdNameModal from "../../component/householdComponents/change
 import { Surface } from "react-native-paper";
 import PendingMemberTaskCard from "../../component/householdComponents/pendingMemberCard/pendingMemberCard";
 import Button from "../../component/common/Button";
-import { ActivityIndicator, Colors } from "react-native-paper";
+import { Text } from "react-native-paper";
 
 type Props = FeedStackScreenProps<MainRoutes.UsersInHouseHoldScreen>;
 
