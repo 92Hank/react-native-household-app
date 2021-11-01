@@ -1,5 +1,5 @@
-import { doneTask } from "../../../Common/doneTask";
-import { household } from "../../../Common/household";
+import { doneTask } from "../../../../Common/doneTask";
+import { household } from "../../../../Common/household";
 
 /**
  * doneTask objects are assigned a Timestamp object to doneDate property.

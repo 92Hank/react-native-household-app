@@ -1,19 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { TouchableOpacity, Modal, FlatList, View, KeyboardAvoidingView, Platform } from "react-native";
-import { Card, TextInput, Surface, Text } from "react-native-paper";
-import { task } from "../../../../../Common/task";
-import { valueType } from "../../../../../Common/value";
-import { snackbarContext } from "../../../../context/snackBarContext";
-import { selectSelectedHousehold } from "../../../../Redux/features/SelectedState/SelectedStateSelectors";
-import { useAppSelector } from "../../../../Redux/hooks";
-import { useEditTaskMutation } from "../../../../Redux/Service/task/taskApi";
-import styles from "../styles";
+import { TouchableOpacity, Modal, FlatList, View } from "react-native";
+import { TextInput, Surface, Text } from "react-native-paper";
+import { task } from "../../../../Common/task";
+import { valueType } from "../../../../Common/value";
+import { snackbarContext } from "../../../context/snackBarContext";
+import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
+import { useAppSelector } from "../../../Redux/hooks";
+import { useEditTaskMutation } from "../../../Redux/Service/task/taskApi";
+import styles from "./styles";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import SnackbarComponent from "../../../snackbar/snackbarComponent";
+import SnackbarComponent from "../../snackbar/snackbarComponent";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { useTheme } from "react-native-paper";
-import { ScrollView } from "react-native-gesture-handler";
 
 interface TaskNow {
     id?: string;

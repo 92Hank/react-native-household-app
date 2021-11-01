@@ -3,17 +3,17 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal, TouchableOpacity, View } from "react-native";
-import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
-import { useAppSelector } from "../../../Redux/hooks";
-import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
+import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
+import { useAppSelector } from "../../Redux/hooks";
+import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { Feather } from "@expo/vector-icons";
-import { doneTask } from "../../../../Common/doneTask";
-import { useCreateDoneTaskMutation } from "../../../Redux/Service/doneTask/doneTaskApi";
-import { useDeleteTaskMutation } from "../../../Redux/Service/task/taskApi";
-import { useArchiveTaskMutation } from "../../../Redux/Service/task/taskApi";
-import { snackbarContext } from "../../../context/snackBarContext";
+import { doneTask } from "../../../Common/doneTask";
+import { useCreateDoneTaskMutation } from "../../Redux/Service/doneTask/doneTaskApi";
+import { useDeleteTaskMutation } from "../../Redux/Service/task/taskApi";
+import { useArchiveTaskMutation } from "../../Redux/Service/task/taskApi";
+import { snackbarContext } from "../../context/snackBarContext";
 import styles from "./styles";
-import { valueType } from "../../../../Common/value";
+import { valueType } from "../../../Common/value";
 import EditTaskInputModal from "./editTaskInputModal/editTaskInputModal";
 import { ActivityIndicator, Colors, Surface, Text } from "react-native-paper";
 import { useTheme } from "react-native-paper";
@@ -260,17 +260,17 @@ function TaskModal(props: Props) {
                                 >
                                     <TouchableOpacity
                                         onPress={handleEditClick}
-                                        style={{ ...styles.householdButton, backgroundColor: colors.blackWhiteToggle }}
+                                        style={{ ...styles.taskButton, backgroundColor: colors.blackWhiteToggle }}
                                     >
                                         <Feather name="edit-2" size={30} color={colors.whiteBlackToggle} />
-                                        <Text style={styles.householdButtonText}>Ändra</Text>
+                                        <Text style={styles.taskButtonText}>Ändra</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                         onPress={handleDeleteClick}
-                                        style={{ ...styles.householdButton2, backgroundColor: colors.blackWhiteToggle }}
+                                        style={{ ...styles.taskButton2, backgroundColor: colors.blackWhiteToggle }}
                                     >
                                         <MaterialIcons name="delete" size={30} color={colors.whiteBlackToggle} />
-                                        <Text style={styles.householdButtonText}>Radera</Text>
+                                        <Text style={styles.taskButtonText}>Radera</Text>
                                     </TouchableOpacity>
                                 </Surface>
                             )}

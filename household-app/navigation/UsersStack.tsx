@@ -1,7 +1,7 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { MainRoutes, MainStack } from "../routes/routes";
-import UsersInHouseHoldScreen from "../screens/Tasks/UsersInHouseHoldScreen";
+import UsersInHouseHoldScreen from "../screens/Tasks/usersInHousehold/UsersInHouseHoldScreen";
 import HouseholdProfile from "../screens/Household/HouseholdProfile";
 
 const Tab = createMaterialTopTabNavigator();

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import { PieChart as ImportedPieChart } from "react-native-svg-charts";
 import { doneTask } from "../../../Common/doneTask";
-import { MemberStatistics } from "../../screens/Tasks/MemberStatistics";
+import { MemberStatistics } from "../../screens/Tasks/helpers/MemberStatistics";
 
 interface Props {
     data: MemberStatistics[];

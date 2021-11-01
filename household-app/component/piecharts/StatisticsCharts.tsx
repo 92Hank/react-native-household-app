@@ -6,7 +6,7 @@ import { doneTask } from "../../../Common/doneTask";
 import { household } from "../../../Common/household";
 import { task } from "../../../Common/task";
 import { useGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
-import { MemberStatistics } from "../../screens/Tasks/memberStatistics";
+import { MemberStatistics } from "../../screens/Tasks/helpers/MemberStatistics";
 import PieChart from "./PieChart";
 import SmallPieChart from "./SmallPieChart";
 
