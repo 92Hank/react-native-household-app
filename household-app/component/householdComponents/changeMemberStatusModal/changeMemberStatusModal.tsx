@@ -1,9 +1,9 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Divider } from "react-native-paper";
+import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Divider, Surface, useTheme, Text } from "react-native-paper";
 // import { RadioButton } from "react-native-paper";
-import RadioForm, { RadioButton } from "react-native-simple-radio-button";
+import RadioForm from "react-native-simple-radio-button";
 import { snackbarContext } from "../../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
@@ -54,6 +54,7 @@ function ChangeMemberStatusModal(props: Props) {
     const [acceptUserApi, { error: acceptError, isSuccess: isAcceptSuccess }] = useAcceptUserMutation();
     const [rejectUser, { error: rejectError, isSuccess: rejectSuccess }] = useRejectUserMutation();
     const user = useAppSelector(selectCurrentLoginUser);
+    const { colors } = useTheme();
 
     useEffect(() => {
         if (rejectError) {
@@ -211,11 +212,11 @@ function ChangeMemberStatusModal(props: Props) {
                             props.isOpen;
                         }}
                     >
-                        <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                            <View style={styles.modalView}>
-                                <View style={styles.modalTextView}>
+                        <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
+                            <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
+                                <Surface style={{ ...styles.modalTextView, backgroundColor: colors.blackWhiteToggle }}>
                                     <Text style={styles.modalText}>{"Namn: " + props.member.name}</Text>
-                                </View>
+                                </Surface>
                                 {props.member.AcceptedStatus === "accepted" && (
                                     <View
                                         style={{
@@ -309,17 +310,31 @@ function ChangeMemberStatusModal(props: Props) {
                                     </View>
                                 )}
                                 <View style={styles.buttonsContainer}>
-                                    <TouchableOpacity onPress={() => onSave()} style={styles.saveButton}>
-                                        <MaterialIcons name="add-circle-outline" size={30} color="black" />
+                                    <TouchableOpacity
+                                        onPress={() => onSave()}
+                                        style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <MaterialIcons
+                                            name="add-circle-outline"
+                                            size={30}
+                                            color={colors.whiteBlackToggle}
+                                        />
                                         <Text style={styles.buttonText}>Spara</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity onPress={close} style={styles.closeButton}>
-                                        <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
+                                    <TouchableOpacity
+                                        onPress={close}
+                                        style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <MaterialCommunityIcons
+                                            name="close-circle-outline"
+                                            size={30}
+                                            color={colors.whiteBlackToggle}
+                                        />
                                         <Text style={styles.buttonText}>Stäng</Text>
                                     </TouchableOpacity>
                                 </View>
-                            </View>
-                        </View>
+                            </Surface>
+                        </Surface>
                     </Modal>
                 )}
             </View>
@@ -343,7 +358,7 @@ const styles = StyleSheet.create({
         minWidth: "100%",
     },
     input: {
-        backgroundColor: "#ffff",
+        // backgroundColor: "#ffff",
         width: "100%",
         marginBottom: 15,
     },
@@ -375,7 +390,7 @@ const styles = StyleSheet.create({
         // margin: 20,
         width: 300,
         height: 340,
-        backgroundColor: "#f2f2f2",
+        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -409,7 +424,7 @@ const styles = StyleSheet.create({
         right: 0,
     },
     closeButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -426,7 +441,7 @@ const styles = StyleSheet.create({
         borderStartColor: "gainsboro",
     },
     saveButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -441,7 +456,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     buttonText: {
-        color: "black",
+        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
