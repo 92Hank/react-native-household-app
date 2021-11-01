@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
     },
     input: {
+        marginBottom: 16,
         backgroundColor: "#ffff",
         width: "100%",
     },
