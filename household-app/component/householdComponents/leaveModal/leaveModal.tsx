@@ -38,14 +38,22 @@ function LeaveModal(props: Props) {
                     }}
                 >
                     <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <Surface style={styles.modalView}>
+                        <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
+                            {/* <Surface style={{ backgroundColor: colors.contrastColor }}> */}
                             <Text style={styles.modalText}>Är du säker du vill lämna hushållet?</Text>
+                            {/* </Surface> */}
                             <View style={styles.buttonsContainer}>
-                                <TouchableOpacity onPress={props.handleLeave} style={styles.saveButton}>
+                                <TouchableOpacity
+                                    onPress={props.handleLeave}
+                                    style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                >
                                     <MaterialIcons name="delete-forever" size={30} color={colors.whiteBlackToggle} />
                                     <Text style={styles.buttonText}>Ja</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
+                                <TouchableOpacity
+                                    onPress={props.handleModalClose}
+                                    style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
+                                >
                                     <MaterialCommunityIcons
                                         name="arrow-left-bold"
                                         size={30}
@@ -110,7 +118,7 @@ const styles = StyleSheet.create({
         // margin: 20,
         width: 300,
         height: 200,
-        // backgroundColor: "#f2f2f2",
+        backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
