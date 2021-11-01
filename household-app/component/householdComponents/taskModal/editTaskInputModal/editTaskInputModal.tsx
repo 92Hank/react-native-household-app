@@ -67,7 +67,6 @@ const EditTaskInputModal = (props: Props) => {
     const [isEditing, setIsEditing] = useState(false);
     const { colors } = useTheme();
 
-
     const [
         editTask, // This is the mutation trigger
 
@@ -294,10 +293,10 @@ const EditTaskInputModal = (props: Props) => {
                                     {!isClicked ? valueInput : valueForTask}
                                 </View>
                                 <Surface style={styles.buttonsContainer}>
-                                    <TouchableOpacity 
-                                        onPress={handleSubmit} 
+                                    <TouchableOpacity
+                                        onPress={handleSubmit}
                                         style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
-                                     >
+                                    >
                                         <MaterialIcons name="check-circle" size={30} color={colors.whiteBlackToggle} />
                                         <Text style={styles.buttonText}>Ändra</Text>
                                     </TouchableOpacity>
@@ -307,7 +306,7 @@ const EditTaskInputModal = (props: Props) => {
                                             ...styles.closeButton,
                                             backgroundColor: colors.blackWhiteToggle,
                                         }}
-                                     >
+                                    >
                                         <MaterialCommunityIcons
                                             name="close-circle-outline"
                                             size={30}
@@ -316,8 +315,8 @@ const EditTaskInputModal = (props: Props) => {
                                         <Text style={styles.buttonText}>Stäng</Text>
                                     </TouchableOpacity>
                                 </Surface>
-                          </Surface>
-                    </Surface>
+                            </Surface>
+                        </Surface>
                     )}
                 </Formik>
             )}
