@@ -47,10 +47,12 @@ type PostSchemaType = Record<keyof inputTask, Yup.AnySchema>;
 
 const validationSchema = Yup.object().shape<PostSchemaType>({
     name: Yup.string()
+        .min(3, ({ min }) => `minst ${min} bokstäver!`)
         .max(20, ({ max }) => `max ${max} bokstäver!`)
         .required("Titel måste fyllas i!"),
     description: Yup.string()
-        .max(50, ({ max }) => `max ${max} bokstäver!`)
+        .min(3, ({ min }) => `minst ${min} bokstäver!`)
+        .max(120, ({ max }) => `max ${max} bokstäver!`)
         .required("Beskrivning måste fyllas i!"),
 });
 

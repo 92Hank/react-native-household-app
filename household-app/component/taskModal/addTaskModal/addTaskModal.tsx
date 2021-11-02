@@ -34,7 +34,7 @@ const validationSchema = Yup.object().shape<PostSchemaType>({
         .required("Titel måste fyllas i!"),
     description: Yup.string()
         .min(3, ({ min }) => `minst ${min} bokstäver!`)
-        .max(50, ({ max }) => `max ${max} bokstäver!`)
+        .max(120, ({ max }) => `max ${max} bokstäver!`)
         .required("Beskrivning måste fyllas i!"),
 });
 
