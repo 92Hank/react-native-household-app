@@ -1,4 +1,4 @@
-![RNT image]:(https://imgur.com/a/bUyoLUb)
+![RNT image](https://imgur.com/a/bUyoLUb)
 
 # react-native-household-app
 
