@@ -13,7 +13,7 @@ import { getCalendarWeekDoneTasksByHousehold } from "../helpers/doneTaskHelper";
 import { createMemberStatistics, MemberStatistics } from "../helpers/MemberStatistics";
 import styles from "./styles";
 
-type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
+type Props = FeedStackScreenProps<MainRoutes.CurrentWeekScreen>;
 
 const CurrentWeekScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const currentHousehold = useAppSelector(selectSelectedHousehold);
