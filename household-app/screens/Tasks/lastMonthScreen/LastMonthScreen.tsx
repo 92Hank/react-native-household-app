@@ -14,7 +14,7 @@ import { getLastMonthDoneTasksByHousehold } from "../helpers/doneTaskHelper";
 import { createMemberStatistics, MemberStatistics } from "../helpers/MemberStatistics";
 import styles from "./styles";
 
-type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
+type Props = FeedStackScreenProps<MainRoutes.LastMonthScreen>;
 
 const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const getId = useAppSelector(selectSelectedHousehold);

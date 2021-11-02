@@ -20,7 +20,7 @@ import {
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 import styles from "./styles";
 
-type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
+type Props = FeedStackScreenProps<MainRoutes.TasksScreen>;
 
 //[TODO] add event definitions to Props
 // eslint-disable-next-line prettier/prettier
