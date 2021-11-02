@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         // height: "100%",
-        marginTop: 20,
+        marginTop: 10,
     },
     modalView: {
         // marginLeft: 20,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         // elevation: 5,
     },
     modalTextView: {
-        flex: 1,
+        // flex: 1,
         alignItems: "flex-start",
         justifyContent: "center",
         // paddingLeft: 20,
