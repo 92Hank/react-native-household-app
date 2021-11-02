@@ -63,7 +63,7 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
                 <Divider style={styles.divider} />
             </Surface>
             <Surface style={styles.profileSurface}>
-                <Button text="Robin" onPress={handleTaskOpen} 
+                <Button text="Ändra Profil" onPress={handleTaskOpen} 
                 iconType={{ type: "MaterialIcons", icons: "open-in-new" }} 
                 buttonStyle={styles.button} />
                 <ProfileModule isOpen={isClickedTaskOpen} handleModalClose={handleTaskClose} />
