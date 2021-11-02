@@ -73,7 +73,7 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     useEffect(() => {
         console.log("isSuccess", isSuccess);
         if (isSuccess) {
-            setSnackbar("success", true);
+            setSnackbar("Skapat ny syssla", true);
             setName("");
             setDescription("");
             setValue(undefined);
