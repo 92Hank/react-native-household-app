@@ -77,7 +77,7 @@ function LeaveModal(props: Props) {
                             </Surface>
                         ) : (
                             <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
-                                <Text style={styles.modalText}>Du kan inte lämna hushållet som skapare</Text>
+                                <Text style={styles.modalText}>Du kan inte lämna ett hushåll som du skapat</Text>
                                 <TouchableOpacity
                                     onPress={props.handleModalClose}
                                     style={{ ...styles.backButton, backgroundColor: colors.blackWhiteToggle }}
