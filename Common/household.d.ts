@@ -31,6 +31,12 @@ export declare interface householdChangeName {
     name: string;
 }
 
+export declare interface householdMemberChangeName {
+  houseHoldId: string;
+  userId: string;
+  name: string;
+}
+
 export declare interface householdIdAndUserId {
     houseHoldId: string;
     userId: string;

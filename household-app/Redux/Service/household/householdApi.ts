@@ -8,6 +8,7 @@ import {
     householdJoin,
     householdChangeEmoji,
     householdPauseUser,
+    householdMemberChangeName,
 } from "../../../../Common/household";
 
 export const householdApi = createApi({
@@ -113,6 +114,17 @@ export const householdApi = createApi({
 
             invalidatesTags: (result, error, arg) => [{ type: "Household", id: arg.houseHoldId }],
         }),
+
+        changeMemberName: builder.mutation<string, householdMemberChangeName>({
+            query: (body) => ({
+                url: `/changenameOnMember`,
+                method: "PATCH",
+                responseHandler: "text",
+                body,
+            }),
+
+            invalidatesTags: (result, error, arg) => [{ type: "Household", id: arg.houseHoldId }],
+        }),
         changeEmoji: builder.mutation<string, householdChangeEmoji>({
             query: (body) => ({
                 url: `/changeemoji`,
@@ -203,6 +215,7 @@ export const {
     useJoinHouseholdMutation,
     useLeaveHouseholdMutation,
     useChangeNameMutation,
+    useChangeMemberNameMutation,
     useChangeEmojiMutation,
     useAcceptUserMutation,
     useMakeUserToOwnerMutation,
