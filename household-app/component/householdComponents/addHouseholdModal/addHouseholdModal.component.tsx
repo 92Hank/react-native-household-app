@@ -1,4 +1,5 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Formik } from "formik";
 import React, { FC, useContext, useEffect, useState } from "react";
 import { Dimensions, Modal, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Surface, TextInput, Text, useTheme } from "react-native-paper";
@@ -9,6 +10,7 @@ import { useAppSelector } from "../../../Redux/hooks";
 import { useCreateHouseholdMutation } from "../../../Redux/Service/household/householdApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 import SnackbarComponent from "../../snackbar/snackbarComponent";
+import * as Yup from "yup";
 
 interface DefaultProps {
     isOpen: boolean;
@@ -18,6 +20,19 @@ interface DefaultProps {
 type NavProps = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
 
 type Props = DefaultProps & NavProps;
+
+interface inputHousehold {
+    name: string;
+}
+
+type PostSchemaType = Record<keyof inputHousehold, Yup.AnySchema>;
+
+const validationSchema = Yup.object().shape<PostSchemaType>({
+    name: Yup.string()
+        .min(3, ({ min }) => `minst ${min} bokstäver!`)
+        .max(20, ({ max }) => `max ${max} bokstäver!`)
+        .required("Namn måste fyllas i!"),
+});
 
 enum Avatars {
     "🦊" = "1",
@@ -44,10 +59,14 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
 
     const [CreateHousehold, { status, isSuccess, error, isLoading }] = useCreateHouseholdMutation();
 
+    const defaultName: inputHousehold = {
+        name: "",
+    };
+
     useEffect(() => {
         console.log("isSuccess", isSuccess);
         if (isSuccess) {
-            setSnackbar("Lyckades att skapa hushåll : " + name, true);
+            setSnackbar("Lyckades att skapa hushåll", true);
             props.handleModalClose();
         }
     }, [isSuccess]);
@@ -77,10 +96,10 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
         console.log(index);
     };
 
-    const onSave = async () => {
-        if (name && avatar) {
+    const onSave = async (household: inputHousehold) => {
+        if (household.name && avatar) {
             const requestData: householdCreate = {
-                name: name,
+                name: household.name,
                 ownerId: user.id!,
                 member: {
                     name: user.userName,
@@ -96,72 +115,91 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
 
     return (
         <View style={styles.centeredView}>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={props.isOpen}
-                onRequestClose={() => {
-                    props.isOpen;
-                }}
+            <Formik
+                validationSchema={validationSchema}
+                initialValues={defaultName}
+                onSubmit={onSave}
+                validateOnChange={false}
             >
-                <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                    <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
-                        <SnackbarComponent isVisible={isVisible} message={message} />
+                {({ errors, values, handleChange, handleSubmit, touched }) => (
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={props.isOpen}
+                        onRequestClose={() => {
+                            props.isOpen;
+                        }}
+                    >
+                        <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
+                            <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
+                                <SnackbarComponent isVisible={isVisible} message={message} />
 
-                        <Text style={styles.modalText}>Namnge hushåll: </Text>
-                        <TextInput
-                            theme={{ roundness: 10 }}
-                            outlineColor="white"
-                            mode="outlined"
-                            style={{ ...styles.input, backgroundColor: colors.inputColor }}
-                            value={name}
-                            label="Namn på hushållet"
-                            onChangeText={onChangeInput}
-                            textAlign={undefined}
-                        />
-                        <View style={{ marginTop: 25 }}>
-                            <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
-                            <View style={styles.avatars}>
-                                {avatars.map(function (name, index) {
-                                    return (
-                                        <TouchableOpacity onPress={() => avatarSelect(Number(index + 1))} key={index}>
-                                            <Text style={styles.avatar}>{name}</Text>
-                                        </TouchableOpacity>
-                                    );
-                                })}
-                            </View>
-                        </View>
-                        <View>
-                            {avatar && (
-                                <Text style={{ marginTop: 40, fontSize: 20 }}>
-                                    Vald avatar:
-                                    <Text style={styles.avatar}> {avatars[Number(avatar) - 1]} </Text>
-                                </Text>
-                            )}
-                        </View>
-                        <View style={styles.buttonsContainer}>
-                            <TouchableOpacity
-                                onPress={() => onSave()}
-                                style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
-                            >
-                                <MaterialIcons name="add-circle-outline" size={30} color={colors.whiteBlackToggle} />
-                                <Text style={styles.buttonText}>Spara</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={props.handleModalClose}
-                                style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
-                            >
-                                <MaterialCommunityIcons
-                                    name="close-circle-outline"
-                                    size={30}
-                                    color={colors.whiteBlackToggle}
+                                <Text style={styles.modalText}>Namnge hushåll: </Text>
+                                <TextInput
+                                    theme={{ roundness: 10 }}
+                                    outlineColor="white"
+                                    mode="outlined"
+                                    style={{ ...styles.input, backgroundColor: colors.inputColor }}
+                                    value={values.name}
+                                    label="Namn på hushållet"
+                                    onChangeText={handleChange<keyof inputHousehold>("name")}
+                                    textAlign={undefined}
                                 />
-                                <Text style={styles.buttonText}>Stäng</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </Surface>
-                </Surface>
-            </Modal>
+                                {errors.name && touched.name && (
+                                    <Text style={{ fontSize: 10, color: "red" }}>{errors.name}</Text>
+                                )}
+                                <View style={{ marginTop: 25 }}>
+                                    <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
+                                    <View style={styles.avatars}>
+                                        {avatars.map(function (name, index) {
+                                            return (
+                                                <TouchableOpacity
+                                                    onPress={() => avatarSelect(Number(index + 1))}
+                                                    key={index}
+                                                >
+                                                    <Text style={styles.avatar}>{name}</Text>
+                                                </TouchableOpacity>
+                                            );
+                                        })}
+                                    </View>
+                                </View>
+                                <View>
+                                    {avatar && (
+                                        <Text style={{ marginTop: 40, fontSize: 20 }}>
+                                            Vald avatar:
+                                            <Text style={styles.avatar}> {avatars[Number(avatar) - 1]} </Text>
+                                        </Text>
+                                    )}
+                                </View>
+                                <View style={styles.buttonsContainer}>
+                                    <TouchableOpacity
+                                        onPress={handleSubmit}
+                                        style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <MaterialIcons
+                                            name="add-circle-outline"
+                                            size={30}
+                                            color={colors.whiteBlackToggle}
+                                        />
+                                        <Text style={styles.buttonText}>Spara</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={props.handleModalClose}
+                                        style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <MaterialCommunityIcons
+                                            name="close-circle-outline"
+                                            size={30}
+                                            color={colors.whiteBlackToggle}
+                                        />
+                                        <Text style={styles.buttonText}>Stäng</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </Surface>
+                        </Surface>
+                    </Modal>
+                )}
+            </Formik>
         </View>
     );
 };
