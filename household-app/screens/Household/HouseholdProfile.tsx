@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Divider, Surface } from "react-native-paper";
+import { Surface } from "react-native-paper";
 import Button from "../../component/common/Button";
 import ToggleDarkThemeSwitch from "../../component/common/ToggleDarkThemeSwitch";
 import ProfileModule from "../../component/profile/ProfileModule";
