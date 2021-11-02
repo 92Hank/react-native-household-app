@@ -9,7 +9,7 @@ import { selectSelectedHousehold } from "../../Redux/features/SelectedState/Sele
 import { useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
-type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
+type Props = FeedStackScreenProps<MainRoutes.HouseholdProfile>;
 
 enum Avatars {
     "🦊" = 1,
@@ -61,10 +61,10 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
                 </View>
             </View>
             <Surface style={styles.container}>
-                <Surface style={styles.profileSurface}>
+                <View style={styles.profileSurface}>
                     <Text style={styles.text}>{username}</Text>
                     <ProfileModule isOpen={isClickedTaskOpen} handleModalClose={handleTaskClose} />
-                </Surface>
+                </View>
                 <View style={styles.buttonAlign}>
                     <Button
                         text="Ändra profil"
