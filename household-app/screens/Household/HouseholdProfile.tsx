@@ -63,19 +63,18 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
                 </View>
             </View>
             <Surface style={styles.container}>
-                <Text style={styles.labelText}>Member User Name</Text>
                 <Surface style={styles.profileSurface}>
                     <Text style={styles.text}>{username}</Text>
+                    <ProfileModule isOpen={isClickedTaskOpen} handleModalClose={handleTaskClose} />
+                </Surface>
                     <View style={styles.buttonAlign}>
                         <Button
-                            text=""
+                            text="Ändra profil"
                             onPress={handleTaskOpen}
                             iconType={{ type: "MaterialIcons", icons: "edit" }}
                             buttonStyle={styles.button}
                         />
                     </View>
-                    <ProfileModule isOpen={isClickedTaskOpen} handleModalClose={handleTaskClose} />
-                </Surface>
             </Surface>
 
         </>
@@ -84,26 +83,20 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
 
 const styles = StyleSheet.create({
     profileSurface: {
-        fontSize: 45,
         flex: 1,
-        flexDirection: "row",
         justifyContent: "center",
-        alignItems: "flex-start",
-        marginHorizontal: 16,
+        alignItems: "center",
+        margin: 16,
     },
     button: {
-        width: 60,
-        height: 20,
         justifyContent: "center",
         alignItems: "center",
         fontSize: 16,
     },
     buttonAlign: {
-        alignItems: "flex-end",
-        justifyContent: "flex-start",
-        flexWrap: "wrap",
+        alignItems: "center",
+        justifyContent: "center",
         marginVertical: 16,
-        marginLeft: 200,
     },
     topBar: {
         flexDirection: "row",
@@ -114,24 +107,14 @@ const styles = StyleSheet.create({
     avatarImage: {
         
     },
-    darkThemeButton: {
-        paddingRight: 24,
-        justifyContent: "flex-end",
-    },
     container: {
         flex: 1,
         marginTop: 20,
     },
-    labelText: {
-        color: "grey",
-        fontSize: 16,
-        marginHorizontal: 16,
-    },
     text: {
         color: "grey",
-        fontSize: 24,
+        fontSize: 40,
         marginHorizontal: 16,
-        lineHeight: 50,
     },
     avatar: {
         fontSize: 80,
