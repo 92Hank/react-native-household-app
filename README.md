@@ -2,7 +2,7 @@
 
 <img src="assets/auB9iGd.png"
       alt="R N T img"
-      style="foat: center;">
+      style="float: center;">
 
 # react-native-household-app
 
