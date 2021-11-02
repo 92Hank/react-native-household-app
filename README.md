@@ -1,6 +1,4 @@
-<p align="center"> 
-   <img src="https://imgur.com/a/bUyoLUb">
-</p>
+![RNT image](household-app/assets/auB9iGd.png "RNT Image")
 
 # react-native-household-app
 
@@ -26,69 +24,56 @@ VG: 34 (85%).
 
 - [x] En logga, splashscreen och appikon ska designas och användas.
 - [x] Applikationen ska byggas med RN, Expo & TS.
-- [x] Designen av appen ska utgå ifrån befintliga skisser, undantag kan ges men ska diskuteras
-med produktägare, godkännas och dokumenteras.
+- [x] Designen av appen ska utgå ifrån befintliga skisser, undantag kan ges men ska diskuteras med produktägare, godkännas och dokumenteras.
 - [x] All information ska kommuniceras till och från en server. (VG)
 
 
-### Hushåll (5/7)
+### Hushåll (7/7)
 
-- [x] Ett hushåll ska ha ett namn och en genererad (enkel) kod så andra kan gå med i hushållet,
-namnet ska gå att ändra. \*
+- [x] Ett hushåll ska ha ett namn och en genererad (enkel) kod så andra kan gå med i hushållet, namnet ska gå att ändra.
 - [x] Alla användare i ett hushåll ska kunna se vilka som tillhör ett hushåll.
 - [x] En ägare av ett hushåll ska kunna se förfrågningar om att gå med i hushållet.
 - [x] En ägare ska kunna acceptera eller neka förfrågningar.
 - [x] En ägare ska kunna göra andra till ägare.
-- [ ] En ägare ska kunna pausa en användare och under pausade perioder ska användare inte
-tas med i statistiken. // göra i statistik
-- [ ] Om en använder har pausats under en del av en period i statistiken ska graferna
-normaliseras.
+- [x] En ägare ska kunna pausa en användare och under pausade perioder ska användare inte tas med i statistiken.
+- [x] Om en använder har pausats under en del av en period i statistiken ska graferna normaliseras.
 
 ### Konto (5/5)
 
 - [x] En användare ska kunna logga in sig.
 - [x] En användare ska kunna skapa ett nytt hushåll.
-- [x] En användare ska kunna gå med i ett hushåll genom att ange hushållets kod. \*
-- [x] När en användare har valt att gå med i ett hushåll behöver en ägare av hushållet först
-godkänna användaren.
-- [x] En användare ska kunna lämna ett hushåll. //göra api för
+- [x] En användare ska kunna gå med i ett hushåll genom att ange hushållets kod. 
+- [x] När en användare har valt att gå med i ett hushåll behöver en ägare av hushållet först godkänna användaren.
+- [x] En användare ska kunna lämna ett hushåll.
 
 ### Profil (6/6)
 
-- [x] En användare ska kunna ange sitt namn. // ändra och på profil sida
-- [x] En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista. // välja ny på profil sida
-- [x] Valda avatarer ska inte kunna väljas av andra användare i hushållet. _
-- [x] Avataren ska användas i appen för att visa vad användaren har gjort. _
+- [x] En användare ska kunna ange sitt namn.
+- [x] En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista.
+- [x] Valda avatarer ska inte kunna väljas av andra användare i hushållet. 
+- [x] Avataren ska användas i appen för att visa vad användaren har gjort. 
 - [x] En användare ska kunna ställa in appens utseende (mörkt, ljust, auto).
-- [x] Om en användare tillhör två eller fler hushåll ska denne kunna välja att byta mellan de
-olika hushållen. Strax
+- [x] Om en användare tillhör två eller fler hushåll ska denne kunna välja att byta mellan de olika hushållen.
 
 ### Sysslor (5/6)
 
 - [x] En ägare ska kunna lägga till sysslor att göra i hemmet.
-- [x] En syssla ska ha ett namn, en beskrivning (text), hur ofta den ska göras (dagar), och en
-vikt som beskriver hur energikrävande den är.
-- [ ] En användare ska kunna lägga till en ljudinspelning och en bild för att beskriva sysslan
-ytterligare. Senare...
-- [x] En ägare ska kunna redigera en syssla. _ Api
-- [x] En ägare ska kunna ta bort en syssla. _ Api
-- [x] När en syssla tas bort ska användaren få en varning om att all statistik gällande sysslan
-också kommer att tas bort och få valet att arkivera sysslan istället. Senare..
+- [x] En syssla ska ha ett namn, en beskrivning (text), hur ofta den ska göras (dagar), och en vikt som beskriver hur energikrävande den är.
+- [ ] En användare ska kunna lägga till en ljudinspelning och en bild för att beskriva sysslan ytterligare. // Senare...
+- [x] En ägare ska kunna redigera en syssla.
+- [x] En ägare ska kunna ta bort en syssla.
+- [x] När en syssla tas bort ska användaren få en varning om att all statistik gällande sysslan också kommer att tas bort och få valet att arkivera sysslan istället.
 
 ### Dagsvyn (3/3)
 
-- [x] Alla sysslor ska listas i en dagsvy och ge en översikt kring vad som behöver göras. _
-- [x] Utöver sysslans namn ska även vem/vilka som har gjort sysslan visas, hur många dagar
-sedan sysslan gjordes senast samt om den är försenad. _
-- [x] När en användare väljer en syssla ska beskrivningen av sysslan visas och det ska även
-med ett enkelt tryck gå att markera sysslan som gjord. \*
+- [x] Alla sysslor ska listas i en dagsvy och ge en översikt kring vad som behöver göras.
+- [x] Utöver sysslans namn ska även vem/vilka som har gjort sysslan visas, hur många dagar sedan sysslan gjordes senast samt om den är försenad.
+- [x] När en användare väljer en syssla ska beskrivningen av sysslan visas och det ska även med ett enkelt tryck gå att markera sysslan som gjord.
 
 ### Statistik (5/6)
 
-- [x] En användare ska kunna se fördelningen av gjorda sysslor mellan användarna i sitt
-hushåll. _
-- [x] Varje statistikvy ska visa den totala fördelningen (inräknat vikterna för sysslorna) samt
-fördelning av varje enskild syssla. _
+- [x] En användare ska kunna se fördelningen av gjorda sysslor mellan användarna i sitt hushåll.
+- [x] Varje statistikvy ska visa den totala fördelningen (inräknat vikterna för sysslorna) samt fördelning av varje enskild syssla. _
 - [x] Det ska finnas en statistikvy över ”nuvarande vecka”.
 - [x] Det ska finnas en statistikvy över ”förra vecka”.
 - [x] Det ska finnas en statistikvy över ”förra månaden”.
@@ -98,8 +83,7 @@ fördelning av varje enskild syssla. _
 
 - [ ] En ägare ska kunna tilldela och ta bort sysslor från användare i hushållet.
 - [ ] Användare ska kunna se de tilldelade sysslorna i sitt gränssnitt.
-- [ ] En ägare ska kunna skapa grupper av sysslor som automatiskt tilldelas användarna i
-hushållet och roteras baserat på ett intervall i dagar.
+- [ ] En ägare ska kunna skapa grupper av sysslor som automatiskt tilldelas användarna i hushållet och roteras baserat på ett intervall i dagar.
 
 ### Inlämning
 
@@ -121,5 +105,4 @@ Krav för väl godkänt:
 
 1. Alla punkter för godkänt är uppfyllda
 2. Ni har använt CI/CD under projektet.
-3. Applikationen kommunicerar datan till och från en backend tjänst (ni väljer) med hjälp
-   av Redux & redux-thunk.
+3. Applikationen kommunicerar datan till och från en backend tjänst (ni väljer) med hjälp av Redux & redux-thunk.
