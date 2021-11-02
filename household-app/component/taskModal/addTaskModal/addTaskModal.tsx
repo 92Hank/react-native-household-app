@@ -212,8 +212,12 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     );
 
     return (
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined} enabled>
-            <ScrollView
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            enabled={false}
+        >
+            <View
                 // contentContainerStyle={{ flexGrow: 1 }}
                 {...(Platform.OS === "ios" ? "keyboardDismissMode='interactive'" : null)}
                 keyboardShouldPersistTaps={"handled"}
@@ -240,7 +244,10 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                         <Surface style={styles.modalTextView}>
                                             <Text style={styles.modalText}>Skapa en ny syssla</Text>
                                         </Surface>
-                                        <View
+
+                                        {/* // Fixa scrollview, flytta padding innanför scrollview */}
+                                        <ScrollView
+                                            contentContainerStyle={[styles.test]}
                                             style={
                                                 {
                                                     // position: "absolute",
@@ -280,7 +287,7 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                             {!isClickedDays ? repeatedInput : repeatedValue}
 
                                             {!isClicked ? valueInput : valueForTask}
-                                        </View>
+                                        </ScrollView>
                                         <View style={styles.buttonsContainer}>
                                             {!isLoading ? (
                                                 <TouchableOpacity
@@ -328,7 +335,7 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                         </Surface>
                     )}
                 </Formik>
-            </ScrollView>
+            </View>
         </KeyboardAvoidingView>
     );
 };
