@@ -38,6 +38,7 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
                         source={require("../../assets/logotypeBlack/logoBS.png")}
                         style={styles.profileImage}
                     />
+                    
                 </View>
                 <View style={styles.darkThemeButton}>
                     <TouchableRipple onPress={toggleTheme} hasTVPreferredFocus={false} tvParallaxProperties={{}}>
