@@ -2,8 +2,6 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import loginUserSliceReducer, { loginUserSlice } from "./features/loginUser/loginUserSlice";
 import SelectedStateReducer, { SelectedStateSlice } from "./features/SelectedState/SelectedStateSlice";
-import { doneTaskApi } from "./Service/doneTask/doneTaskApi";
-
 import { householdApi } from "./Service/household/householdApi";
 import { taskApi } from "./Service/task/taskApi";
 import { userApi } from "./Service/user/userApi";
@@ -15,14 +13,11 @@ export const store = configureStore({
         [userApi.reducerPath]: userApi.reducer,
         [householdApi.reducerPath]: householdApi.reducer,
         [taskApi.reducerPath]: taskApi.reducer,
-        [doneTaskApi.reducerPath]: doneTaskApi.reducer,
+        // [doneTaskApi.reducerPath]: doneTaskApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware()
-            .concat(userApi.middleware)
-            .concat(householdApi.middleware)
-            .concat(taskApi.middleware)
-            .concat(doneTaskApi.middleware),
+        getDefaultMiddleware().concat(userApi.middleware).concat(householdApi.middleware).concat(taskApi.middleware),
+    // .concat(doneTaskApi.middleware),
 });
 
 // enable listener behavior for the store
