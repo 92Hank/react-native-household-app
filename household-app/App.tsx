@@ -50,7 +50,6 @@ const CombinedDarkTheme = {
 
 export default function App() {
     const colorScheme = useColorScheme();
-
     const [theme, setTheme] = React.useState<"light" | "dark">(colorScheme === "dark" ? "dark" : "light");
 
     function toggleTheme() {
@@ -99,7 +98,7 @@ export default function App() {
                                   }
                         }
                     >
-                        <StatusBar style="auto" />
+                        <StatusBar style={theme === "dark" ? "light" : "dark"} />
                         <MainNavigation />
                     </PaperProvider>
                 </PreferencesContext.Provider>
