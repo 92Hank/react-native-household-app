@@ -58,10 +58,8 @@ export const getUsersHouseholdsOnUserId = async (
     req: Request,
     res: Response
 ): Promise<void> => {
-  console.log("foo");
   const userId = req.params.userId;
   const households: FirebaseFirestore.DocumentData = [];
-  console.log(userId);
 
   db.collection(householdCollection)
       .where("userIds", "array-contains-any", [userId])
@@ -103,7 +101,6 @@ export const joinHousehold = (req: Request, res: Response): void => {
       .get()
       .then((query) => {
         const data = query.data();
-        console.log(data?.inviteCode);
         if (data?.inviteCode == inviteCode) {
           query.ref.update({
             member: FieldValue.arrayUnion(member),
@@ -120,37 +117,39 @@ export const joinHousehold = (req: Request, res: Response): void => {
 export const acceptMember = (req: Request, res: Response): void => {
   const houseHoldId = req.body["houseHoldId"];
   const userId = req.body["userId"];
-  console.log(houseHoldId);
-  console.log(userId);
 
   const ref = db.collection(householdCollection).doc(houseHoldId);
   ref
       .get()
       .then((query) => {
         let data = query.data();
-      data?.member.forEach((m: any) => {
-        if (m.userId === userId) {
-          console.log(m);
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          query.ref
-              .update({
-                member: FieldValue.arrayRemove(m),
-              })
-              .then(() => {
-                m.AcceptedStatus = "accepted";
-                query.ref
-                    .update({
-                      member: FieldValue.arrayUnion(m),
-                    })
-                    .then(() => {
-                      res.status(200).json("member accepted");
-                    })
-                    .catch(() => {
-                      res.status(400).json("could not update");
-                    });
-              });
+        let found = false;
+        data?.member.forEach((m: any) => {
+          if (m.userId === userId) {
+            found = true;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            query.ref
+                .update({
+                  member: FieldValue.arrayRemove(m),
+                })
+                .then(() => {
+                  m.AcceptedStatus = "accepted";
+                  query.ref
+                      .update({
+                        member: FieldValue.arrayUnion(m),
+                      })
+                      .then(() => {
+                        res.status(200).json("member accepted");
+                      })
+                      .catch(() => {
+                        res.status(400).json("could not update");
+                      });
+                });
+          }
+        });
+        if (!found) {
+          res.status(404).json("userId or householdId not found");
         }
-      });
       })
       .catch((error) => res.status(500).send(error.message));
 };
@@ -164,28 +163,33 @@ export const makeMemberAdmin = (req: Request, res: Response): void => {
       .get()
       .then((query) => {
         let data = query.data();
-      data?.member.forEach((m: any) => {
-        if (m.userId === userId) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          query.ref
-              .update({
-                member: FieldValue.arrayRemove(m),
-              })
-              .then(() => {
-                m.isOwner = true;
-                query.ref
-                    .update({
-                      member: FieldValue.arrayUnion(m),
-                    })
-                    .then(() => {
-                      res.status(200).json("member is owner now");
-                    })
-                    .catch(() => {
-                      res.status(400).json("could not update");
-                    });
-              });
+        let found = false;
+        data?.member.forEach((m: any) => {
+          if (m.userId === userId) {
+            found = true;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            query.ref
+                .update({
+                  member: FieldValue.arrayRemove(m),
+                })
+                .then(() => {
+                  m.isOwner = true;
+                  query.ref
+                      .update({
+                        member: FieldValue.arrayUnion(m),
+                      })
+                      .then(() => {
+                        res.status(200).json("member is owner now");
+                      })
+                      .catch(() => {
+                        res.status(400).json("could not update");
+                      });
+                });
+          }
+        });
+        if (!found) {
+          res.status(404).json("userId or householdId not found");
         }
-      });
       })
       .catch((error) => res.status(500).send(error.message));
 };
@@ -194,9 +198,7 @@ export const getHouseholdsOnInviteCode = async (
     req: Request,
     res: Response
 ): Promise<void> => {
-  console.log("foo");
   const inviteCode = req.params.inviteCode;
-  console.log(inviteCode);
 
   db.collection(householdCollection)
       .where("inviteCode", "==", inviteCode)
@@ -245,28 +247,33 @@ export const setMemberOnPauseHouseHold = (
       .get()
       .then((query) => {
         let data = query.data();
-      data?.member.forEach((m: any) => {
-        if (m.userId === userId) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          query.ref
-              .update({
-                member: FieldValue.arrayRemove(m),
-              })
-              .then(() => {
-                m.isPaused = isPaused;
-                query.ref
-                    .update({
-                      member: FieldValue.arrayUnion(m),
-                    })
-                    .then(() => {
-                      res.status(200).json("member is paused");
-                    })
-                    .catch(() => {
-                      res.status(400).json("could not update");
-                    });
-              });
+        let found = false;
+        data?.member.forEach((m: any) => {
+          if (m.userId === userId) {
+            found = true;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            query.ref
+                .update({
+                  member: FieldValue.arrayRemove(m),
+                })
+                .then(() => {
+                  m.isPaused = isPaused;
+                  query.ref
+                      .update({
+                        member: FieldValue.arrayUnion(m),
+                      })
+                      .then(() => {
+                        res.status(200).json("member paused status changed");
+                      })
+                      .catch(() => {
+                        res.status(400).json("could not update");
+                      });
+                });
+          }
+        });
+        if (!found) {
+          res.status(404).json("userId or householdId not found");
         }
-      });
       })
       .catch((error) => res.status(500).send(error.message));
 };
@@ -280,41 +287,44 @@ export const memberLeaveHouseHold = (req: Request, res: Response): void => {
       .get()
       .then((query) => {
         let data = query.data();
-      data?.member.forEach((m: any) => {
-        console.log("input ", userId);
-        console.log("thos ", m.userId);
-        if (m.userId === userId) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          query.ref
-              .update({
-                member: FieldValue.arrayRemove(m),
-              })
-              .then(() => {
-                query.ref
-                    .update({
-                      userIds: FieldValue.arrayRemove(userId),
-                    })
-                    .then(function() {
-                      db.collection("doneTask")
-                          .get()
-                          .then((snap) => {
-                            snap.forEach((s) => {
-                              const doneTask = s.data();
-                              if (doneTask.userId === userId) {
-                                s.ref.delete();
-                              }
+        let found = false;
+        data?.member.forEach((m: any) => {
+          if (m.userId === userId) {
+            found = true;
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            query.ref
+                .update({
+                  member: FieldValue.arrayRemove(m),
+                })
+                .then(() => {
+                  query.ref
+                      .update({
+                        userIds: FieldValue.arrayRemove(userId),
+                      })
+                      .then(function() {
+                        db.collection("doneTask")
+                            .get()
+                            .then((snap) => {
+                              snap.forEach((s) => {
+                                const doneTask = s.data();
+                                if (doneTask.userId === userId) {
+                                  s.ref.delete();
+                                }
+                              });
                             });
-                          });
-                    })
-                    .then(() => {
-                      res.status(200).json("member left houseHold");
-                    });
-              })
-              .catch(() => {
-                res.status(400).json("could not remove");
-              });
+                      })
+                      .then(() => {
+                        res.status(200).json("member left houseHold");
+                      });
+                })
+                .catch(() => {
+                  res.status(400).json("could not remove");
+                });
+          }
+        });
+        if (!found) {
+          res.status(404).json("userId or householdId not found");
         }
-      });
       })
       .catch((error) => res.status(500).send(error.message));
 };

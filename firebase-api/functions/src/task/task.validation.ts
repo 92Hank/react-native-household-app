@@ -15,7 +15,7 @@ function checkValidation(req: Request, res: Response, next: NextFunction) {
 
 
 export const postValidation = [
-  body("description").notEmpty().isLength({min: 3, max: 50}),
+  body("description").notEmpty().isLength({min: 3, max: 120}),
   body("name").notEmpty().isLength({min: 3, max: 20}),
   body("value").isFloat({min: 1, max: 8}),
   body("houseHoldId").notEmpty().isLength({min: 3, max: 20}),
@@ -25,7 +25,7 @@ export const postValidation = [
 ];
 
 export const updateValidation = [
-  body("description").notEmpty().isLength({min: 3, max: 50}),
+  body("description").notEmpty().isLength({min: 3, max: 120}),
   body("name").notEmpty().isLength({min: 3, max: 20}),
   body("value").isFloat({min: 1, max: 8}),
   body("houseHoldId").notEmpty().isLength({min: 3, max: 20}),
