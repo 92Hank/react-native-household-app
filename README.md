@@ -31,7 +31,7 @@ med produktägare, godkännas och dokumenteras.
 - [x] All information ska kommuniceras till och från en server. (VG)
 
 
-### Hushåll (0/7)
+### Hushåll (5/7)
 
 - [x] Ett hushåll ska ha ett namn och en genererad (enkel) kod så andra kan gå med i hushållet,
 namnet ska gå att ändra. \*
@@ -39,12 +39,12 @@ namnet ska gå att ändra. \*
 - [x] En ägare av ett hushåll ska kunna se förfrågningar om att gå med i hushållet.
 - [x] En ägare ska kunna acceptera eller neka förfrågningar.
 - [x] En ägare ska kunna göra andra till ägare.
-- [x] En ägare ska kunna pausa en användare och under pausade perioder ska användare inte
+- [ ] En ägare ska kunna pausa en användare och under pausade perioder ska användare inte
 tas med i statistiken. // göra i statistik
 - [ ] Om en använder har pausats under en del av en period i statistiken ska graferna
 normaliseras.
 
-### Konto (2/5)
+### Konto (5/5)
 
 - [x] En användare ska kunna logga in sig.
 - [x] En användare ska kunna skapa ett nytt hushåll.
@@ -53,7 +53,7 @@ normaliseras.
 godkänna användaren.
 - [x] En användare ska kunna lämna ett hushåll. //göra api för
 
-### Profil (1/6)
+### Profil (6/6)
 
 - [x] En användare ska kunna ange sitt namn. // ändra och på profil sida
 - [x] En användare ska kunna välja en avatar (emoji-djur + färg) från en fördefinierad lista. // välja ny på profil sida
@@ -63,7 +63,7 @@ godkänna användaren.
 - [x] Om en användare tillhör två eller fler hushåll ska denne kunna välja att byta mellan de
 olika hushållen. Strax
 
-### Sysslor (2/6)
+### Sysslor (5/6)
 
 - [x] En ägare ska kunna lägga till sysslor att göra i hemmet.
 - [x] En syssla ska ha ett namn, en beskrivning (text), hur ofta den ska göras (dagar), och en
@@ -75,7 +75,7 @@ ytterligare. Senare...
 - [x] När en syssla tas bort ska användaren få en varning om att all statistik gällande sysslan
 också kommer att tas bort och få valet att arkivera sysslan istället. Senare..
 
-### Dagsvyn (0/3)
+### Dagsvyn (3/3)
 
 - [x] Alla sysslor ska listas i en dagsvy och ge en översikt kring vad som behöver göras. _
 - [x] Utöver sysslans namn ska även vem/vilka som har gjort sysslan visas, hur många dagar
@@ -83,15 +83,15 @@ sedan sysslan gjordes senast samt om den är försenad. _
 - [x] När en användare väljer en syssla ska beskrivningen av sysslan visas och det ska även
 med ett enkelt tryck gå att markera sysslan som gjord. \*
 
-### Statistik (0/6)
+### Statistik (5/6)
 
-- [ ] En användare ska kunna se fördelningen av gjorda sysslor mellan användarna i sitt
+- [x] En användare ska kunna se fördelningen av gjorda sysslor mellan användarna i sitt
 hushåll. _
-- [ ] Varje statistikvy ska visa den totala fördelningen (inräknat vikterna för sysslorna) samt
+- [x] Varje statistikvy ska visa den totala fördelningen (inräknat vikterna för sysslorna) samt
 fördelning av varje enskild syssla. _
-- [ ] Det ska finnas en statistikvy över ”nuvarande vecka”.
-- [ ] Det ska finnas en statistikvy över ”förra vecka”.
-- [ ] Det ska finnas en statistikvy över ”förra månaden”.
+- [x] Det ska finnas en statistikvy över ”nuvarande vecka”.
+- [x] Det ska finnas en statistikvy över ”förra vecka”.
+- [x] Det ska finnas en statistikvy över ”förra månaden”.
 - [ ] Om det inte finns statistik för en av vyerna ska den vyn inte visas.
 
 ### Schemaläggning (0/3)

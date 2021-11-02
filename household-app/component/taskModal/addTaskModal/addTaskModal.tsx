@@ -214,7 +214,7 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined} enabled>
             <ScrollView
-                //  contentContainerStyle={{ flexGrow: 1 }}sss
+                // contentContainerStyle={{ flexGrow: 1 }}
                 {...(Platform.OS === "ios" ? "keyboardDismissMode='interactive'" : null)}
                 keyboardShouldPersistTaps={"handled"}
             >

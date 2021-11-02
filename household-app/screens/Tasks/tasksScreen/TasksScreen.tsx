@@ -4,11 +4,11 @@ import React, { FC, useContext, useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { ActivityIndicator, Colors } from "react-native-paper";
 import Button from "../../../component/common/Button";
-import TaskModal from "../../../component/taskModal/taskModal";
-import ModalComponent from "../../../component/taskModal/addTaskModal/addTaskModal";
 import SnackbarComponent from "../../../component/snackbar/snackbarComponent";
 import ArchivedTaskCard from "../../../component/taskFolder/ArchivedTaskCard";
 import TaskCard from "../../../component/taskFolder/TaskCard";
+import ModalComponent from "../../../component/taskModal/addTaskModal/addTaskModal";
+import TaskModal from "../../../component/taskModal/taskModal";
 import { snackbarContext } from "../../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
@@ -32,7 +32,7 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const [taskInModal, setTaskInModal] = useState<TaskNow>();
     const [rights, setRights] = useState(false);
     const user = useAppSelector(selectCurrentLoginUser);
-    const { message, isVisible } = useContext(snackbarContext);
+    const { message, isVisible, setSnackbar } = useContext(snackbarContext);
 
     const [loadHouseholdData, householdResult] = useLazyGetTaskByHouseholdIdQuery();
     const { data: tasksData, isLoading } = householdResult;
@@ -130,6 +130,11 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     }, [tasksData, doneTasksData]);
 
     const clickOnTask = (task: TaskNow) => {
+        const member = currentHousehold.member.filter((m) => m.userId === user.id);
+        if (member[0].isPaused) {
+            setSnackbar("Din användare är pausad", true);
+            return;
+        }
         setTaskInModal(task);
         setIsClickedTaskOpen(true);
         console.log("click on task,", task);
