@@ -154,9 +154,9 @@ const styles = StyleSheet.create({
         // flex: 1,
         fontWeight: "bold",
         // lineHeight: 11 + 11 + 10,
-        fontSize: 22,
+        fontSize: 18,
         marginHorizontal: 15,
-        marginVertical: 12,
+        marginVertical: 15,
     },
     bodyTextStyle: {
         fontWeight: "200",
