@@ -7,7 +7,7 @@ import LastMonthScreen from "../screens/Tasks/lastMonthScreen/LastMonthScreen";
 import CurrentWeekScreen from "../screens/Tasks/currentWeekScreen/CurrentWeekScreen";
 import { useAppSelector } from "../Redux/hooks";
 import { selectSelectedHousehold } from "../Redux/features/SelectedState/SelectedStateSelectors";
-import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../Redux/Service/doneTask/doneTaskApi";
+import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../Redux/Service/task/taskApi";
 import { getLastMonthDoneTasksByHousehold } from "../screens/Tasks/helpers/doneTaskHelper";
 import { getCalendarWeekDoneTasksByHousehold } from "../screens/Tasks/helpers/doneTaskHelper";
 import { doneTask } from "../../Common/doneTask";
