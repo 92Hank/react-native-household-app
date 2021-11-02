@@ -45,7 +45,7 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
         }
         console.log(avatar);
         console.log(username);
-    });
+    }, [avatar, username]);
 
     return (
         <>
