@@ -21,6 +21,16 @@ enum Avatars {
     "🦉" = 7,
     "🦄" = 8,
 }
+enum AvatarColors {
+    "#FF6848" = 1,
+    "#FFA2F2" = 2,
+    "#CFF5BF" = 3,
+    "#F5E9B3" = 4,
+    "#F597C4" = 5,
+    "#B7DFFF" = 6,
+    "#FF9F26" = 7,
+    "#E4E5FE" = 8
+}
 
 const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
     const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
@@ -36,16 +46,18 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
 
     const [avatar, setAvatar] = useState<number>(-1);
     const [username, setUsername] = useState<string>("");
+    const [avatarColor, setAvatarColor] = useState<number>(-1);
 
     useEffect(() => {
         const member = currentHousehold?.member.filter((m) => m.userId === user?.id);
         if (member) {
             setAvatar(member[0].emoji);
             setUsername(member[0].name);
+            setAvatarColor(member[0].emoji);
         }
         console.log(avatar);
         console.log(username);
-    }, [avatar, username]);
+    }, [avatar, username, avatarColor]);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -57,7 +69,7 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
         <>
             <View style={styles.topBar}>
                 <View style={styles.avatarImage}>
-                    <Text style={styles.avatar}> {Avatars[avatar]} </Text>
+                    <Text style={styles.avatar}> {Avatars[avatar]}, {AvatarColors[avatar]} </Text>
                 </View>
             </View>
             <Surface style={styles.container}>
@@ -101,7 +113,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingVertical: 24,
     },
-    avatarImage: {},
+    avatarImage: {
+        width: 150,
+        height: 150,
+        borderRadius: 150/2,
+    },
     container: {
         flex: 1,
         marginTop: 20,
@@ -112,7 +128,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
     },
     avatar: {
-        fontSize: 80,
+        fontSize: 20,
         margin: 10,
         alignItems: "center",
         justifyContent: "center",
