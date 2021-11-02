@@ -29,9 +29,11 @@ type PostSchemaType = Record<keyof inputTask, Yup.AnySchema>;
 
 const validationSchema = Yup.object().shape<PostSchemaType>({
     name: Yup.string()
+        .min(3, ({ min }) => `minst ${min} bokstäver!`)
         .max(20, ({ max }) => `max ${max} bokstäver!`)
         .required("Titel måste fyllas i!"),
     description: Yup.string()
+        .min(3, ({ min }) => `minst ${min} bokstäver!`)
         .max(50, ({ max }) => `max ${max} bokstäver!`)
         .required("Beskrivning måste fyllas i!"),
 });
@@ -156,10 +158,10 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     const repeatedValue = (
         <Surface style={styles.inputsCard}>
             <Surface style={styles.clickedDay}>
-                <Surface style={styles.clickedDayTitle}>
+                <View style={styles.clickedDayTitle}>
                     <Text style={styles.buttonText}>Återkommer: </Text>
-                </Surface>
-                <Surface style={styles.clickedDayReturn}>
+                </View>
+                <View style={styles.clickedDayReturn}>
                     <Text style={{ marginRight: 3 }}>Var</Text>
                     <TouchableOpacity
                         style={styles.circleButton}
@@ -170,7 +172,7 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                         <Text style={styles.circleBtnText}>{repeated ? repeated : defaultTask.repeated}</Text>
                     </TouchableOpacity>
                     <Text style={{ marginLeft: 3 }}>dag</Text>
-                </Surface>
+                </View>
             </Surface>
         </Surface>
     );
@@ -193,10 +195,10 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     const valueForTask = (
         <Surface style={styles.inputsCard2}>
             <Surface style={styles.clickedDay}>
-                <Surface style={styles.clickedDayTitle}>
+                <View style={styles.clickedDayTitle}>
                     <Text style={styles.buttonText}>Värde: </Text>
                     <Text style={styles.clickedDayTitleSub}>Hur energikrävande är sysslan?</Text>
-                </Surface>
+                </View>
                 <TouchableOpacity
                     style={{ ...styles.circleButtonValue, backgroundColor: colors.contrastColor }}
                     onPress={() => {
