@@ -42,7 +42,7 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
                     
                 </View>
                 <View style={styles.darkThemeButton}>
-                    <ToggleDarkThemeSwitch>test</ToggleDarkThemeSwitch>
+                    <ToggleDarkThemeSwitch>DarkMode Switch</ToggleDarkThemeSwitch>
                 </View>
             </View>
             <Surface style={styles.container}>
