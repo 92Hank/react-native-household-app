@@ -1,8 +1,4 @@
-![RNT image](https://imgur.com/a/bUyoLUb)
-
-<img src="assets/auB9iGd.png"
-      alt="R N T img"
-      style="float: center;">
+![RNT image](auB9iGd.png)
 
 # react-native-household-app
 
