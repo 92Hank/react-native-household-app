@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Surface } from "react-native-paper";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { Surface, Text } from "react-native-paper";
 import { household } from "../../../Common/household";
 import EmojiSelector, { Avatars } from "../common/EmojiSelector";
 
@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
         width: 260,
         borderRadius: 20,
         paddingHorizontal: 10,
-
     },
     rootSelect: {
         flexDirection: "column",
