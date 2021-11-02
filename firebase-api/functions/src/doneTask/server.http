@@ -2,10 +2,10 @@ POST http://localhost:5000/react-native-household-app/us-central1/webApi/donetas
 Content-Type: application/json
 
 {
-    "taskId": "1Xl1q9Nei8XC8hHNDxzU",
-    "userId": "WrHSQTb8vsVQMVRVO14z",
-    "houseHoldId": "1J8rfrvRn6TUE8U9wJnv",
-    "value": 1
+    "taskId": "DP7D1PnUMtgnGmXSAKRa",
+    "userId": "JgvhgCtmZ4ieDM7HvLHE",
+    "houseHoldId": "R5w28IABhbyKneznYwBQ",
+    "value": 8
 }
 
 //dates sätts inne
