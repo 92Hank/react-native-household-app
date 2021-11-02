@@ -189,8 +189,8 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                     ></Button>
                 )}
                 <Button
-                    iconType={{ type: "MaterialIcons", icons: "person" }}
-                    text="Medlemmar"
+                    iconType={{ type: "MaterialIcons", icons: "home" }}
+                    text="Ditt hushåll"
                     onPress={onPressUsersInHousehold}
                 ></Button>
             </View>
