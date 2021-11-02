@@ -1,6 +1,6 @@
 ![RNT image](https://imgur.com/a/bUyoLUb)
 
-<img src="https://imgur.com/a/bUyoLUb"
+<img src="assets/auB9iGd.png"
       alt="R N T img"
       style="foat: center;">
 
