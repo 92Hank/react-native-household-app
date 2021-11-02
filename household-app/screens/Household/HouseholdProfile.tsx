@@ -5,6 +5,7 @@ import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { View, Text, StyleSheet } from "react-native";
 import { Avatar, Card, Divider, Surface, Switch, TouchableRipple } from "react-native-paper";
 import { PreferencesContext } from "../../context/PreferencesContext";
+import  ToggleDarkThemeSwitch  from "../../component/common/ToggleDarkThemeSwitch";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
@@ -41,20 +42,7 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
                     
                 </View>
                 <View style={styles.darkThemeButton}>
-                    <TouchableRipple onPress={toggleTheme} hasTVPreferredFocus={false} tvParallaxProperties={{}}>
-                        <View style={styles.preference}>
-                            <Text style={styles.themeText}>{theme === "dark" ? "☀️" : "🌙"}</Text>
-                            <View pointerEvents="none">
-                                <Switch
-                                    ios_backgroundColor="salmon"
-                                    value={theme === "dark"}
-                                    trackColor={{ false: "grey", true: "white" }}
-                                    thumbColor={theme === "dark" ? "grey" : "white"}
-                                    onValueChange={toggleSwitch}
-                                />
-                            </View>
-                        </View>
-                    </TouchableRipple>
+                    <ToggleDarkThemeSwitch>test</ToggleDarkThemeSwitch>
                 </View>
             </View>
             <Surface style={styles.container}>
