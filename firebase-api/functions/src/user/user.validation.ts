@@ -26,7 +26,3 @@ export const signinValidation = [
   checkValidation,
 ];
 
-
-//   "userName": "batman",
-//     "email": "fotoky@f5o.com",
-//     "password": "foobar"

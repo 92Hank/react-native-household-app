@@ -1,4 +1,4 @@
-POST http://192.168.1.240:5001/react-native-household-app/us-central1/webApi/household
+POST http://localhost:5000/react-native-household-app/us-central1/webApi/household
 Content-Type: application/json
 
 {
@@ -19,12 +19,12 @@ post http://localhost:5000/react-native-household-app/us-central1/webApi/househo
 Content-Type: application/json
 
 {
-    "houseHoldId": "1J8rfrvRn6TUE8U9wJnv",
-    "inviteCode": "2957",
+    "houseHoldId": "4w2n75ZQ9PK5GoXlTRWm",
+    "inviteCode": "2068",
     "member": {
         "name": "robin233",
-        "userId": "userID som vill jiona2342333",
-        "emoji": 1
+        "userId": "tjv23WkZaDiKHRIKWOsD",
+        "emoji": 5
     }
 }
 
@@ -48,8 +48,8 @@ PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/househ
 Content-Type: application/json
 
 {
-    "houseHoldId": "1J8rfrvRn6TUE8U9wJnv",
-    "userId": "userID som vill jiona2342"
+    "houseHoldId": "4w2n75ZQ9PK5GoXlTRWm",
+    "userId": "tjv23WkZaDiKHRIKWOsD"
     
 }
 
@@ -62,20 +62,20 @@ PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/househ
 Content-Type: application/json
 
 {
-    "houseHoldId": "1J8rfrvRn6TUE8U9wJnv",
-    "userId": "userID som vill jiona2342"
+    "houseHoldId": "4w2n75ZQ9PK5GoXlTRWm",
+    "userId": "tjv23WkZaDiKHRIKWOsD"
     
 }
 
 ###
 
 //change name on household
-PATCH http://172.19.200.32:5001/react-native-household-app/us-central1/webApi/household/changename
+PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/household/changename
 Content-Type: application/json
 
 {
-    "houseHoldId": "Dt1nCSiTG5QWYtPuMFQ",
-    "name": "Robins hushåll"
+    "houseHoldId": "4w2n75ZQ9PK5GoXlTRWm",
+    "name": "Disco huset"
     
 }
 
@@ -88,10 +88,9 @@ PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/househ
 Content-Type: application/json
 
 {
-    "houseHoldId": "1J8rfrvRn6TUE8U9wJnv",
-    "userId": "userID som vill jiona2342",
-    "isPaused": true
-    
+    "houseHoldId": "4w2n75ZQ9PK5GoXlTRWm",
+    "userId": "tjv23WkZaDiKHRIKWOsD",
+    "isPaused": false
 }
 
 ###
@@ -101,8 +100,8 @@ DELETE http://localhost:5000/react-native-household-app/us-central1/webApi/house
 Content-Type: application/json
 
 {
-    "houseHoldId": "1J8rfrvRn6TUE8U9wJnv",
-    "userId": "Tkf5AvAudKcYVRM2KXiA"
+    "houseHoldId": "4w2n75ZQ9PK5GoXlTRWm",
+    "userId": "tjv23WkZaDiKHRIKWOsD"
     
 }
 
@@ -113,8 +112,8 @@ PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/househ
 Content-Type: application/json
 
 {
-    "houseHoldId": "D66g4HdjydwhJSmDUsWm",
-    "userId": "WrHSQTb8vsVQMVRVO14z",
+    "houseHoldId": "4w2n75ZQ9PK5GoXlTRWm",
+    "userId": "tjv23WkZaDiKHRIKWOsD",
     "name": "robin är king"
     
 }

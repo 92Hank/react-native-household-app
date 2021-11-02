@@ -16,11 +16,19 @@ import {
   rejectMember,
   getHousehold,
 } from "./household.controller";
-
+import {
+  postValidation,
+  joinValidation,
+  acceptAndLeaveAndMakeOwnerValidation,
+  changeNameOnHouseholdValidation,
+  setPasuedValidation,
+  memberChangeNameValidation,
+  changeMemberNameValidation,
+} from "./household.validation";
 // eslint-disable-next-line new-cap
 export const householdRouter = express.Router();
 
-householdRouter.post("/household", post);
+householdRouter.post("/household", postValidation, post);
 householdRouter.get("/household/:id", getHousehold);
 householdRouter.get("/household/userId/:userId", getUsersHouseholdsOnUserId);
 householdRouter.get(
@@ -28,14 +36,46 @@ householdRouter.get(
     getHouseholdsOnInviteCode
 );
 
-householdRouter.post("/household/join", joinHousehold);
-householdRouter.patch("/household/accept", acceptMember);
-householdRouter.patch("/household/owner", makeMemberAdmin);
-householdRouter.patch("/household/changename", changeNameOnHouseHold);
-householdRouter.patch("/household/setpaused", setMemberOnPauseHouseHold);
-householdRouter.patch("/household/changenameOnMember", memberChangeName);
-householdRouter.patch("/household/changeemoji", memberChangeEmoji);
-householdRouter.patch("/household/reject", rejectMember);
-householdRouter.delete("/household/leave", memberLeaveHouseHold);
+householdRouter.post("/household/join", joinValidation, joinHousehold);
+householdRouter.patch(
+    "/household/accept",
+    acceptAndLeaveAndMakeOwnerValidation,
+    acceptMember
+);
+householdRouter.patch(
+    "/household/owner",
+    acceptAndLeaveAndMakeOwnerValidation,
+    makeMemberAdmin
+);
+householdRouter.patch(
+    "/household/changename",
+    changeNameOnHouseholdValidation,
+    changeNameOnHouseHold
+);
+householdRouter.patch(
+    "/household/setpaused",
+    setPasuedValidation,
+    setMemberOnPauseHouseHold
+);
+householdRouter.patch(
+    "/household/changenameOnMember",
+    memberChangeNameValidation,
+    memberChangeName
+);
+householdRouter.patch(
+    "/household/changeemoji",
+    changeMemberNameValidation,
+    memberChangeEmoji
+);
+householdRouter.patch(
+    "/household/reject",
+    acceptAndLeaveAndMakeOwnerValidation,
+    rejectMember
+);
+householdRouter.delete(
+    "/household/leave",
+    acceptAndLeaveAndMakeOwnerValidation,
+    memberLeaveHouseHold
+);
 
 

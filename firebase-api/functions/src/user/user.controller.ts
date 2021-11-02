@@ -25,7 +25,6 @@ export const createUser = async (req: Request, res: Response) => {
      .then((querySnapshot) => {
        querySnapshot.forEach((userDoc) => {
          // userDoc contains all metadata of Firestore object
-         console.log(userDoc.id);
          // eslint-disable-next-line prefer-const
          let taskDocData = userDoc.data();
          taskDocData.id = userDoc.id;
@@ -34,7 +33,6 @@ export const createUser = async (req: Request, res: Response) => {
      })
      .then(() => {
        data.forEach((doc: FirebaseFirestore.DocumentData) => {
-         console.log(doc.email);
          if (doc.email === createU.email) {
            res
              .status(400)
@@ -47,27 +45,15 @@ export const createUser = async (req: Request, res: Response) => {
              const newDoc = await db.collection(userCollection).add(createU);
              res.status(201).send(`Created a new user: ${newDoc.id}`);
        }
-     }).catch((err) => {
-       console.log(err);
+     }).catch(() => {
           res.status(400).send("user should have userName, password and email");
      });
-
-    //  if (create) {
-    //     try {
-    //       const newDoc = await db.collection(userCollection).add(createU);
-    //       res.status(201).send(`Created a new user: ${newDoc.id}`);
-    //     } catch (err) {
-    //       console.log(err);
-    //       res.status(400).send("user should have userName, password and email");
-    //     }
-    //  }
 };
 
 // get a single contact
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getUser = (req: Request, res: Response) => {
   const userId = req.params.id;
-  console.log(userId);
   db.collection(userCollection)
     .doc(userId)
     .get()
@@ -89,7 +75,6 @@ export const getAllUsers = (req: Request, res: Response) => {
     .then((querySnapshot) => {
       querySnapshot.forEach((userDoc) => {
         // userDoc contains all metadata of Firestore object
-        console.log(userDoc.id);
         // eslint-disable-next-line prefer-const
         let taskDocData = userDoc.data();
         taskDocData.id = userDoc.id;
@@ -111,7 +96,6 @@ export const signInUser = (req: Request, res: Response) => {
   query3
     .get()
     .then((docs) => {
-      console.log(docs.empty);
       if (docs.empty) {
         res.status(404).send("no user with this email or password");
       }
@@ -127,12 +111,3 @@ export const signInUser = (req: Request, res: Response) => {
     .catch((error) => res.status(500).send(error));
 };
 
-// // Update user
-// app.put("/users/:userId", async (req, res) => {
-//   await db
-//       .collection(userCollection)
-//       .doc(req.params.userId)
-//       .set(req.body, {merge: true})
-//       .then(() => res.json({id: req.params.userId}))
-//       .catch((error) => res.status(500).send(error));
-// })
