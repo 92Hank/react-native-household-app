@@ -2,7 +2,6 @@ import React, { FC, useState } from "react";
 import Button from "../../component/common/Button";
 import ProfileModule from "../../component/profile/ProfileModule";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-
 import { View, Text, StyleSheet } from "react-native";
 import { Avatar, Card, Divider, Surface, Switch, TouchableRipple } from "react-native-paper";
 import { PreferencesContext } from "../../context/PreferencesContext";

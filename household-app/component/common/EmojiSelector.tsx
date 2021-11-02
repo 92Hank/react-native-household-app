@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         flexWrap: "wrap",
-        width: 270,
+        width: 260,
     },
 });
 export enum Avatars {

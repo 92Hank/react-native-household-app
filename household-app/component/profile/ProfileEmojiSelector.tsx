@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         alignItems: "center",
         justifyContent: "flex-start",
-        maxWidth: "100%",
+        width: 260,
         marginVertical: 10,
     },
     avatar: {
