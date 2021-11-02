@@ -22,7 +22,7 @@ enum Avatars {
     "🦄" = 8,
 }
 
-const HouseholdProfile: FC<Props> = (): React.ReactElement => {
+const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
     const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
     const handleTaskClose = () => {
         setIsClickedTaskOpen(false);
@@ -46,6 +46,14 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
         console.log(avatar);
         console.log(username);
     }, [avatar, username]);
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <ToggleDarkThemeSwitch />
+            ),
+        });
+    }, [navigation]);
 
     return (
         <>
