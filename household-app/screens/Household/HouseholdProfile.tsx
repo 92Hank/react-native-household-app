@@ -1,18 +1,26 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Divider, Surface } from "react-native-paper";
 import Button from "../../component/common/Button";
+import ToggleDarkThemeSwitch from "../../component/common/ToggleDarkThemeSwitch";
 import ProfileModule from "../../component/profile/ProfileModule";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { View, Text, StyleSheet } from "react-native";
-import { Avatar, Divider, Surface } from "react-native-paper";
-import { PreferencesContext } from "../../context/PreferencesContext";
-import  ToggleDarkThemeSwitch  from "../../component/common/ToggleDarkThemeSwitch";
-
-import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
-import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
-import { number } from "yup/lib/locale";
+import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
+import { useAppSelector } from "../../Redux/hooks";
+import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
+
+enum Avatars {
+    "🦊" = 1,
+    "🐷" = 2,
+    "🐸" = 3,
+    "🐥" = 4,
+    "🐙" = 5,
+    "🐬" = 6,
+    "🦉" = 7,
+    "🦄" = 8,
+}
 
 const HouseholdProfile: FC<Props> = (): React.ReactElement => {
     const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
@@ -26,26 +34,30 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const user = useAppSelector(selectCurrentLoginUser);
 
-    const [avatar, setAvatar] = useState<Number>(-1);
-    const [username, setUsername] = useState<String>()
+    const [avatar, setAvatar] = useState<number>(-1);
+    const [username, setUsername] = useState<string>("");
 
-    const member = currentHousehold.member.filter((m) => m.userId === user.id);
-        setAvatar(member[0].emoji);
-        setUsername(member[0].name);
+    useEffect(() => {
+        const member = currentHousehold?.member.filter((m) => m.userId === user?.id);
+        if (member) {
+            setAvatar(member[0].emoji);
+            setUsername(member[0].name);
+        }
+        console.log(avatar);
+        console.log(username);
+    });
 
     return (
         <>
             <View style={styles.topBar}>
-                <View style={styles.leftSide}>
-                    
-                </View>
+                <View style={styles.leftSide}></View>
                 <View style={styles.avatarImage}>
-                    <Avatar.Image
+                    <Text style={styles.avatar}> {Avatars[avatar]} </Text>
+                    {/* <Avatar.Image
                         size={120}
                         source={require("../../assets/logotypeBlack/logoBS.png")}
                         style={styles.profileImage}
-                    />
-                    
+                    /> */}
                 </View>
                 <View style={styles.darkThemeButton}>
                     <ToggleDarkThemeSwitch>DarkMode Switch</ToggleDarkThemeSwitch>
@@ -56,10 +68,14 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
                 <Text style={styles.text}>{username}</Text>
                 <Divider style={styles.divider} />
             </Surface>
+
             <Surface style={styles.profileSurface}>
-                <Button text="Ändra Profil" onPress={handleTaskOpen} 
-                iconType={{ type: "MaterialIcons", icons: "open-in-new" }} 
-                buttonStyle={styles.button} />
+                <Button
+                    text="Ändra Profil"
+                    onPress={handleTaskOpen}
+                    iconType={{ type: "MaterialIcons", icons: "open-in-new" }}
+                    buttonStyle={styles.button}
+                />
                 <ProfileModule isOpen={isClickedTaskOpen} handleModalClose={handleTaskClose} />
             </Surface>
         </>
@@ -73,7 +89,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     button: {
-        marginVertical: 16, 
+        marginVertical: 16,
         width: "95%",
     },
     topBar: {
@@ -130,6 +146,12 @@ const styles = StyleSheet.create({
     divider: {
         color: "grey",
         maxWidth: "100%",
+    },
+    avatar: {
+        fontSize: 45,
+        margin: 10,
+        flexWrap: "wrap",
+        width: "100%",
     },
 });
 
