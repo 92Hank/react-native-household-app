@@ -20,9 +20,7 @@ const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => 
     return (
         <>
             <View style={styles.topBar}>
-                <View style={styles.leftSide}>
-                    
-                </View>
+                <View style={styles.leftSide}></View>
                 <View style={styles.avatarImage}>
                     <Avatar.Image
                         size={120}

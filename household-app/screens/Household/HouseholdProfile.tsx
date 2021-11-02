@@ -49,9 +49,7 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
-            headerRight: () => (
-                <ToggleDarkThemeSwitch />
-            ),
+            headerRight: () => <ToggleDarkThemeSwitch />,
         });
     }, [navigation]);
 
@@ -67,16 +65,15 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
                     <Text style={styles.text}>{username}</Text>
                     <ProfileModule isOpen={isClickedTaskOpen} handleModalClose={handleTaskClose} />
                 </Surface>
-                    <View style={styles.buttonAlign}>
-                        <Button
-                            text="Ändra profil"
-                            onPress={handleTaskOpen}
-                            iconType={{ type: "MaterialIcons", icons: "edit" }}
-                            buttonStyle={styles.button}
-                        />
-                    </View>
+                <View style={styles.buttonAlign}>
+                    <Button
+                        text="Ändra profil"
+                        onPress={handleTaskOpen}
+                        iconType={{ type: "MaterialIcons", icons: "edit" }}
+                        buttonStyle={styles.button}
+                    />
+                </View>
             </Surface>
-
         </>
     );
 };
@@ -104,9 +101,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingVertical: 24,
     },
-    avatarImage: {
-        
-    },
+    avatarImage: {},
     container: {
         flex: 1,
         marginTop: 20,
