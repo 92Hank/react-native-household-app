@@ -17,6 +17,7 @@ function LeaveModal(props: Props) {
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [rights, setRights] = useState(false);
     const { colors } = useTheme();
+    const [creator, setCreator] = useState(false);
 
     useEffect(() => {
         currentHousehold?.member.forEach((m) => {
@@ -25,6 +26,12 @@ function LeaveModal(props: Props) {
             }
         });
     }, [rights]);
+
+    useEffect(() => {
+        if (currentHousehold?.ownerId === user?.id) {
+            setCreator(true);
+        }
+    });
 
     return (
         <View style={styles.centeredView}>
@@ -38,31 +45,52 @@ function LeaveModal(props: Props) {
                     }}
                 >
                     <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
-                            {/* <Surface style={{ backgroundColor: colors.contrastColor }}> */}
-                            <Text style={styles.modalText}>Är du säker du vill lämna hushållet?</Text>
-                            {/* </Surface> */}
-                            <View style={styles.buttonsContainer}>
-                                <TouchableOpacity
-                                    onPress={props.handleLeave}
-                                    style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
-                                >
-                                    <MaterialIcons name="delete-forever" size={30} color={colors.whiteBlackToggle} />
-                                    <Text style={styles.buttonText}>Ja</Text>
-                                </TouchableOpacity>
+                        {!creator ? (
+                            <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
+                                {/* <Surface style={{ backgroundColor: colors.contrastColor }}> */}
+
+                                <Text style={styles.modalText}>Är du säker du vill lämna hushållet?</Text>
+                                <View style={styles.buttonsContainer}>
+                                    <TouchableOpacity
+                                        onPress={props.handleLeave}
+                                        style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <MaterialIcons
+                                            name="delete-forever"
+                                            size={30}
+                                            color={colors.whiteBlackToggle}
+                                        />
+                                        <Text style={styles.buttonText}>Ja</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={props.handleModalClose}
+                                        style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <MaterialCommunityIcons
+                                            name="arrow-left-bold"
+                                            size={30}
+                                            color={colors.whiteBlackToggle}
+                                        />
+                                        <Text style={styles.buttonText}>Nej</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </Surface>
+                        ) : (
+                            <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
+                                <Text style={styles.modalText}>Du kan inte lämna hushållet som skapare</Text>
                                 <TouchableOpacity
                                     onPress={props.handleModalClose}
-                                    style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
+                                    style={{ ...styles.backButton, backgroundColor: colors.blackWhiteToggle }}
                                 >
                                     <MaterialCommunityIcons
                                         name="arrow-left-bold"
                                         size={30}
                                         color={colors.whiteBlackToggle}
                                     />
-                                    <Text style={styles.buttonText}>Nej</Text>
+                                    <Text style={styles.buttonText}>Stäng</Text>
                                 </TouchableOpacity>
-                            </View>
-                        </Surface>
+                            </Surface>
+                        )}
                     </Surface>
                 </Modal>
             )}
@@ -152,6 +180,16 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
+    },
+    backButton: {
+        paddingVertical: 20,
+        paddingHorizontal: 20,
+        width: "50%",
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "center",
+        borderRadius: 50,
+        marginTop: 5,
     },
     closeButton: {
         // backgroundColor: "white",
