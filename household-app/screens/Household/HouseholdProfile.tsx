@@ -58,24 +58,16 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
                 </View>
             </View>
             <Surface style={styles.container}>
-                <Text style={styles.labelText}>User Name</Text>
+                <Text style={styles.labelText}>Member User Name</Text>
                 <Text style={styles.text}>Lilo24</Text>
                 <Divider style={styles.divider} />
-
-                <Text style={styles.labelText}>Nick Name</Text>
-                <Text style={styles.text}>StitchGoesCrazy</Text>
-                <Divider style={styles.divider} />
-
-                <Text style={styles.labelText}>Password</Text>
-                <Text style={styles.text}>***********</Text>
-                <Divider style={styles.divider} />
             </Surface>
-        <Surface style={styles.profileSurface}>
-            <Button text="Robin" onPress={handleTaskOpen} 
-            iconType={{ type: "MaterialIcons", icons: "open-in-new" }} 
-            buttonStyle={styles.button} />
-            <ProfileModule isOpen={isClickedTaskOpen} handleModalClose={handleTaskClose} />
-        </Surface>
+            <Surface style={styles.profileSurface}>
+                <Button text="Robin" onPress={handleTaskOpen} 
+                iconType={{ type: "MaterialIcons", icons: "open-in-new" }} 
+                buttonStyle={styles.button} />
+                <ProfileModule isOpen={isClickedTaskOpen} handleModalClose={handleTaskClose} />
+            </Surface>
         </>
     );
 };
