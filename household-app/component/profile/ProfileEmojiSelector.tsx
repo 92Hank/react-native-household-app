@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Surface, Text } from "react-native-paper";
 import { household } from "../../../Common/household";
 import EmojiSelector, { Avatars } from "../common/EmojiSelector";
@@ -40,7 +40,7 @@ const ProfileEmojiSelector: FC<Props> = ({
     };
 
     return (
-        <Surface>
+        <View>
             {!change && (
                 <Surface style={styles.root}>
                     <Text>Vald avatar</Text>
@@ -56,7 +56,7 @@ const ProfileEmojiSelector: FC<Props> = ({
                     <EmojiSelector selectedAvatars={avatarState} avatarList={avatars} avatarSelect={avatarSelect} />
                 </Surface>
             )}
-        </Surface>
+        </View>
     );
 };
 
