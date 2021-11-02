@@ -1,5 +1,9 @@
 ![RNT image](https://imgur.com/a/bUyoLUb)
 
+<img src="https://imgur.com/a/bUyoLUb"
+      alt="R N T img"
+      style="foat: center;">
+
 # react-native-household-app
 
 Installation:
