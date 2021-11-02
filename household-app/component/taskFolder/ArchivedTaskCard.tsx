@@ -40,7 +40,7 @@ const ArchivedTaskCard = (props: Props) => {
     };
 
     return (
-        <Surface>
+        <View>
             <List.Section>
                 <List.Accordion
                     title="Arkiverade sysslor"
@@ -68,7 +68,7 @@ const ArchivedTaskCard = (props: Props) => {
                     task={taskInModal as TaskNow}
                 />
             </View>
-        </Surface>
+        </View>
     );
 };
 
