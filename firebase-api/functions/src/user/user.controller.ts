@@ -12,7 +12,7 @@ export const createUser = async (req: Request, res: Response) => {
   const createU: CreateUser = {
     userName: req.body["userName"],
     password: req.body["password"],
-    email: req.body["email"],
+    email: req.body["email"].toLowerCase(),
   };
 
    let create = true;
@@ -88,7 +88,7 @@ export const getAllUsers = (req: Request, res: Response) => {
 
 export const signInUser = (req: Request, res: Response) => {
   const password = req.body["password"];
-  const email = req.body["email"];
+  const email = req.body["email"].toLowerCase();
 
   const query = db.collection(userCollection);
   const query2 = query.where("email", "==", email);
