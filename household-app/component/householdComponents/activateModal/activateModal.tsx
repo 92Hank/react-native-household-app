@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect } from "react";
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Surface, useTheme, Text } from "react-native-paper";
 import { snackbarContext } from "../../../context/snackBarContext";
 import { useActivateTaskMutation } from "../../../Redux/Service/task/taskApi";
 
@@ -28,6 +29,7 @@ interface Props {
 function ActivateModal(props: Props) {
     const [activateTask, { isSuccess, error }] = useActivateTaskMutation();
     const { setSnackbar } = useContext(snackbarContext);
+    const { colors } = useTheme();
 
     useEffect(() => {
         if (isSuccess) {
@@ -60,21 +62,31 @@ function ActivateModal(props: Props) {
                         props.isOpen;
                     }}
                 >
-                    <View style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <View style={styles.modalView}>
+                    <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
+                        <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
                             <Text style={styles.modalText}>Vill du aktivera sysslan igen?</Text>
                             <View style={styles.buttonsContainer}>
-                                <TouchableOpacity onPress={handleActivateTask} style={styles.saveButton}>
-                                    <MaterialIcons name="delete-forever" size={30} color="black" />
+                                <TouchableOpacity
+                                    onPress={handleActivateTask}
+                                    style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                >
+                                    <MaterialIcons name="delete-forever" size={30} color={colors.whiteBlackToggle} />
                                     <Text style={styles.buttonText}>Ja</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={props.handleModalClose} style={styles.closeButton}>
-                                    <MaterialCommunityIcons name="arrow-left-bold" size={30} color="black" />
+                                <TouchableOpacity
+                                    onPress={props.handleModalClose}
+                                    style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
+                                >
+                                    <MaterialCommunityIcons
+                                        name="arrow-left-bold"
+                                        size={30}
+                                        color={colors.whiteBlackToggle}
+                                    />
                                     <Text style={styles.buttonText}>Nej</Text>
                                 </TouchableOpacity>
                             </View>
-                        </View>
-                    </View>
+                        </Surface>
+                    </Surface>
                 </Modal>
             )}
         </View>
@@ -94,7 +106,7 @@ const styles = StyleSheet.create({
     householdButton: {
         marginTop: 20,
         margin: 5,
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         borderRadius: 100,
@@ -109,7 +121,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 1, height: 13 },
     },
     householdButtonText: {
-        color: "black",
+        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
@@ -130,7 +142,7 @@ const styles = StyleSheet.create({
     modalView: {
         width: 300,
         height: 200,
-        backgroundColor: "#f2f2f2",
+        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -144,7 +156,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     textStyle: {
-        color: "white",
+        // color: "white",
         fontWeight: "bold",
         textAlign: "center",
     },
@@ -165,7 +177,7 @@ const styles = StyleSheet.create({
         right: 0,
     },
     closeButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -182,7 +194,7 @@ const styles = StyleSheet.create({
         borderStartColor: "gainsboro",
     },
     saveButton: {
-        backgroundColor: "white",
+        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -197,7 +209,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     buttonText: {
-        color: "black",
+        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
