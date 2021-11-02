@@ -112,7 +112,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
                 setRights(true);
             }
         });
-    }, [rights]);
+    }, [result.data]);
 
     if (!user) return <view></view>;
 
