@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
-import { Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Surface, TextInput } from "react-native-paper";
+import { Dimensions, Modal, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Surface, Text, TextInput, useTheme } from "react-native-paper";
 import { fullMemberInfo } from "../../../Common/household";
 import { Avatars } from "../../component/common/EmojiSelector";
 import ProfileEmojiSelector from "../../component/profile/ProfileEmojiSelector";
@@ -30,6 +30,7 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
     const [editMember, setEditMember] = useState<fullMemberInfo>();
     const user = useAppSelector(selectCurrentLoginUser);
     const household = useAppSelector(selectSelectedHousehold);
+    const { colors } = useTheme();
 
     const [getDbHousehold, dbHousehold] = useLazyGetHouseholdByIdQuery();
 
@@ -95,19 +96,20 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                     }}
                 >
                     <View style={[isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Profile: </Text>
+                        <View style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
+                            <Text style={styles.modalText}>Profile </Text>
+                            <Text style={styles.labelName}>Namn i hushållet</Text>
                             <TextInput
                                 theme={{ roundness: 10 }}
                                 outlineColor="white"
                                 mode="outlined"
-                                style={styles.input}
-                                label="Namn i hushållet"
+                                style={{ ...styles.input, backgroundColor: colors.inputColor }}
                                 value={editMember.name}
                                 onChangeText={onChangeName}
                                 textAlign={undefined}
                             />
 
+                            <Text style={styles.avatarName}>Avatar i hushållet</Text>
                             <ProfileEmojiSelector
                                 household={household}
                                 avatar={editMember.emoji}
@@ -119,12 +121,26 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                             />
 
                             <View style={styles.buttonsContainer}>
-                                <TouchableOpacity onPress={save} style={styles.saveButton}>
-                                    <MaterialIcons name="add-circle-outline" size={30} color="black" />
-                                    <Text style={styles.buttonText}>Save</Text>
+                                <TouchableOpacity
+                                    onPress={save}
+                                    style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                >
+                                    <MaterialIcons
+                                        name="add-circle-outline"
+                                        size={30}
+                                        color={colors.whiteBlackToggle}
+                                    />
+                                    <Text style={styles.buttonText}>Spara</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={handleModalClose} style={styles.closeButton}>
-                                    <MaterialCommunityIcons name="close-circle-outline" size={30} color="black" />
+                                <TouchableOpacity
+                                    onPress={handleModalClose}
+                                    style={{ ...styles.closeButton, backgroundColor: colors.blackWhiteToggle }}
+                                >
+                                    <MaterialCommunityIcons
+                                        name="close-circle-outline"
+                                        size={30}
+                                        color={colors.whiteBlackToggle}
+                                    />
                                     <Text style={styles.buttonText}>Stäng</Text>
                                 </TouchableOpacity>
                             </View>
@@ -205,7 +221,17 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         flexWrap: "wrap",
     },
+    labelName: {
+        alignSelf: "flex-start",
+        fontSize: 12,
+    },
+    avatarName: {
+        alignSelf: "flex-start",
+        fontSize: 12,
+        marginBottom: 6,
+    },
     input: {
+        marginBottom: 16,
         backgroundColor: "#ffff",
         width: "100%",
     },
@@ -222,28 +248,12 @@ const styles = StyleSheet.create({
         marginTop: 22,
         backgroundColor: "rgba(0,0,0,0.5)",
     },
-    modalRequestView: {
-        width: windowWidth - 20,
-        height: windowHeight - 200,
-        backgroundColor: "#f2f2f2",
-        borderRadius: 20,
-        padding: 20,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-    },
 
     modalView: {
         // margin: 20,
         width: 300,
-        height: 370,
-        backgroundColor: "#f2f2f2",
+        height: 500,
+        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -310,7 +320,6 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     buttonText: {
-        color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,

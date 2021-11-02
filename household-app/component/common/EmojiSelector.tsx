@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { Surface, Text } from "react-native-paper";
 
 type Props = {
     selectedAvatars?: Avatars;
@@ -9,8 +10,8 @@ type Props = {
 
 const EmojiSelector: FC<Props> = ({ selectedAvatars, avatarList, avatarSelect }: Props): React.ReactElement => {
     return (
-        <View>
-            <View style={styles.avatars}>
+        <Surface>
+            <Surface style={styles.avatars}>
                 {avatarList.map(function (name, index) {
                     return (
                         <TouchableOpacity
@@ -23,16 +24,16 @@ const EmojiSelector: FC<Props> = ({ selectedAvatars, avatarList, avatarSelect }:
                         </TouchableOpacity>
                     );
                 })}
-            </View>
-            <View>
+            </Surface>
+            <Surface>
                 {selectedAvatars && (
-                    <Text style={{ marginTop: 40, fontSize: 20 }}>
+                    <Text style={{ marginTop: 40, fontSize: 16, marginLeft: 10 }}>
                         Vald avatar:
                         <Text style={styles.avatar}> {Avatars[selectedAvatars]} </Text>
                     </Text>
                 )}
-            </View>
-        </View>
+            </Surface>
+        </Surface>
     );
 };
 
@@ -48,6 +49,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         flexWrap: "wrap",
+        width: 260,
     },
 });
 export enum Avatars {

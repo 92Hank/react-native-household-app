@@ -20,9 +20,7 @@ const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => 
     return (
         <>
             <View style={styles.topBar}>
-                <View style={styles.leftSide}>
-                    <Text style={styles.themeText}>Test</Text>
-                </View>
+                <View style={styles.leftSide}></View>
                 <View style={styles.avatarImage}>
                     <Avatar.Image
                         size={120}
@@ -33,7 +31,7 @@ const ProfileScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => 
                 <View style={styles.darkThemeButton}>
                     <TouchableRipple onPress={toggleTheme} hasTVPreferredFocus={false} tvParallaxProperties={{}}>
                         <View style={styles.preference}>
-                            <Text style={styles.themeText}>{switchValue ? "☀️" : "🌙"}</Text>
+                            <Text style={styles.themeText}>{theme === "dark" ? "☀️" : "🌙"}</Text>
                             <View pointerEvents="none">
                                 <Switch
                                     ios_backgroundColor="salmon"

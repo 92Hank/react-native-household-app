@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { Surface } from "react-native-paper";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { Surface, Text } from "react-native-paper";
 import { household } from "../../../Common/household";
 import EmojiSelector, { Avatars } from "../common/EmojiSelector";
 
@@ -65,19 +65,25 @@ export default ProfileEmojiSelector;
 const styles = StyleSheet.create({
     root: {
         flexDirection: "row",
-        // flex: 1,
+        //flex: 1,
         alignItems: "center",
         justifyContent: "flex-start",
+        width: 260,
+        borderRadius: 20,
+        paddingHorizontal: 10,
     },
     rootSelect: {
         flexDirection: "column",
         // flex: 1,
         alignItems: "center",
         justifyContent: "flex-start",
+        width: 260,
+        marginVertical: 10,
     },
     avatar: {
         fontSize: 45,
         margin: 10,
         flexWrap: "wrap",
+        width: "100%",
     },
 });

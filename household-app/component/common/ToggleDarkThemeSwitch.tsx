@@ -1,22 +1,30 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Switch, TouchableRipple } from "react-native-paper";
 import { PreferencesContext } from "../../context/PreferencesContext";
 
 const ToggleDarkThemeSwitch: FC = (): React.ReactElement => {
     const { theme, toggleTheme } = React.useContext(PreferencesContext);
+    const [switchValue, setSwitchValue] = useState(false);
+
+    const toggleSwitch = () => {
+        setSwitchValue(true);
+    };
+
     return (
         <>
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/* @ts-ignore */}
             <TouchableRipple onPress={toggleTheme}>
                 <View style={styles.preference}>
-                    <Text style={styles.text}>Dark Theme</Text>
+                    <Text style={styles.text}>{theme === "dark" ? "☀️" : "🌙"}</Text>
                     <View pointerEvents="none">
                         <Switch
                             ios_backgroundColor="salmon"
                             value={theme === "dark"}
-                            trackColor={{ false: "black", true: "turquoise" }}
+                            trackColor={{ false: "grey", true: "white" }}
+                            thumbColor={theme === "dark" ? "grey" : "white"}
+                            onValueChange={toggleSwitch}
                         />
                     </View>
                 </View>
