@@ -3,9 +3,14 @@ import Button from "../../component/common/Button";
 import ProfileModule from "../../component/profile/ProfileModule";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import { View, Text, StyleSheet } from "react-native";
-import { Avatar, Card, Divider, Surface, Switch, TouchableRipple } from "react-native-paper";
+import { Avatar, Divider, Surface } from "react-native-paper";
 import { PreferencesContext } from "../../context/PreferencesContext";
 import  ToggleDarkThemeSwitch  from "../../component/common/ToggleDarkThemeSwitch";
+
+import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
+import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
+import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
+import { number } from "yup/lib/locale";
 
 type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
 
@@ -17,15 +22,16 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
     const handleTaskOpen = () => {
         setIsClickedTaskOpen(true);
     };
-    const { theme, toggleTheme } = React.useContext(PreferencesContext);
 
-    const [isEnabled, setIsEnabled] = useState(false);
-    const [switchValue, setSwitchValue] = useState(false);
+    const currentHousehold = useAppSelector(selectSelectedHousehold);
+    const user = useAppSelector(selectCurrentLoginUser);
 
-    //To handle switch toggle
-    const toggleSwitch = () => {
-        setSwitchValue(true);
-    };
+    const [avatar, setAvatar] = useState<Number>(-1);
+    const [username, setUsername] = useState<String>()
+
+    const member = currentHousehold.member.filter((m) => m.userId === user.id);
+        setAvatar(member[0].emoji);
+        setUsername(member[0].name);
 
     return (
         <>
@@ -47,7 +53,7 @@ const HouseholdProfile: FC<Props> = (): React.ReactElement => {
             </View>
             <Surface style={styles.container}>
                 <Text style={styles.labelText}>Member User Name</Text>
-                <Text style={styles.text}>Lilo24</Text>
+                <Text style={styles.text}>{username}</Text>
                 <Divider style={styles.divider} />
             </Surface>
             <Surface style={styles.profileSurface}>
