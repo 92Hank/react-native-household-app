@@ -8,7 +8,7 @@ import ChangeMemberStatusModal from "../../../component/householdComponents/chan
 import LeaveModal from "../../../component/householdComponents/leaveModal/leaveModal";
 import PendingMemberTaskCard from "../../../component/householdComponents/pendingMemberCard/pendingMemberCard";
 import SnackbarComponent from "../../../component/snackbar/snackbarComponent";
-import UserListComponent from "../../../component/taskFolder/householdComponent";
+import HouseholdComponent from "../../../component/taskFolder/householdComponent";
 import { snackbarContext } from "../../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
@@ -128,7 +128,7 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
                         data={members}
                         keyExtractor={(item: any) => item.userId}
                         renderItem={({ item }) => (
-                            <UserListComponent key={item.userId} member={item} onPress={() => clickOnMember(item)} />
+                            <HouseholdComponent key={item.userId} member={item} onPress={() => clickOnMember(item)} />
                         )}
                     />
                     {rights && pendingMembers && <PendingMemberTaskCard pendingMember={pendingMembers} />}

@@ -77,7 +77,7 @@ const deviceWidth = Math.round(Dimensions.get("window").width);
 const styles = StyleSheet.create({
     item: {
         fontWeight: "bold",
-        fontSize: 22,
+        fontSize: 18,
     },
     listItem: {
         width: deviceWidth - 20,
@@ -95,6 +95,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
     },
     title: {
-        fontSize: 20,
+        fontSize: 18,
     },
 });
