@@ -98,7 +98,7 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
                 </TouchableOpacity>
             ),
         });
-    }, [navigation]);
+    }, [navigation, colors]);
 
     useEffect(() => {
         if (data) {
