@@ -1,4 +1,4 @@
-[![RNT image](assets/auB9iGd.png "RNT Image")]
+![RNT image](household-app/assets/auB9iGd.png "RNT Image")
 
 # react-native-household-app
 
