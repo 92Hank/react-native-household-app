@@ -87,9 +87,21 @@ export default function HouseholdComponent(props: Props) {
                         )}
                     {props.member.userId !== user?.id &&
                         !props.member.isOwner &&
-                        props.member.AcceptedStatus === "accepted" && (
+                        props.member.AcceptedStatus === "accepted" &&
+                        !props.member.isPaused && (
                             <View style={styles.smallContainer}>
                                 <Text style={styles.title}>{"Medlem: " + props.member.name}</Text>
+                                <View>
+                                    <Text style={styles.bodyEmoji}>{avatar}</Text>
+                                </View>
+                            </View>
+                        )}
+                    {props.member.userId !== user?.id &&
+                        !props.member.isOwner &&
+                        props.member.AcceptedStatus === "accepted" &&
+                        props.member.isPaused && (
+                            <View style={styles.smallContainer}>
+                                <Text style={styles.title}>{"Pausad: " + props.member.name}</Text>
                                 <View>
                                     <Text style={styles.bodyEmoji}>{avatar}</Text>
                                 </View>
