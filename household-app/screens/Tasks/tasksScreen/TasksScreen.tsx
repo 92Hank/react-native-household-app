@@ -13,8 +13,10 @@ import { snackbarContext } from "../../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
-import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../../../Redux/Service/doneTask/doneTaskApi";
-import { useLazyGetTaskByHouseholdIdQuery } from "../../../Redux/Service/task/taskApi";
+import {
+    useLazyGetDoneTasksWithHouseholdIdQuery,
+    useLazyGetTaskByHouseholdIdQuery,
+} from "../../../Redux/Service/task/taskApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 import styles from "./styles";
 

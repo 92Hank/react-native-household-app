@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { webUrl } from "../../Config";
 import { task } from "../../../../Common/task";
+import { doneTask } from "../../../../Common/doneTask";
 
 export const taskApi = createApi({
     reducerPath: "taskApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: webUrl + "tasks",
+        baseUrl: webUrl,
     }),
     tagTypes: ["Task"],
     refetchOnFocus: true,
@@ -14,7 +15,7 @@ export const taskApi = createApi({
     endpoints: (builder) => ({
         createTask: builder.mutation<string, task>({
             query: (body) => ({
-                url: `/`,
+                url: `tasks/`,
                 method: "POST",
                 responseHandler: "text",
                 body,
@@ -24,7 +25,7 @@ export const taskApi = createApi({
 
         GetTaskByHouseholdId: builder.query<task[], string>({
             query: (body) => ({
-                url: `/` + body,
+                url: `tasks/` + body,
                 method: "GET",
                 responseHandler: (response) => {
                     if (response.status !== 200) {
@@ -41,42 +42,67 @@ export const taskApi = createApi({
 
         editTask: builder.mutation<string, task>({
             query: (body) => ({
-                url: `/` + body.id,
+                url: `tasks/` + body.id,
                 method: "PUT",
                 responseHandler: "text",
                 body,
             }),
-            invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg.id }],
+            invalidatesTags: (result, error, arg) => [{ type: "Task" }],
         }),
 
         deleteTask: builder.mutation<string, string>({
             query: (body) => ({
-                url: `/` + body,
+                url: `tasks/` + body,
                 method: "DELETE",
                 responseHandler: "text",
                 body,
             }),
-            invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg }],
+            invalidatesTags: (result, error, arg) => [{ type: "Task" }],
         }),
 
         archiveTask: builder.mutation<string, string>({
             query: (body) => ({
-                url: `/` + body,
+                url: `tasks/` + body,
                 method: "PATCH",
                 responseHandler: "text",
                 body,
             }),
-            invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg }],
+            invalidatesTags: (result, error, arg) => [{ type: "Task" }],
         }),
 
         activateTask: builder.mutation<string, string>({
             query: (body) => ({
-                url: `/activate/` + body,
+                url: `tasks/activate/` + body,
                 method: "PATCH",
                 responseHandler: "text",
                 body,
             }),
-            invalidatesTags: (result, error, arg) => [{ type: "Task", id: arg }],
+            invalidatesTags: (result, error, arg) => [{ type: "Task" }],
+        }),
+        createDoneTask: builder.mutation<string, doneTask>({
+            query: (body) => ({
+                url: `donetask/`,
+                method: "POST",
+                responseHandler: "text",
+                body,
+            }),
+            invalidatesTags: () => [{ type: "Task" }],
+        }),
+
+        GetDoneTasksWithHouseholdId: builder.query<doneTask[], string>({
+            query: (body) => ({
+                url: `donetask/` + body,
+                method: "GET",
+                responseHandler: (response) => {
+                    if (response.status !== 200) {
+                        return response.text();
+                    } else {
+                        return response.json();
+                    }
+                },
+            }),
+            providesTags: (result) =>
+                result ? [...result.map(({ id }) => ({ type: "Task" as const, id })), "Task"] : ["Task"],
         }),
     }),
 });
@@ -89,4 +115,7 @@ export const {
     useDeleteTaskMutation,
     useArchiveTaskMutation,
     useActivateTaskMutation,
+    useCreateDoneTaskMutation,
+    useGetDoneTasksWithHouseholdIdQuery,
+    useLazyGetDoneTasksWithHouseholdIdQuery,
 } = taskApi;
