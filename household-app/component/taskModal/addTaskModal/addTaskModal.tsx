@@ -2,7 +2,8 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import { FlatList, KeyboardAvoidingView, Modal, Platform, ScrollView, TouchableOpacity, View } from "react-native";
-import { TextInput, Text, Surface } from "react-native-paper";
+import { ActivityIndicator, Colors, Surface, Text, TextInput, useTheme } from "react-native-paper";
+import * as Yup from "yup";
 import { task } from "../../../../Common/task";
 import { valueType } from "../../../../Common/value";
 import { snackbarContext } from "../../../context/snackBarContext";
@@ -11,9 +12,6 @@ import { useAppSelector } from "../../../Redux/hooks";
 import { useCreateTaskMutation } from "../../../Redux/Service/task/taskApi";
 import SnackbarComponent from "../../snackbar/snackbarComponent";
 import styles from "./styles";
-import { ActivityIndicator, Colors } from "react-native-paper";
-import * as Yup from "yup";
-import { useTheme } from "react-native-paper";
 
 interface Props {
     isOpen: boolean;
