@@ -2,7 +2,7 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
 import { Dimensions, Modal, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Surface, Text, TextInput, useTheme } from "react-native-paper";
-import { fullMemberInfo } from "../../../Common/household";
+import { fullMemberInfo, updateMember } from "../../../Common/household";
 import { Avatars } from "../../component/common/EmojiSelector";
 import ProfileEmojiSelector from "../../component/profile/ProfileEmojiSelector";
 import { snackbarContext } from "../../context/snackBarContext";
@@ -10,11 +10,7 @@ import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSele
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
-import {
-    useChangeEmojiMutation,
-    useChangeMemberNameMutation,
-    useLazyGetHouseholdByIdQuery,
-} from "../../Redux/Service/household/householdApi";
+import { useLazyGetHouseholdByIdQuery, useUpdateMemberMutation } from "../../Redux/Service/household/householdApi";
 
 interface Props {
     isOpen: boolean;
@@ -25,7 +21,6 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
     const { setSnackbar } = useContext(snackbarContext);
     const dispatch = useAppDispatch();
 
-    const [isSaving, setIsSaving] = useState(false);
     const [originalMember, setOriginalMember] = useState<fullMemberInfo>();
     const [editMember, setEditMember] = useState<fullMemberInfo>();
     const user = useAppSelector(selectCurrentLoginUser);
@@ -34,8 +29,7 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
 
     const [getDbHousehold, dbHousehold] = useLazyGetHouseholdByIdQuery();
 
-    const [updateEmoji, { isLoading: isUpdatingEmoji }] = useChangeEmojiMutation();
-    const [updateName, { isLoading: isUpdatingName }] = useChangeMemberNameMutation();
+    const [updateMember, { status }] = useUpdateMemberMutation();
 
     useEffect(() => {
         if (!household || !user) return;
@@ -52,29 +46,40 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
     }, [dbHousehold.data]);
 
     useEffect(() => {
-        setIsSaving(isUpdatingEmoji || isUpdatingName);
-    }, [isUpdatingEmoji, isUpdatingName]);
+        if (status) {
+            console.log("status", status);
+        }
+    }, [status]);
 
     if (!household || !user) return <></>;
 
     const save = () => {
         if (!editMember || !originalMember || !dbHousehold.data || !user.id) return;
+        const updateDto: updateMember = {
+            houseHoldId: dbHousehold.data.id,
+            userId: user.id,
+        };
+
         if (originalMember.emoji !== editMember.emoji) {
-            updateEmoji({ emoji: editMember.emoji, houseHoldId: household.id, userId: user.id });
+            updateDto.emoji = editMember.emoji;
         }
 
         if (originalMember.name !== editMember.name) {
-            updateName({ houseHoldId: household.id, name: editMember.name, userId: user.id });
+            updateDto.name = editMember.name;
         }
 
-        const copyMember = [...household.member];
-        const index = copyMember.findIndex((m) => m.userId === user.id);
-        if (~index) {
-            copyMember[index] = editMember;
-
-            dispatch(setSelectedHousehold({ ...household, member: [...copyMember] }));
+        if (updateDto.emoji || updateDto.name) {
+            updateMember(updateDto);
         }
-        setSnackbar("Sparad", true);
+
+        // const copyMember = [...household.member];
+        // const index = copyMember.findIndex((m) => m.userId === user.id);
+        // if (~index) {
+        //     copyMember[index] = editMember;
+
+        //     dispatch(setSelectedHousehold({ ...household, member: [...copyMember] }));
+        // }
+        setSnackbar("Spara", true);
         handleModalClose();
     };
 
@@ -110,16 +115,20 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                                     label="Namn i hushållet"
                                 />
 
-                                <Text style={styles.avatarName}>Avatar i hushållet</Text>
-                                <ProfileEmojiSelector
-                                    household={household}
-                                    avatar={editMember.emoji}
-                                    newSelected={(avatar: Avatars) => {
-                                        setEditMember({ ...editMember, emoji: avatar });
-                                        console.log(avatar);
-                                    }}
-                                    currentAvatar={originalMember?.emoji}
-                                />
+                                {dbHousehold.data && (
+                                    <>
+                                        <Text style={styles.avatarName}>Avatar i hushållet</Text>
+                                        <ProfileEmojiSelector
+                                            household={dbHousehold.data}
+                                            avatar={editMember.emoji}
+                                            newSelected={(avatar: Avatars) => {
+                                                setEditMember({ ...editMember, emoji: avatar });
+                                                console.log(avatar);
+                                            }}
+                                            currentAvatar={originalMember?.emoji}
+                                        />
+                                    </>
+                                )}
                             </ScrollView>
 
                             <View style={styles.buttonsContainer}>

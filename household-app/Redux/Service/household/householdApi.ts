@@ -1,15 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { webUrl } from "../../Config";
 import {
     household,
-    householdIdAndUserId,
     householdChangeName,
     householdCreate,
+    householdIdAndUserId,
     householdJoin,
-    householdChangeEmoji,
     householdPauseUser,
-    householdMemberChangeName,
+    updateMember,
 } from "../../../../Common/household";
+import { webUrl } from "../../Config";
 
 export const householdApi = createApi({
     reducerPath: "household",
@@ -115,19 +114,9 @@ export const householdApi = createApi({
             invalidatesTags: (result, error, arg) => [{ type: "Household", id: arg.houseHoldId }],
         }),
 
-        changeMemberName: builder.mutation<string, householdMemberChangeName>({
+        updateMember: builder.mutation<string, updateMember>({
             query: (body) => ({
-                url: `/changenameOnMember`,
-                method: "PATCH",
-                responseHandler: "text",
-                body,
-            }),
-
-            invalidatesTags: (result, error, arg) => [{ type: "Household", id: arg.houseHoldId }],
-        }),
-        changeEmoji: builder.mutation<string, householdChangeEmoji>({
-            query: (body) => ({
-                url: `/changeemoji`,
+                url: `/updatemember`,
                 method: "PATCH",
                 responseHandler: "text",
                 body,
@@ -215,8 +204,7 @@ export const {
     useJoinHouseholdMutation,
     useLeaveHouseholdMutation,
     useChangeNameMutation,
-    useChangeMemberNameMutation,
-    useChangeEmojiMutation,
+    useUpdateMemberMutation,
     useAcceptUserMutation,
     useMakeUserToOwnerMutation,
     useRejectUserMutation,

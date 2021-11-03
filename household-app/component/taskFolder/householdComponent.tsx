@@ -52,26 +52,35 @@ export default function HouseholdComponent(props: Props) {
                     {props.member.isOwner && user?.id === props.member.userId && (
                         <View style={styles.smallContainer}>
                             <View>
-                                <Text style={styles.title}>{"Du själv som ägare: " + props.member.name}</Text>
+                                <Text style={styles.bodyEmoji}>{avatar}</Text>
                             </View>
                             <View>
-                                <Text style={styles.bodyEmoji}>{avatar}</Text>
+                                <Text style={styles.title}>{props.member.name}</Text>
+                            </View>
+                            <View style={styles.role}>
+                                <Text style={styles.roleText}>{"Du själv som ägare"}</Text>
                             </View>
                         </View>
                     )}
                     {props.member.userId === user?.id && !props.member.isOwner && (
                         <View style={styles.smallContainer}>
-                            <Text style={styles.title}>{"Du själv: " + props.member.name}</Text>
+                            <Text style={styles.bodyEmoji}>{avatar}</Text>
                             <View>
-                                <Text style={styles.bodyEmoji}>{avatar}</Text>
+                                <Text style={styles.title}>{props.member.name}</Text>
+                            </View>
+                            <View style={styles.role}>
+                                <Text style={styles.roleText}>{"Du själv"}</Text>
                             </View>
                         </View>
                     )}
                     {props.member.userId !== user?.id && props.member.isOwner && (
                         <View style={styles.smallContainer}>
-                            <Text style={styles.title}>{"Ägare: " + props.member.name}</Text>
+                            <Text style={styles.bodyEmoji}>{avatar}</Text>
                             <View>
-                                <Text style={styles.bodyEmoji}>{avatar}</Text>
+                                <Text style={styles.title}>{props.member.name}</Text>
+                            </View>
+                            <View style={styles.role}>
+                                <Text style={styles.roleText}>{"Ägare"}</Text>
                             </View>
                         </View>
                     )}
@@ -79,9 +88,9 @@ export default function HouseholdComponent(props: Props) {
                         !props.member.isOwner &&
                         props.member.AcceptedStatus === "pending" && (
                             <View style={styles.smallContainer}>
-                                <Text style={styles.title}>{"Ansökan: " + props.member.name}</Text>
+                                <Text style={styles.bodyEmoji}>{avatar}</Text>
                                 <View>
-                                    <Text style={styles.bodyEmoji}>{avatar}</Text>
+                                    <Text style={styles.title}>{"Ansökan: " + props.member.name}</Text>
                                 </View>
                             </View>
                         )}
@@ -90,9 +99,12 @@ export default function HouseholdComponent(props: Props) {
                         props.member.AcceptedStatus === "accepted" &&
                         !props.member.isPaused && (
                             <View style={styles.smallContainer}>
-                                <Text style={styles.title}>{"Medlem: " + props.member.name}</Text>
+                                <Text style={styles.bodyEmoji}>{avatar}</Text>
                                 <View>
-                                    <Text style={styles.bodyEmoji}>{avatar}</Text>
+                                    <Text style={styles.title}>{props.member.name}</Text>
+                                </View>
+                                <View style={styles.role}>
+                                    <Text style={styles.roleText}>{"Medlem"}</Text>
                                 </View>
                             </View>
                         )}
@@ -101,9 +113,12 @@ export default function HouseholdComponent(props: Props) {
                         props.member.AcceptedStatus === "accepted" &&
                         props.member.isPaused && (
                             <View style={styles.smallContainer}>
-                                <Text style={styles.title}>{"Pausad: " + props.member.name}</Text>
+                                <Text style={styles.bodyEmoji}>{avatar}</Text>
                                 <View>
-                                    <Text style={styles.bodyEmoji}>{avatar}</Text>
+                                    <Text style={styles.title}>{props.member.name}</Text>
+                                </View>
+                                <View style={styles.role}>
+                                    <Text style={{ ...styles.roleText, color: "red" }}>{"Pausad"}</Text>
                                 </View>
                             </View>
                         )}
@@ -116,6 +131,14 @@ const deviceWidth = Math.round(Dimensions.get("window").width);
 const offset = 25;
 const radius = 20;
 const styles = StyleSheet.create({
+    role: {
+        alignSelf: "center",
+        flex: 1,
+    },
+    roleText: {
+        alignSelf: "flex-end",
+        marginRight: 10,
+    },
     lateTask: {
         color: "white",
         fontSize: 18,
@@ -150,8 +173,11 @@ const styles = StyleSheet.create({
     smallContainer: {
         flexDirection: "row",
         alignContent: "center",
-        justifyContent: "flex-end",
+        justifyContent: "flex-start",
         alignSelf: "center",
+        flex: 1,
+        paddingHorizontal: 15,
+        paddingVertical: 12,
     },
     cardContainer: {
         margin: 10,
@@ -175,8 +201,9 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         // lineHeight: 11 + 11 + 10,
         fontSize: 18,
-        marginHorizontal: 15,
-        marginVertical: 12,
+        alignSelf: "center",
+        // marginHorizontal: 15,
+        // marginVertical: 12,
     },
     bodyTextStyle: {
         fontWeight: "200",
@@ -184,10 +211,11 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     bodyEmoji: {
+        marginRight: 10,
         // fontWeight: "200",
         fontSize: 22,
-        marginHorizontal: 15,
-        marginVertical: 12,
+        // marginHorizontal: 15,
+        // marginVertical: 12,
 
         // color: "#F5EDED",
         // lineHeight: 11 + 11 + 10,
