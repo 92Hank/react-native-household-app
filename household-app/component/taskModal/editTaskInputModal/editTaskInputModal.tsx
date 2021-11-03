@@ -1,9 +1,8 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, Modal, TouchableOpacity, View } from "react-native";
-import { Surface, Text, TextInput, useTheme } from "react-native-paper";
-import * as Yup from "yup";
+import { TouchableOpacity, Modal, FlatList, View, Platform, KeyboardAvoidingView, ScrollView } from "react-native";
+import { TextInput, Surface, Text } from "react-native-paper";
 import { task } from "../../../../Common/task";
 import { valueType } from "../../../../Common/value";
 import { snackbarContext } from "../../../context/snackBarContext";
@@ -216,6 +215,8 @@ const EditTaskInputModal = (props: Props) => {
             </Surface>
         </Surface>
     );
+
+    console.log("defaultTask: =>", defaultTask);
     return (
         <Modal
             animationType="slide"
@@ -239,12 +240,15 @@ const EditTaskInputModal = (props: Props) => {
                                 <Surface style={styles.modalTextView}>
                                     <Text style={styles.modalText}>Ändra syssla</Text>
                                 </Surface>
-                                <View
-                                    style={{
-                                        position: "absolute",
-                                        alignItems: "center",
-                                        marginTop: 25,
-                                    }}
+                                <ScrollView
+                                    contentContainerStyle={styles.scrollableView}
+                                    style={
+                                        {
+                                            // position: "absolute",
+                                            // alignItems: "center",
+                                            // marginTop: 25,
+                                        }
+                                    }
                                 >
                                     <TextInput
                                         defaultValue={defaultTask.name || "Pelle"}
@@ -275,11 +279,14 @@ const EditTaskInputModal = (props: Props) => {
                                     {!isClickedDays ? repeatedInput : repeatedValue}
 
                                     {!isClicked ? valueInput : valueForTask}
-                                </View>
+                                </ScrollView>
                                 <View style={styles.buttonsContainer}>
                                     <TouchableOpacity
                                         onPress={handleSubmit}
-                                        style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                        style={{
+                                            ...styles.saveButton,
+                                            backgroundColor: colors.blackWhiteToggle,
+                                        }}
                                     >
                                         <MaterialIcons name="check-circle" size={30} color={colors.whiteBlackToggle} />
                                         <Text style={styles.buttonText}>Ändra</Text>
