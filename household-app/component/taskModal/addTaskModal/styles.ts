@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         // marginTop: 22,
         backgroundColor: "rgba(0,0,0,0.5)",
     },
-    test: {
+    scrollableView: {
         // padding: 35,
         // marginLeft: 20,
         // marginRight: 20,

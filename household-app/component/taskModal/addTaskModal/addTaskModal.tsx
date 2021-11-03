@@ -247,7 +247,7 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
 
                                         {/* // Fixa scrollview, flytta padding innanför scrollview */}
                                         <ScrollView
-                                            contentContainerStyle={[styles.test]}
+                                            contentContainerStyle={styles.scrollableView}
                                             style={
                                                 {
                                                     // position: "absolute",

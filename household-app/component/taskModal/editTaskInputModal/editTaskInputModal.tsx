@@ -258,7 +258,7 @@ const EditTaskInputModal = (props: Props) => {
                                     <Text style={styles.modalText}>Ändra syssla</Text>
                                 </Surface>
                                 <ScrollView
-                                    contentContainerStyle={[styles.test]}
+                                    contentContainerStyle={styles.scrollableView}
                                     style={
                                         {
                                             // position: "absolute",

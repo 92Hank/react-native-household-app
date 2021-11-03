@@ -64,7 +64,7 @@ export default ProfileEmojiSelector;
 const styles = StyleSheet.create({
     root: {
         flexDirection: "row",
-        //flex: 1,
+        // flex: 1,
         alignItems: "center",
         justifyContent: "flex-start",
         width: 260,
