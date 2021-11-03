@@ -29,7 +29,7 @@ enum AvatarColors {
     "#F597C4" = 5,
     "#B7DFFF" = 6,
     "#FF9F26" = 7,
-    "#E4E5FE" = 8
+    "#E4E5FE" = 8,
 }
 
 const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
@@ -98,8 +98,8 @@ const styles = StyleSheet.create({
         margin: 16,
     },
     avatarBg: {
-        width: 200, 
-        height: 200, 
+        width: 200,
+        height: 200,
         borderRadius: 100,
     },
     button: {
