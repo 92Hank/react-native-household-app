@@ -58,10 +58,6 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
     const [avatarColor, setAvatarColor] = useState<number>(-1);
 
     useEffect(() => {
-        console.log("currentHousehold", currentHousehold);
-    }, [currentHousehold]);
-
-    useEffect(() => {
         if (HouseholdId?.id) {
             loadHouseholdData(HouseholdId.id);
         }

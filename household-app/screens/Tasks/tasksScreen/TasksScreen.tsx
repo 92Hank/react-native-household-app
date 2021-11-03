@@ -13,6 +13,7 @@ import { snackbarContext } from "../../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
+import { useLazyGetHouseholdByIdQuery } from "../../../Redux/Service/household/householdApi";
 import {
     useLazyGetDoneTasksWithHouseholdIdQuery,
     useLazyGetTaskByHouseholdIdQuery,
@@ -26,7 +27,7 @@ type Props = FeedStackScreenProps<MainRoutes.TasksScreen>;
 // eslint-disable-next-line prettier/prettier
 const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const [addModalOpen, setAddModalOpen] = useState(false);
-    const currentHousehold = useAppSelector(selectSelectedHousehold);
+    const Household = useAppSelector(selectSelectedHousehold);
     const [render, setRender] = useState(false);
     const [tasks, setTasks] = useState<TaskNow[]>();
     const [archivedTasks, setArchivedTasks] = useState<TaskNow[]>();
@@ -36,19 +37,23 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const user = useAppSelector(selectCurrentLoginUser);
     const { message, isVisible, setSnackbar } = useContext(snackbarContext);
 
-    const [loadHouseholdData, householdResult] = useLazyGetTaskByHouseholdIdQuery();
-    const { data: tasksData, isLoading } = householdResult;
+    const [loadHouseholdData, householdResult] = useLazyGetHouseholdByIdQuery();
+    const { data: currentHousehold } = householdResult;
+
+    const [loadTaskData, TaskResult] = useLazyGetTaskByHouseholdIdQuery();
+    const { data: tasksData, isLoading } = TaskResult;
 
     const [loadDoneTaskData, doneTaskResult] = useLazyGetDoneTasksWithHouseholdIdQuery();
     const { data: doneTasksData } = doneTaskResult;
 
     useEffect(() => {
-        if (!user || !currentHousehold) return;
-        loadHouseholdData(currentHousehold.id);
-        loadDoneTaskData(currentHousehold.id);
-    }, []);
+        if (!user || !Household) return;
+        loadHouseholdData(Household.id);
+        loadTaskData(Household.id);
+        loadDoneTaskData(Household.id);
+    }, [Household]);
 
-    if (!user || !currentHousehold) return <View></View>;
+    if (!user || !Household) return <View></View>;
 
     // const { data: tasksData, isLoading } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
     // const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
@@ -80,7 +85,7 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                 setRights(true);
             }
         });
-    }, [rights]);
+    }, [currentHousehold]);
 
     useEffect(() => {
         const activeTasks: TaskNow[] = [];
@@ -129,9 +134,11 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
         // if (activeTasks.length > 0) {
         setRender(true);
         // }
-    }, [tasksData, doneTasksData]);
+    }, [tasksData, doneTasksData, currentHousehold]);
 
     const clickOnTask = (task: TaskNow) => {
+        if (!currentHousehold) return;
+
         const member = currentHousehold.member.filter((m) => m.userId === user.id);
         if (member[0].isPaused) {
             setSnackbar("Din användare är pausad", true);
