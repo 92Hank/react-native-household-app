@@ -195,32 +195,17 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     title: {
-        // color: "#F5EDED",
-        // textAlign: "center",
-        // flex: 1,
         fontWeight: "bold",
-        // lineHeight: 11 + 11 + 10,
         fontSize: 18,
         alignSelf: "center",
-        // marginHorizontal: 15,
-        // marginVertical: 12,
     },
     bodyTextStyle: {
         fontWeight: "200",
-        // color: "#F5EDED",
         textAlign: "center",
     },
     bodyEmoji: {
         marginRight: 10,
-        // fontWeight: "200",
         fontSize: 22,
-        // marginHorizontal: 15,
-        // marginVertical: 12,
-
-        // color: "#F5EDED",
-        // lineHeight: 11 + 11 + 10,
-        // paddingLeft: 2000,
-        // textAlign: "right",
     },
     infoStyle: {
         marginHorizontal: 10,
