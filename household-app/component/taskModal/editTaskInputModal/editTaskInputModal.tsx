@@ -1,8 +1,9 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
-import { TouchableOpacity, Modal, FlatList, View, Platform, KeyboardAvoidingView, ScrollView } from "react-native";
-import { TextInput, Surface, Text, useTheme } from "react-native-paper";
+import { FlatList, Modal, ScrollView, TouchableOpacity, View } from "react-native";
+import { Surface, Text, TextInput, useTheme } from "react-native-paper";
+import * as Yup from "yup";
 import { task } from "../../../../Common/task";
 import { valueType } from "../../../../Common/value";
 import { snackbarContext } from "../../../context/snackBarContext";
@@ -11,7 +12,7 @@ import { useAppSelector } from "../../../Redux/hooks";
 import { useEditTaskMutation } from "../../../Redux/Service/task/taskApi";
 import SnackbarComponent from "../../snackbar/snackbarComponent";
 import styles from "./styles";
-import * as Yup from "yup";
+
 interface TaskNow {
     id?: string;
     name: string;
@@ -104,7 +105,6 @@ const EditTaskInputModal = (props: Props) => {
         if (successEdit) {
             props.handleModalClose();
             setSnackbar("success", true);
-            console.log("success" + successEdit);
         }
     }, [successEdit]);
 
@@ -216,7 +216,6 @@ const EditTaskInputModal = (props: Props) => {
         </Surface>
     );
 
-    console.log("defaultTask: =>", defaultTask);
     return (
         <Modal
             animationType="slide"
@@ -240,16 +239,7 @@ const EditTaskInputModal = (props: Props) => {
                                 <Surface style={styles.modalTextView}>
                                     <Text style={styles.modalText}>Ändra syssla</Text>
                                 </Surface>
-                                <ScrollView
-                                    contentContainerStyle={styles.scrollableView}
-                                    style={
-                                        {
-                                            // position: "absolute",
-                                            // alignItems: "center",
-                                            // marginTop: 25,
-                                        }
-                                    }
-                                >
+                                <ScrollView contentContainerStyle={styles.scrollableView}>
                                     <TextInput
                                         defaultValue={defaultTask.name || "Pelle"}
                                         theme={{ roundness: 10 }}
