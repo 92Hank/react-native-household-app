@@ -82,11 +82,9 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
         <>
             <SnackbarComponent isVisible={isVisible} message={message} />
             <View style={styles.topBar}>
-                <View
-                    style={{ ...styles.topBar, backgroundColor: AvatarColors[avatar], opacity: 0.9, borderRadius: 80 }}
-                >
+                <Surface style={{ ...styles.avatarBg, backgroundColor: AvatarColors[avatar] }}>
                     <Text style={styles.avatar}> {Avatars[avatar]} </Text>
-                </View>
+                </Surface>
             </View>
             <Surface style={styles.container}>
                 <View style={styles.profileSurface}>
@@ -113,6 +111,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         margin: 16,
     },
+    avatarBg: {
+        width: 200,
+        height: 200,
+        borderRadius: 100,
+        justifyContent: "center",
+    },
     button: {
         justifyContent: "center",
         alignItems: "center",
@@ -126,16 +130,10 @@ const styles = StyleSheet.create({
     topBar: {
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: 24,
-    },
-    avatarImage: {
-        width: 150,
-        height: 150,
-        borderRadius: 150 / 2,
+        margin: 24,
     },
     container: {
         flex: 1,
-        marginTop: 20,
     },
     text: {
         color: "grey",
@@ -144,9 +142,9 @@ const styles = StyleSheet.create({
     },
     avatar: {
         fontSize: 80,
-        margin: 10,
-        alignItems: "center",
-        justifyContent: "center",
+        // alignItems: "center",
+        // justifyContent: "center",
+        alignSelf: "center",
     },
 });
 
