@@ -3,8 +3,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Request, Response } from "express";
-import { fb, FieldValue } from "../fb";
+import {Request, Response} from "express";
+import {fb, FieldValue} from "../fb";
 
 const db = fb.firestore();
 db.settings({ignoreUndefinedProperties: true});
