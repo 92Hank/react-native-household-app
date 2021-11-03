@@ -1,7 +1,6 @@
 import React from "react";
-import { TouchableOpacity, View, StyleSheet, Dimensions } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-paper";
-// import task from "../../../Common(obsolete)/Task";
 
 interface TaskNow {
     id?: string;
@@ -61,24 +60,16 @@ const Styles = StyleSheet.create({
         elevation: 3,
     },
     titleStyle: {
-        // color: "#F5EDED",
-        // textAlign: "center",
-        // flex: 1,
         lineHeight: 11 + 11 + 10,
         fontSize: 20,
         fontWeight: "800",
     },
     bodyTextStyle: {
         fontWeight: "200",
-        // color: "#F5EDED",
         textAlign: "center",
     },
     bodyEmoji: {
         fontWeight: "200",
-        // color: "#F5EDED",
-        // lineHeight: 11 + 11 + 10,
-        // paddingLeft: 2000,
-        // textAlign: "right",
     },
     infoStyle: {
         marginHorizontal: 10,
