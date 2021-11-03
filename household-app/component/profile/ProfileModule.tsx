@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
-import { Dimensions, Modal, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Dimensions, Modal, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Surface, Text, TextInput, useTheme } from "react-native-paper";
 import { fullMemberInfo, updateMember } from "../../../Common/household";
 import { Avatars } from "../../component/common/EmojiSelector";
@@ -102,30 +102,34 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                 >
                     <View style={[isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
                         <View style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
-                            <Text style={styles.modalText}>Profile </Text>
-                            <Text style={styles.labelName}>Namn i hushållet</Text>
-                            <TextInput
-                                theme={{ roundness: 10 }}
-                                outlineColor="white"
-                                mode="outlined"
-                                style={{ ...styles.input, backgroundColor: colors.inputColor }}
-                                value={editMember.name}
-                                onChangeText={onChangeName}
-                                textAlign={undefined}
-                            />
-
-                            <Text style={styles.avatarName}>Avatar i hushållet</Text>
-                            {dbHousehold.data && (
-                                <ProfileEmojiSelector
-                                    household={dbHousehold.data}
-                                    avatar={editMember.emoji}
-                                    newSelected={(avatar: Avatars) => {
-                                        setEditMember({ ...editMember, emoji: avatar });
-                                        console.log(avatar);
-                                    }}
-                                    currentAvatar={originalMember?.emoji}
+                            <Text style={styles.modalText}>Ändra profil </Text>
+                            <ScrollView contentContainerStyle={styles.scrollableView}>
+                                <TextInput
+                                    theme={{ roundness: 10 }}
+                                    outlineColor="white"
+                                    mode="outlined"
+                                    style={{ ...styles.input, backgroundColor: colors.inputColor }}
+                                    value={editMember.name}
+                                    onChangeText={onChangeName}
+                                    textAlign={undefined}
+                                    label="Namn i hushållet"
                                 />
-                            )}
+
+                                {dbHousehold.data && (
+                                    <>
+                                        <Text style={styles.avatarName}>Avatar i hushållet</Text>
+                                        <ProfileEmojiSelector
+                                            household={dbHousehold.data}
+                                            avatar={editMember.emoji}
+                                            newSelected={(avatar: Avatars) => {
+                                                setEditMember({ ...editMember, emoji: avatar });
+                                                console.log(avatar);
+                                            }}
+                                            currentAvatar={originalMember?.emoji}
+                                        />
+                                    </>
+                                )}
+                            </ScrollView>
 
                             <View style={styles.buttonsContainer}>
                                 <TouchableOpacity
@@ -212,6 +216,16 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
+    scrollableView: {
+        // padding: 35,
+        // marginLeft: 20,
+        // marginRight: 20,
+        // marginBottom: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        // height: "100%",
+        // marginTop: 10,
+    },
     modalHeader: {
         fontSize: 26,
         fontWeight: "bold",
@@ -252,14 +266,16 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22,
+        // marginTop: 22,
         backgroundColor: "rgba(0,0,0,0.5)",
     },
 
     modalView: {
+        flex: 1,
         // margin: 20,
-        width: 350,
-        height: 700,
+        width: windowWidth - 35,
+        maxHeight: windowHeight - 150,
+        // minHeight: windowHeight - 150,
         // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,

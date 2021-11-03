@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import React, { FC, useContext, useEffect, useState } from "react";
-import { Dimensions, Modal, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Dimensions, Modal, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Surface, TextInput, Text, useTheme } from "react-native-paper";
 import { householdCreate } from "../../../../Common/household";
 import { snackbarContext } from "../../../context/snackBarContext";
@@ -133,44 +133,45 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                         <Surface style={[props.isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
                             <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
                                 <SnackbarComponent isVisible={isVisible} message={message} />
-
-                                <Text style={styles.modalText}>Namnge hushåll: </Text>
-                                <TextInput
-                                    theme={{ roundness: 10 }}
-                                    outlineColor="white"
-                                    mode="outlined"
-                                    style={{ ...styles.input, backgroundColor: colors.inputColor }}
-                                    value={values.name}
-                                    label="Namn på hushållet"
-                                    onChangeText={handleChange<keyof inputHousehold>("name")}
-                                    textAlign={undefined}
-                                />
-                                {errors.name && touched.name && (
-                                    <Text style={{ fontSize: 10, color: "red" }}>{errors.name}</Text>
-                                )}
-                                <View style={{ marginTop: 25 }}>
-                                    <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
-                                    <View style={styles.avatars}>
-                                        {avatars.map(function (name, index) {
-                                            return (
-                                                <TouchableOpacity
-                                                    onPress={() => avatarSelect(Number(index + 1))}
-                                                    key={index}
-                                                >
-                                                    <Text style={styles.avatar}>{name}</Text>
-                                                </TouchableOpacity>
-                                            );
-                                        })}
-                                    </View>
-                                </View>
-                                <View>
-                                    {avatar && (
-                                        <Text style={{ marginTop: 40, fontSize: 20 }}>
-                                            Vald avatar:
-                                            <Text style={styles.avatar}> {avatars[Number(avatar) - 1]} </Text>
-                                        </Text>
+                                <ScrollView>
+                                    <Text style={styles.modalText}>Namnge hushåll: </Text>
+                                    <TextInput
+                                        theme={{ roundness: 10 }}
+                                        outlineColor="white"
+                                        mode="outlined"
+                                        style={{ ...styles.input, backgroundColor: colors.inputColor }}
+                                        value={values.name}
+                                        label="Namn på hushållet"
+                                        onChangeText={handleChange<keyof inputHousehold>("name")}
+                                        textAlign={undefined}
+                                    />
+                                    {errors.name && touched.name && (
+                                        <Text style={{ fontSize: 10, color: "red" }}>{errors.name}</Text>
                                     )}
-                                </View>
+                                    <View style={{ marginTop: 25 }}>
+                                        <Text style={styles.modalText}> Välj en medlemsavatar:</Text>
+                                        <View style={styles.avatars}>
+                                            {avatars.map(function (name, index) {
+                                                return (
+                                                    <TouchableOpacity
+                                                        onPress={() => avatarSelect(Number(index + 1))}
+                                                        key={index}
+                                                    >
+                                                        <Text style={styles.avatar}>{name}</Text>
+                                                    </TouchableOpacity>
+                                                );
+                                            })}
+                                        </View>
+                                    </View>
+                                    <View style={{ alignItems: "center" }}>
+                                        {avatar && (
+                                            <Text style={{ marginTop: 40, fontSize: 20 }}>
+                                                Vald avatar:
+                                                <Text style={styles.avatar}> {avatars[Number(avatar) - 1]} </Text>
+                                            </Text>
+                                        )}
+                                    </View>
+                                </ScrollView>
                                 <View style={styles.buttonsContainer}>
                                     <TouchableOpacity
                                         onPress={handleSubmit}
@@ -233,13 +234,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22,
+        height: windowHeight,
+        // marginTop: 22,
         backgroundColor: "rgba(0,0,0,0.5)",
     },
     modalView: {
         // margin: 20,
         width: windowWidth - 20,
-        height: windowHeight - 100,
+        height: "85%",
         // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
