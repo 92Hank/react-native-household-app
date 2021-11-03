@@ -31,7 +31,7 @@ enum AvatarColors {
     "#F597C4" = 5,
     "#B7DFFF" = 6,
     "#FF9F26" = 7,
-    "#E4E5FE" = 8
+    "#E4E5FE" = 8,
 }
 
 const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
@@ -73,7 +73,9 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
         <>
             <SnackbarComponent isVisible={isVisible} message={message} />
             <View style={styles.topBar}>
-                <View style={{ ...styles.topBar, backgroundColor: AvatarColors[avatar], opacity: .9, borderRadius: 80 }}>
+                <View
+                    style={{ ...styles.topBar, backgroundColor: AvatarColors[avatar], opacity: 0.9, borderRadius: 80 }}
+                >
                     <Text style={styles.avatar}> {Avatars[avatar]} </Text>
                 </View>
             </View>
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
     avatarImage: {
         width: 150,
         height: 150,
-        borderRadius: 150/2,
+        borderRadius: 150 / 2,
     },
     container: {
         flex: 1,
