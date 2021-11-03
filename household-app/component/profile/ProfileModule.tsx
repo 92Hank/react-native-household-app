@@ -29,7 +29,7 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
 
     const [getDbHousehold, dbHousehold] = useLazyGetHouseholdByIdQuery();
 
-    const [updateMember, { isLoading: isUpdatingMember }] = useUpdateMemberMutation();
+    const [updateMember, { status }] = useUpdateMemberMutation();
 
     useEffect(() => {
         if (!household || !user) return;
@@ -44,6 +44,12 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
             setEditMember(member);
         }
     }, [dbHousehold.data]);
+
+    useEffect(() => {
+        if (status) {
+            console.log("status", status);
+        }
+    }, [status]);
 
     if (!household || !user) return <></>;
 
@@ -109,15 +115,17 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                             />
 
                             <Text style={styles.avatarName}>Avatar i hushållet</Text>
-                            <ProfileEmojiSelector
-                                household={household}
-                                avatar={editMember.emoji}
-                                newSelected={(avatar: Avatars) => {
-                                    setEditMember({ ...editMember, emoji: avatar });
-                                    console.log(avatar);
-                                }}
-                                currentAvatar={originalMember?.emoji}
-                            />
+                            {dbHousehold && (
+                                <ProfileEmojiSelector
+                                    household={dbHousehold.data}
+                                    avatar={editMember.emoji}
+                                    newSelected={(avatar: Avatars) => {
+                                        setEditMember({ ...editMember, emoji: avatar });
+                                        console.log(avatar);
+                                    }}
+                                    currentAvatar={originalMember?.emoji}
+                                />
+                            )}
 
                             <View style={styles.buttonsContainer}>
                                 <TouchableOpacity
