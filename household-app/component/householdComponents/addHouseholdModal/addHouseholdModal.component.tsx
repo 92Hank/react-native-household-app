@@ -10,7 +10,6 @@ import { useAppSelector } from "../../../Redux/hooks";
 import { useCreateHouseholdMutation } from "../../../Redux/Service/household/householdApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 import SnackbarComponent from "../../snackbar/snackbarComponent";
-import * as Yup from "yup";
 
 interface DefaultProps {
     isOpen: boolean;
@@ -64,20 +63,11 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     };
 
     useEffect(() => {
-        console.log("isSuccess", isSuccess);
         if (isSuccess) {
             setSnackbar("Lyckades att skapa hushåll", true);
             props.handleModalClose();
         }
     }, [isSuccess]);
-
-    useEffect(() => {
-        console.log("isCreating", isLoading);
-    }, [isLoading]);
-
-    useEffect(() => {
-        console.log("status", status);
-    }, [status]);
 
     useEffect(() => {
         if (error) {
@@ -93,7 +83,6 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
 
     const avatarSelect = (index: number) => {
         setAvatar(index.toString());
-        console.log(index);
     };
 
     const onSave = async (household: inputHousehold) => {
@@ -206,9 +195,6 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
 };
 
 const styles = StyleSheet.create({
-    avatarPressed: {
-        // backgroundColor: "green",
-    },
     avatar: {
         fontSize: 45,
         margin: 10,
@@ -220,7 +206,6 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
     },
     input: {
-        // backgroundColor: "#ffff",
         width: "100%",
         marginBottom: 15,
     },
@@ -239,7 +224,6 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0,0,0,0.5)",
     },
     modalView: {
-        // margin: 20,
         width: windowWidth - 20,
         height: "85%",
         // backgroundColor: "#f2f2f2",
@@ -256,7 +240,6 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     textStyle: {
-        // color: "white",
         fontWeight: "bold",
         textAlign: "center",
     },
@@ -277,39 +260,26 @@ const styles = StyleSheet.create({
         right: 0,
     },
     closeButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
-        // shadowColor: "rgba(0, 0, 0, 0.1)",
-        // shadowOpacity: 0.8,
-        // elevation: 3,
-        // shadowRadius: 15,
-        // shadowOffset: { width: 1, height: 13 },
         borderBottomRightRadius: 20,
         borderStartWidth: 1,
         borderStartColor: "gainsboro",
     },
     saveButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
-        // shadowColor: "rgba(0, 0, 0, 0.1)",
-        // shadowOpacity: 0.8,
-        // elevation: 6,
-        // shadowRadius: 15,
-        // shadowOffset: { width: 1, height: 13 },
         borderBottomLeftRadius: 20,
     },
     buttonText: {
-        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,

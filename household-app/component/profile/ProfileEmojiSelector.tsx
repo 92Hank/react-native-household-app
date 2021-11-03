@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Surface, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
 import { household } from "../../../Common/household";
 import EmojiSelector, { Avatars } from "../common/EmojiSelector";
 
@@ -31,7 +31,6 @@ const ProfileEmojiSelector: FC<Props> = ({
 
     if (currentAvatar) {
         avatars = [...avatars, String(currentAvatar)];
-        console.log("avatars", avatars);
     }
 
     const avatarSelect = (avatar: Avatars) => {
@@ -73,7 +72,6 @@ const styles = StyleSheet.create({
     },
     rootSelect: {
         flexDirection: "column",
-        // flex: 1,
         alignItems: "center",
         justifyContent: "flex-start",
         width: 260,

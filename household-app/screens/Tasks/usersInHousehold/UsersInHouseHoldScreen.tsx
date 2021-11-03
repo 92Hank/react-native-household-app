@@ -40,8 +40,6 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
     if (!user || !currentHousehold) return <view></view>;
 
     const clickOnMember = (item: fullMemberInfo) => {
-        console.log("click");
-
         if (!rights) {
             setSnackbar("Du har inte rättigheter att ändra medlemsstatus", true);
             return;
@@ -52,11 +50,9 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
         }
         setSetMember(item);
         setModalOpen(true);
-        console.log("open");
     };
 
     const handleClose = () => {
-        console.log("close");
         setModalOpen(false);
     };
 
@@ -64,23 +60,19 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
 
     const handleLeaveClick = () => {
         leaveHouseHoldApi({ houseHoldId: result.data?.id as string, userId: user.id as string });
-        console.log("leave api");
         setOpenLeaveModal(false);
     };
 
     const openLeaveModalClick = () => {
-        console.log("open");
         setOpenLeaveModal(true);
     };
 
     const closeLeaveModalClick = () => {
-        console.log("close");
         setOpenLeaveModal(false);
     };
 
     const changeNameModal = () => {
         setOpenChangeName(true);
-        console.log("change name modal");
     };
 
     useEffect(() => {
@@ -152,24 +144,12 @@ const UsersInHouseHoldScreen: FC<Props> = ({ navigation }: Props): React.ReactEl
                         onPress={changeNameModal}
                         text="Byt namn"
                     ></Button>
-                    // <TouchableOpacity onPress={changeNameModal} style={styles.householdButton}>
-                    //     <MaterialIcons name="change-history" size={30} color="black" />
-                    //     <Text style={styles.householdButtonText}>Byt namn</Text>
-                    // </TouchableOpacity>
                 )}
                 <Button
                     iconType={{ type: "MaterialIcons", icons: "delete-forever" }}
                     onPress={openLeaveModalClick}
                     text="Lämna hushåll"
                 ></Button>
-
-                {/* <TouchableOpacity
-                    onPress={openLeaveModalClick}
-                    style={rights ? styles.householdButton : styles.householdButtonUser}
-                >
-                    <MaterialIcons name="delete-forever" size={30} color="black" />
-                    <Text style={styles.householdButtonText}>Lämna hushåll</Text>
-                </TouchableOpacity> */}
             </View>
         </View>
     );

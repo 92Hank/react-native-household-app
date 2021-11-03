@@ -2,7 +2,8 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import { FlatList, KeyboardAvoidingView, Modal, Platform, ScrollView, TouchableOpacity, View } from "react-native";
-import { TextInput, Text, Surface } from "react-native-paper";
+import { ActivityIndicator, Colors, Surface, Text, TextInput, useTheme } from "react-native-paper";
+import * as Yup from "yup";
 import { task } from "../../../../Common/task";
 import { valueType } from "../../../../Common/value";
 import { snackbarContext } from "../../../context/snackBarContext";
@@ -11,9 +12,6 @@ import { useAppSelector } from "../../../Redux/hooks";
 import { useCreateTaskMutation } from "../../../Redux/Service/task/taskApi";
 import SnackbarComponent from "../../snackbar/snackbarComponent";
 import styles from "./styles";
-import { ActivityIndicator, Colors } from "react-native-paper";
-import * as Yup from "yup";
-import { useTheme } from "react-native-paper";
 
 interface Props {
     isOpen: boolean;
@@ -71,7 +69,6 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     };
 
     useEffect(() => {
-        console.log("isSuccess", isSuccess);
         if (isSuccess) {
             setSnackbar("Skapat ny syssla", true);
             setName("");
@@ -83,14 +80,6 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     }, [isSuccess]);
 
     useEffect(() => {
-        console.log("isCreating", isLoading);
-    }, [isLoading]);
-
-    useEffect(() => {
-        console.log("status", status);
-    }, [status]);
-
-    useEffect(() => {
         if (error) {
             console.log("error", error);
             setSnackbar("error", true);
@@ -98,8 +87,6 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     }, [error]);
 
     const handleSubmitForm = (task: inputTask) => {
-        console.log("create api");
-        console.log(task);
         if (task.name && task.description && repeated && value) {
             const v = value as valueType;
             const requestData: task = {
@@ -119,15 +106,11 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     };
 
     const onPress2 = (i: number) => {
-        console.log("onPress works fine");
         setIsClicked(true);
-        console.log(i);
         setValue(i as number);
     };
     const onPressRepeated = (i: number) => {
-        console.log("onPress works fine");
         setIsClickedDays(true);
-        console.log(i);
         setRepeated(i as number);
     };
 

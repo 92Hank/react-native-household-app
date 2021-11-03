@@ -157,48 +157,6 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                             </View>
                         </View>
                     </View>
-                    {/* <Surface style={[isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <Surface style={styles.modalView}>
-                            <Text style={styles.modalText}>hushåll</Text>
-                            {editMember && (
-                                <Surface>
-                                    <Surface>
-                                        <TextInput
-                                            label="Namn i hushållet"
-                                            value={editMember.name}
-                                            onChangeText={onChangeName}
-                                        />
-                                    </Surface>
-                                    <ProfileEmojiSelector
-                                        household={household}
-                                        avatar={editMember.emoji}
-                                        newSelected={(avatar: Avatars) => {
-                                            setEditMember({ ...editMember, emoji: avatar });
-                                            console.log(avatar);
-                                        }}
-                                        currentAvatar={originalMember?.emoji}
-                                    />
-                                    <View style={styles.buttonsContainer}>
-                                        <TouchableOpacity onPress={save} style={styles.saveButton}>
-                                            <MaterialIcons name="delete-forever" size={30} color="black" />
-                                            <Text style={styles.buttonText}>Save</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity onPress={handleModalClose} style={styles.closeButton}>
-                                            <MaterialCommunityIcons name="arrow-left-bold" size={30} color="black" />
-                                            <Text style={styles.buttonText}>Nej</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </Surface>
-                            )}
-                            {!editMember && (
-                                <Surface>
-                                    <Text>Loading...</Text>
-                                </Surface>
-                            )}
-                            <Text style={styles.text}>Global</Text>
-                            <ToggleDarkThemeSwitch />
-                        </Surface>
-                    </Surface> */}
                 </Modal>
             )}
             {!editMember && (
