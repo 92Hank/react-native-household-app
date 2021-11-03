@@ -101,8 +101,6 @@ export const signInUser = (req: Request, res: Response) => {
       }
       docs.forEach((doc) => {
         const data = doc.data();
-        // const user = {email: data.email, userName: data.userName, id: doc.id};
-        // data.id = doc.id;
         res
           .status(200)
           .json({email: data.email, userName: data.userName, id: doc.id});

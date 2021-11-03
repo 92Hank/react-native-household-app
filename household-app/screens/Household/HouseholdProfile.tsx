@@ -4,14 +4,13 @@ import { Surface } from "react-native-paper";
 import Button from "../../component/common/Button";
 import ToggleDarkThemeSwitch from "../../component/common/ToggleDarkThemeSwitch";
 import ProfileModule from "../../component/profile/ProfileModule";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
-import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import SnackbarComponent from "../../component/snackbar/snackbarComponent";
-import { useLazyGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
 import { useLazyGetHouseholdByIdQuery } from "../../Redux/Service/household/householdApi";
+import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdProfile>;
 
@@ -142,8 +141,6 @@ const styles = StyleSheet.create({
     },
     avatar: {
         fontSize: 80,
-        // alignItems: "center",
-        // justifyContent: "center",
         alignSelf: "center",
     },
 });
