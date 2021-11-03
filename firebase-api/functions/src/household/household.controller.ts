@@ -3,8 +3,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {Request, Response} from "express";
-import {fb, FieldValue} from "../fb";
+import { Request, Response } from "express";
+import { fb, FieldValue } from "../fb";
 
 const db = fb.firestore();
 db.settings({ignoreUndefinedProperties: true});
@@ -329,29 +329,6 @@ export const memberLeaveHouseHold = (req: Request, res: Response): void => {
       .catch((error) => res.status(500).send(error.message));
 };
 
-// if (doc.exists) {
-//   const TaskId = doc.id;
-//   doc.ref
-//     .delete()
-//     .then(function () {
-//       db.collection("doneTask")
-//         .get()
-//         .then((snap) => {
-//           snap.forEach((s) => {
-//             const doneTask = s.data();
-//             if (doneTask.taskId === TaskId) {
-//               s.ref.delete();
-//             }
-//           });
-//         });
-//     })
-//     .then(function () {
-//       res
-//         .status(200)
-//         .json("deleted task item: " + id + ", and doneTask connected to it");
-//     });
-// }
-
 export const memberChangeName = (req: Request, res: Response): void => {
   const houseHoldId = req.body["houseHoldId"];
   const userId = req.body["userId"];
@@ -393,7 +370,6 @@ export const updateMember = (req: Request, res: Response): void => {
   const userId = req.body["userId"];
   const newName = req.body["name"];
   const newEmoji = req.body["emoji"];
-  console.log(newEmoji);
 
   const ref = db.collection(householdCollection).doc(houseHoldId);
   ref
