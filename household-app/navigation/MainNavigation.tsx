@@ -1,5 +1,4 @@
 import React from "react";
-import { PreferencesContext } from "../context/PreferencesContext";
 import {
     NavigationContainer,
     DarkTheme as NavigationDarkTheme,
@@ -10,7 +9,6 @@ import { MainRoutes } from "../routes/routes";
 import AppStack from "./AppStack";
 import { Appbar, Switch, TouchableRipple, useTheme } from "react-native-paper";
 import { DefaultTheme, DarkTheme } from "@react-navigation/native";
-import { View } from "react-native";
 import TaskStack from "./TaskStack";
 import AuthStack from "./AuthStack";
 import UsersStack from "./UsersStack";

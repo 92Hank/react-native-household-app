@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Surface, Text } from "react-native-paper";
 import { household } from "../../../Common/household";
 import EmojiSelector, { Avatars } from "../common/EmojiSelector";
@@ -40,23 +40,23 @@ const ProfileEmojiSelector: FC<Props> = ({
     };
 
     return (
-        <Surface>
+        <View>
             {!change && (
-                <Surface style={styles.root}>
+                <View style={styles.root}>
                     <Text>Vald avatar</Text>
                     <TouchableOpacity onPress={() => setChange(true)}>
                         <Text style={styles.avatar}> {Avatars[avatar]} </Text>
                     </TouchableOpacity>
-                </Surface>
+                </View>
             )}
 
             {change && (
-                <Surface style={styles.rootSelect}>
+                <View style={styles.rootSelect}>
                     <Text>Välj avatar</Text>
                     <EmojiSelector selectedAvatars={avatarState} avatarList={avatars} avatarSelect={avatarSelect} />
-                </Surface>
+                </View>
             )}
-        </Surface>
+        </View>
     );
 };
 

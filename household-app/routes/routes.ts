@@ -3,7 +3,6 @@ import { createNativeStackNavigator, NativeStackScreenProps as Props } from "@re
 export enum MainRoutes {
     LoginScreen = "LoginScreen",
     CreateAccountScreen = "CreateAccountScreen",
-    ProfileScreen = "ProfileScreen",
     TasksScreen = "TasksScreen",
     LastWeekScreen = "LastWeekScreen",
     LastMonthScreen = "LastMonthScreen",
@@ -17,7 +16,6 @@ export enum MainRoutes {
 export type MainStackParamList = {
     [MainRoutes.LoginScreen]: undefined;
     [MainRoutes.CreateAccountScreen]: undefined;
-    [MainRoutes.ProfileScreen]: undefined;
     [MainRoutes.TasksScreen]: undefined;
     [MainRoutes.LastWeekScreen]: undefined;
     [MainRoutes.LastMonthScreen]: undefined;

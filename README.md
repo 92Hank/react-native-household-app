@@ -36,7 +36,7 @@ VG: 34 (85%).
 - [x] En ägare ska kunna acceptera eller neka förfrågningar.
 - [x] En ägare ska kunna göra andra till ägare.
 - [x] En ägare ska kunna pausa en användare och under pausade perioder ska användare inte tas med i statistiken.
-- [x] Om en använder har pausats under en del av en period i statistiken ska graferna normaliseras.
+- [ ] Om en använder har pausats under en del av en period i statistiken ska graferna normaliseras.
 
 ### Konto (5/5)
 

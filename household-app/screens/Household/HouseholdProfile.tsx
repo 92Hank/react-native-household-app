@@ -1,15 +1,17 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Surface } from "react-native-paper";
 import Button from "../../component/common/Button";
 import ToggleDarkThemeSwitch from "../../component/common/ToggleDarkThemeSwitch";
 import ProfileModule from "../../component/profile/ProfileModule";
+import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 
-type Props = FeedStackScreenProps<MainRoutes.ProfileScreen>;
+type Props = FeedStackScreenProps<MainRoutes.HouseholdProfile>;
 
 enum Avatars {
     "🦊" = 1,
@@ -24,6 +26,8 @@ enum Avatars {
 
 const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
     const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
+    const { message, isVisible } = useContext(snackbarContext);
+
     const handleTaskClose = () => {
         setIsClickedTaskOpen(false);
     };
@@ -55,16 +59,17 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
 
     return (
         <>
+            <SnackbarComponent isVisible={isVisible} message={message} />
             <View style={styles.topBar}>
                 <View style={styles.avatarImage}>
                     <Text style={styles.avatar}> {Avatars[avatar]} </Text>
                 </View>
             </View>
             <Surface style={styles.container}>
-                <Surface style={styles.profileSurface}>
+                <View style={styles.profileSurface}>
                     <Text style={styles.text}>{username}</Text>
                     <ProfileModule isOpen={isClickedTaskOpen} handleModalClose={handleTaskClose} />
-                </Surface>
+                </View>
                 <View style={styles.buttonAlign}>
                     <Button
                         text="Ändra profil"

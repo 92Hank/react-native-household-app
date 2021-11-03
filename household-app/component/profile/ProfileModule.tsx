@@ -12,7 +12,7 @@ import { setSelectedHousehold } from "../../Redux/features/SelectedState/Selecte
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import {
     useChangeEmojiMutation,
-    useChangeNameMutation,
+    useChangeMemberNameMutation,
     useLazyGetHouseholdByIdQuery,
 } from "../../Redux/Service/household/householdApi";
 
@@ -35,7 +35,7 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
     const [getDbHousehold, dbHousehold] = useLazyGetHouseholdByIdQuery();
 
     const [updateEmoji, { isLoading: isUpdatingEmoji }] = useChangeEmojiMutation();
-    const [updateName, { isLoading: isUpdatingName }] = useChangeNameMutation();
+    const [updateName, { isLoading: isUpdatingName }] = useChangeMemberNameMutation();
 
     useEffect(() => {
         if (!household || !user) return;
@@ -64,7 +64,7 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
         }
 
         if (originalMember.name !== editMember.name) {
-            updateName({ houseHoldId: household.id, name: editMember.name });
+            updateName({ houseHoldId: household.id, name: editMember.name, userId: user.id });
         }
 
         const copyMember = [...household.member];
@@ -74,7 +74,7 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
 
             dispatch(setSelectedHousehold({ ...household, member: [...copyMember] }));
         }
-        setSnackbar("Saved", true);
+        setSnackbar("Sparad", true);
         handleModalClose();
     };
 
@@ -251,8 +251,8 @@ const styles = StyleSheet.create({
 
     modalView: {
         // margin: 20,
-        width: 300,
-        height: 500,
+        width: 350,
+        height: 700,
         // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
