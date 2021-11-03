@@ -25,14 +25,14 @@ const EmojiSelector: FC<Props> = ({ selectedAvatars, avatarList, avatarSelect }:
                     );
                 })}
             </Surface>
-            <Surface>
+            {/* <Surface>
                 {selectedAvatars && (
                     <Text style={{ marginTop: 40, fontSize: 16, marginLeft: 10 }}>
                         Vald avatar:
                         <Text style={styles.avatar}> {Avatars[selectedAvatars]} </Text>
                     </Text>
                 )}
-            </Surface>
+            </Surface> */}
         </Surface>
     );
 };

@@ -1,13 +1,17 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Surface } from "react-native-paper";
 import Button from "../../component/common/Button";
 import ToggleDarkThemeSwitch from "../../component/common/ToggleDarkThemeSwitch";
 import ProfileModule from "../../component/profile/ProfileModule";
+import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
+import { useLazyGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
+import { useLazyGetHouseholdByIdQuery } from "../../Redux/Service/household/householdApi";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdProfile>;
 
@@ -34,6 +38,8 @@ enum AvatarColors {
 
 const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
     const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
+    const { message, isVisible } = useContext(snackbarContext);
+
     const handleTaskClose = () => {
         setIsClickedTaskOpen(false);
     };
@@ -41,12 +47,21 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
         setIsClickedTaskOpen(true);
     };
 
-    const currentHousehold = useAppSelector(selectSelectedHousehold);
+    const HouseholdId = useAppSelector(selectSelectedHousehold);
     const user = useAppSelector(selectCurrentLoginUser);
+
+    const [loadHouseholdData, householdResult] = useLazyGetHouseholdByIdQuery();
+    const { data: currentHousehold, isLoading } = householdResult;
 
     const [avatar, setAvatar] = useState<number>(-1);
     const [username, setUsername] = useState<string>("");
     const [avatarColor, setAvatarColor] = useState<number>(-1);
+
+    useEffect(() => {
+        if (HouseholdId?.id) {
+            loadHouseholdData(HouseholdId.id);
+        }
+    }, []);
 
     useEffect(() => {
         const member = currentHousehold?.member.filter((m) => m.userId === user?.id);
@@ -55,9 +70,7 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
             setUsername(member[0].name);
             setAvatarColor(member[0].emoji);
         }
-        console.log(avatar);
-        console.log(username);
-    }, [avatar, username, avatarColor]);
+    }, [currentHousehold]);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -67,6 +80,7 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
 
     return (
         <>
+            <SnackbarComponent isVisible={isVisible} message={message} />
             <View style={styles.topBar}>
                 <View style={{ ...styles.avatarBg, backgroundColor: AvatarColors[avatar] }}>
                     <Text style={styles.avatar}> {Avatars[avatar]} </Text>

@@ -3,7 +3,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect } from "react";
 import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Surface, useTheme, Text } from "react-native-paper";
+import { Surface, Text, useTheme } from "react-native-paper";
 import { snackbarContext } from "../../../context/snackBarContext";
 import { useActivateTaskMutation } from "../../../Redux/Service/task/taskApi";
 
@@ -47,8 +47,6 @@ function ActivateModal(props: Props) {
 
     const handleActivateTask = () => {
         activateTask(props.task.id);
-
-        console.log("apiCall");
     };
 
     return (
@@ -106,7 +104,6 @@ const styles = StyleSheet.create({
     householdButton: {
         marginTop: 20,
         margin: 5,
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         borderRadius: 100,
@@ -121,7 +118,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 1, height: 13 },
     },
     householdButtonText: {
-        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
@@ -136,13 +132,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22,
+        // marginTop: 22,
         backgroundColor: "rgba(0,0,0,0.5)",
     },
     modalView: {
         width: 300,
         height: 200,
-        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -156,7 +151,6 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     textStyle: {
-        // color: "white",
         fontWeight: "bold",
         textAlign: "center",
     },
@@ -177,7 +171,6 @@ const styles = StyleSheet.create({
         right: 0,
     },
     closeButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -194,7 +187,6 @@ const styles = StyleSheet.create({
         borderStartColor: "gainsboro",
     },
     saveButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -209,7 +201,6 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     buttonText: {
-        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,

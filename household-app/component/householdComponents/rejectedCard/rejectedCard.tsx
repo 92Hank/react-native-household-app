@@ -31,20 +31,10 @@ const RejectedCard = (props: Props) => {
     }, [error]);
 
     const clickOnHousehold = (item: household) => {
-        console.log(item.id);
-        console.log(user?.id);
-        console.log("api call to remove,");
         removeUser({ houseHoldId: item.id, userId: user?.id as string });
     };
-    // const handleTaskClose = () => {
-    //     setIsClickedTaskOpen(false);
-    // };
 
     const handlePress = () => setExpanded(!expanded);
-    // const onPressMember = () => {
-    //     console.log("Få upp modalen för att redigera syssla och ta bort arkivering?");
-    // };
-
     return (
         <View>
             <List.Section>

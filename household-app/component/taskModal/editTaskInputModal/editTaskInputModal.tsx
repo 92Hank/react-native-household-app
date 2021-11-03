@@ -1,19 +1,17 @@
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
-import { TouchableOpacity, Modal, FlatList, View } from "react-native";
-import { TextInput, Surface, Text } from "react-native-paper";
+import { TouchableOpacity, Modal, FlatList, View, Platform, KeyboardAvoidingView, ScrollView } from "react-native";
+import { TextInput, Surface, Text, useTheme } from "react-native-paper";
 import { task } from "../../../../Common/task";
 import { valueType } from "../../../../Common/value";
 import { snackbarContext } from "../../../context/snackBarContext";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { useEditTaskMutation } from "../../../Redux/Service/task/taskApi";
-import styles from "./styles";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import SnackbarComponent from "../../snackbar/snackbarComponent";
+import styles from "./styles";
 import * as Yup from "yup";
-import { Formik } from "formik";
-import { useTheme } from "react-native-paper";
-
 interface TaskNow {
     id?: string;
     name: string;
@@ -111,8 +109,6 @@ const EditTaskInputModal = (props: Props) => {
     }, [successEdit]);
 
     const onEdit = (task: inputTask) => {
-        console.log("edit api");
-        console.log(task);
         if (name && description && repeated && value) {
             const v = value as valueType;
             const requestData: task = {
@@ -124,32 +120,19 @@ const EditTaskInputModal = (props: Props) => {
                 archived: false,
                 id: props.task.id,
             };
-            console.log("------- Edit Form -------");
-            console.log("repeated: " + repeated);
-            console.log("description: " + description);
-            console.log("name: " + name);
-            console.log("value: " + value);
-            console.log("household: " + currentHousehold?.id);
-            console.log("------- End of Edit Form -------");
             editTask(requestData);
         } else {
             setSnackbar("Fyll i alla värden", true);
         }
         setIsEditing(isEditing);
-        // setIsClickedDays(false);
-        // setIsClicked(false);
     };
 
     const onPress2 = (i: number) => {
-        console.log("onPress works fine");
         setIsClicked(true);
-        console.log(i);
         setValue(i as number);
     };
     const onPressRepeated = (i: number) => {
-        console.log("onPress works fine");
         setIsClickedDays(true);
-        console.log(i);
         setRepeated(i as number);
     };
 
@@ -180,10 +163,10 @@ const EditTaskInputModal = (props: Props) => {
     const repeatedValue = (
         <Surface style={styles.inputsCard}>
             <Surface style={styles.clickedDay}>
-                <Surface style={styles.clickedDayTitle}>
+                <View style={styles.clickedDayTitle}>
                     <Text style={styles.buttonText}>Återkommer: </Text>
-                </Surface>
-                <Surface style={styles.clickedDayReturn}>
+                </View>
+                <View style={styles.clickedDayReturn}>
                     <Text style={{ marginRight: 3 }}>Var</Text>
                     <TouchableOpacity
                         style={styles.circleButton}
@@ -194,7 +177,7 @@ const EditTaskInputModal = (props: Props) => {
                         <Text style={styles.circleBtnText}>{repeated ? repeated : defaultTask.repeated}</Text>
                     </TouchableOpacity>
                     <Text style={{ marginLeft: 3 }}>dag</Text>
-                </Surface>
+                </View>
             </Surface>
         </Surface>
     );
@@ -217,10 +200,10 @@ const EditTaskInputModal = (props: Props) => {
     const valueForTask = (
         <Surface style={styles.inputsCard2}>
             <Surface style={styles.clickedDay}>
-                <Surface style={styles.clickedDayTitle}>
+                <View style={styles.clickedDayTitle}>
                     <Text style={styles.buttonText}>Värde: </Text>
                     <Text style={styles.clickedDayTitleSub}>Hur energikrävande är sysslan?</Text>
-                </Surface>
+                </View>
                 <TouchableOpacity
                     style={{ ...styles.circleButtonValue, backgroundColor: colors.contrastColor }}
                     onPress={() => {
@@ -232,6 +215,7 @@ const EditTaskInputModal = (props: Props) => {
             </Surface>
         </Surface>
     );
+
     console.log("defaultTask: =>", defaultTask);
     return (
         <Modal
@@ -256,12 +240,15 @@ const EditTaskInputModal = (props: Props) => {
                                 <Surface style={styles.modalTextView}>
                                     <Text style={styles.modalText}>Ändra syssla</Text>
                                 </Surface>
-                                <View
-                                    style={{
-                                        position: "absolute",
-                                        alignItems: "center",
-                                        marginTop: 25,
-                                    }}
+                                <ScrollView
+                                    contentContainerStyle={styles.scrollableView}
+                                    style={
+                                        {
+                                            // position: "absolute",
+                                            // alignItems: "center",
+                                            // marginTop: 25,
+                                        }
+                                    }
                                 >
                                     <TextInput
                                         defaultValue={defaultTask.name || "Pelle"}
@@ -292,11 +279,14 @@ const EditTaskInputModal = (props: Props) => {
                                     {!isClickedDays ? repeatedInput : repeatedValue}
 
                                     {!isClicked ? valueInput : valueForTask}
-                                </View>
+                                </ScrollView>
                                 <View style={styles.buttonsContainer}>
                                     <TouchableOpacity
                                         onPress={handleSubmit}
-                                        style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
+                                        style={{
+                                            ...styles.saveButton,
+                                            backgroundColor: colors.blackWhiteToggle,
+                                        }}
                                     >
                                         <MaterialIcons name="check-circle" size={30} color={colors.whiteBlackToggle} />
                                         <Text style={styles.buttonText}>Ändra</Text>

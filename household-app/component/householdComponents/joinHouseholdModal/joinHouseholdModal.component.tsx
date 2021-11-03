@@ -1,15 +1,14 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { FC, useContext, useEffect, useState } from "react";
 import { Dimensions, Modal, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Surface, TextInput, Text, useTheme } from "react-native-paper";
-import { webUrl } from "../../../Redux/Config";
+import { Surface, Text, TextInput, useTheme } from "react-native-paper";
 import { household, householdJoin } from "../../../../Common/household";
+import { snackbarContext } from "../../../context/snackBarContext";
+import { webUrl } from "../../../Redux/Config";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { useJoinHouseholdMutation } from "../../../Redux/Service/household/householdApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
-import { snackbarContext } from "../../../context/snackBarContext";
-// import { string } from "yup/lib/locale";
 
 interface DefaultProps {
     isOpen: boolean;
@@ -17,7 +16,6 @@ interface DefaultProps {
 }
 
 type NavProps = FeedStackScreenProps<MainRoutes.HouseholdScreen>;
-
 type Props = DefaultProps & NavProps;
 
 enum Avatars {
@@ -52,7 +50,6 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
     const existingAvatars: Avatars[] = [];
 
     useEffect(() => {
-        console.log("isSuccess", isSuccess);
         if (isSuccess) {
             setSnackbar("Ansökan om att gå med i hushåll skickad", true);
             props.handleModalClose();
@@ -60,14 +57,6 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
             setRenderAvatar(false);
         }
     }, [isSuccess]);
-
-    useEffect(() => {
-        console.log("isCreating", isLoading);
-    }, [isLoading]);
-
-    useEffect(() => {
-        console.log("status", status);
-    }, [status]);
 
     useEffect(() => {
         if (error) {
@@ -86,7 +75,6 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
         const selectedAvatar = Avatars[index];
         setAvatar(selectedAvatar);
         setRenderAvatar(true);
-        console.log(index);
     };
 
     const onSubmit = async () => {
@@ -100,10 +88,8 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
             });
             if (rawResponse.status === 200) {
                 const foundHousehold: household = await rawResponse.json();
-                console.log(foundHousehold);
                 foundHousehold.member.forEach((element) => {
                     existingAvatars.push(element.emoji);
-                    // console.log(foundHousehold);
                 });
                 avatars = avatars.filter((val) => !existingAvatars.includes(Number(val)));
                 setAvatars(avatars);
@@ -128,7 +114,6 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
             setSnackbar("APAPAP! Du måste ange en kod", true);
             return;
         }
-        console.log("API");
         if (household && avatarIndex && user) {
             const requestData: householdJoin = {
                 houseHoldId: household.id,
@@ -139,7 +124,6 @@ const JoinHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                     name: user.userName,
                 },
             };
-            console.log(requestData);
             JoinHousehold(requestData);
         }
     }
@@ -280,7 +264,6 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
     },
     input: {
-        // backgroundColor: "#ffff",
         width: "100%",
     },
     centeredView: {
@@ -293,13 +276,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22,
+        // marginTop: 22,
         backgroundColor: "rgba(0,0,0,0.5)",
     },
     modalRequestView: {
         width: windowWidth - 20,
         height: windowHeight - 200,
-        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -314,10 +296,8 @@ const styles = StyleSheet.create({
     },
 
     modalView: {
-        // margin: 20,
         width: 300,
         height: 300,
-        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -331,7 +311,6 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     textStyle: {
-        // color: "white",
         fontWeight: "bold",
         textAlign: "center",
     },
@@ -352,39 +331,26 @@ const styles = StyleSheet.create({
         right: 0,
     },
     closeButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
-        // shadowColor: "rgba(0, 0, 0, 0.1)",
-        // shadowOpacity: 0.8,
-        // elevation: 6,
-        // shadowRadius: 15,
-        // shadowOffset: { width: 1, height: 13 },
         borderBottomRightRadius: 20,
         borderStartWidth: 1,
         borderStartColor: "gainsboro",
     },
     saveButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
-        // shadowColor: "rgba(0, 0, 0, 0.1)",
-        // shadowOpacity: 0.8,
-        // elevation: 6,
-        // shadowRadius: 15,
-        // shadowOffset: { width: 1, height: 13 },
         borderBottomLeftRadius: 20,
     },
     buttonText: {
-        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,

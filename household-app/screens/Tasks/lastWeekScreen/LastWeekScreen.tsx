@@ -20,15 +20,11 @@ const LastWeekScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =>
     const getId = useAppSelector(selectSelectedHousehold);
     const [loadHouseholdData, householdResult] = useLazyGetHouseholdByIdQuery();
     const { data: currentHousehold, error: householdError } = householdResult;
-    // const { data: doneTasksArray, error: doneTaskError } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
     const [loadDoneTaskData, doneTaskResult] = useLazyGetDoneTasksWithHouseholdIdQuery();
     const { data: doneTasksArray, error: doneTaskError } = doneTaskResult;
 
     const [statisticsArray, setStatisticsArray] = useState<MemberStatistics[]>();
     const [fillerMessage, setFillerMessage] = useState("No done tasks found for this household.");
-
-    // let statisticsArray: MemberStatistics[] | undefined = undefined;
-    // let fillerMessage = "No done tasks found for this household.";
 
     useEffect(() => {
         if (!getId) return;

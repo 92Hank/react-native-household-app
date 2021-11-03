@@ -1,8 +1,8 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
-import { Dimensions, Modal, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Dimensions, Modal, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Surface, Text, TextInput, useTheme } from "react-native-paper";
-import { fullMemberInfo } from "../../../Common/household";
+import { fullMemberInfo, updateMember } from "../../../Common/household";
 import { Avatars } from "../../component/common/EmojiSelector";
 import ProfileEmojiSelector from "../../component/profile/ProfileEmojiSelector";
 import { snackbarContext } from "../../context/snackBarContext";
@@ -10,11 +10,7 @@ import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSele
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
-import {
-    useChangeEmojiMutation,
-    useChangeNameMutation,
-    useLazyGetHouseholdByIdQuery,
-} from "../../Redux/Service/household/householdApi";
+import { useLazyGetHouseholdByIdQuery, useUpdateMemberMutation } from "../../Redux/Service/household/householdApi";
 
 interface Props {
     isOpen: boolean;
@@ -25,7 +21,6 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
     const { setSnackbar } = useContext(snackbarContext);
     const dispatch = useAppDispatch();
 
-    const [isSaving, setIsSaving] = useState(false);
     const [originalMember, setOriginalMember] = useState<fullMemberInfo>();
     const [editMember, setEditMember] = useState<fullMemberInfo>();
     const user = useAppSelector(selectCurrentLoginUser);
@@ -34,8 +29,7 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
 
     const [getDbHousehold, dbHousehold] = useLazyGetHouseholdByIdQuery();
 
-    const [updateEmoji, { isLoading: isUpdatingEmoji }] = useChangeEmojiMutation();
-    const [updateName, { isLoading: isUpdatingName }] = useChangeNameMutation();
+    const [updateMember, { status }] = useUpdateMemberMutation();
 
     useEffect(() => {
         if (!household || !user) return;
@@ -52,29 +46,40 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
     }, [dbHousehold.data]);
 
     useEffect(() => {
-        setIsSaving(isUpdatingEmoji || isUpdatingName);
-    }, [isUpdatingEmoji, isUpdatingName]);
+        if (status) {
+            console.log("status", status);
+        }
+    }, [status]);
 
     if (!household || !user) return <></>;
 
     const save = () => {
         if (!editMember || !originalMember || !dbHousehold.data || !user.id) return;
+        const updateDto: updateMember = {
+            houseHoldId: dbHousehold.data.id,
+            userId: user.id,
+        };
+
         if (originalMember.emoji !== editMember.emoji) {
-            updateEmoji({ emoji: editMember.emoji, houseHoldId: household.id, userId: user.id });
+            updateDto.emoji = editMember.emoji;
         }
 
         if (originalMember.name !== editMember.name) {
-            updateName({ houseHoldId: household.id, name: editMember.name });
+            updateDto.name = editMember.name;
         }
 
-        const copyMember = [...household.member];
-        const index = copyMember.findIndex((m) => m.userId === user.id);
-        if (~index) {
-            copyMember[index] = editMember;
-
-            dispatch(setSelectedHousehold({ ...household, member: [...copyMember] }));
+        if (updateDto.emoji || updateDto.name) {
+            updateMember(updateDto);
         }
-        setSnackbar("Saved", true);
+
+        // const copyMember = [...household.member];
+        // const index = copyMember.findIndex((m) => m.userId === user.id);
+        // if (~index) {
+        //     copyMember[index] = editMember;
+
+        //     dispatch(setSelectedHousehold({ ...household, member: [...copyMember] }));
+        // }
+        setSnackbar("Spara", true);
         handleModalClose();
     };
 
@@ -97,28 +102,34 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                 >
                     <View style={[isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
                         <View style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
-                            <Text style={styles.modalText}>Profile </Text>
-                            <Text style={styles.labelName}>Namn i hushållet</Text>
-                            <TextInput
-                                theme={{ roundness: 10 }}
-                                outlineColor="white"
-                                mode="outlined"
-                                style={{ ...styles.input, backgroundColor: colors.inputColor }}
-                                value={editMember.name}
-                                onChangeText={onChangeName}
-                                textAlign={undefined}
-                            />
+                            <Text style={styles.modalText}>Ändra profil </Text>
+                            <ScrollView contentContainerStyle={styles.scrollableView}>
+                                <TextInput
+                                    theme={{ roundness: 10 }}
+                                    outlineColor="white"
+                                    mode="outlined"
+                                    style={{ ...styles.input, backgroundColor: colors.inputColor }}
+                                    value={editMember.name}
+                                    onChangeText={onChangeName}
+                                    textAlign={undefined}
+                                    label="Namn i hushållet"
+                                />
 
-                            <Text style={styles.avatarName}>Avatar i hushållet</Text>
-                            <ProfileEmojiSelector
-                                household={household}
-                                avatar={editMember.emoji}
-                                newSelected={(avatar: Avatars) => {
-                                    setEditMember({ ...editMember, emoji: avatar });
-                                    console.log(avatar);
-                                }}
-                                currentAvatar={originalMember?.emoji}
-                            />
+                                {dbHousehold.data && (
+                                    <>
+                                        <Text style={styles.avatarName}>Avatar i hushållet</Text>
+                                        <ProfileEmojiSelector
+                                            household={dbHousehold.data}
+                                            avatar={editMember.emoji}
+                                            newSelected={(avatar: Avatars) => {
+                                                setEditMember({ ...editMember, emoji: avatar });
+                                                console.log(avatar);
+                                            }}
+                                            currentAvatar={originalMember?.emoji}
+                                        />
+                                    </>
+                                )}
+                            </ScrollView>
 
                             <View style={styles.buttonsContainer}>
                                 <TouchableOpacity
@@ -146,48 +157,6 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                             </View>
                         </View>
                     </View>
-                    {/* <Surface style={[isOpen ? styles.centeredViewBlurred : styles.centeredView]}>
-                        <Surface style={styles.modalView}>
-                            <Text style={styles.modalText}>hushåll</Text>
-                            {editMember && (
-                                <Surface>
-                                    <Surface>
-                                        <TextInput
-                                            label="Namn i hushållet"
-                                            value={editMember.name}
-                                            onChangeText={onChangeName}
-                                        />
-                                    </Surface>
-                                    <ProfileEmojiSelector
-                                        household={household}
-                                        avatar={editMember.emoji}
-                                        newSelected={(avatar: Avatars) => {
-                                            setEditMember({ ...editMember, emoji: avatar });
-                                            console.log(avatar);
-                                        }}
-                                        currentAvatar={originalMember?.emoji}
-                                    />
-                                    <View style={styles.buttonsContainer}>
-                                        <TouchableOpacity onPress={save} style={styles.saveButton}>
-                                            <MaterialIcons name="delete-forever" size={30} color="black" />
-                                            <Text style={styles.buttonText}>Save</Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity onPress={handleModalClose} style={styles.closeButton}>
-                                            <MaterialCommunityIcons name="arrow-left-bold" size={30} color="black" />
-                                            <Text style={styles.buttonText}>Nej</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </Surface>
-                            )}
-                            {!editMember && (
-                                <Surface>
-                                    <Text>Loading...</Text>
-                                </Surface>
-                            )}
-                            <Text style={styles.text}>Global</Text>
-                            <ToggleDarkThemeSwitch />
-                        </Surface>
-                    </Surface> */}
                 </Modal>
             )}
             {!editMember && (
@@ -205,6 +174,16 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
+    scrollableView: {
+        // padding: 35,
+        // marginLeft: 20,
+        // marginRight: 20,
+        // marginBottom: 20,
+        justifyContent: "center",
+        alignItems: "center",
+        // height: "100%",
+        // marginTop: 10,
+    },
     modalHeader: {
         fontSize: 26,
         fontWeight: "bold",
@@ -245,14 +224,16 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22,
+        // marginTop: 22,
         backgroundColor: "rgba(0,0,0,0.5)",
     },
 
     modalView: {
+        flex: 1,
         // margin: 20,
-        width: 300,
-        height: 500,
+        width: windowWidth - 35,
+        maxHeight: windowHeight - 150,
+        // minHeight: windowHeight - 150,
         // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,

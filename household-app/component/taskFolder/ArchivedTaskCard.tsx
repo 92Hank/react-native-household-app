@@ -28,7 +28,6 @@ const ArchivedTaskCard = (props: Props) => {
     const clickOnTask = (task: TaskNow) => {
         setTaskInModal(task);
         setIsClickedTaskOpen(true);
-        console.log("click on task,");
     };
     const handleTaskClose = () => {
         setIsClickedTaskOpen(false);
