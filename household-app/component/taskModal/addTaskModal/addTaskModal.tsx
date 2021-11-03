@@ -201,7 +201,6 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
             enabled={false}
         >
             <View
-                // contentContainerStyle={{ flexGrow: 1 }}
                 {...(Platform.OS === "ios" ? "keyboardDismissMode='interactive'" : null)}
                 keyboardShouldPersistTaps={"handled"}
             >
@@ -227,18 +226,7 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                         <Surface style={styles.modalTextView}>
                                             <Text style={styles.modalText}>Skapa en ny syssla</Text>
                                         </Surface>
-
-                                        {/* // Fixa scrollview, flytta padding innanför scrollview */}
-                                        <ScrollView
-                                            contentContainerStyle={styles.scrollableView}
-                                            style={
-                                                {
-                                                    // position: "absolute",
-                                                    // alignItems: "center",
-                                                    // marginTop: 25,
-                                                }
-                                            }
-                                        >
+                                        <ScrollView contentContainerStyle={styles.scrollableView}>
                                             <TextInput
                                                 defaultValue={""}
                                                 theme={{ roundness: 10 }}
