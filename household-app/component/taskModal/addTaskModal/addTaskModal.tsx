@@ -71,7 +71,6 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     };
 
     useEffect(() => {
-        console.log("isSuccess", isSuccess);
         if (isSuccess) {
             setSnackbar("Skapat ny syssla", true);
             setName("");
@@ -83,14 +82,6 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     }, [isSuccess]);
 
     useEffect(() => {
-        console.log("isCreating", isLoading);
-    }, [isLoading]);
-
-    useEffect(() => {
-        console.log("status", status);
-    }, [status]);
-
-    useEffect(() => {
         if (error) {
             console.log("error", error);
             setSnackbar("error", true);
@@ -98,8 +89,6 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     }, [error]);
 
     const handleSubmitForm = (task: inputTask) => {
-        console.log("create api");
-        console.log(task);
         if (task.name && task.description && repeated && value) {
             const v = value as valueType;
             const requestData: task = {
@@ -119,15 +108,11 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     };
 
     const onPress2 = (i: number) => {
-        console.log("onPress works fine");
         setIsClicked(true);
-        console.log(i);
         setValue(i as number);
     };
     const onPressRepeated = (i: number) => {
-        console.log("onPress works fine");
         setIsClickedDays(true);
-        console.log(i);
         setRepeated(i as number);
     };
 
@@ -214,7 +199,6 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined} enabled>
             <ScrollView
-                // contentContainerStyle={{ flexGrow: 1 }}
                 {...(Platform.OS === "ios" ? "keyboardDismissMode='interactive'" : null)}
                 keyboardShouldPersistTaps={"handled"}
             >
@@ -240,15 +224,7 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, handleAddClose }) => {
                                         <Surface style={styles.modalTextView}>
                                             <Text style={styles.modalText}>Skapa en ny syssla</Text>
                                         </Surface>
-                                        <View
-                                            style={
-                                                {
-                                                    // position: "absolute",
-                                                    // alignItems: "center",
-                                                    // marginTop: 25,
-                                                }
-                                            }
-                                        >
+                                        <View>
                                             <TextInput
                                                 defaultValue={""}
                                                 theme={{ roundness: 10 }}
