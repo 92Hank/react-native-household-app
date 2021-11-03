@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
     avatarBg: {
         width: 200,
         height: 200,
-        borderRadius: 200,
+        borderRadius: 100,
+        justifyContent: "center",
     },
     button: {
         justifyContent: "center",
@@ -140,11 +141,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
     },
     avatar: {
-        alignItems: "center",
-        justifyContent: "center",
         fontSize: 80,
-        marginVertical: 45,
-        marginHorizontal: 30,
+        // alignItems: "center",
+        // justifyContent: "center",
+        alignSelf: "center",
     },
 });
 
