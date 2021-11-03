@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-import TasksScreen from "../screens/Tasks/tasksScreen/TasksScreen";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { MainRoutes, MainStack } from "../routes/routes";
-import LastWeekScreen from "../screens/Tasks/lastWeekScreen/LastWeekScreen";
-import LastMonthScreen from "../screens/Tasks/lastMonthScreen/LastMonthScreen";
-import CurrentWeekScreen from "../screens/Tasks/currentWeekScreen/CurrentWeekScreen";
-import { useAppSelector } from "../Redux/hooks";
-import { selectSelectedHousehold } from "../Redux/features/SelectedState/SelectedStateSelectors";
-import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../Redux/Service/task/taskApi";
-import { getLastMonthDoneTasksByHousehold } from "../screens/Tasks/helpers/doneTaskHelper";
-import { getCalendarWeekDoneTasksByHousehold } from "../screens/Tasks/helpers/doneTaskHelper";
+import React, { useEffect, useState } from "react";
 import { doneTask } from "../../Common/doneTask";
 import { household } from "../../Common/household";
+import { selectSelectedHousehold } from "../Redux/features/SelectedState/SelectedStateSelectors";
+import { useAppSelector } from "../Redux/hooks";
+import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../Redux/Service/task/taskApi";
+import { MainRoutes, MainStack } from "../routes/routes";
+import CurrentWeekScreen from "../screens/Tasks/currentWeekScreen/CurrentWeekScreen";
+import { getCalendarWeekDoneTasksByHousehold, getLastMonthDoneTasksByHousehold } from "../screens/Tasks/helpers/doneTaskHelper";
+import LastMonthScreen from "../screens/Tasks/lastMonthScreen/LastMonthScreen";
+import LastWeekScreen from "../screens/Tasks/lastWeekScreen/LastWeekScreen";
+import TasksScreen from "../screens/Tasks/tasksScreen/TasksScreen";
 
 const Tab = createMaterialTopTabNavigator();
 const TaskScreenStack = () => (
@@ -90,7 +89,6 @@ const LastMonthStack = () => (
 const TaskStack = () => {
     const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [loadDoneTaskData, doneTaskResult] = useLazyGetDoneTasksWithHouseholdIdQuery();
-    // const [print, setPrint] = useState(false);
     const [printWeek, setPrintWeek] = useState(false);
     const [printLastWeek, setPrintLastWeek] = useState(false);
     const [printMonth, setPrintMonth] = useState(false);
@@ -143,10 +141,7 @@ const TaskStack = () => {
                 tabBarIndicatorStyle: { backgroundColor: "white" },
                 tabBarLabelStyle: { fontWeight: "bold" },
             }}
-            // screenOptions={{lazy: true, tabBarStyle: {marginTop: insets.top}}}
         >
-            {/* <Tab.Screen name="Sign in" component={LoginStack} />
-      <Tab.Screen name="Sign up" component={CreateStack} /> */}
             <Tab.Screen name="Idag" component={TaskScreenStack} />
             {printWeek && <Tab.Screen name="Denna vecka" component={CurrentWeekStack} />}
             {printLastWeek && <Tab.Screen name="Förra veckan" component={LastWeekStack} />}
