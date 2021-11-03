@@ -68,8 +68,8 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
     return (
         <>
             <View style={styles.topBar}>
-                <View style={styles.avatarImage}>
-                    <Text style={styles.avatar}> {Avatars[avatar]}, {AvatarColors[avatar]} </Text>
+                <View style={{ ...styles.topBar, backgroundColor: AvatarColors[avatar], opacity: .9, borderRadius: 80 }}>
+                    <Text style={styles.avatar}> {Avatars[avatar]} </Text>
                 </View>
             </View>
             <Surface style={styles.container}>
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
         marginVertical: 16,
     },
     topBar: {
-        flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
         paddingVertical: 24,
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
     },
     avatar: {
-        fontSize: 20,
+        fontSize: 80,
         margin: 10,
         alignItems: "center",
         justifyContent: "center",
