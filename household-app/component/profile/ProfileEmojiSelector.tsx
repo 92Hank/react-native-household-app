@@ -17,7 +17,7 @@ const ProfileEmojiSelector: FC<Props> = ({
     newSelected,
     currentAvatar,
 }: Props): React.ReactElement => {
-    const [change, setChange] = useState(false);
+    const [change, setChange] = useState(true);
 
     const [avatarState, setAvatar] = useState<Avatars>();
 
@@ -37,27 +37,26 @@ const ProfileEmojiSelector: FC<Props> = ({
     const avatarSelect = (avatar: Avatars) => {
         setAvatar(avatar);
         newSelected(avatar);
+        setChange(true);
     };
 
-    return (
-        <View>
-            {!change && (
-                <View style={styles.root}>
-                    <Text>Vald avatar</Text>
-                    <TouchableOpacity onPress={() => setChange(true)}>
-                        <Text style={styles.avatar}> {Avatars[avatar]} </Text>
-                    </TouchableOpacity>
-                </View>
-            )}
-
-            {change && (
-                <View style={styles.rootSelect}>
-                    <Text>Välj avatar</Text>
-                    <EmojiSelector selectedAvatars={avatarState} avatarList={avatars} avatarSelect={avatarSelect} />
-                </View>
-            )}
+    const changingAvatar = (
+        <View style={styles.rootSelect}>
+            <Text>Välj avatar</Text>
+            <EmojiSelector selectedAvatars={avatarState} avatarList={avatars} avatarSelect={avatarSelect} />
         </View>
     );
+
+    const notChangingAvatar = (
+        <View style={styles.root}>
+            <Text>Vald avatar</Text>
+            <TouchableOpacity onPress={() => setChange(false)}>
+                <Text style={styles.avatar}> {Avatars[avatar]} </Text>
+            </TouchableOpacity>
+        </View>
+    );
+
+    return <View>{!change ? changingAvatar : notChangingAvatar}</View>;
 };
 
 export default ProfileEmojiSelector;
