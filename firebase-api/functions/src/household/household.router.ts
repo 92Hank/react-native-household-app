@@ -15,6 +15,7 @@ import {
   memberChangeEmoji,
   rejectMember,
   getHousehold,
+  updateMember,
 } from "./household.controller";
 import {
   postValidation,
@@ -24,6 +25,7 @@ import {
   setPasuedValidation,
   memberChangeNameValidation,
   changeMemberNameValidation,
+  updateMemberValidation,
 } from "./household.validation";
 // eslint-disable-next-line new-cap
 export const householdRouter = express.Router();
@@ -71,6 +73,11 @@ householdRouter.patch(
     "/household/reject",
     acceptAndLeaveAndMakeOwnerValidation,
     rejectMember
+);
+householdRouter.patch(
+    "/household/updatemember",
+    updateMemberValidation,
+    updateMember
 );
 householdRouter.delete(
     "/household/leave",

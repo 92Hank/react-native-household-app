@@ -388,6 +388,49 @@ export const memberChangeName = (req: Request, res: Response): void => {
       .catch((error) => res.status(500).send(error.message));
 };
 
+export const updateMember = (req: Request, res: Response): void => {
+  const houseHoldId = req.body["houseHoldId"];
+  const userId = req.body["userId"];
+  const newName = req.body["name"];
+  const newEmoji = req.body["emoji"];
+  console.log(newEmoji);
+
+  const ref = db.collection(householdCollection).doc(houseHoldId);
+  ref
+      .get()
+      .then((query) => {
+        let data = query.data();
+      data?.member.forEach((m: any) => {
+        if (m.userId === userId) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          query.ref
+              .update({
+                member: FieldValue.arrayRemove(m),
+              })
+              .then(() => {
+                if (newName) {
+                  m.name = newName;
+                }
+                if (newEmoji) {
+                  m.emoji = newEmoji;
+                }
+                query.ref
+                    .update({
+                      member: FieldValue.arrayUnion(m),
+                    })
+                    .then(() => {
+                      res.status(200).json("member name updated");
+                    })
+                    .catch(() => {
+                      res.status(400).json("could not update");
+                    });
+              });
+        }
+      });
+      })
+      .catch((error) => res.status(500).send(error.message));
+};
+
 export const memberChangeEmoji = (req: Request, res: Response): void => {
   const houseHoldId = req.body["houseHoldId"];
   const userId = req.body["userId"];

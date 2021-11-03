@@ -31,12 +31,6 @@ export declare interface householdChangeName {
     name: string;
 }
 
-export declare interface householdMemberChangeName {
-  houseHoldId: string;
-  userId: string;
-  name: string;
-}
-
 export declare interface householdIdAndUserId {
     houseHoldId: string;
     userId: string;
@@ -47,11 +41,13 @@ export declare interface householdPauseUser {
     isPaused: boolean;
 }
 
-export declare interface householdChangeEmoji {
+export declare interface updateMember{
     houseHoldId: string;
     userId: string;
-    emoji: number;
+    name?: string;
+    emoji?: number;
 }
+
 
 export declare interface memberSend {
     id?: string;
