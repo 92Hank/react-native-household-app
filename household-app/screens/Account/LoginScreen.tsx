@@ -1,5 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Colors } from "react-native-paper";
 import Button from "../../component/common/Button";
 import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
@@ -7,7 +8,6 @@ import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSele
 import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { ActivityIndicator, Colors } from "react-native-paper";
 
 type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 
@@ -22,7 +22,6 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
 
     useEffect(() => {
         if (user) {
-            console.log("user", user);
             setSnackbar("inloggning lyckas för :" + user.userName, true);
             navigation.navigate(MainRoutes.HouseholdScreen);
             const timer = setTimeout(() => {
@@ -90,9 +89,6 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                         <View style={{ marginTop: 10 }}>
                             <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
                         </View>
-                        {/* <TouchableOpacity onPress={onPressLogin} style={styles.loginButton}>
-                            <Text style={styles.buttonText}>Sign in</Text>
-                        </TouchableOpacity> */}
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
@@ -160,9 +156,3 @@ const styles = StyleSheet.create({
         resizeMode: "contain",
     },
 });
-
-/*
-<TouchableOpacity onPress={onPressShortcut} style={styles.loginButton}>
-    <Text style={styles.buttonText}>Shortcut</Text>
-</TouchableOpacity>
-*/

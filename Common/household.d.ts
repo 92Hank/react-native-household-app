@@ -41,11 +41,13 @@ export declare interface householdPauseUser {
     isPaused: boolean;
 }
 
-export declare interface householdChangeEmoji {
+export declare interface updateMember{
     houseHoldId: string;
     userId: string;
-    emoji: number;
+    name?: string;
+    emoji?: number;
 }
+
 
 export declare interface memberSend {
     id?: string;

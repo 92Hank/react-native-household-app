@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Surface, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
 import { household } from "../../../Common/household";
 import EmojiSelector, { Avatars } from "../common/EmojiSelector";
 
@@ -17,7 +17,7 @@ const ProfileEmojiSelector: FC<Props> = ({
     newSelected,
     currentAvatar,
 }: Props): React.ReactElement => {
-    const [change, setChange] = useState(false);
+    const [change, setChange] = useState(true);
 
     const [avatarState, setAvatar] = useState<Avatars>();
 
@@ -31,33 +31,31 @@ const ProfileEmojiSelector: FC<Props> = ({
 
     if (currentAvatar) {
         avatars = [...avatars, String(currentAvatar)];
-        console.log("avatars", avatars);
     }
 
     const avatarSelect = (avatar: Avatars) => {
         setAvatar(avatar);
         newSelected(avatar);
+        setChange(true);
     };
 
-    return (
-        <View>
-            {!change && (
-                <Surface style={styles.root}>
-                    <Text>Vald avatar</Text>
-                    <TouchableOpacity onPress={() => setChange(true)}>
-                        <Text style={styles.avatar}> {Avatars[avatar]} </Text>
-                    </TouchableOpacity>
-                </Surface>
-            )}
-
-            {change && (
-                <Surface style={styles.rootSelect}>
-                    <Text>Välj avatar</Text>
-                    <EmojiSelector selectedAvatars={avatarState} avatarList={avatars} avatarSelect={avatarSelect} />
-                </Surface>
-            )}
+    const changingAvatar = (
+        <View style={styles.rootSelect}>
+            <Text>Välj avatar</Text>
+            <EmojiSelector selectedAvatars={avatarState} avatarList={avatars} avatarSelect={avatarSelect} />
         </View>
     );
+
+    const notChangingAvatar = (
+        <View style={styles.root}>
+            <Text>Vald avatar</Text>
+            <TouchableOpacity onPress={() => setChange(false)}>
+                <Text style={styles.avatar}> {Avatars[avatar]} </Text>
+            </TouchableOpacity>
+        </View>
+    );
+
+    return <View>{!change ? changingAvatar : notChangingAvatar}</View>;
 };
 
 export default ProfileEmojiSelector;
@@ -65,7 +63,7 @@ export default ProfileEmojiSelector;
 const styles = StyleSheet.create({
     root: {
         flexDirection: "row",
-        //flex: 1,
+        // flex: 1,
         alignItems: "center",
         justifyContent: "flex-start",
         width: 260,
@@ -74,7 +72,6 @@ const styles = StyleSheet.create({
     },
     rootSelect: {
         flexDirection: "column",
-        // flex: 1,
         alignItems: "center",
         justifyContent: "flex-start",
         width: 260,

@@ -7,9 +7,8 @@ import { Text } from "react-native-paper";
 import StatisticsCharts from "../../../component/piecharts/StatisticsCharts";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
-import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../../../Redux/Service/task/taskApi";
 import { useLazyGetHouseholdByIdQuery } from "../../../Redux/Service/household/householdApi";
-import { useGetTaskByHouseholdIdQuery } from "../../../Redux/Service/task/taskApi";
+import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../../../Redux/Service/task/taskApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 import { getCalendarWeekDoneTasksByHousehold } from "../helpers/doneTaskHelper";
 import { createMemberStatistics, MemberStatistics } from "../helpers/MemberStatistics";
@@ -21,15 +20,11 @@ const CurrentWeekScreen: FC<Props> = ({ navigation }: Props): React.ReactElement
     const getId = useAppSelector(selectSelectedHousehold);
     const [loadHouseholdData, householdResult] = useLazyGetHouseholdByIdQuery();
     const { data: currentHousehold, error: householdError } = householdResult;
-    // const { data: doneTasksArray, error: doneTaskError } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
     const [loadDoneTaskData, doneTaskResult] = useLazyGetDoneTasksWithHouseholdIdQuery();
     const { data: doneTasksArray, error: doneTaskError } = doneTaskResult;
 
     const [statisticsArray, setStatisticsArray] = useState<MemberStatistics[]>();
     const [fillerMessage, setFillerMessage] = useState("No done tasks found for this household.");
-
-    // let statisticsArray: MemberStatistics[] | undefined = undefined;
-    // let fillerMessage = "No done tasks found for this household.";
 
     useEffect(() => {
         if (!getId) return;
@@ -44,8 +39,6 @@ const CurrentWeekScreen: FC<Props> = ({ navigation }: Props): React.ReactElement
     useEffect(() => {
         if (doneTasksArray && doneTasksArray?.length > 0 && currentHousehold) {
             const doneTasksOfLastWeek = getCalendarWeekDoneTasksByHousehold(doneTasksArray, currentHousehold, 0);
-            console.log("doneTasksOfLastWeek2", doneTasksOfLastWeek);
-
             if (doneTasksOfLastWeek.length === 0) {
                 setFillerMessage("No data found for the selected period.");
             } else {

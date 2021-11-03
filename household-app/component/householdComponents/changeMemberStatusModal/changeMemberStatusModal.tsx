@@ -1,8 +1,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Divider, Surface, useTheme, Text } from "react-native-paper";
-// import { RadioButton } from "react-native-paper";
+import { Divider, Surface, Text, useTheme } from "react-native-paper";
 import RadioForm from "react-native-simple-radio-button";
 import { snackbarContext } from "../../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
@@ -141,7 +140,6 @@ function ChangeMemberStatusModal(props: Props) {
         }
         if (paused === 1 && isPaused === false) {
             pauseUser({ houseHoldId: currentHousehold.id, userId: userId, isPaused: true });
-            console.log("set on pause api");
             setMakeOwner(0);
             setPaused(0);
             setPaused(0);
@@ -161,7 +159,6 @@ function ChangeMemberStatusModal(props: Props) {
             return;
         }
         if (acceptUser === 1 && AcceptedStatus === "pending") {
-            console.log("acceptUserApi");
             acceptUserApi({ houseHoldId: currentHousehold.id, userId: userId });
             setMakeOwner(0);
             setPaused(0);
@@ -172,7 +169,6 @@ function ChangeMemberStatusModal(props: Props) {
             return;
         }
         if (acceptUser === 0 && AcceptedStatus === "pending") {
-            console.log("reject remove user");
             rejectUser({ houseHoldId: currentHousehold.id, userId: userId });
             setMakeOwner(0);
             setPaused(0);
@@ -358,7 +354,6 @@ const styles = StyleSheet.create({
         minWidth: "100%",
     },
     input: {
-        // backgroundColor: "#ffff",
         width: "100%",
         marginBottom: 15,
     },
@@ -383,14 +378,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22,
+        // marginTop: 22,
         backgroundColor: "rgba(0,0,0,0.5)",
     },
     modalView: {
-        // margin: 20,
         width: 300,
         height: 340,
-        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -424,7 +417,6 @@ const styles = StyleSheet.create({
         right: 0,
     },
     closeButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -441,7 +433,6 @@ const styles = StyleSheet.create({
         borderStartColor: "gainsboro",
     },
     saveButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -456,7 +447,6 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     buttonText: {
-        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,

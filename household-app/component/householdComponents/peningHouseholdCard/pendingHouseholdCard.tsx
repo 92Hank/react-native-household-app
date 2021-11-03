@@ -12,23 +12,11 @@ const PendingHouseHoldCard = (props: Props) => {
     const [expanded, setExpanded] = useState(false);
     const { setSnackbar } = useContext(snackbarContext);
 
-    // const [memberModal, setMember] = useState<fullMemberInfo>();
-    // const [isClickedTaskOpen, setIsClickedTaskOpen] = useState(false);
-
     const clickOnHousehold = () => {
-        // setMember(member);
-        // setIsClickedTaskOpen(true);
         setSnackbar("Väntar på medlemskap", true);
     };
-    // const handleTaskClose = () => {
-    //     setIsClickedTaskOpen(false);
-    // };
 
     const handlePress = () => setExpanded(!expanded);
-    // const onPressMember = () => {
-    //     console.log("Få upp modalen för att redigera syssla och ta bort arkivering?");
-    // };
-
     return (
         <View>
             <List.Section>

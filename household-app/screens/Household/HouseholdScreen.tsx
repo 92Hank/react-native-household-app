@@ -15,7 +15,6 @@ import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { logout } from "../../Redux/features/loginUser/loginUserSlice";
-// import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { setSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { useLazyGetHouseholdByUserIdQuery } from "../../Redux/Service/household/householdApi";
@@ -34,8 +33,6 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
     const [userRejectedHouseholds, setRejectedHouseholds] = useState<household[]>();
     const [userPendingHouseholds, setPendingHouseholds] = useState<household[]>();
     const { colors } = useTheme();
-
-    // const currentHousehold = useAppSelector(selectSelectedHousehold);
     const [loadData, result] = useLazyGetHouseholdByUserIdQuery();
     const { data } = result;
 
@@ -82,19 +79,11 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
         setJoinModalIsOpen(false);
     };
 
-    // const onPressUsersInHousehold = () => {
-    //     navigation.navigate(MainRoutes.UsersInHouseHoldScreen);
-    // };
-
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-                <TouchableOpacity
-                    onPress={onPressLogout}
-                    // style={styles.householdButton}
-                >
+                <TouchableOpacity onPress={onPressLogout}>
                     <FontAwesome5 name="sign-out-alt" size={24} color={colors.whiteBlackToggle} />
-                    {/* <Text style={styles.householdButtonText}>Medlemmar</Text> */}
                 </TouchableOpacity>
             ),
         });
@@ -102,7 +91,6 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
 
     useEffect(() => {
         if (data) {
-            console.log("data", data);
             const accepted: household[] = [];
             data.forEach((h) => {
                 h.member.forEach((m) => {
@@ -183,19 +171,11 @@ const HouseholdScreen: FC<Props> = ({ navigation, route }: Props): React.ReactEl
                         onPress={onPressCreateHousehold}
                         text="Nytt hushåll"
                     ></Button>
-                    {/* <TouchableOpacity onPress={onPressCreateHousehold} style={styles.householdButton}>
-                        <MaterialIcons name="add-circle-outline" size={30} color="black" />
-                        <Text style={styles.householdButtonText}>Nytt hushåll</Text>
-                    </TouchableOpacity> */}
                     <Button
                         iconType={{ type: "MaterialCommunityIcons", icons: "home-circle-outline" }}
                         onPress={onPressJoinHousehold}
                         text="Gå med"
                     ></Button>
-                    {/* <TouchableOpacity onPress={onPressJoinHousehold} style={styles.householdButton}>
-                        <MaterialCommunityIcons name="home-circle-outline" size={30} color="black" />
-                        <Text style={styles.householdButtonText}>Gå med</Text>
-                    </TouchableOpacity> */}
                 </View>
             </View>
         </>

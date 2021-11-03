@@ -64,3 +64,11 @@ export const changeMemberNameValidation = [
   checkValidation,
 ];
 
+export const updateMemberValidation = [
+  body("houseHoldId").notEmpty().isLength({min: 6}),
+  body("userId").notEmpty().isLength({min: 6}),
+  body("emoji").optional().isFloat(),
+  body("name").optional().isString(),
+  checkValidation,
+];
+

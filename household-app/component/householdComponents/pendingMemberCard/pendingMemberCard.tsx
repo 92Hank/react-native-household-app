@@ -16,17 +16,12 @@ const PendingMemberTaskCard = (props: Props) => {
     const clickOnMember = (member: fullMemberInfo) => {
         setMember(member);
         setIsClickedTaskOpen(true);
-        console.log("click on task,");
     };
     const handleTaskClose = () => {
         setIsClickedTaskOpen(false);
     };
 
     const handlePress = () => setExpanded(!expanded);
-    // const onPressMember = () => {
-    //     console.log("Få upp modalen för att redigera syssla och ta bort arkivering?");
-    // };
-
     return (
         <View>
             <List.Section>

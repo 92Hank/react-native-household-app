@@ -2,11 +2,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 import React, { FC, useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, View } from "react-native";
+import { Text } from "react-native-paper";
 import StatisticsCharts from "../../../component/piecharts/StatisticsCharts";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
-
 import { useLazyGetHouseholdByIdQuery } from "../../../Redux/Service/household/householdApi";
 import { useLazyGetDoneTasksWithHouseholdIdQuery } from "../../../Redux/Service/task/taskApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
@@ -20,15 +20,11 @@ const LastMonthScreen: FC<Props> = ({ navigation }: Props): React.ReactElement =
     const getId = useAppSelector(selectSelectedHousehold);
     const [loadHouseholdData, householdResult] = useLazyGetHouseholdByIdQuery();
     const { data: currentHousehold, error: householdError } = householdResult;
-    // const { data: doneTasksArray, error: doneTaskError } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
     const [loadDoneTaskData, doneTaskResult] = useLazyGetDoneTasksWithHouseholdIdQuery();
     const { data: doneTasksArray, error: doneTaskError } = doneTaskResult;
 
     const [statisticsArray, setStatisticsArray] = useState<MemberStatistics[]>();
     const [fillerMessage, setFillerMessage] = useState("No done tasks found for this household.");
-
-    // let statisticsArray: MemberStatistics[] | undefined = undefined;
-    // let fillerMessage = "No done tasks found for this household.";
 
     useEffect(() => {
         if (!getId) return;
