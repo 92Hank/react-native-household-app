@@ -115,7 +115,7 @@ function ProfileModule({ isOpen, handleModalClose }: Props) {
                             />
 
                             <Text style={styles.avatarName}>Avatar i hushållet</Text>
-                            {dbHousehold && (
+                            {dbHousehold.data && (
                                 <ProfileEmojiSelector
                                     household={dbHousehold.data}
                                     avatar={editMember.emoji}
