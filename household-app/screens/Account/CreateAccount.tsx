@@ -4,12 +4,10 @@ import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "re
 import { ActivityIndicator, Colors } from "react-native-paper";
 import * as Yup from "yup";
 import Button from "../../component/common/Button";
+import { snackbarContext } from "../../context/snackBarContext";
 import { useCreateUserMutation } from "../../Redux/Service/user/userApi";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import TextInput from "./textInput";
-
-import { snackbarContext } from "../../context/snackBarContext";
-// import user from '../../../Common/src/Entity/user';
 
 interface User {
     email: string;
@@ -39,19 +37,10 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
 
     useEffect(() => {
         if (isSuccess) {
-            console.log("isSuccess", isSuccess);
             setSnackbar("Du har skapat ett konto!", true);
             navigation.goBack();
         }
     }, [isSuccess]);
-
-    useEffect(() => {
-        console.log("isCreating", isLoading);
-    }, [isLoading]);
-
-    useEffect(() => {
-        console.log("status", status);
-    }, [status]);
 
     useEffect(() => {
         if (error) {
@@ -61,7 +50,6 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
     }, [error]);
 
     const handleSubmitForm = async (createAccountUser: User) => {
-        console.log(createAccountUser);
         CreateUser(createAccountUser);
         navigation.navigate(MainRoutes.LoginScreen);
     };
@@ -73,7 +61,6 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
             enabled
         >
             <ScrollView
-                //  contentContainerStyle={{ flexGrow: 1 }}
                 {...(Platform.OS === "ios" ? "keyboardDismissMode='interactive'" : null)}
                 keyboardShouldPersistTaps={"handled"}
             >
@@ -118,10 +105,6 @@ const CreateAccountScreen: FC<Props> = ({ navigation }: Props): React.ReactEleme
                                 <View style={{ marginTop: 10 }}>
                                     <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
                                 </View>
-
-                                {/* <TouchableOpacity onPress={handleSubmit as any} style={styles.submitButton}>
-                                    <Text style={styles.buttonText}>Create account</Text>
-                                </TouchableOpacity> */}
                             </>
                         )}
                     </Formik>
