@@ -13,11 +13,9 @@ export const store = configureStore({
         [userApi.reducerPath]: userApi.reducer,
         [householdApi.reducerPath]: householdApi.reducer,
         [taskApi.reducerPath]: taskApi.reducer,
-        // [doneTaskApi.reducerPath]: doneTaskApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(userApi.middleware).concat(householdApi.middleware).concat(taskApi.middleware),
-    // .concat(doneTaskApi.middleware),
 });
 
 // enable listener behavior for the store

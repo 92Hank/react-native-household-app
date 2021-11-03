@@ -109,31 +109,24 @@ function TaskModal(props: Props) {
     };
 
     const handleEditClick = () => {
-        console.log("open new modal for edit");
-        // props.handleModalClose();
-
         setOpenEdit(true);
     };
 
     const handleDeleteClick = () => {
         setOpenDelete(true);
-        // props.handleModalClose();
     };
 
     const onDelete = () => {
-        console.log("delete task api");
         deleteTask(props.task?.id!);
         setOpenDelete(false);
     };
 
     const onArchive = () => {
-        console.log("archive task api");
         archiveTask(props.task?.id!);
         setOpenDelete(false);
     };
 
     const onClose = () => {
-        console.log("close");
         setOpenDelete(false);
     };
 
@@ -220,19 +213,12 @@ function TaskModal(props: Props) {
                             </Surface>
                             <Surface
                                 style={{
-                                    // position: "absolute",
-                                    // justifyContent: "center",
                                     alignItems: "flex-start",
                                     marginTop: 90,
                                     width: "100%",
                                     padding: 20,
-                                    // backgroundColor: colors.myOwnColor,
                                 }}
                             >
-                                {/* <Text style={styles.modalText2}>
-                                    Syssla:
-                                    <Text style={styles.modalText2}>{" " + props.task.name}</Text>
-                                </Text> */}
                                 <Text style={styles.modalText2}>Beskrivning:</Text>
                                 <Text style={styles.taskText}>{props.task.description}</Text>
                                 <Text style={styles.modalText2}>Återkommer:</Text>

@@ -10,22 +10,6 @@ interface Props {
 
 export default function HouseholdComponent(props: Props) {
     return (
-        // <View style = {styles.container}>
-        //   <List.Item style = {styles.item}
-        //     title= {props.household.name}
-        //     onPress ={props.onPress}
-        //     // description={props.household.name}
-        //     left={(props) => <List.Icon {...props} icon="home" />}
-        //   >
-        //   {/* <Pressable onPress={props.onPress}>
-        //     <View>
-        //       <Text>{props.household.name}</Text>
-        //       <Text>{props.household.JoinCode}</Text>
-        //     </View>
-        //   </Pressable> */}
-        //   </List.Item>
-        // </View>
-
         <TouchableOpacity onPress={props.onPress}>
             <Surface style={styles.container}>
                 <View>

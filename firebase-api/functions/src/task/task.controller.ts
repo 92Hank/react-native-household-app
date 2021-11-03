@@ -67,7 +67,6 @@ export const editTask = (req: Request, res: Response) => {
     description: req.body["description"],
     value: req.body["value"],
     name: req.body["name"],
-    // createdAt: new Date(req.body["createdAt"]),
   };
 
   db.collection(taskCollection)
@@ -83,8 +82,6 @@ export const deleteTask = (req: Request, res: Response) => {
   const id = req.params.id;
 
   const taskRef = db.collection(taskCollection).doc(id);
-  // const doneTaskCol = db.collection("doneTask");
-  // .delete();
 
   taskRef
       .get()

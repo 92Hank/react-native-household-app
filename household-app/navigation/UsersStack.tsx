@@ -1,8 +1,8 @@
-import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import React from "react";
 import { MainRoutes, MainStack } from "../routes/routes";
-import UsersInHouseHoldScreen from "../screens/Tasks/usersInHousehold/UsersInHouseHoldScreen";
 import HouseholdProfile from "../screens/Household/HouseholdProfile";
+import UsersInHouseHoldScreen from "../screens/Tasks/usersInHousehold/UsersInHouseHoldScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -12,7 +12,6 @@ const UserStack = () => (
             name={MainRoutes.UsersInHouseHoldScreen}
             component={UsersInHouseHoldScreen}
             options={{
-                // headerShown: false,
                 title: "Medlemmar",
                 headerShown: false,
                 headerTitleAlign: "center",
@@ -21,9 +20,6 @@ const UserStack = () => (
                     fontWeight: "bold",
                 },
                 headerBackVisible: false,
-                // headerRight: () => (
-                //   <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
-                // ),
             }}
         />
     </MainStack.Navigator>
@@ -35,7 +31,6 @@ const MemberProfileStack = () => (
             name={MainRoutes.HouseholdProfile}
             component={HouseholdProfile}
             options={{
-                // headerShown: false,
                 title: "Profil",
                 headerTitleAlign: "center",
                 headerTintColor: "grey",
@@ -43,9 +38,6 @@ const MemberProfileStack = () => (
                     fontWeight: "bold",
                 },
                 headerBackVisible: false,
-                // headerRight: () => (
-                //   <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
-                // ),
             }}
         />
     </MainStack.Navigator>
@@ -59,10 +51,7 @@ const UsersStack = () => {
                 tabBarIndicatorStyle: { backgroundColor: "white" },
                 tabBarLabelStyle: { fontWeight: "bold" },
             }}
-            // screenOptions={{lazy: true, tabBarStyle: {marginTop: insets.top}}}
         >
-            {/* <Tab.Screen name="Sign in" component={LoginStack} />
-      <Tab.Screen name="Sign up" component={CreateStack} /> */}
             <Tab.Screen name="Medlemmar i hushåll" component={UserStack} />
             <Tab.Screen name="Profil" component={MemberProfileStack} />
         </Tab.Navigator>

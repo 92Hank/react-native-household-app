@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from "@react-navigation/native";
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { useColorScheme } from "react-native-appearance";
@@ -28,8 +27,6 @@ declare global {
         }
     }
 }
-
-// const Stack = createNativeStackNavigator();
 
 const CombinedDefaultTheme = {
     ...PaperDefaultTheme,

@@ -13,7 +13,6 @@ import {postValidation, updateValidation} from "./task.validation";
 export const taskRouter = express.Router();
 
 taskRouter.post("/tasks", postValidation, postTask);
-// taskRouter.get("/tasks/:id", getTask);
 taskRouter.get("/tasks/:houseHoldId", getAllTaskOfHouseHold);
 taskRouter.put("/tasks/:id", updateValidation, editTask);
 taskRouter.patch("/tasks/:id", archiveTask);

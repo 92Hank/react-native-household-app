@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         width: "100%",
         height: 30,
-        // color: "red",
     },
     buttonsContainer: {
         alignItems: "center",
