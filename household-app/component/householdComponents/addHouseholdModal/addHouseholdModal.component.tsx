@@ -2,7 +2,8 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import React, { FC, useContext, useEffect, useState } from "react";
 import { Dimensions, Modal, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Surface, TextInput, Text, useTheme } from "react-native-paper";
+import { Surface, Text, TextInput, useTheme } from "react-native-paper";
+import * as Yup from "yup";
 import { householdCreate } from "../../../../Common/household";
 import { snackbarContext } from "../../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
@@ -10,7 +11,6 @@ import { useAppSelector } from "../../../Redux/hooks";
 import { useCreateHouseholdMutation } from "../../../Redux/Service/household/householdApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 import SnackbarComponent from "../../snackbar/snackbarComponent";
-import * as Yup from "yup";
 
 interface DefaultProps {
     isOpen: boolean;
@@ -221,13 +221,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         height: windowHeight,
-        // marginTop: 22,
         backgroundColor: "rgba(0,0,0,0.5)",
     },
     modalView: {
         width: windowWidth - 20,
         height: "85%",
-        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
