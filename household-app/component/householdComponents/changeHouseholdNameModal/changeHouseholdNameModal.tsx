@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
-import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
-import { useAppSelector } from "../../../Redux/hooks";
-import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
-import { useChangeNameMutation } from "../../../Redux/Service/household/householdApi";
-import { snackbarContext } from "../../../context/snackBarContext";
 import { Surface, Text, TextInput, useTheme } from "react-native-paper";
 import * as Yup from "yup";
 import { householdChangeName } from "../../../../Common/household";
-import { Formik } from "formik";
+import { snackbarContext } from "../../../context/snackBarContext";
+import { selectCurrentLoginUser } from "../../../Redux/features/loginUser/LoginSelectors";
+import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
+import { useAppSelector } from "../../../Redux/hooks";
+import { useChangeNameMutation } from "../../../Redux/Service/household/householdApi";
 
 interface Props {
     isOpen: boolean;
@@ -70,7 +70,6 @@ function ChangeHouseholdNameModal(props: Props) {
 
     const handleChangeName = (household: inputHousehold) => {
         if (household.name) {
-            console.log("apiCall");
             setName(household.name);
             changeHouseholdName({ houseHoldId: currentHousehold?.id as string, name: household.name });
         } else {
@@ -142,16 +141,13 @@ export default ChangeHouseholdNameModal;
 
 const styles = StyleSheet.create({
     input: {
-        // borderColor: "gray",
         width: "100%",
         borderWidth: 1,
-        // borderRadius: 10,
         padding: 10,
     },
     householdButton: {
         marginTop: 20,
         margin: 5,
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         borderRadius: 100,
@@ -187,7 +183,6 @@ const styles = StyleSheet.create({
     modalView: {
         width: 300,
         height: 230,
-        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -201,7 +196,6 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     textStyle: {
-        // color: "white",
         fontWeight: "bold",
         textAlign: "center",
     },
@@ -222,7 +216,6 @@ const styles = StyleSheet.create({
         right: 0,
     },
     closeButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -239,7 +232,6 @@ const styles = StyleSheet.create({
         borderStartColor: "gainsboro",
     },
     saveButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -254,7 +246,6 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     buttonText: {
-        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
