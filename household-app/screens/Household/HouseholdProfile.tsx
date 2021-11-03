@@ -82,9 +82,9 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
         <>
             <SnackbarComponent isVisible={isVisible} message={message} />
             <View style={styles.topBar}>
-                <View style={{ ...styles.avatarBg, backgroundColor: AvatarColors[avatar] }}>
+                <Surface style={{ ...styles.avatarBg, backgroundColor: AvatarColors[avatar] }}>
                     <Text style={styles.avatar}> {Avatars[avatar]} </Text>
-                </View>
+                </Surface>
             </View>
             <Surface style={styles.container}>
                 <View style={styles.profileSurface}>
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     avatarBg: {
         width: 200,
         height: 200,
-        borderRadius: 100,
+        borderRadius: 200,
     },
     button: {
         justifyContent: "center",
