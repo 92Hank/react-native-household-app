@@ -10,6 +10,8 @@ import { selectSelectedHousehold } from "../../Redux/features/SelectedState/Sele
 import { useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
 import SnackbarComponent from "../../component/snackbar/snackbarComponent";
+import { useLazyGetTaskByHouseholdIdQuery } from "../../Redux/Service/task/taskApi";
+import { useLazyGetHouseholdByIdQuery } from "../../Redux/Service/household/householdApi";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdProfile>;
 
@@ -35,11 +37,24 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
         setIsClickedTaskOpen(true);
     };
 
-    const currentHousehold = useAppSelector(selectSelectedHousehold);
+    const HouseholdId = useAppSelector(selectSelectedHousehold);
     const user = useAppSelector(selectCurrentLoginUser);
+
+    const [loadHouseholdData, householdResult] = useLazyGetHouseholdByIdQuery();
+    const { data: currentHousehold, isLoading } = householdResult;
 
     const [avatar, setAvatar] = useState<number>(-1);
     const [username, setUsername] = useState<string>("");
+
+    useEffect(() => {
+        console.log("currentHousehold", currentHousehold);
+    }, [currentHousehold]);
+
+    useEffect(() => {
+        if (HouseholdId?.id) {
+            loadHouseholdData(HouseholdId.id);
+        }
+    }, []);
 
     useEffect(() => {
         const member = currentHousehold?.member.filter((m) => m.userId === user?.id);
@@ -47,9 +62,7 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
             setAvatar(member[0].emoji);
             setUsername(member[0].name);
         }
-        console.log(avatar);
-        console.log(username);
-    }, [avatar, username]);
+    }, [currentHousehold]);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
