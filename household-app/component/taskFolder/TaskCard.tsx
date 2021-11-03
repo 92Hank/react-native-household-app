@@ -37,13 +37,10 @@ const TaskCard = (props: Props) => {
     const actualAvatars: string[] = [];
     let avatars = Object.keys(Avatars);
     avatars = avatars.filter((x) => isNaN(Number(x)));
-    // avatars = avatars.
-    console.log(avatars);
 
     avatarsList?.forEach((x) => {
         actualAvatars.push(avatars[x - 1]);
     });
-    // console.log("TASK CARD", props.task);
 
     let difference = 0;
     const today = new Date();
@@ -54,13 +51,10 @@ const TaskCard = (props: Props) => {
         date = props.task.createdAt;
     }
 
-    console.log("HEJ", props.task.dateDone);
-    console.log("HEJ2", props.task.createdAt);
     if (today && date) {
         const diff = Math.abs(today.getTime() - date.getTime());
         // eslint-disable-next-line prettier/prettier
         difference = Math.ceil(diff / (1000 * 3600 * 24) - 1);
-        console.log("SKILLNADEN", difference);
     }
 
     return (
@@ -122,17 +116,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
     },
 
-    secondContainer: {
-        // marginTop: 20,
-        // alignContent: "center",
-        // // justifyContent: "center",
-        // flexDirection: "row",
-        // justifyContent: "space-between",
-        // marginVertical: 10,
-        // borderRadius: radius,
-        // width: "100%",
-    },
-
     cardContainer: {
         margin: 10,
         width: deviceWidth - offset,
@@ -149,30 +132,19 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     title: {
-        // color: "#F5EDED",
-        // textAlign: "center",
-        // flex: 1,
         fontWeight: "bold",
-        // lineHeight: 11 + 11 + 10,
         fontSize: 18,
         marginHorizontal: 15,
         marginVertical: 15,
     },
     bodyTextStyle: {
         fontWeight: "200",
-        // color: "#F5EDED",
         textAlign: "center",
     },
     bodyEmoji: {
-        // fontWeight: "200",
         fontSize: 22,
         marginHorizontal: 15,
         marginVertical: 12,
-
-        // color: "#F5EDED",
-        // lineHeight: 11 + 11 + 10,
-        // paddingLeft: 2000,
-        // textAlign: "right",
     },
     infoStyle: {
         marginHorizontal: 10,
