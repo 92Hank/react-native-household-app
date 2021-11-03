@@ -1,18 +1,17 @@
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
-import { TouchableOpacity, Modal, FlatList, View } from "react-native";
-import { TextInput, Surface, Text } from "react-native-paper";
+import { FlatList, Modal, TouchableOpacity, View } from "react-native";
+import { Surface, Text, TextInput, useTheme } from "react-native-paper";
+import * as Yup from "yup";
 import { task } from "../../../../Common/task";
 import { valueType } from "../../../../Common/value";
 import { snackbarContext } from "../../../context/snackBarContext";
 import { selectSelectedHousehold } from "../../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../../Redux/hooks";
 import { useEditTaskMutation } from "../../../Redux/Service/task/taskApi";
-import styles from "./styles";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import SnackbarComponent from "../../snackbar/snackbarComponent";
-import * as Yup from "yup";
-import { Formik } from "formik";
-import { useTheme } from "react-native-paper";
+import styles from "./styles";
 
 interface TaskNow {
     id?: string;
@@ -111,8 +110,6 @@ const EditTaskInputModal = (props: Props) => {
     }, [successEdit]);
 
     const onEdit = (task: inputTask) => {
-        console.log("edit api");
-        console.log(task);
         if (name && description && repeated && value) {
             const v = value as valueType;
             const requestData: task = {
@@ -124,32 +121,19 @@ const EditTaskInputModal = (props: Props) => {
                 archived: false,
                 id: props.task.id,
             };
-            console.log("------- Edit Form -------");
-            console.log("repeated: " + repeated);
-            console.log("description: " + description);
-            console.log("name: " + name);
-            console.log("value: " + value);
-            console.log("household: " + currentHousehold?.id);
-            console.log("------- End of Edit Form -------");
             editTask(requestData);
         } else {
             setSnackbar("Fyll i alla värden", true);
         }
         setIsEditing(isEditing);
-        // setIsClickedDays(false);
-        // setIsClicked(false);
     };
 
     const onPress2 = (i: number) => {
-        console.log("onPress works fine");
         setIsClicked(true);
-        console.log(i);
         setValue(i as number);
     };
     const onPressRepeated = (i: number) => {
-        console.log("onPress works fine");
         setIsClickedDays(true);
-        console.log(i);
         setRepeated(i as number);
     };
 
@@ -232,7 +216,6 @@ const EditTaskInputModal = (props: Props) => {
             </Surface>
         </Surface>
     );
-    console.log("defaultTask: =>", defaultTask);
     return (
         <Modal
             animationType="slide"
