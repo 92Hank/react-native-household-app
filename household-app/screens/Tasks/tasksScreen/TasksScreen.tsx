@@ -23,7 +23,6 @@ import styles from "./styles";
 
 type Props = FeedStackScreenProps<MainRoutes.TasksScreen>;
 
-//[TODO] add event definitions to Props
 // eslint-disable-next-line prettier/prettier
 const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const [addModalOpen, setAddModalOpen] = useState(false);
@@ -55,9 +54,6 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
 
     if (!user || !Household) return <View></View>;
 
-    // const { data: tasksData, isLoading } = useGetTaskByHouseholdIdQuery(currentHousehold?.id!);
-    // const { data: doneTasksData } = useGetDoneTasksWithHouseholdIdQuery(currentHousehold?.id!);
-
     const isToday = (someDate: any): boolean => {
         const today = new Date();
         const value = new Date(someDate._seconds * 1000);
@@ -72,12 +68,6 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
         const dateCompare = new Date(date._seconds * 1000);
         return dateCompare;
     };
-
-    useEffect(() => {
-        if (isLoading) {
-            console.log("laddar");
-        }
-    }, [isLoading]);
 
     useEffect(() => {
         currentHousehold?.member.forEach((m) => {
@@ -123,17 +113,11 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                         });
                     }
                 }
-                // else {
-                //     activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
-                // }
             });
         });
         setTasks(activeTasks);
         setArchivedTasks(inactiveTasks);
-
-        // if (activeTasks.length > 0) {
         setRender(true);
-        // }
     }, [tasksData, doneTasksData, currentHousehold]);
 
     const clickOnTask = (task: TaskNow) => {
@@ -146,7 +130,6 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
         }
         setTaskInModal(task);
         setIsClickedTaskOpen(true);
-        console.log("click on task,", task);
     };
     const handleTaskClose = () => {
         setIsClickedTaskOpen(false);
@@ -154,10 +137,8 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
 
     const handleAddClick = () => {
         setAddModalOpen(true);
-        console.log("open");
     };
     const handleAddClose = () => {
-        console.log("close");
         setAddModalOpen(false);
     };
 
