@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.5,
         shadowRadius: 12.35,
-        elevation: 10,
+        elevation: 3,
     },
     inputsCard2: {
         // flex: 1,
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.5,
         shadowRadius: 12.35,
-        elevation: 10,
+        elevation: 3,
     },
     input: {
         // backgroundColor: "#ffff",
