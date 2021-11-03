@@ -4,12 +4,12 @@ import { Surface } from "react-native-paper";
 import Button from "../../component/common/Button";
 import ToggleDarkThemeSwitch from "../../component/common/ToggleDarkThemeSwitch";
 import ProfileModule from "../../component/profile/ProfileModule";
+import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
 import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSelectors";
 import { selectSelectedHousehold } from "../../Redux/features/SelectedState/SelectedStateSelectors";
 import { useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 
 type Props = FeedStackScreenProps<MainRoutes.HouseholdProfile>;
 
@@ -47,8 +47,6 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
             setAvatar(member[0].emoji);
             setUsername(member[0].name);
         }
-        console.log(avatar);
-        console.log(username);
     }, [avatar, username]);
 
     React.useLayoutEffect(() => {
@@ -125,7 +123,3 @@ const styles = StyleSheet.create({
 });
 
 export default HouseholdProfile;
-
-/*<View style={styles.darkThemeButton}>
-    <ToggleDarkThemeSwitch>DarkMode Switch</ToggleDarkThemeSwitch>
-</View>*/
