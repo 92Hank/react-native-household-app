@@ -68,7 +68,7 @@ const HouseholdProfile: FC<Props> = ({ navigation }): React.ReactElement => {
     return (
         <>
             <View style={styles.topBar}>
-                <View style={{ ...styles.topBar, backgroundColor: AvatarColors[avatar], opacity: .9, borderRadius: 80 }}>
+                <View style={{ ...styles.avatarBg, backgroundColor: AvatarColors[avatar] }}>
                     <Text style={styles.avatar}> {Avatars[avatar]} </Text>
                 </View>
             </View>
@@ -97,6 +97,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         margin: 16,
     },
+    avatarBg: {
+        width: 200, 
+        height: 200, 
+        borderRadius: 200/2,
+    },
     button: {
         justifyContent: "center",
         alignItems: "center",
@@ -110,16 +115,10 @@ const styles = StyleSheet.create({
     topBar: {
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: 24,
-    },
-    avatarImage: {
-        width: 150,
-        height: 150,
-        borderRadius: 150/2,
+        margin: 24,
     },
     container: {
         flex: 1,
-        marginTop: 20,
     },
     text: {
         color: "grey",
@@ -127,15 +126,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
     },
     avatar: {
-        fontSize: 80,
-        margin: 10,
         alignItems: "center",
         justifyContent: "center",
+        fontSize: 80,
+        marginVertical: 45,
+        marginHorizontal: 30,
     },
 });
 
 export default HouseholdProfile;
-
-/*<View style={styles.darkThemeButton}>
-    <ToggleDarkThemeSwitch>DarkMode Switch</ToggleDarkThemeSwitch>
-</View>*/
