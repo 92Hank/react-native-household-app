@@ -5,13 +5,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        // marginTop: 22,
     },
     centeredViewBlurred: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        // marginTop: 22,
         backgroundColor: "rgba(0,0,0,0.5)",
     },
     modalView: {
@@ -19,7 +17,6 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         marginBottom: 20,
-        // backgroundColor: "#f2f2f2",
         height: "80%",
         width: "95%",
         borderRadius: 20,
@@ -46,7 +43,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        // backgroundColor: "white",
     },
     modalText: {
         textAlign: "center",
@@ -64,7 +60,6 @@ const styles = StyleSheet.create({
         right: 0,
     },
     closeButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -81,7 +76,6 @@ const styles = StyleSheet.create({
         borderStartColor: "gainsboro",
     },
     saveButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "50%",
@@ -96,19 +90,15 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     taskButtonText: {
-        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
         marginLeft: 15,
     },
     buttonText: {
-        // color: "black",
         fontSize: 18,
         fontWeight: "bold",
-        // padding: 12,
     },
     taskButton: {
-        // backgroundColor: "white",
         paddingVertical: 10,
         paddingHorizontal: 10,
         width: "50%",
@@ -124,7 +114,6 @@ const styles = StyleSheet.create({
         borderBottomColor: "gainsboro",
     },
     taskButton2: {
-        // backgroundColor: "white",
         paddingVertical: 10,
         paddingHorizontal: 10,
         width: "50%",
@@ -142,10 +131,8 @@ const styles = StyleSheet.create({
         borderStartColor: "gainsboro",
     },
     modalView2: {
-        // margin: 20,
         width: 300,
         height: 500,
-        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -159,10 +146,8 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     modalViewDelete: {
-        // margin: 20,
         width: 400,
         height: 200,
-        // backgroundColor: "#f2f2f2",
         borderRadius: 20,
         padding: 20,
         alignItems: "center",
@@ -180,13 +165,10 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     modalText2: {
-        // marginBottom: 15,
-        // textAlign: "center",
         fontWeight: "bold",
         fontSize: 18,
     },
     saveButtonDelete: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "33.3%",
@@ -201,7 +183,6 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
     },
     archiveButton: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "33.3%",
@@ -217,7 +198,6 @@ const styles = StyleSheet.create({
         borderStartColor: "gainsboro",
     },
     closeButtonDelete: {
-        // backgroundColor: "white",
         paddingVertical: 20,
         paddingHorizontal: 20,
         width: "33.3%",
