@@ -57,6 +57,7 @@ export default function HouseholdComponent(props: Props) {
                             <View>
                                 <Text style={styles.bodyEmoji}>{avatar}</Text>
                             </View>
+                            <View>
                         </View>
                     )}
                     {props.member.userId === user?.id && !props.member.isOwner && (

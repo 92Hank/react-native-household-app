@@ -120,6 +120,19 @@ Content-Type: application/json
 
 ###
 
+//update member
+PATCH http://localhost:5000/react-native-household-app/us-central1/webApi/household/updatemember
+Content-Type: application/json
+
+{
+    "houseHoldId": "R5w28IABhbyKneznYwBQ",
+    "userId": "tjv23WkZaDiKHRIKWOsD",
+    "name": "per nytt namn"
+    
+}
+
+###
+
 ###
 
 //camge emoji on member
