@@ -10,6 +10,7 @@ import { useAppSelector } from "../../../Redux/hooks";
 import { useCreateHouseholdMutation } from "../../../Redux/Service/household/householdApi";
 import { FeedStackScreenProps, MainRoutes } from "../../../routes/routes";
 import SnackbarComponent from "../../snackbar/snackbarComponent";
+import * as Yup from "yup";
 
 interface DefaultProps {
     isOpen: boolean;

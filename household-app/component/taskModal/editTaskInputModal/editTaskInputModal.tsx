@@ -2,7 +2,7 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import { TouchableOpacity, Modal, FlatList, View, Platform, KeyboardAvoidingView, ScrollView } from "react-native";
-import { TextInput, Surface, Text } from "react-native-paper";
+import { TextInput, Surface, Text, useTheme } from "react-native-paper";
 import { task } from "../../../../Common/task";
 import { valueType } from "../../../../Common/value";
 import { snackbarContext } from "../../../context/snackBarContext";
@@ -11,7 +11,7 @@ import { useAppSelector } from "../../../Redux/hooks";
 import { useEditTaskMutation } from "../../../Redux/Service/task/taskApi";
 import SnackbarComponent from "../../snackbar/snackbarComponent";
 import styles from "./styles";
-
+import * as Yup from "yup";
 interface TaskNow {
     id?: string;
     name: string;
