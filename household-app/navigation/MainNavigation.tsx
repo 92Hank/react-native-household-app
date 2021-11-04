@@ -38,6 +38,7 @@ const MainNavigation = (): React.ReactElement => {
                     options={{
                         title: "Sysslor",
                         headerTitleStyle: { fontSize: 24 },
+                        headerTitleAlign: "center",
                     }}
                 />
                 <Stack.Screen
