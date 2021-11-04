@@ -19,6 +19,7 @@ import SnackbarProvider from "./context/snackBarContext";
 import { LogBox } from "react-native";
 
 LogBox.ignoreLogs(["SerializableStateInvariantMiddleware"]);
+LogBox.ignoreLogs(["ImmutableStateInvariantMiddleware"]);
 
 declare global {
     namespace ReactNativePaper {
