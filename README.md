@@ -35,6 +35,8 @@ export const webUrl = `http://${LocalIp}/react-native-household-app/us-central1/
 _npm start_
 i react-native-household-app\household-app. Startar expo.
 
+Logga in i applikationen med foo@foo.com med lösenord foobar för att se existerande data.
+
 # Kravlista
 
 *: Dessa krav måste göras (20st).<br/>
