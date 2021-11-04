@@ -37,10 +37,10 @@ i react-native-household-app\household-app. Startar expo.
 
 # Kravlista
 
-Dessa "*" krav måste göras (20st).
-Antal krav: 40.
-G: 20 (50%).
-VG: 32 (80%).
+*: Dessa krav måste göras (20st).<br/>
+Antal krav: 40.<br/>
+G: 20 (50%).<br/>
+VG: 32 (80%).<br/>
 
 Avklarade krav: 35/40
 Extra features: 8
