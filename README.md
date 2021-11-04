@@ -122,7 +122,7 @@ Extra features: 8
 - [x] En användare går att aktivera igen om den är pausad.
 - [x] En användare kan skapa ett konto.
 - [x] En användare kan logga ut.
-- [x] Man kan inte gå med i samma hushåll om man redan är medlem/ansökt.
+- [x] Man kan inte gå med i samma hushåll om man redan är medlem eller har en aktiv ansökan.
 - [x] En ägare kan inte inaktivera en annan ägare.
 
 ### Inlämning
