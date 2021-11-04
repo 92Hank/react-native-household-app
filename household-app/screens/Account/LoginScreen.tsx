@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { ActivityIndicator, Colors } from "react-native-paper";
+import { ActivityIndicator, Colors, useTheme } from "react-native-paper";
 import Button from "../../component/common/Button";
 import SnackbarComponent from "../../component/snackbar/snackbarComponent";
 import { snackbarContext } from "../../context/snackBarContext";
@@ -8,6 +8,7 @@ import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSele
 import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
+import { useColorScheme } from "react-native-appearance";
 
 type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 
@@ -19,6 +20,8 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentLoginUser);
     const [isLoading, setIsLoading] = useState(false);
+    const colorScheme = useColorScheme();
+    const theme = useTheme();
 
     useEffect(() => {
         if (user) {
@@ -63,8 +66,12 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                 >
                     <View style={styles.container}>
                         <SnackbarComponent isVisible={isVisible} message={message} />
+                        {theme.dark ? (
+                            <Image source={require("../../assets/logotypeWhite/logoWL.png")} style={styles.logo} />
+                        ) : (
+                            <Image source={require("../../assets/logotypeBlack/logoBL.png")} style={styles.logo} />
+                        )}
 
-                        <Image source={require("../../assets/logotypeBlack/logoBL.png")} style={styles.logo} />
                         <Text style={styles.title}>E-mail:</Text>
                         <TextInput
                             keyboardType="email-address"

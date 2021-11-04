@@ -35,7 +35,13 @@ export const webUrl = `http://${LocalIp}/react-native-household-app/us-central1/
 _npm start_
 i react-native-household-app\household-app. Startar expo.
 
-Logga in i applikationen med foo@foo.com med lösenord foobar för att se existerande data och statistik som ägare. Logga in med pelle@foo.com med lösenord foobar för att se hur det ser ut för en vanlig användare.
+Logga in i applikationen med foo@foo.com med lösenord foobar för att se existerande data och statistik som ägare. Hushållet "Robins kungliga barn" har mest statistik, så här kan du se alla vyer för detta. Hushållet har flertalet medlemmar med olika roller. Som ägare kan du skapa, ändra, radera eller arkivera sysslor. Du kan godkänna eller avslå ansökningar till hushållet och du kan pausa användare och återaktivera pausade användare. En ägare kan också göra andra användare till ägare. Du kan byta namn på hushållet.
+
+I hushållet "Husvagn" finns ingen statistik och därför visas inte heller vyerna för det. Om du skapar en syssla i det hushållet och markerar den som gjord kommer statistikvyn för veckan att vara tillgänglig.
+
+Logga in med pelle@foo.com med lösenord foobar för att se hur det ser ut för en vanlig användare. Notera att denna användare har en aktiv ansökan till ett hushåll samt en nekad ansökning till ett annat. En vanlig användare har färre rättigheter. 
+
+Logga in med zlatan@foo.com med lösenord foobar, den användaren är pausad och kan inte klarmarkera sysslor.
 
 # Kravlista
 
