@@ -42,7 +42,7 @@ Antal krav: 40.<br/>
 G: 20 (50%).<br/>
 VG: 32 (80%).<br/>
 
-Avklarade krav: 35/40
+Avklarade krav: 35/40<br/>
 Extra features: 8
 ### Krav (4/4)
 
