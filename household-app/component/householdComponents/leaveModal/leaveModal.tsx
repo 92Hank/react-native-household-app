@@ -187,12 +187,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         shadowColor: "rgba(0, 0, 0, 0.1)",
         shadowOpacity: 0.8,
-        elevation: 6,
+        elevation: 3,
         shadowRadius: 15,
         shadowOffset: { width: 1, height: 13 },
         borderBottomRightRadius: 20,
         borderBottomLeftRadius: 20,
-        borderStartWidth: 1,
     },
     closeButton: {
         paddingVertical: 20,
