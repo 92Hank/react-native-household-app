@@ -79,16 +79,17 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
                             onChangeText={onChangeTextPassword}
                             value={password}
                         />
-                        {!isLoading && (
+                        {!isLoading ? (
                             <Button
                                 iconType={{ type: "MaterialIcons", icons: "login" }}
                                 onPress={onPressLogin}
                                 text="Logga in"
                             ></Button>
+                        ) : (
+                            <View style={{ marginTop: 20, marginBottom: 25 }}>
+                                <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
+                            </View>
                         )}
-                        <View style={{ marginTop: 10 }}>
-                            <ActivityIndicator animating={isLoading} color={Colors.tealA200} />
-                        </View>
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>

@@ -16,6 +16,9 @@ import MainNavigation from "./navigation/MainNavigation";
 import { store } from "./Redux/store";
 import { Provider as ReduxProvider } from "react-redux";
 import SnackbarProvider from "./context/snackBarContext";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["SerializableStateInvariantMiddleware"]);
 
 declare global {
     namespace ReactNativePaper {

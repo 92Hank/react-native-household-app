@@ -78,17 +78,19 @@ function LeaveModal(props: Props) {
                         ) : (
                             <Surface style={{ ...styles.modalView, backgroundColor: colors.contrastColor }}>
                                 <Text style={styles.modalText}>Du kan inte lämna ett hushåll som du skapat</Text>
-                                <TouchableOpacity
-                                    onPress={props.handleModalClose}
-                                    style={{ ...styles.backButton, backgroundColor: colors.blackWhiteToggle }}
-                                >
-                                    <MaterialCommunityIcons
-                                        name="arrow-left-bold"
-                                        size={30}
-                                        color={colors.whiteBlackToggle}
-                                    />
-                                    <Text style={styles.buttonText}>Stäng</Text>
-                                </TouchableOpacity>
+                                <View style={styles.buttonsContainer}>
+                                    <TouchableOpacity
+                                        onPress={props.handleModalClose}
+                                        style={{ ...styles.backButton, backgroundColor: colors.blackWhiteToggle }}
+                                    >
+                                        <MaterialCommunityIcons
+                                            name="arrow-left-bold"
+                                            size={30}
+                                            color={colors.whiteBlackToggle}
+                                        />
+                                        <Text style={styles.buttonText}>Stäng</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </Surface>
                         )}
                     </Surface>
@@ -179,12 +181,18 @@ const styles = StyleSheet.create({
     backButton: {
         paddingVertical: 20,
         paddingHorizontal: 20,
-        width: "50%",
+        width: "100%",
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
-        borderRadius: 50,
-        marginTop: 5,
+        shadowColor: "rgba(0, 0, 0, 0.1)",
+        shadowOpacity: 0.8,
+        elevation: 6,
+        shadowRadius: 15,
+        shadowOffset: { width: 1, height: 13 },
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20,
+        borderStartWidth: 1,
     },
     closeButton: {
         paddingVertical: 20,
