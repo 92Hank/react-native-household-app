@@ -36,7 +36,7 @@ const MainNavigation = (): React.ReactElement => {
                     name={MainRoutes.TasksScreen}
                     component={TaskStack}
                     options={{
-                        title: "Sysslor",
+                        title: "               Sysslor",
                         headerTitleStyle: { fontSize: 24 },
                     }}
                 />
