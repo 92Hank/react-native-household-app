@@ -11,29 +11,35 @@ En React native expo-applikation med firebase, express-api och redux för hanter
 _npm install -g firebase-tools_
 
 _npm install_ 
-i firebase-api\functions, där är node_modules för express
+i mappen firebase-api\functions, där är node_modules för express
 
 _tsc -w_
-i firebase-api\functions för att bygga
+i mappen firebase-api\functions för att bygga, håll terminalen öppen.
 
+I en ny terminal i mappen firebase-api\functions
 _firebase login_
 Logga in med kontot du skickat till oss
 
 _npm run fire_ 
-i firebase-api\functions för att starta servern
+i firebase-api\functions för att starta servern, håll terminalen öppen
 
 ###### Frontend:
 
+Ny terminal: 
 _npm install_ 
-i projektet react-native-household-app\household-app
+i mappen react-native-household-app\household-app
 
 Skapa en/redigera Config.ts-fil i: household-app\Redux-mappen med följande info:
 ```
 export const LocalIp = "XXX.XXX.X.XXX:5001"; <-- Byt ut X:en mot din lokala IP.
 export const webUrl = `http://${LocalIp}/react-native-household-app/us-central1/webApi/`;
 ```
+_Hint:_ Skriv ipconfig i en ny terminal och kopiera in din IPv4-address
+
 _npm start_
-i react-native-household-app\household-app. Startar expo.
+i mappen react-native-household-app\household-app. Startar expo, håll terminalen öppen.
+
+Totalt tre terminaler: En för tsc -w för bygget, en för npm run fire och en för expo.
 
 Logga in i applikationen med foo@foo.com med lösenord foobar för att se existerande data och statistik som ägare. Hushållet "Robins kungliga barn" har mest statistik, så här kan du se alla vyer för detta. Hushållet har flertalet medlemmar med olika roller. Som ägare kan du skapa, ändra, radera eller arkivera sysslor. Du kan godkänna eller avslå ansökningar till hushållet och du kan pausa användare och återaktivera pausade användare. En ägare kan också göra andra användare till ägare. Du kan byta namn på hushållet.
 
