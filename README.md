@@ -11,22 +11,29 @@ En React native expo-applikation med firebase, express-api och redux för hanter
 _npm install -g firebase-tools_
 
 _npm install_ 
+
 i mappen firebase-api\functions, där är node_modules för express
 
 _tsc -w_
+
 i mappen firebase-api\functions för att bygga, håll terminalen öppen.
 
 I en ny terminal i mappen firebase-api\functions
+
 _firebase login_
+
 Logga in med kontot du skickat till oss
 
 _npm run fire_ 
+
 i firebase-api\functions för att starta servern, håll terminalen öppen
 
 ###### Frontend:
 
 Ny terminal: 
+
 _npm install_ 
+
 i mappen react-native-household-app\household-app
 
 Skapa en/redigera Config.ts-fil i: household-app\Redux-mappen med följande info:
@@ -37,6 +44,7 @@ export const webUrl = `http://${LocalIp}/react-native-household-app/us-central1/
 _Hint:_ Skriv ipconfig i en ny terminal och kopiera in din IPv4-address
 
 _npm start_
+
 i mappen react-native-household-app\household-app. Startar expo, håll terminalen öppen.
 
 Totalt tre terminaler: En för tsc -w för bygget, en för npm run fire och en för expo.
