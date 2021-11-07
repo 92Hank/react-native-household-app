@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { Formik } from "formik";
 import React, { FC, useContext, useEffect, useState } from "react";
@@ -49,15 +50,13 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
-    const [name, setName] = useState<string>();
-    const onChangeInput = (name: string) => setName(name);
     const user = useAppSelector(selectCurrentLoginUser);
     const [avatar, setAvatar] = useState<string>();
     const avatars = Object.keys(Avatars).filter((key) => isNaN(Number(key)));
     const { setSnackbar, isVisible, message } = useContext(snackbarContext);
     const { colors } = useTheme();
 
-    const [CreateHousehold, { status, isSuccess, error, isLoading }] = useCreateHouseholdMutation();
+    const [CreateHousehold, { isSuccess, error }] = useCreateHouseholdMutation();
 
     const defaultName: inputHousehold = {
         name: "",
@@ -164,7 +163,7 @@ const AddHouseholdModal: FC<Props> = (props: Props): React.ReactElement => {
                                 </ScrollView>
                                 <View style={styles.buttonsContainer}>
                                     <TouchableOpacity
-                                        onPress={handleSubmit}
+                                        onPress={() => handleSubmit()}
                                         style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
                                     >
                                         <MaterialIcons

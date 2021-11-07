@@ -14,7 +14,7 @@ _npm install_
 
 i mappen firebase-api\functions, där är node_modules för express
 
-_tsc -w_
+_npm run build_
 
 i mappen firebase-api\functions för att bygga, håll terminalen öppen.
 

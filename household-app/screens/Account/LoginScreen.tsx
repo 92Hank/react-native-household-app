@@ -8,7 +8,6 @@ import { selectCurrentLoginUser } from "../../Redux/features/loginUser/LoginSele
 import { LoginAsync } from "../../Redux/features/loginUser/loginUserSlice";
 import { useAppDispatch, useAppSelector } from "../../Redux/hooks";
 import { FeedStackScreenProps, MainRoutes } from "../../routes/routes";
-import { useColorScheme } from "react-native-appearance";
 
 type Props = FeedStackScreenProps<MainRoutes.LoginScreen>;
 
@@ -20,7 +19,6 @@ const LoginScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
     const dispatch = useAppDispatch();
     const user = useAppSelector(selectCurrentLoginUser);
     const [isLoading, setIsLoading] = useState(false);
-    const colorScheme = useColorScheme();
     const theme = useTheme();
 
     useEffect(() => {

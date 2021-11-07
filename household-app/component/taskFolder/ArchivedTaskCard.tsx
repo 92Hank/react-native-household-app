@@ -34,9 +34,6 @@ const ArchivedTaskCard = (props: Props) => {
     };
 
     const handlePress = () => setExpanded(!expanded);
-    const onPressTask = () => {
-        console.log("Få upp modalen för att redigera syssla och ta bort arkivering?");
-    };
 
     return (
         <View>
@@ -49,7 +46,7 @@ const ArchivedTaskCard = (props: Props) => {
                 >
                     {props.archivedTasks.map((item) => (
                         <Surface key={item.id} style={styles.listItem}>
-                            <TouchableOpacity onPress={onPressTask}>
+                            <TouchableOpacity>
                                 <List.Item
                                     titleStyle={styles.item}
                                     title={item.name}

@@ -103,7 +103,7 @@ const TasksScreen: FC<Props> = ({ navigation }: Props): React.ReactElement => {
             }
             doneTasksData?.forEach((d) => {
                 const today: boolean = isToday(d.dateDone);
-                if (t.id === d.taskId) {
+                if (t.id === d.taskId && !t.archived) {
                     activeTasks[activeTasks.length - 1].dateDone = dateConvert(d.dateDone);
                     if (today) {
                         currentHousehold?.member.forEach((m) => {

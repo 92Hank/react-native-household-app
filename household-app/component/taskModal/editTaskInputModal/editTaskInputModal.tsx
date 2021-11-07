@@ -73,9 +73,6 @@ const EditTaskInputModal = (props: Props) => {
         { isSuccess: successEdit, error: errorEdit }, // This is the destructured mutation result
     ] = useEditTaskMutation();
 
-    const onChangeInputName = (name: string) => setName(name);
-    const onChangeInputDescription = (description: string) => setDescription(description);
-
     const defaultTask: task = {
         description: props.task?.description as string,
         archived: false,
@@ -272,7 +269,7 @@ const EditTaskInputModal = (props: Props) => {
                                 </ScrollView>
                                 <View style={styles.buttonsContainer}>
                                     <TouchableOpacity
-                                        onPress={handleSubmit}
+                                        onPress={() => handleSubmit()}
                                         style={{
                                             ...styles.saveButton,
                                             backgroundColor: colors.blackWhiteToggle,

@@ -68,7 +68,11 @@ function ActivateModal(props: Props) {
                                     onPress={handleActivateTask}
                                     style={{ ...styles.saveButton, backgroundColor: colors.blackWhiteToggle }}
                                 >
-                                    <MaterialIcons name="delete-forever" size={30} color={colors.whiteBlackToggle} />
+                                    <MaterialIcons
+                                        name="add-circle-outline"
+                                        size={30}
+                                        color={colors.whiteBlackToggle}
+                                    />
                                     <Text style={styles.buttonText}>Ja</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
